@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-BBW (Bollinger BandWidth) 15-Minute Exact Calculation
-Optimized for fast 15m squeeze detection
+Enhanced BBW (Bollinger BandWidth) Calculation
+Optimized for 15m squeeze detection with adjustable tolerance
 """
 
 import pandas as pd
@@ -9,21 +9,21 @@ import numpy as np
 
 def detect_exact_bbw_signals(df, config):
     """
-    Exact 15m BBW calculation matching Pine Script
+    Enhanced BBW calculation with improved signal detection
     
     Args:
         df: DataFrame with 15m OHLCV data
-        config: BBW configuration
+        config: BBW configuration with tolerance settings
         
     Returns:
-        DataFrame with BBW signals
+        DataFrame with BBW signals and diagnostics
     """
     
-    # BBW parameters
-    length = config['bbw']['length']
-    mult = config['bbw']['multiplier']
-    contraction_length = config['bbw']['contraction_length']
-    tolerance = config['bbw']['squeeze_tolerance']
+    # BBW parameters with fallback defaults
+    length = config.get('bbw', {}).get('length', 20)
+    mult = config.get('bbw', {}).get('multiplier', 2.0)
+    contraction_length = config.get('bbw', {}).get('contraction_length', 125)
+    tolerance = config.get('bbw', {}).get('squeeze_tolerance', 0.05)
     
     # Use close price
     close = df['close']
@@ -42,32 +42,81 @@ def detect_exact_bbw_signals(df, config):
     highest_expansion = bbw.rolling(window=contraction_length).max()
     lowest_contraction = bbw.rolling(window=contraction_length).min()
     
-    # 15m squeeze detection: BBW touches lowest contraction
-    squeeze_signal = abs(bbw - lowest_contraction) <= tolerance
+    # Enhanced squeeze detection with multiple tolerance levels
+    squeeze_signal_strict = abs(bbw - lowest_contraction) <= (tolerance * 0.5)  # Very tight
+    squeeze_signal_normal = abs(bbw - lowest_contraction) <= tolerance          # Normal
+    squeeze_signal_loose = abs(bbw - lowest_contraction) <= (tolerance * 2.0)   # Loose
     
     # Create result DataFrame
     result_df = pd.DataFrame(index=df.index)
     result_df['bbw'] = bbw
     result_df['lowest_contraction'] = lowest_contraction
     result_df['highest_expansion'] = highest_expansion
-    result_df['squeezeSignal'] = squeeze_signal
+    result_df['squeezeSignal'] = squeeze_signal_normal  # Use normal as primary
     result_df['squeeze_strength'] = abs(bbw - lowest_contraction)
+    result_df['squeeze_ratio'] = bbw / lowest_contraction.replace(0, 1)
+    
+    # Additional signal levels for diagnostics
+    result_df['squeeze_strict'] = squeeze_signal_strict
+    result_df['squeeze_loose'] = squeeze_signal_loose
     
     return result_df
 
 def get_latest_squeeze_signal(signals_df):
-    """Extract latest 15m squeeze signal"""
+    """
+    Extract latest squeeze signal with enhanced metadata
+    
+    Returns:
+        dict with comprehensive signal data or None
+    """
     if signals_df.empty:
         return None
         
     latest = signals_df.iloc[-1]
     
-    if latest['squeezeSignal']:
+    # Check if any squeeze level is triggered
+    has_squeeze = (latest['squeezeSignal'] or 
+                  latest.get('squeeze_strict', False) or 
+                  latest.get('squeeze_loose', False))
+    
+    if has_squeeze:
         return {
             'bbw_value': latest['bbw'],
             'lowest_contraction': latest['lowest_contraction'],
             'squeeze_strength': latest['squeeze_strength'],
-            'signal_timestamp': signals_df.index[-1]
+            'squeeze_ratio': latest.get('squeeze_ratio', 1.0),
+            'signal_timestamp': signals_df.index[-1],
+            'squeeze_type': get_squeeze_type(latest)
         }
     
     return None
+
+def get_squeeze_type(signal_row):
+    """Determine the type of squeeze detected"""
+    if signal_row.get('squeeze_strict', False):
+        return 'TIGHT'
+    elif signal_row['squeezeSignal']:
+        return 'NORMAL' 
+    elif signal_row.get('squeeze_loose', False):
+        return 'LOOSE'
+    else:
+        return 'NONE'
+
+def validate_bbw_data(df, min_candles=125):
+    """Validate DataFrame has sufficient data for BBW calculation"""
+    if df is None or df.empty:
+        return False, "No data provided"
+        
+    if len(df) < min_candles:
+        return False, f"Insufficient candles: {len(df)} < {min_candles}"
+        
+    required_columns = ['close', 'high', 'low', 'open']
+    missing_cols = [col for col in required_columns if col not in df.columns]
+    if missing_cols:
+        return False, f"Missing columns: {missing_cols}"
+        
+    # Check for valid price data
+    if df['close'].isna().all() or (df['close'] <= 0).all():
+        return False, "Invalid price data"
+        
+    return True, "Valid data"
