@@ -1,15 +1,15 @@
-name: 15-Minute BBW Squeeze Analysis
+name: Enhanced 15M BBW Analysis
 
 on:
   schedule:
-    # Every 15 minutes: 02, 17, 32, 47 (2 min delay from 15m candle close)
+    # Every 15 minutes: 02, 17, 32, 47 (2 min delay from candle close)
     - cron: '2,17,32,47 * * * *'
   workflow_dispatch:
 
 jobs:
-  bbw_15m_analysis:
+  enhanced_bbw_analysis:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
 
     steps:
     - name: Checkout Repository
@@ -25,7 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run 15m BBW Analysis
+    - name: Run Enhanced 15M BBW Analysis
       env:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         HIGH_RISK_TELEGRAM_CHAT_ID: ${{ secrets.HIGH_RISK_TELEGRAM_CHAT_ID }}
@@ -34,13 +34,14 @@ jobs:
         COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
       run: python src/analyzer_15m_bbw.py
 
-    - name: Commit 15m BBW Cache
+    - name: Commit Enhanced BBW Caches
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         
+        # Commit all BBW cache files
         if [ -f cache/bbw_alerts_15m.json ]; then
           git add cache/bbw_alerts_15m.json
-          git commit -m "Update 15m BBW alerts cache [skip ci]" || echo "No changes"
+          git commit -m "Update enhanced 15m BBW cache [skip ci]" || echo "No changes"
           git push || echo "Push failed"
         fi
