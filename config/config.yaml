@@ -1,14 +1,14 @@
-# 15-Minute BBW Squeeze Detection Configuration
+# 15-Minute BBW System Configuration - Production Ready
 
 bbw:
   length: 20
   multiplier: 2.0
   contraction_length: 125
-  squeeze_tolerance: 0.01
+  squeeze_tolerance: 0.05  # Relaxed from 0.01 to 0.05 for better signal detection
 
 timeframe: "15m"
 
-freshness_window: 15  # minutes
+freshness_window: 20  # Increased from 15 to 20 minutes
 
 scan:
   pages: 5
@@ -23,15 +23,31 @@ apis:
     rate_limit: 300
   kucoin:
     rate_limit: 500
+  binance:
+    rate_limit: 1200
+  okx:
+    rate_limit: 1000
+
+# Enhanced exchange configuration
+exchanges:
+  retry_attempts: 3
+  timeout_seconds: 45
+  backoff_multiplier: 2
 
 alerts:
   telegram:
     max_message_length: 4000
     batch_size: 20
+  cooldown_minutes: 20
 
-
-# Market filtering thresholds (unchanged - existing logic maintained)
+# Market filtering (same as your working values)
 market_filter:
-  min_market_cap: 50000000  # 50M USD
+  min_market_cap: 50000000   # 50M USD
   min_volume_24h: 10000000   # 10M USD
   description: "Quality coins with established liquidity"
+
+# Debugging options
+debug:
+  detailed_logging: true
+  save_processing_stats: true
+  log_fetch_attempts: true
