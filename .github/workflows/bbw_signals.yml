@@ -1,0 +1,54 @@
+name: BBW Multi-Timeframe Squeeze Analysis
+
+on:
+  schedule:
+    # Every 30 minutes starting 2 minutes after market open (05:32 IST = 00:02 UTC)
+    - cron: '2,32 * * * *'
+  workflow_dispatch:
+
+jobs:
+  bbw_multi_analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run BBW Multi-Timeframe Analysis
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        HIGH_RISK_TELEGRAM_CHAT_ID: ${{ secrets.HIGH_RISK_TELEGRAM_CHAT_ID }}
+        BINGX_API_KEY: ${{ secrets.BINGX_API_KEY }}
+        BINGX_SECRET_KEY: ${{ secrets.BINGX_SECRET_KEY }}
+        COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
+      run: python src/analyzer_bbw_multi.py
+
+    - name: Commit BBW Signal Caches
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        
+        # Add all BBW cache files
+        if [ -f cache/bbw_alerts_30m.json ]; then
+          git add cache/bbw_alerts_30m.json
+        fi
+        if [ -f cache/bbw_alerts_1h.json ]; then
+          git add cache/bbw_alerts_1h.json
+        fi  
+        if [ -f cache/bbw_alerts_aligned.json ]; then
+          git add cache/bbw_alerts_aligned.json
+        fi
+        
+        git commit -m "Update BBW signal caches [skip ci]" || echo "No changes"
+        git push || echo "Push failed"
