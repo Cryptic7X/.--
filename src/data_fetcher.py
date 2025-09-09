@@ -189,7 +189,7 @@ def main():
             
             print(f"\n✅ Daily scan complete!")
             print(f"📄 Cache file: {cache_file}")
-            print(f"🎯 Ready for 30m analysis")
+            print(f"🎯 Ready for 15m analysis")
         else:
             print("❌ No coins fetched - check API connection")
 
