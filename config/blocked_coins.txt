@@ -2,19 +2,46 @@
 # Add one coin symbol per line (case insensitive)
 # Lines starting with # are comments
 
-# Stablecoins (usually don't need signals)
+# Stablecoins
 USDT
 USDC
 BUSD
 DAI
 TUSD
+FDUSD
+FRAX
+LUSD
+USDD
+XAUT
+UST
 
-# Coins with low liquidity issues
+# Wrapped Tokens
+WBTC
+WETH
+WBNB
+WMATIC
+WAVAX
+WFTM
+BETH
+STETH
+RETH
+CBETH
+
+# Bridge tokens
+ANYETH
+ANYUSDC
+CEUSDC
+HBTC
+
+# Problematic/Low Volume
 LUNA
-FTT
-SRM
+LUNC
+USTC
+UST
 
-# Coins you don't want to trade
-# Add your blocked coins here
-# EXAMPLE1
-# EXAMPLE2
+# Add your specific blocked coins here
+# Format: One symbol per line
+
+PAXG
+
+
