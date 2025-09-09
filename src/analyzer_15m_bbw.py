@@ -202,6 +202,209 @@ class BBW15mAnalyzer:
         except Exception as e:
             print(f"❌ {symbol} 15m analysis failed: {str(e)[:100]}")
             return None
+
+    def run_15m_analysis_with_tracking(self):
+    """Enhanced analysis with detailed coin tracking"""
+    
+    print("🔍 DETAILED COIN ANALYSIS TRACKING")
+    print("=" * 60)
+    
+    # Load market data
+    market_coins = len(self.market_data)
+    print(f"📊 Market data loaded: {market_coins} coins")
+    
+    # Track processing stages
+    processing_stats = {
+        'blocked_coins': 0,
+        'data_fetch_failed': 0,
+        'insufficient_candles': 0,
+        'bbw_calc_failed': 0,
+        'no_signals': 0,
+        'signals_found': 0,
+        'alerts_sent': 0
+    }
+    
+    processed_coins = []
+    
+    for i, coin in enumerate(self.market_data, 1):
+        symbol = coin.get('symbol', '').upper()
+        
+        # Track each coin's journey
+        coin_status = {
+            'symbol': symbol,
+            'position': i,
+            'status': 'started'
+        }
+        
+        # Stage 1: Check blocked coins
+        if symbol in self.blocked_coins:
+            coin_status['status'] = 'blocked'
+            processing_stats['blocked_coins'] += 1
+            processed_coins.append(coin_status)
+            continue
+            
+        # Stage 2: Fetch 15m data
+        try:
+            price_df, exchange_used = self.fetch_15m_ohlcv(symbol)
+            
+            if price_df is None:
+                coin_status['status'] = 'data_fetch_failed'
+                processing_stats['data_fetch_failed'] += 1
+                processed_coins.append(coin_status)
+                continue
+                
+            # Stage 3: Check data sufficiency
+            if len(price_df) < 125:
+                coin_status['status'] = 'insufficient_candles'
+                coin_status['candles'] = len(price_df)
+                processing_stats['insufficient_candles'] += 1
+                processed_coins.append(coin_status)
+                continue
+                
+            # Stage 4: BBW calculation
+            signals_df = detect_exact_bbw_signals(price_df, self.config)
+            
+            if signals_df.empty:
+                coin_status['status'] = 'bbw_calc_failed'
+                processing_stats['bbw_calc_failed'] += 1
+                processed_coins.append(coin_status)
+                continue
+                
+            # Stage 5: Signal detection
+            latest_signal = get_latest_squeeze_signal(signals_df)
+            
+            if not latest_signal:
+                coin_status['status'] = 'no_signals'
+                processing_stats['no_signals'] += 1
+                processed_coins.append(coin_status)
+                continue
+                
+            # Success!
+            coin_status['status'] = 'signals_found'
+            coin_status['exchange'] = exchange_used
+            processing_stats['signals_found'] += 1
+            processed_coins.append(coin_status)
+            
+        except Exception as e:
+            coin_status['status'] = 'processing_error'
+            coin_status['error'] = str(e)
+            processed_coins.append(coin_status)
+    
+    # Generate detailed report
+    self.generate_processing_report(processing_stats, processed_coins)
+
+    def run_15m_analysis_with_tracking(self):
+        """Enhanced analysis with detailed coin tracking"""
+        
+        print("🔍 DETAILED COIN ANALYSIS TRACKING")
+        print("=" * 60)
+        
+        # Load market data
+        market_coins = len(self.market_data)
+        print(f"📊 Market data loaded: {market_coins} coins")
+        
+        # Track processing stages
+        processing_stats = {
+            'blocked_coins': 0,
+            'data_fetch_failed': 0,
+            'insufficient_candles': 0,
+            'bbw_calc_failed': 0,
+            'no_signals': 0,
+            'signals_found': 0,
+            'alerts_sent': 0
+        }
+        
+        processed_coins = []
+        
+        for i, coin in enumerate(self.market_data, 1):
+            symbol = coin.get('symbol', '').upper()
+            
+            # Track each coin's journey
+            coin_status = {
+                'symbol': symbol,
+                'position': i,
+                'status': 'started'
+            }
+            
+            # Stage 1: Check blocked coins
+            if symbol in self.blocked_coins:
+                coin_status['status'] = 'blocked'
+                processing_stats['blocked_coins'] += 1
+                processed_coins.append(coin_status)
+                continue
+                
+            # Stage 2: Fetch 15m data
+            try:
+                price_df, exchange_used = self.fetch_15m_ohlcv(symbol)
+                
+                if price_df is None:
+                    coin_status['status'] = 'data_fetch_failed'
+                    processing_stats['data_fetch_failed'] += 1
+                    processed_coins.append(coin_status)
+                    continue
+                    
+                # Stage 3: Check data sufficiency
+                if len(price_df) < 125:
+                    coin_status['status'] = 'insufficient_candles'
+                    coin_status['candles'] = len(price_df)
+                    processing_stats['insufficient_candles'] += 1
+                    processed_coins.append(coin_status)
+                    continue
+                    
+                # Stage 4: BBW calculation
+                signals_df = detect_exact_bbw_signals(price_df, self.config)
+                
+                if signals_df.empty:
+                    coin_status['status'] = 'bbw_calc_failed'
+                    processing_stats['bbw_calc_failed'] += 1
+                    processed_coins.append(coin_status)
+                    continue
+                    
+                # Stage 5: Signal detection
+                latest_signal = get_latest_squeeze_signal(signals_df)
+                
+                if not latest_signal:
+                    coin_status['status'] = 'no_signals'
+                    processing_stats['no_signals'] += 1
+                    processed_coins.append(coin_status)
+                    continue
+                    
+                # Success!
+                coin_status['status'] = 'signals_found'
+                coin_status['exchange'] = exchange_used
+                processing_stats['signals_found'] += 1
+                processed_coins.append(coin_status)
+                
+            except Exception as e:
+                coin_status['status'] = 'processing_error'
+                coin_status['error'] = str(e)
+                processed_coins.append(coin_status)
+        
+        # Generate detailed report
+        self.generate_processing_report(processing_stats, processed_coins)
+    
+    def generate_processing_report(self, stats, coins):
+        """Generate detailed processing report"""
+        
+        print("\n📈 PROCESSING BREAKDOWN")
+        print("=" * 50)
+        
+        total_coins = len(coins)
+        
+        for stage, count in stats.items():
+            percentage = (count / total_coins) * 100
+            print(f"{stage.replace('_', ' ').title()}: {count} ({percentage:.1f}%)")
+        
+        print(f"\n🎯 SUCCESS RATE: {stats['signals_found']}/{total_coins} ({(stats['signals_found']/total_coins)*100:.1f}%)")
+        
+        # Show examples of failed coins
+        failed_coins = [c for c in coins if c['status'] != 'signals_found']
+        
+        if failed_coins:
+            print(f"\n❌ SAMPLE FAILED COINS:")
+            for coin in failed_coins[:10]:  # Show first 10 failures
+                print(f"   {coin['symbol']}: {coin['status']}")
+
     
     def run_15m_analysis(self):
         """Run complete 15m BBW analysis"""
