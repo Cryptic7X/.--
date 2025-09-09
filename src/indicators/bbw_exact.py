@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-BBW (Bollinger BandWidth) Exact Calculation
-Exact Pine Script replication for BBW squeeze detection
+BBW (Bollinger BandWidth) 15-Minute Exact Calculation
+Optimized for fast 15m squeeze detection
 """
 
 import pandas as pd
@@ -9,23 +9,23 @@ import numpy as np
 
 def detect_exact_bbw_signals(df, config):
     """
-    Exact BBW calculation matching Pine Script parameters
+    Exact 15m BBW calculation matching Pine Script
     
     Args:
-        df: DataFrame with OHLCV data (columns: open, high, low, close, volume)
-        config: BBW configuration from config.yaml
+        df: DataFrame with 15m OHLCV data
+        config: BBW configuration
         
     Returns:
-        DataFrame with BBW signals and metadata
+        DataFrame with BBW signals
     """
     
-    # Extract BBW parameters
+    # BBW parameters
     length = config['bbw']['length']
     mult = config['bbw']['multiplier']
     contraction_length = config['bbw']['contraction_length']
     tolerance = config['bbw']['squeeze_tolerance']
     
-    # Use close price for calculation
+    # Use close price
     close = df['close']
     
     # Bollinger Bands calculation
@@ -38,33 +38,25 @@ def detect_exact_bbw_signals(df, config):
     # BBW calculation: ((upper - lower) / basis) * 100
     bbw = ((upper - lower) / basis) * 100
     
-    # Rolling highest expansion and lowest contraction over specified length
+    # Rolling contraction/expansion levels
     highest_expansion = bbw.rolling(window=contraction_length).max()
     lowest_contraction = bbw.rolling(window=contraction_length).min()
     
-    # Squeeze signal detection: BBW touches lowest contraction line
+    # 15m squeeze detection: BBW touches lowest contraction
     squeeze_signal = abs(bbw - lowest_contraction) <= tolerance
     
-    # Create result DataFrame with same index as input
+    # Create result DataFrame
     result_df = pd.DataFrame(index=df.index)
     result_df['bbw'] = bbw
     result_df['lowest_contraction'] = lowest_contraction
     result_df['highest_expansion'] = highest_expansion
     result_df['squeezeSignal'] = squeeze_signal
-    
-    # Additional metadata for alerts
     result_df['squeeze_strength'] = abs(bbw - lowest_contraction)
-    result_df['expansion_ratio'] = bbw / lowest_contraction
     
     return result_df
 
 def get_latest_squeeze_signal(signals_df):
-    """
-    Extract latest squeeze signal from BBW signals DataFrame
-    
-    Returns:
-        dict with signal metadata or None if no signal
-    """
+    """Extract latest 15m squeeze signal"""
     if signals_df.empty:
         return None
         
@@ -75,7 +67,6 @@ def get_latest_squeeze_signal(signals_df):
             'bbw_value': latest['bbw'],
             'lowest_contraction': latest['lowest_contraction'],
             'squeeze_strength': latest['squeeze_strength'],
-            'expansion_ratio': latest['expansion_ratio'],
             'signal_timestamp': signals_df.index[-1]
         }
     
