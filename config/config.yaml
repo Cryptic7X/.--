@@ -15,7 +15,7 @@ freshness_windows:
   "1h": 65   # minutes
 
 scan:
-  pages: 2
+  pages: 5
   coins_per_page: 250
   rate_limit: 2
 
@@ -35,6 +35,6 @@ alerts:
 
 # Market filtering thresholds (unchanged - existing logic maintained)
 market_filter:
-  min_market_cap: 100000000  # 100M USD
+  min_market_cap: 50000000  # 50M USD
   min_volume_24h: 10000000   # 10M USD
   description: "Quality coins with established liquidity"
