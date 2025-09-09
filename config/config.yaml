@@ -1,4 +1,4 @@
-# BBW Multi-Timeframe Squeeze Detection System Configuration
+# 15-Minute BBW Squeeze Detection Configuration
 
 bbw:
   length: 20
@@ -6,13 +6,9 @@ bbw:
   contraction_length: 125
   squeeze_tolerance: 0.01
 
-timeframes:
-  primary: "30m"
-  secondary: "1h"
+timeframe: "15m"
 
-freshness_windows:
-  "30m": 35  # minutes
-  "1h": 65   # minutes
+freshness_window: 15  # minutes
 
 scan:
   pages: 5
@@ -32,6 +28,7 @@ alerts:
   telegram:
     max_message_length: 4000
     batch_size: 20
+
 
 # Market filtering thresholds (unchanged - existing logic maintained)
 market_filter:
