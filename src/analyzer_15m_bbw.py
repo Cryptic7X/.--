@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Enhanced 15-Minute BBW Analyzer - Production Ready
+Enhanced 15-Minute BBW Analyzer - Production Ready (FIXED)
 Comprehensive squeeze detection with diagnostics and error recovery
 """
 
@@ -25,15 +25,7 @@ def get_ist_time():
 
 class EnhancedBBW15mAnalyzer:
     def __init__(self):
-        self.config = self.load_config()
-        self.deduplicator = BBW15mDeduplicator(
-            freshness_minutes=self.config.get('freshness_window', 20)
-        )
-        self.exchanges = self.init_enhanced_exchanges()
-        self.blocked_coins = self.load_blocked_coins()
-        self.market_data = self.load_market_data_with_verification()
-        
-        # Enhanced processing statistics
+        # CRITICAL FIX: Initialize processing_stats FIRST
         self.processing_stats = {
             'total_coins_loaded': 0,
             'blocked_coins': 0,
@@ -45,6 +37,15 @@ class EnhancedBBW15mAnalyzer:
             'processing_errors': 0,
             'alerts_sent': 0
         }
+        
+        # Now initialize other components
+        self.config = self.load_config()
+        self.deduplicator = BBW15mDeduplicator(
+            freshness_minutes=self.config.get('freshness_window', 20)
+        )
+        self.exchanges = self.init_enhanced_exchanges()
+        self.blocked_coins = self.load_blocked_coins()
+        self.market_data = self.load_market_data_with_verification()
     
     def load_config(self):
         """Load enhanced configuration with fallbacks"""
@@ -56,7 +57,6 @@ class EnhancedBBW15mAnalyzer:
                 return config
         except Exception as e:
             print(f"❌ Config load error: {e}")
-            # Return minimal working config
             return {
                 'bbw': {'squeeze_tolerance': 0.05, 'length': 20, 'multiplier': 2.0, 'contraction_length': 125},
                 'freshness_window': 20,
@@ -175,6 +175,7 @@ class EnhancedBBW15mAnalyzer:
             
             print("=" * 60)
             
+            # NOW we can safely access self.processing_stats
             self.processing_stats['total_coins_loaded'] = len(filtered_coins)
             return filtered_coins
             
@@ -212,7 +213,7 @@ class EnhancedBBW15mAnalyzer:
                     'secret': os.getenv('BINGX_SECRET_KEY', ''),
                     'rateLimit': 300,
                     'enableRateLimit': True,
-                    'timeout': self.config.get('exchanges', {}).get('timeout_seconds', 45) * 1000,
+                    'timeout': 45000,
                 }
             },
             {
@@ -221,7 +222,7 @@ class EnhancedBBW15mAnalyzer:
                 'config': {
                     'rateLimit': 500,
                     'enableRateLimit': True,
-                    'timeout': self.config.get('exchanges', {}).get('timeout_seconds', 45) * 1000,
+                    'timeout': 45000,
                 }
             },
             {
@@ -230,7 +231,7 @@ class EnhancedBBW15mAnalyzer:
                 'config': {
                     'rateLimit': 1200,
                     'enableRateLimit': True,
-                    'timeout': self.config.get('exchanges', {}).get('timeout_seconds', 45) * 1000,
+                    'timeout': 45000,
                 }
             }
         ]
@@ -249,47 +250,37 @@ class EnhancedBBW15mAnalyzer:
         return exchanges
     
     def fetch_15m_ohlcv_enhanced(self, symbol):
-        """Enhanced 15m OHLCV fetching with retry logic and multiple exchanges"""
+        """Enhanced 15m OHLCV fetching with retry logic"""
         
-        max_retries = self.config.get('exchanges', {}).get('retry_attempts', 3)
-        backoff_multiplier = self.config.get('exchanges', {}).get('backoff_multiplier', 2)
+        max_retries = 3
+        backoff_multiplier = 2
         
         for exchange_name, exchange in self.exchanges:
             for attempt in range(max_retries):
                 try:
-                    # Fetch with extra candles for safety margin
                     ohlcv = exchange.fetch_ohlcv(f"{symbol}/USDT", '15m', limit=140)
                     
                     if len(ohlcv) < 125:
-                        if attempt == 0:  # Only log on first attempt
+                        if attempt == 0:
                             print(f"   {symbol}: Only {len(ohlcv)} candles on {exchange_name}")
-                        break  # Try next exchange
+                        break
                     
-                    # Create DataFrame
                     df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
                     df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
                     df.set_index('timestamp', inplace=True)
                     
-                    # Keep UTC for freshness checking
                     df['utc_timestamp'] = df.index
-                    
-                    # Convert to IST for display
                     df.index = df.index + pd.Timedelta(hours=5, minutes=30)
                     
-                    # Enhanced validation
-                    is_valid, error_msg = validate_bbw_data(df)
-                    if not is_valid:
-                        print(f"   {symbol}: Data validation failed on {exchange_name}: {error_msg}")
-                        break  # Try next exchange
-                    
-                    print(f"✅ {symbol}: Success on {exchange_name} ({len(df)} candles)")
-                    return df, exchange_name
+                    if len(df) >= 125 and df['close'].iloc[-1] > 0:
+                        print(f"✅ {symbol}: Success on {exchange_name} ({len(df)} candles)")
+                        return df, exchange_name
                     
                 except Exception as e:
                     error_msg = str(e)[:50]
                     if attempt < max_retries - 1:
                         wait_time = backoff_multiplier ** attempt
-                        print(f"   {symbol}: {exchange_name} attempt {attempt + 1} failed: {error_msg} (retry in {wait_time}s)")
+                        print(f"   {symbol}: {exchange_name} attempt {attempt + 1} failed, retry in {wait_time}s")
                         time.sleep(wait_time)
                     else:
                         print(f"   {symbol}: {exchange_name} all attempts failed: {error_msg}")
@@ -301,7 +292,7 @@ class EnhancedBBW15mAnalyzer:
         symbol = coin_data.get('symbol', '').upper()
         
         try:
-            # Stage 1: Check if blocked (should not happen but safety check)
+            # Stage 1: Check if blocked
             if symbol in self.blocked_coins:
                 self.processing_stats['blocked_coins'] += 1
                 return None
@@ -313,7 +304,7 @@ class EnhancedBBW15mAnalyzer:
                 self.processing_stats['data_fetch_failed'] += 1
                 return None
             
-            # Stage 3: Calculate BBW with enhanced detection
+            # Stage 3: Calculate BBW
             signals_df = detect_exact_bbw_signals(price_df, self.config)
             
             if signals_df.empty:
@@ -327,13 +318,13 @@ class EnhancedBBW15mAnalyzer:
                 self.processing_stats['no_signals'] += 1
                 return None
             
-            # Stage 5: Check freshness with enhanced deduplication
+            # Stage 5: Check freshness
             signal_timestamp_utc = price_df['utc_timestamp'].iloc[-1]
             
             if not self.deduplicator.is_signal_fresh_and_new(symbol, signal_timestamp_utc):
                 return None
             
-            # SUCCESS - Signal found and fresh
+            # SUCCESS
             self.processing_stats['signals_found'] += 1
             squeeze_type = latest_signal.get('squeeze_type', 'NORMAL')
             
@@ -359,7 +350,7 @@ class EnhancedBBW15mAnalyzer:
             return None
     
     def run_enhanced_analysis(self):
-        """Run comprehensive 15m BBW analysis with full diagnostics"""
+        """Run comprehensive 15m BBW analysis"""
         ist_current = get_ist_time()
         
         print("=" * 80)
@@ -374,11 +365,10 @@ class EnhancedBBW15mAnalyzer:
             print("❌ No market data available for analysis")
             return
         
-        # Reset statistics for this run
-        self.deduplicator.reset_stats()
+        # Reset and cleanup
         self.deduplicator.cleanup_old_signals()
         
-        # Process all coins with enhanced tracking
+        # Process all coins
         squeeze_signals = []
         
         print(f"\n🔄 STARTING COMPREHENSIVE ANALYSIS")
@@ -393,13 +383,12 @@ class EnhancedBBW15mAnalyzer:
             if signal_result:
                 squeeze_signals.append(signal_result)
             
-            # Rate limiting
             time.sleep(0.3)
         
-        # Generate comprehensive statistics
+        # Generate final report
         self.generate_final_report(squeeze_signals)
         
-        # Send alerts if signals found
+        # Send alerts
         if squeeze_signals:
             try:
                 success = send_consolidated_alert(squeeze_signals)
@@ -430,33 +419,6 @@ class EnhancedBBW15mAnalyzer:
                 percentage = (count / total_processed) * 100
                 category_name = category.replace('_', ' ').title()
                 print(f"   {category_name}: {count} ({percentage:.1f}%)")
-        
-        # Deduplication statistics
-        dedup_stats = self.deduplicator.get_processing_stats()
-        print(f"\n🔄 DEDUPLICATION STATS:")
-        for category, count in dedup_stats.items():
-            category_name = category.replace('_', ' ').title()
-            print(f"   {category_name}: {count}")
-        
-        # Signal analysis
-        if signals:
-            print(f"\n🎯 SIGNAL ANALYSIS:")
-            signal_types = {}
-            for signal in signals:
-                sq_type = signal.get('squeeze_type', 'UNKNOWN')
-                signal_types[sq_type] = signal_types.get(sq_type, 0) + 1
-            
-            for sq_type, count in signal_types.items():
-                print(f"   {sq_type} squeezes: {count}")
-            
-            # Top signals by strength
-            sorted_signals = sorted(signals, key=lambda x: x.get('squeeze_strength', 0))
-            print(f"\n🏆 STRONGEST SQUEEZES:")
-            for signal in sorted_signals[:5]:
-                symbol = signal['symbol']
-                strength = signal['squeeze_strength']
-                sq_type = signal.get('squeeze_type', 'NORMAL')
-                print(f"   {symbol}: {strength:.6f} ({sq_type})")
         
         # Summary
         success_rate = (self.processing_stats['signals_found'] / total_processed * 100) if total_processed > 0 else 0
