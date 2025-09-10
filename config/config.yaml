@@ -1,53 +1,66 @@
-# 15-Minute BBW System Configuration - Production Ready
+# BBW 15-Minute Alert System Configuration
 
+# System Settings
+system:
+  name: "BBW 15-Minute Alert System"
+  version: "1.0.0"
+  timezone: "Asia/Kolkata"
+
+# Market Data Settings
+market_data:
+  min_market_cap: 50000000    # $50M minimum
+  min_volume_24h: 10000000    # $10M minimum
+  max_coins: 1250             # CoinGecko limit
+  cache_ttl_hours: 24         # Cache validity
+
+# BBW Indicator Parameters (Exact Pine Script)
 bbw:
-  length: 20
-  multiplier: 2.0
-  contraction_length: 125
-  squeeze_tolerance: 0.05  # Relaxed from 0.01 to 0.05 for better signal detection
+  length: 20                  # Bollinger Band period
+  multiplier: 2.0            # Standard deviation multiplier
+  contraction_length: 125    # Rolling window for min/max
+  expansion_length: 125      # Rolling window for min/max
+  squeeze_tolerance: 0.001   # Tolerance for squeeze detection
 
-timeframe: "15m"
+# Timeframe Settings
+timeframes:
+  primary: "15m"             # Primary analysis timeframe
+  secondary: "1h"            # Secondary confirmation timeframe
+  candles_required: 150      # Minimum candles needed
 
-freshness_window: 20  # Increased from 15 to 20 minutes
-
-scan:
-  pages: 5
-  coins_per_page: 250
-  rate_limit: 2
-
-apis:
-  coingecko:
-    base_url: "https://api.coingecko.com/api/v3"
-    rate_limit: 2
-  bingx:
-    rate_limit: 300
-  kucoin:
-    rate_limit: 500
-  binance:
-    rate_limit: 1200
-  okx:
-    rate_limit: 1000
-
-# Enhanced exchange configuration
+# Exchange Settings
 exchanges:
-  retry_attempts: 3
-  timeout_seconds: 45
-  backoff_multiplier: 2
+  primary: "bingx"           # Primary exchange
+  fallbacks:                 # Fallback exchanges (India-friendly)
+    - "kucoin"
+    - "wazirx"
+    - "bitbns"
+  rate_limit_ms: 1200        # Rate limiting
+  max_concurrent: 10         # Concurrent requests
 
+# Alert Settings
 alerts:
-  telegram:
-    max_message_length: 4000
-    batch_size: 20
-  cooldown_minutes: 20
+  deduplication_minutes: 60  # Prevent duplicate alerts
+  batch_size: 20            # Max alerts per message
+  max_message_length: 4000  # Telegram limit
+  include_charts: true      # Include TradingView links
+  
+# Performance Settings
+performance:
+  max_execution_minutes: 20  # GitHub Actions timeout
+  progress_log_interval: 50  # Log progress every N coins
+  memory_limit_mb: 2048     # Memory monitoring
 
-# Market filtering (same as your working values)
-market_filter:
-  min_market_cap: 50000000   # 50M USD
-  min_volume_24h: 10000000   # 10M USD
-  description: "Quality coins with established liquidity"
+# Logging Settings
+logging:
+  level: "INFO"             # DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "cache/bbw_analysis.log"
+  max_size_mb: 10
+  backup_count: 3
 
-# Debugging options
-debug:
-  detailed_logging: true
-  save_processing_stats: true
-  log_fetch_attempts: true
+# Cache Settings
+cache:
+  directory: "cache"
+  market_data_file: "high_risk_market_data.json"
+  alerts_cache_file: "bbw_alerts_15m.json"
+  performance_file: "performance_metrics.json"
