@@ -20,7 +20,7 @@ jobs:
         python-version: '3.11'
     
     - name: Cache pip dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
@@ -33,7 +33,7 @@ jobs:
       run: mkdir -p cache
       
     - name: Restore market data cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: cache/
         key: market-data-${{ github.run_number }}
@@ -47,7 +47,7 @@ jobs:
         python src/data_fetcher.py --daily-scan
     
     - name: Upload market data artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: market-data-${{ github.run_number }}
         path: cache/
