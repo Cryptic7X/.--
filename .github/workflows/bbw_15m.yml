@@ -1,47 +1,83 @@
-name: Enhanced 15M BBW Analysis
+name: BBW 15-Minute Analyzer
 
 on:
   schedule:
-    # Every 15 minutes: 02, 17, 32, 47 (2 min delay from candle close)
+    # Every 15 minutes: :02, :17, :32, :47
     - cron: '2,17,32,47 * * * *'
-  workflow_dispatch:
+  workflow_dispatch:  # Manual trigger
 
 jobs:
-  enhanced_bbw_analysis:
+  bbw-analysis:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
+    timeout-minutes: 20  # Optimized from 60 minutes
+    
     steps:
-    - name: Checkout Repository
+    - name: Checkout repository
       uses: actions/checkout@v4
-
-    - name: Setup Python
+    
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-
-    - name: Install Dependencies
+    
+    - name: Cache pip dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+    
+    - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
         pip install -r requirements.txt
-
-    - name: Run Enhanced 15M BBW Analysis
+    
+    - name: Create cache directory
+      run: mkdir -p cache
+    
+    - name: Download market data artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: market-data-${{ github.run_number }}
+        path: cache/
+      continue-on-error: true
+    
+    - name: Restore cache fallback
+      if: failure()
+      uses: actions/cache@v3
+      with:
+        path: cache/
+        key: market-data-
+        restore-keys: |
+          market-data-
+    
+    - name: Check cache availability
+      run: |
+        if [ ! -f "cache/high_risk_market_data.json" ]; then
+          echo "❌ No market data cache found. Skipping analysis."
+          echo "cache_available=false" >> $GITHUB_ENV
+          exit 0
+        else
+          echo "✅ Market data cache found"
+          echo "cache_available=true" >> $GITHUB_ENV
+          ls -la cache/
+        fi
+    
+    - name: Run BBW Analysis
+      if: env.cache_available == 'true'
       env:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         HIGH_RISK_TELEGRAM_CHAT_ID: ${{ secrets.HIGH_RISK_TELEGRAM_CHAT_ID }}
         BINGX_API_KEY: ${{ secrets.BINGX_API_KEY }}
         BINGX_SECRET_KEY: ${{ secrets.BINGX_SECRET_KEY }}
         COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
-      run: python src/analyzer_15m_bbw.py
-
-    - name: Commit Enhanced BBW Caches
       run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        
-        # Commit all BBW cache files
-        if [ -f cache/bbw_alerts_15m.json ]; then
-          git add cache/bbw_alerts_15m.json
-          git commit -m "Update enhanced 15m BBW cache [skip ci]" || echo "No changes"
-          git push || echo "Push failed"
-        fi
+        python src/bbw_analyzer.py
+    
+    - name: Upload analysis logs
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: bbw-analysis-logs-${{ github.run_number }}
+        path: |
+          cache/bbw_analysis.log
+          cache/performance_metrics.json
+        retention-days: 7
