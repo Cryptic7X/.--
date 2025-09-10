@@ -1,35 +1,15 @@
 #!/usr/bin/env python3
 """
-BBW 15-Minute Alert System - Main Analyzer
-Exact Pine Script BBW calculation with concurrent processing
+BBW Calculator - Exact Pine Script Replication
+//@version=6 indicator logic implemented in Python
 """
 
-import asyncio
-import json
-import os
-import sys
-import time
-from datetime import datetime, timezone
-from typing import Dict, List, Optional, Tuple
-from pathlib import Path
-
-# Add src directory to Python path
-sys.path.append(str(Path(__file__).parent))
-
 import pandas as pd
-import ccxt.async_support as ccxt
+import numpy as np
+from typing import Dict, Tuple
+import logging
 
-from utils.logger import setup_logger
-from utils.performance_monitor import PerformanceMonitor
-from indicators.bbw_calculator import BBWCalculator
-from alerts.telegram_sender import TelegramSender
-from alerts.deduplication import AlertDeduplicator
-
-logger = setup_logger(__name__)
-perf_monitor = PerformanceMonitor()
-
-# Rest of your bbw_analyzer.py code remains the same...
-
+logger = logging.getLogger(__name__)
 
 class BBWCalculator:
     """
