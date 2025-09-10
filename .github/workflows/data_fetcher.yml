@@ -1,40 +1,59 @@
-name: Daily Market Data Update
+nname: Daily Market Data Fetcher
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Daily at 6:00 AM UTC
-  workflow_dispatch:
+    - cron: '0 0 * * *'  # 00:00 UTC (05:30 IST)
+  workflow_dispatch:  # Manual trigger
 
 jobs:
-  fetch_market_data:
+  fetch-market-data:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
+    timeout-minutes: 30
+    
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Fetch Market Data
-        env:
-          COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
-        run: python src/data_fetcher.py --daily-scan
-
-      - name: Commit Market Data
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -f cache/high_risk_market_data.json ]; then
-            git add cache/high_risk_market_data.json
-            git commit -m "Update market data cache [skip ci]" || echo "No changes"
-            git push || echo "Push failed"
-          fi
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Cache pip dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+    
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+    
+    - name: Create cache directory
+      run: mkdir -p cache
+      
+    - name: Restore market data cache
+      uses: actions/cache@v4
+      with:
+        path: cache/
+        key: market-data-${{ github.run_number }}
+        restore-keys: |
+          market-data-
+    
+    - name: Fetch market data
+      env:
+        COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
+      run: |
+        python src/data_fetcher.py
+    
+    - name: Upload market data artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: market-data-${{ github.run_number }}
+        path: cache/
+        retention-days: 2
+    
+    - name: Log completion
+      run: |
+        echo "✅ Market data fetch completed at $(date)"
+        ls -la cache/
