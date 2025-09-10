@@ -1,20 +1,39 @@
 # Enhanced Two-Stage CipherB + VWMA System Requirements - September 2025
 # Updated with latest stable versions
-ccxt>=4.2.0
-pandas>=2.1.0
-numpy>=1.25.0
+# Core dependencies
+pandas>=2.0.0
+numpy>=1.24.0
+aiohttp>=3.8.0
+asyncio-throttle>=1.0.2
+ccxt>=4.0.0
+python-telegram-bot>=20.0
 PyYAML>=6.0
-requests>=2.31.0
 python-dateutil>=2.8.0
-urllib3>=2.0.0
+
+# Performance and monitoring
+psutil>=5.9.0
+memory-profiler>=0.60.0
+
+# Development and testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+flake8>=6.0.0
+
+# Optional: For advanced features
+schedule>=1.2.0
+redis>=4.5.0  # If implementing Redis cache
 
 
-
-
-TA-Lib>=0.4.28
-
-
-python-dotenv>=1.0.0
+#ccxt>=4.2.0
+#pandas>=2.1.0
+#numpy>=1.25.0
+#PyYAML>=6.0
+#requests>=2.31.0
+#python-dateutil>=2.8.0
+#urllib3>=2.0.0
+#TA-Lib>=0.4.28
+#python-dotenv>=1.0.0
 
 
 
