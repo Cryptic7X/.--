@@ -2,8 +2,8 @@ name: Daily Market Data Fetcher
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # 00:00 UTC (05:30 IST)
-  workflow_dispatch:  # Manual trigger
+    - cron: '0 0 * * *'  # Daily at 00:00 UTC
+  workflow_dispatch:
 
 jobs:
   fetch-market-data:
@@ -19,26 +19,16 @@ jobs:
       with:
         python-version: '3.11'
     
-    - name: Cache pip dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-    
     - name: Install dependencies
       run: |
-        pip install -r requirements.txt
+        pip install requests PyYAML python-dateutil
     
     - name: Create cache directory
       run: mkdir -p cache
       
-    - name: Restore market data cache
-      uses: actions/cache@v4
-      with:
-        path: cache/
-        key: market-data-${{ github.run_number }}
-        restore-keys: |
-          market-data-
+    - name: Get current date
+      id: date
+      run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
     
     - name: Fetch market data
       env:
@@ -46,14 +36,13 @@ jobs:
       run: |
         python src/data_fetcher.py --daily-scan
     
-    - name: Upload market data artifact
-      uses: actions/upload-artifact@v4
+    - name: Save market data cache
+      uses: actions/cache@v3
       with:
-        name: market-data-${{ github.run_number }}
         path: cache/
-        retention-days: 2
+        key: market-data-${{ steps.date.outputs.date }}
     
     - name: Log completion
       run: |
-        echo "✅ Market data fetch completed at $(date)"
+        echo "✅ Market data fetch completed"
         ls -la cache/
