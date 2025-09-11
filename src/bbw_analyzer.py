@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-BBW 15-Minute Alert System - Complete Single File
-Exact Pine Script BBW calculation with all functionality included
+BBW 15-Minute Alert System - Exact Pine Script Logic
+Focus: BBW line touching lowest_contraction detection
 """
 
 import asyncio
@@ -16,7 +16,6 @@ from typing import Dict, List, Optional
 import pandas as pd
 import ccxt.async_support as ccxt
 import aiohttp
-import yaml
 
 # Setup logging
 logging.basicConfig(
@@ -34,38 +33,45 @@ class BBWCalculator:
         self.contraction_length = contraction_length
     
     def calculate_bbw_exact(self, ohlcv_data: pd.DataFrame) -> Dict:
-        """Calculate BBW exactly as Pine Script"""
+        """
+        Exact Pine Script BBW calculation:
+        
+        basis = ta.sma(close, 20)
+        dev = 2.0 * ta.stdev(close, 20)
+        upper = basis + dev
+        lower = basis - dev
+        bbw = ((upper - lower) / basis) * 100
+        lowest_contraction = ta.lowest(bbw, 125)
+        """
         try:
             if len(ohlcv_data) < self.contraction_length:
                 raise ValueError(f"Insufficient data: {len(ohlcv_data)} < {self.contraction_length}")
             
             close_prices = ohlcv_data['close']
             
-            # Bollinger Bands (exact Pine Script logic)
+            # Step 1: Bollinger Bands (exact Pine Script)
             basis = close_prices.rolling(window=self.length, min_periods=self.length).mean()
-            std_dev = close_prices.rolling(window=self.length, min_periods=self.length).std(ddof=1)
+            std_dev = close_prices.rolling(window=self.length, min_periods=self.length).std(ddof=1)  # Pine Script uses sample std
             dev = self.mult * std_dev
             upper = basis + dev
             lower = basis - dev
             
-            # BBW calculation
+            # Step 2: BBW calculation
             bbw = ((upper - lower) / basis) * 100
             
-            # Rolling highest/lowest
-            highest_expansion = bbw.rolling(window=self.contraction_length, min_periods=self.contraction_length).max()
+            # Step 3: Rolling lowest (exact Pine Script ta.lowest)
             lowest_contraction = bbw.rolling(window=self.contraction_length, min_periods=self.contraction_length).min()
             
             # Remove NaN values
-            valid_data = ~(bbw.isna() | highest_expansion.isna() | lowest_contraction.isna())
+            valid_mask = ~(bbw.isna() | lowest_contraction.isna())
             
-            if not valid_data.any():
+            if not valid_mask.any():
                 raise ValueError("No valid BBW data after calculation")
             
             return {
-                'bbw': bbw[valid_data],
-                'highest_expansion': highest_expansion[valid_data],
-                'lowest_contraction': lowest_contraction[valid_data],
-                'timestamps': ohlcv_data.index[valid_data]
+                'bbw': bbw[valid_mask].values,  # Convert to numpy array
+                'lowest_contraction': lowest_contraction[valid_mask].values,  # Convert to numpy array
+                'valid_count': valid_mask.sum()
             }
             
         except Exception as e:
@@ -73,26 +79,34 @@ class BBWCalculator:
             raise
     
     def detect_squeeze(self, bbw_data: Dict, tolerance: float = 0.001) -> Dict:
-        """Detect BBW squeeze"""
+        """
+        Detect BBW squeeze: when current BBW touches lowest contraction
+        Exact Pine Script logic: BBW == ta.lowest(BBW, 125)
+        """
         try:
             if len(bbw_data['bbw']) == 0:
                 return {'is_squeeze': False, 'error': 'No BBW data'}
             
-            current_bbw = bbw_data['bbw'].iloc[-1]
-            current_lowest = bbw_data['lowest_contraction'].iloc[-1]
-            current_highest = bbw_data['highest_expansion'].iloc[-1]
+            # Get current (latest) values - using array indexing
+            current_bbw = bbw_data['bbw'][-1]
+            current_lowest = bbw_data['lowest_contraction'][-1]
             
+            # Pine Script squeeze detection: BBW touching lowest contraction
             difference = abs(current_bbw - current_lowest)
             is_squeeze = difference <= tolerance
             
-            return {
+            result = {
                 'is_squeeze': is_squeeze,
-                'bbw_value': round(current_bbw, 4),
-                'lowest_contraction': round(current_lowest, 4),
-                'highest_expansion': round(current_highest, 4),
-                'difference': round(difference, 6),
-                'timestamp': bbw_data['timestamps'].iloc[-1]
+                'bbw_value': round(float(current_bbw), 4),
+                'lowest_contraction': round(float(current_lowest), 4),
+                'difference': round(float(difference), 6),
+                'squeeze_strength': round(1 / (difference + 0.001), 2) if difference > 0 else 1000
             }
+            
+            if is_squeeze:
+                logger.info(f"🎯 BBW Squeeze! BBW: {current_bbw:.4f}, LC: {current_lowest:.4f}, Diff: {difference:.6f}")
+            
+            return result
             
         except Exception as e:
             logger.error(f"❌ Squeeze detection error: {e}")
@@ -201,7 +215,7 @@ class BBWAnalyzer:
         return None
     
     async def analyze_single_coin(self, coin: Dict, semaphore: asyncio.Semaphore) -> Optional[Dict]:
-        """Analyze single coin"""
+        """Analyze single coin for BBW squeeze"""
         async with semaphore:
             try:
                 symbol = f"{coin['symbol'].upper()}/USDT"
@@ -211,12 +225,13 @@ class BBWAnalyzer:
                 if data_15m is None:
                     return None
                 
-                # Calculate BBW
+                # Calculate BBW with exact Pine Script logic
                 bbw_15m = self.bbw_calc.calculate_bbw_exact(data_15m)
                 squeeze_15m = self.bbw_calc.detect_squeeze(bbw_15m)
                 
+                # Only alert if BBW is touching lowest contraction
                 if squeeze_15m['is_squeeze']:
-                    # Check deduplication
+                    # Simple deduplication
                     alert_key = f"{coin['symbol']}_bbw"
                     if not self.should_send_alert(alert_key):
                         return None
@@ -283,7 +298,7 @@ class BBWAnalyzer:
         
         message = f"🔥 BBW 15M SQUEEZE ALERTS ({len(alerts)} SIGNALS)\n"
         message += f"📅 {timestamp}\n"
-        message += f"⚡ BBW touching lowest contraction\n\n"
+        message += f"⚡ BBW touching lowest contraction line\n\n"
         
         for i, alert in enumerate(alerts, 1):
             symbol = alert['symbol']
@@ -295,9 +310,11 @@ class BBWAnalyzer:
             message += f"💰 ${price:.6f} ({change_24h:+.1f}%)\n"
             message += f"📊 BBW: {squeeze['bbw_value']}\n"
             message += f"📉 LC: {squeeze['lowest_contraction']}\n"
+            message += f"🎯 Strength: {squeeze['squeeze_strength']}\n"
             message += f"📈 https://tradingview.com/chart/?symbol=BINANCE:{symbol}USDT&interval=15\n\n"
         
-        message += f"📊 Total Squeezes: {len(alerts)}\n"
+        message += f"📊 Total BBW Squeezes: {len(alerts)}\n"
+        message += f"🎯 Pine Script logic: BBW touching LC line\n"
         message += f"⏰ Next scan: 15 minutes"
         
         return message
@@ -310,7 +327,7 @@ class BBWAnalyzer:
         # Load market data
         market_data = await self.load_market_data()
         if not market_data:
-            logger.error("❌ No market data available - run daily fetcher first")
+            logger.error("❌ No market data available")
             return
         
         # Filter coins
@@ -340,7 +357,7 @@ class BBWAnalyzer:
             await self.send_telegram_alerts(alerts)
             logger.info(f"🎯 Sent {len(alerts)} BBW squeeze alerts")
         else:
-            logger.info("😴 No BBW squeezes detected")
+            logger.info("😴 No BBW squeezes detected (BBW not touching LC line)")
         
         execution_time = time.time() - start_time
         logger.info(f"✅ Analysis completed in {execution_time:.1f}s")
