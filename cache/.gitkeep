@@ -1,1 +1,3 @@
-
+# Cache directory for system files
+# market_data_12h.json - Market data cache
+# bbw_alerts_30m.json - Alert deduplication cache
