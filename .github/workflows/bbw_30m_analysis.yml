@@ -8,7 +8,7 @@ on:
 jobs:
   bbw-squeeze-analysis:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     
     steps:
       - name: Checkout Repository
@@ -38,8 +38,9 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           BBW_TELEGRAM_CHAT_ID: ${{ secrets.BBW_TELEGRAM_CHAT_ID }}
         run: |
-          python src/analyzer_30m_bbw.py
-          
+          echo "🚀 Starting BBW Analysis at $(date)"
+          timeout 1200 python src/analyzer_30m_bbw.py  # 20-minute timeout
+          echo "✅ BBW Analysis completed at $(date)"
       - name: Commit Cache Updates
         run: |
           git config --local user.email "actions@github.com"
