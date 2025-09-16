@@ -1,0 +1,68 @@
+# BBW 30-Minute Squeeze Detection System Configuration
+
+# BBW Calculation Parameters
+bbw:
+  length: 20                    # Bollinger Band period
+  multiplier: 2.0              # Standard deviation multiplier
+  contraction_length: 125      # Rolling window for min/max
+  squeeze_tolerance: 0.01      # Touch detection threshold (±0.01%)
+  separation_threshold: 0.05   # Minimum separation for new signals
+
+# System Configuration
+system:
+  timeframe: "30m"
+  freshness_window_minutes: 35  # 30m + 5min buffer
+  batch_size: 25               # Coins per batch
+  rate_limit_delay: 0.3        # Seconds between API calls
+  max_execution_minutes: 15    # GitHub Actions timeout
+
+# Market Filtering
+market_filter:
+  min_market_cap: 50000000     # $50M USD minimum
+  min_volume_24h: 10000000     # $10M USD minimum
+  max_coins_analyzed: 500      # Processing limit
+
+# Data Sources
+data_sources:
+  scan:
+    pages: 4                   # CoinGecko pages to fetch
+    coins_per_page: 250        # Coins per page
+    rate_limit: 2              # Seconds between requests
+
+# APIs Configuration
+apis:
+  coingecko:
+    base_url: "https://api.coingecko.com/api/v3"
+    rate_limit: 2              # Seconds between requests
+    
+  exchanges:
+    bingx:
+      rate_limit: 300          # Milliseconds
+      timeout: 30000           # 30 seconds
+    kucoin:
+      rate_limit: 500          # Milliseconds
+      timeout: 30000
+    okx:
+      rate_limit: 600          # Milliseconds
+      timeout: 30000
+    bybit:
+      rate_limit: 800          # Milliseconds
+      timeout: 30000
+
+# Alert System
+alerts:
+  telegram:
+    max_message_length: 4000
+    batch_size: 20
+    include_coinglass_links: true
+    validate_links: true
+    
+  deduplication:
+    cache_file: "cache/bbw_alerts_30m.json"
+    cleanup_hours: 48          # Remove old entries after 48h
+
+# CoinGlass Integration
+coinglass:
+  base_url: "https://www.coinglass.com/pro/futures/LiquidationHeatMapNew?coin="
+  validate_links: true
+  fallback_text: "N/A"
