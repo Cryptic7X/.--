@@ -1,6 +1,7 @@
 """
 BBW 1H Fresh Analysis System
 Detects BBW squeezes on 1-hour timeframe with fresh signal validation
+Simplified exchange setup: BingX (Primary) → KuCoin → OKX
 """
 
 import os
@@ -25,13 +26,27 @@ from alerts.telegram_batch import send_batch_telegram_alert
 
 def load_config():
     """Load configuration from config.yaml"""
-    import yaml
-    config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'config.yaml')
-    
-    with open(config_path, 'r') as file:
-        config = yaml.safe_load(file)
-    
-    return config
+    try:
+        import yaml
+        config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'config.yaml')
+        
+        with open(config_path, 'r') as file:
+            config = yaml.safe_load(file)
+        
+        return config
+    except Exception as e:
+        print(f"⚠️ Config loading error: {e}")
+        return get_default_config()
+
+def get_default_config():
+    """Default configuration"""
+    return {
+        'processing': {'batch_size': 50},
+        'market_filter': {
+            'min_market_cap': 50000000,
+            'min_volume_24h': 10000000
+        }
+    }
 
 def load_market_data():
     """Load market data from CoinGecko cache"""
@@ -66,10 +81,10 @@ def get_blocked_coins():
         return set()
 
 def create_exchange_connections():
-    """Create exchange connections with enhanced error handling"""
+    """Create simplified exchange connections (BingX → KuCoin → OKX only)"""
     exchanges = []
     
-    # BingX (Primary - Your API)
+    # BingX (Primary - Your Personal API)
     bingx_api_key = os.getenv('BINGX_API_KEY')
     bingx_secret = os.getenv('BINGX_SECRET_KEY')
     
@@ -80,122 +95,146 @@ def create_exchange_connections():
                 'secret': bingx_secret,
                 'sandbox': False,
                 'enableRateLimit': True,
-                'timeout': 30000,  # 30 second timeout
+                'timeout': 30000,
             })
             exchanges.append(('BingX', bingx))
             print("✅ BingX connected (Primary)")
         except Exception as e:
             print(f"⚠️ BingX connection failed: {e}")
     
-    # Reliable fallback exchanges only
-    fallback_configs = [
-        ('KuCoin', ccxt.kucoin, {
+    # KuCoin (First Fallback)
+    try:
+        kucoin = ccxt.kucoin({
             'enableRateLimit': True,
-            'timeout': 20000,
-            'headers': {'User-Agent': 'BBW-1H-System/1.0'}
-        }),
-        ('OKX', ccxt.okx, {
-            'enableRateLimit': True,
-            'timeout': 20000
+            'timeout': 30000,
         })
-    ]
+        exchanges.append(('KuCoin', kucoin))
+        print("✅ KuCoin connected (Fallback 1)")
+    except Exception as e:
+        print(f"⚠️ KuCoin connection failed: {e}")
     
-    for name, exchange_class, config in fallback_configs:
-        try:
-            exchange = exchange_class(config)
-            # Test connection
-            exchange.load_markets()
-            exchanges.append((name, exchange))
-            print(f"✅ {name} connected (Fallback)")
-        except Exception as e:
-            print(f"⚠️ {name} connection failed: {e}")
+    # OKX (Second Fallback)
+    try:
+        okx = ccxt.okx({
+            'enableRateLimit': True,
+            'timeout': 30000,
+        })
+        exchanges.append(('OKX', okx))
+        print("✅ OKX connected (Fallback 2)")
+    except Exception as e:
+        print(f"⚠️ OKX connection failed: {e}")
     
     return exchanges
 
-def fetch_ohlcv_data_safe(symbol, exchange_name, exchange, limit=150):
-    """Enhanced OHLCV fetching with proper error handling"""
+def clean_symbol(symbol):
+    """Clean and validate symbol format"""
+    if not symbol or not isinstance(symbol, str):
+        return None
+    
+    # Remove invalid characters and standardize
+    symbol = symbol.upper().strip()
+    
+    # Skip problematic symbols
+    problematic_symbols = {
+        'USDT0', 'USD0', 'NULL', 'NONE', '', 'UNKNOWN'
+    }
+    
+    if symbol in problematic_symbols or len(symbol) < 2:
+        return None
+    
+    return symbol
+
+def get_symbol_variants(base_symbol):
+    """Get trading symbol variants for different exchanges"""
+    clean_base = clean_symbol(base_symbol)
+    if not clean_base:
+        return []
+    
+    # Generate common trading pairs
+    variants = []
+    
+    # Standard variants
+    if not clean_base.endswith('USDT') and not clean_base.endswith('USD'):
+        variants.extend([
+            f"{clean_base}USDT",
+            f"{clean_base}USD",
+            f"{clean_base}/USDT",
+            f"{clean_base}/USD"
+        ])
+    
+    return variants
+
+def fetch_ohlcv_data(symbol, exchange_name, exchange, limit=150):
+    """
+    Fetch 1-hour OHLCV data for BBW calculation
+    Need 125 + 20 + buffer = 150 candles minimum
+    """
     try:
-        # Validate symbol exists on exchange
-        if not hasattr(exchange, 'markets') or symbol not in exchange.markets:
-            return None
-        
-        # Check if market is active
-        market_info = exchange.markets.get(symbol, {})
-        if not market_info.get('active', True):
-            return None
-        
-        # Fetch with timeout protection
+        # Fetch 1-hour candlesticks
         ohlcv = exchange.fetch_ohlcv(symbol, '1h', limit=limit)
         
-        if not ohlcv or len(ohlcv) < 145:
+        if not ohlcv or len(ohlcv) < 145:  # Need minimum data for BBW
             return None
         
-        # Convert to DataFrame with validation
+        # Convert to DataFrame
         df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
-        
-        # Validate data quality
-        if df['close'].isnull().any() or (df['close'] <= 0).any():
-            return None
-        
         df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
         df.set_index('timestamp', inplace=True)
         
         return df
         
-    except ccxt.NetworkError as e:
-        print(f"🌐 Network error for {symbol} on {exchange_name}: {str(e)[:100]}")
-        return None
-    except ccxt.ExchangeError as e:
-        print(f"🏛️ Exchange error for {symbol} on {exchange_name}: {str(e)[:100]}")
-        return None
     except Exception as e:
-        print(f"❌ Unexpected error for {symbol} on {exchange_name}: {str(e)[:100]}")
+        # Only print error for debugging, don't spam console
+        if 'does not have market symbol' not in str(e):
+            print(f"❌ Error fetching {symbol} from {exchange_name}: {e}")
         return None
 
 def analyze_bbw_signals(coins, exchanges):
-    """Enhanced BBW analysis with better error handling"""
+    """Analyze BBW signals for given coins"""
     signals = []
     blocked_coins = get_blocked_coins()
     
     print(f"🔍 Analyzing {len(coins)} coins for BBW squeezes...")
     
-    # Pre-filter coins for valid symbols
-    valid_coins = []
-    for coin in coins:
-        symbol_base = coin['symbol'].upper()
-        if validate_symbol(symbol_base) and symbol_base not in blocked_coins:
-            valid_coins.append(coin)
+    # Process in batches of 50
+    batch_size = 50
+    processed_count = 0
     
-    print(f"📊 Filtered to {len(valid_coins)} valid coins")
-    
-    # Process in smaller batches to avoid timeouts
-    batch_size = 25  # Reduced from 50
-    processed = 0
-    
-    for i in range(0, len(valid_coins), batch_size):
-        batch = valid_coins[i:i + batch_size]
-        print(f"\n📊 Processing batch {i//batch_size + 1}/{(len(valid_coins) + batch_size - 1)//batch_size}")
+    for i in range(0, len(coins), batch_size):
+        batch = coins[i:i + batch_size]
+        print(f"\n📊 Processing batch {i//batch_size + 1}/{(len(coins) + batch_size - 1)//batch_size}")
         
         for coin in batch:
             try:
-                symbol_base = coin['symbol'].upper()
-                symbol_variants = get_tradeable_symbols(symbol_base)
+                symbol_base = coin.get('symbol', '').upper()
+                
+                # Skip invalid or blocked coins
+                if not symbol_base or symbol_base in blocked_coins:
+                    continue
+                
+                # Get symbol variants
+                symbol_variants = get_symbol_variants(symbol_base)
+                
+                if not symbol_variants:
+                    continue
                 
                 ohlcv_data = None
                 used_exchange = None
                 used_symbol = None
                 
-                # Try each exchange with timeout protection
+                # Try each exchange in fallback sequence
                 for exchange_name, exchange in exchanges:
+                    if ohlcv_data is not None:
+                        break
+                        
                     for symbol_variant in symbol_variants:
                         try:
-                            ohlcv_data = fetch_ohlcv_data_safe(
-                                symbol_variant, exchange_name, exchange
-                            )
-                            if ohlcv_data is not None:
-                                used_exchange = exchange_name
-                                used_symbol = symbol_variant
-                                break
+                            if exchange.has.get('fetchOHLCV', False):
+                                ohlcv_data = fetch_ohlcv_data(symbol_variant, exchange_name, exchange)
+                                if ohlcv_data is not None:
+                                    used_exchange = exchange_name
+                                    used_symbol = symbol_variant
+                                    break
                         except Exception:
                             continue
                     
@@ -205,7 +244,7 @@ def analyze_bbw_signals(coins, exchanges):
                 if ohlcv_data is None:
                     continue
                 
-                # Calculate BBW with validation
+                # Calculate BBW
                 bbw_data = calculate_bbw(ohlcv_data)
                 if not bbw_data:
                     continue
@@ -214,42 +253,43 @@ def analyze_bbw_signals(coins, exchanges):
                 squeeze_result = detect_bbw_squeeze(bbw_data, tolerance=0.01)
                 
                 if squeeze_result['is_squeeze']:
+                    # Get current price and 24h change
                     current_price = ohlcv_data['close'].iloc[-1]
-                    price_24h_ago = ohlcv_data['close'].iloc[-25] if len(ohlcv_data) >= 25 else ohlcv_data['close'].iloc[0]
-                    change_24h = ((current_price - price_24h_ago) / price_24h_ago) * 100
+                    
+                    # Calculate 24h change safely
+                    try:
+                        price_24h_ago = ohlcv_data['close'].iloc[-25] if len(ohlcv_data) >= 25 else ohlcv_data['close'].iloc[0]
+                        change_24h = ((current_price - price_24h_ago) / price_24h_ago) * 100
+                    except:
+                        change_24h = 0.0
                     
                     signal = {
                         'symbol': used_symbol,
                         'exchange': used_exchange,
-                        'price': current_price,
-                        'change_24h': change_24h,
+                        'price': float(current_price),
+                        'change_24h': float(change_24h),
                         'market_cap': coin.get('market_cap', 0),
                         'volume_24h': coin.get('total_volume', 0),
-                        'bbw_value': squeeze_result['bbw_value'],
-                        'lowest_contraction': squeeze_result['lowest_contraction'],
-                        'difference': squeeze_result['difference'],
+                        'bbw_value': float(squeeze_result['bbw_value']),
+                        'lowest_contraction': float(squeeze_result['lowest_contraction']),
+                        'difference': float(squeeze_result['difference']),
                         'strength': squeeze_result['strength'],
                         'timestamp': datetime.now().isoformat()
                     }
                     
                     signals.append(signal)
-                    print(f"🎯 BBW Squeeze: {used_symbol} - BBW: {squeeze_result['bbw_value']:.4f}")
+                    print(f"🎯 BBW Squeeze: {used_symbol} - BBW: {squeeze_result['bbw_value']:.4f} - {squeeze_result['strength']}")
                 
-                processed += 1
-                if processed % 10 == 0:
-                    print(f"  Progress: {processed}/{len(valid_coins)} coins processed")
+                processed_count += 1
                 
-                time.sleep(0.2)  # Increased rate limiting
+                # Rate limiting
+                time.sleep(0.1)
                 
             except Exception as e:
                 print(f"❌ Error analyzing {coin.get('symbol', 'Unknown')}: {e}")
                 continue
-        
-        # Longer pause between batches
-        if i + batch_size < len(valid_coins):
-            print("⏳ Cooling down between batches...")
-            time.sleep(2)
     
+    print(f"\n📈 Processed {processed_count} coins, found {len(signals)} BBW squeezes")
     return signals
 
 def filter_fresh_signals(signals):
@@ -258,7 +298,7 @@ def filter_fresh_signals(signals):
     fresh_signals = []
     
     for signal in signals:
-        # Use 1-hour cache key (changed from 30m)
+        # Use 1-hour cache key
         cache_key = get_cache_key(signal['symbol'], '1h')
         
         if not is_duplicate_alert(cache, cache_key, signal['timestamp']):
@@ -279,24 +319,28 @@ def main():
         coins = load_market_data()
         if not coins:
             print("❌ No market data available")
+            print("💡 Run: python src/data_fetcher.py --daily-scan")
             return
         
         # Filter by market cap and volume (from your document)
+        min_market_cap = config.get('market_filter', {}).get('min_market_cap', 50_000_000)
+        min_volume_24h = config.get('market_filter', {}).get('min_volume_24h', 10_000_000)
+        
         filtered_coins = [
             coin for coin in coins 
-            if coin.get('market_cap', 0) >= 50_000_000 and  # $50M min
-               coin.get('total_volume', 0) >= 10_000_000     # $10M min
+            if (coin.get('market_cap', 0) or 0) >= min_market_cap and  
+               (coin.get('total_volume', 0) or 0) >= min_volume_24h
         ]
         
-        print(f"📊 Loaded {len(filtered_coins)} coins (filtered by market cap/volume)")
+        print(f"📊 Loaded {len(filtered_coins)} coins (Market Cap ≥ ${min_market_cap:,}, Volume ≥ ${min_volume_24h:,})")
         
-        # Create exchange connections
+        # Create exchange connections (simplified)
         exchanges = create_exchange_connections()
         if not exchanges:
             print("❌ No exchange connections available")
             return
         
-        print(f"🔗 Connected to {len(exchanges)} exchanges: {[name for name, _ in exchanges]}")
+        print(f"🔗 Connected exchanges: {[name for name, _ in exchanges]}")
         
         # Analyze BBW signals
         signals = analyze_bbw_signals(filtered_coins, exchanges)
@@ -324,6 +368,8 @@ def main():
                 }
             save_alert_cache(cache)
             
+            print("✅ Fresh signals sent and cache updated")
+            
         else:
             print("ℹ️ All signals were duplicates (already alerted)")
         
@@ -332,6 +378,8 @@ def main():
         
     except Exception as e:
         print(f"❌ Analysis failed: {e}")
+        import traceback
+        traceback.print_exc()
         raise
 
 if __name__ == "__main__":
