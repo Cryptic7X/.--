@@ -1,4 +1,4 @@
-name: BBW 1H Analysis
+name: BBW 1H Fresh Analysis
 
 on:
   schedule:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v4
       
     - name: Set up Python
@@ -30,6 +30,4 @@ jobs:
         COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         BBW_TELEGRAM_CHAT_ID: ${{ secrets.BBW_TELEGRAM_CHAT_ID }}
-      run: |
-        cd src
-        python analyzer_1h_fresh.py
+      run: python src/analyzer_1h_fresh.py
