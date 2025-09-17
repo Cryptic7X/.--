@@ -2,7 +2,7 @@ name: Enhanced Data Fetcher
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Every 6 hours (changed from 12)
+    - cron: '0 */6 * * *'  # Every 6 hours
   workflow_dispatch:
 
 jobs:
@@ -26,7 +26,7 @@ jobs:
     - name: Fetch Market Data
       env:
         COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
-      run: python src/data_fetcher.py
+      run: python src/data_fetcher.py --daily-scan  # Added --daily-scan flag
       
     - name: Commit and push if changed
       run: |
