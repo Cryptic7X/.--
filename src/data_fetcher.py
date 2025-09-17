@@ -21,8 +21,31 @@ class CoinGeckoFetcher:
 
     def load_config(self):
         config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'config.yaml')
-        with open(config_path) as f:
-            return yaml.safe_load(f)
+        try:
+            with open(config_path) as f:
+                return yaml.safe_load(f)
+        except:
+            # Return default config if file doesn't exist or has issues
+            return self.get_default_config()
+
+    def get_default_config(self):
+        """Default configuration for BBW 1H system"""
+        return {
+            'apis': {
+                'coingecko': {
+                    'base_url': 'https://api.coingecko.com/api/v3',
+                    'rate_limit': 2
+                }
+            },
+            'scan': {
+                'pages': 2,
+                'coins_per_page': 250
+            },
+            'market_filter': {
+                'min_market_cap': 50000000,
+                'min_volume_24h': 10000000
+            }
+        }
 
     def create_robust_session(self):
         """Create requests session with API key authentication"""
@@ -42,7 +65,7 @@ class CoinGeckoFetcher:
         
         # Set headers with API key authentication
         session.headers.update({
-            'User-Agent': 'BBW-1h-System/1.0',  # Updated for BBW system
+            'User-Agent': 'BBW-1h-System/1.0',
             'Accept': 'application/json',
             'Accept-Encoding': 'gzip, deflate',
             'Connection': 'keep-alive'
@@ -62,13 +85,14 @@ class CoinGeckoFetcher:
 
     def fetch_market_coins(self):
         """Fetch coins using Demo API key for higher limits"""
-        base_url = self.config['apis']['coingecko']['base_url']
+        # Use safe config access with defaults
+        base_url = self.config.get('apis', {}).get('coingecko', {}).get('base_url', 'https://api.coingecko.com/api/v3')
         coins = []
         
         print(f"🚀 Starting CoinGecko API fetch for BBW 1H system...")
         
-        pages = self.config['scan']['pages']
-        per_page = min(self.config['scan']['coins_per_page'], 250)
+        pages = self.config.get('scan', {}).get('pages', 2)
+        per_page = min(self.config.get('scan', {}).get('coins_per_page', 250), 250)
         
         print(f"📊 Target: {pages} pages × {per_page} coins = {pages * per_page} total coins")
         
@@ -117,7 +141,7 @@ class CoinGeckoFetcher:
             
             # Rate limiting between pages
             if page < pages:
-                rate_limit_delay = self.config['apis']['coingecko']['rate_limit']
+                rate_limit_delay = self.config.get('apis', {}).get('coingecko', {}).get('rate_limit', 2)
                 print(f"⏳ Waiting {rate_limit_delay}s before next page...")
                 time.sleep(rate_limit_delay)
         
@@ -130,13 +154,18 @@ class CoinGeckoFetcher:
         
         filtered_coins = []
         
+        # Get filter values from config with defaults
+        min_market_cap = self.config.get('market_filter', {}).get('min_market_cap', 50_000_000)
+        min_volume_24h = self.config.get('market_filter', {}).get('min_volume_24h', 10_000_000)
+        
+        print(f"  Filters: Market Cap ≥ ${min_market_cap:,}, Volume ≥ ${min_volume_24h:,}")
+        
         for coin in coins:
             try:
                 market_cap = coin.get('market_cap', 0) or 0
                 volume_24h = coin.get('total_volume', 0) or 0
                 
-                # Updated filters for BBW 1H system (from your document)
-                if market_cap >= 50_000_000 and volume_24h >= 10_000_000:  # $50M & $10M
+                if market_cap >= min_market_cap and volume_24h >= min_volume_24h:
                     filtered_coins.append(coin)
                     
             except Exception as e:
@@ -157,10 +186,10 @@ class CoinGeckoFetcher:
             'updated_at': datetime.utcnow().isoformat(),
             'total_coins': len(coins),
             'coins': coins,
-            'system': 'BBW_1H',  # Added system identifier
+            'system': 'BBW_1H',
             'filters': {
-                'min_market_cap': 50_000_000,
-                'min_volume_24h': 10_000_000
+                'min_market_cap': self.config.get('market_filter', {}).get('min_market_cap', 50_000_000),
+                'min_volume_24h': self.config.get('market_filter', {}).get('min_volume_24h', 10_000_000)
             }
         }
         
@@ -187,7 +216,7 @@ def main():
         coins = fetcher.fetch_market_coins()
         
         if coins:
-            # Filter for BBW analysis (updated criteria)
+            # Filter for BBW analysis
             filtered_coins = fetcher.filter_bbw_coins(coins)
             
             # Save to cache
