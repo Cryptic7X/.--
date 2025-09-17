@@ -1,0 +1,41 @@
+name: Enhanced Data Fetcher
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours (changed from 12)
+  workflow_dispatch:
+
+jobs:
+  fetch-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Fetch Market Data
+      env:
+        COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
+      run: python src/data_fetcher.py
+      
+    - name: Commit and push if changed
+      run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+        git add -A
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Update market data $(date)"
+          git push
+        fi
