@@ -1,5 +1,6 @@
 """
 Enhanced Telegram Batch Alert System with CoinGlass Integration
+Fixed TradingView and CoinGlass link formats
 """
 
 import os
@@ -7,17 +8,23 @@ import requests
 from datetime import datetime
 
 def generate_chart_link(symbol):
-    """Generate TradingView chart link for 1-hour timeframe"""
-    clean_symbol = symbol.replace('USDT', '').replace('USD', '')
+    """Generate TradingView chart link for 1-hour timeframe with correct format"""
+    # Clean symbol: Remove /USDT, /USD, USDT, USD and slashes
+    clean_symbol = symbol.replace('USDT', '').replace('USD', '').replace('/', '')
+    
+    # Format: SYMBOLUSDT (e.g., QNTUSDT instead of QNT/USDT)
     return f"https://www.tradingview.com/chart/?symbol={clean_symbol}USDT&interval=60"
 
 def generate_coinglass_link(symbol):
-    """Generate CoinGlass liquidation heatmap link"""
-    clean_symbol = symbol.replace('USDT', '').replace('USD', '')
-    return f"https://www.coinglass.com/pro/futures/LiquidationHeatMapNew?coin={clean_symbol}"
+    """Generate CoinGlass liquidation heatmap link with correct format"""
+    # Clean symbol: Remove /USDT, /USD, USDT, USD and slashes  
+    clean_symbol = symbol.replace('USDT', '').replace('USD', '').replace('/', '')
+    
+    # Format: Add &type=pair parameter
+    return f"https://www.coinglass.com/pro/futures/LiquidationHeatMapNew?coin={clean_symbol}&type=pair"
 
 def format_batch_alert_message(signals, indicator_type, timeframe):
-    """Format batch alert message with CoinGlass integration"""
+    """Format batch alert message with corrected CoinGlass integration"""
     
     if not signals:
         return "No signals to report"
@@ -119,3 +126,23 @@ def send_batch_telegram_alert(signals, indicator_type="BBW", timeframe="1H"):
         for i, part in enumerate(parts, 1):
             header = f"📨 Part {i}/{len(parts)}\n" if len(parts) > 1 else ""
             send_telegram_message(header + part)
+
+# Test function for debugging links
+def test_link_formats():
+    """Test function to verify link formats"""
+    test_symbols = ['QNT/USDT', 'QNTUSDT', 'BTC/USDT', 'BTCUSDT']
+    
+    print("Testing link formats:")
+    print("=" * 50)
+    
+    for symbol in test_symbols:
+        chart_link = generate_chart_link(symbol)
+        coinglass_link = generate_coinglass_link(symbol)
+        
+        print(f"\nSymbol: {symbol}")
+        print(f"TradingView: {chart_link}")
+        print(f"CoinGlass: {coinglass_link}")
+
+if __name__ == "__main__":
+    # Run tests
+    test_link_formats()
