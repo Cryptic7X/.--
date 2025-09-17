@@ -38,9 +38,9 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           BBW_TELEGRAM_CHAT_ID: ${{ secrets.BBW_TELEGRAM_CHAT_ID }}
         run: |
-          echo "🚀 Starting OPTIMIZED BBW Analysis at $(date)"
-          timeout 1080s python src/analyzer_30m_bbw.py  # 18-minute timeout
-          echo "✅ BBW Analysis completed at $(date)"
+          echo "🔍 Starting DIAGNOSTIC BBW Analysis at $(date)"
+          timeout 1200s python src/analyzer_30m_bbw_debug.py
+          echo "✅ Diagnostic completed at $(date)"
           
       - name: Commit Cache Updates
         if: always()
