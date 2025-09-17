@@ -38,7 +38,7 @@ class CoinGeckoFetcher:
                 }
             },
             'scan': {
-                'pages': 2,
+                'pages': 4,
                 'coins_per_page': 250
             },
             'market_filter': {
