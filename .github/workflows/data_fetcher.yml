@@ -1,12 +1,12 @@
-name: Enhanced Data Fetcher
+name: Daily CMC Data Fetch
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Every 6 hours
+    - cron: '0 0 * * *'  # Daily at 5:30 AM IST (00:00 UTC = 5:30 AM IST)
   workflow_dispatch:
 
 jobs:
-  fetch-data:
+  fetch-cmc-data:
     runs-on: ubuntu-latest
     
     steps:
@@ -23,19 +23,19 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
-    - name: Fetch Market Data
+    - name: Daily CoinMarketCap Fetch
       env:
-        COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
-      run: python src/data_fetcher.py --daily-scan  # Added --daily-scan flag
+        CMC_API_KEY: ${{ secrets.CMC_API_KEY }}
+      run: python src/data_fetcher.py --daily-scan
       
-    - name: Commit and push if changed
+    - name: Commit and push market data
       run: |
         git config --global user.email "action@github.com"
         git config --global user.name "GitHub Action"
-        git add -A
+        git add cache/
         if git diff --staged --quiet; then
-          echo "No changes to commit"
+          echo "No market data changes"
         else
-          git commit -m "Update market data $(date)"
+          git commit -m "Daily CMC market data update $(date)"
           git push
         fi
