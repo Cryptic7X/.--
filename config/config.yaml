@@ -1,55 +1,40 @@
-# BBW 30-Minute Squeeze Detection System Configuration
+# BBW 30-Minute System - OPTIMIZED Configuration
 
-# BBW Calculation Parameters
+# BBW Parameters (unchanged)
 bbw:
-  length: 20                    # Bollinger Band period
-  multiplier: 2.0              # Standard deviation multiplier
-  contraction_length: 125      # Rolling window for min/max
-  squeeze_tolerance: 0.01      # Touch detection threshold (±0.01%)
-  separation_threshold: 0.05   # Minimum separation for new signals
+  length: 20
+  multiplier: 2.0
+  contraction_length: 125
+  squeeze_tolerance: 0.01
+  separation_threshold: 0.05
 
-# System Configuration
+# OPTIMIZED System Settings
 system:
   timeframe: "30m"
-  freshness_window_minutes: 35  # 30m + 5min buffer
-  batch_size: 25               # Coins per batch
-  rate_limit_delay: 0.3        # Seconds between API calls
-  max_execution_minutes: 15    # GitHub Actions timeout
+  freshness_window_minutes: 35
+  batch_size: 50              # Reduced for concurrent processing
+  rate_limit_delay: 0.1       # Reduced from 0.3
+  max_execution_minutes: 12   # Internal limit
+  max_coins_analyzed: 100     # Reduced from 500
 
-# Market Filtering
+# Market Filtering (optimized for top coins)
 market_filter:
-  min_market_cap: 50000000     # $50M USD minimum
-  min_volume_24h: 10000000     # $10M USD minimum
-  max_coins_analyzed: 500      # Processing limit
+  min_market_cap: 100000000   # Increased to $100M for top coins only
+  min_volume_24h: 20000000    # Increased to $20M for liquidity
+  max_coins_analyzed: 100
 
-# Data Sources
-data_sources:
-  scan:
-    pages: 4                   # CoinGecko pages to fetch
-    coins_per_page: 250        # Coins per page
-    rate_limit: 2              # Seconds between requests
-
-# APIs Configuration
+# APIs (optimized settings)
 apis:
   coingecko:
     base_url: "https://api.coingecko.com/api/v3"
-    rate_limit: 2              # Seconds between requests
+    rate_limit: 1             # Reduced delay
     
   exchanges:
     bingx:
-      rate_limit: 300          # Milliseconds
-      timeout: 30000           # 30 seconds
-    kucoin:
-      rate_limit: 500          # Milliseconds
-      timeout: 30000
-    okx:
-      rate_limit: 600          # Milliseconds
-      timeout: 30000
-    bybit:
-      rate_limit: 800          # Milliseconds
-      timeout: 30000
+      rate_limit: 200         # Faster rate limit
+      timeout: 10000          # Reduced timeout
 
-# Alert System
+# Alert System (unchanged)
 alerts:
   telegram:
     max_message_length: 4000
@@ -59,10 +44,4 @@ alerts:
     
   deduplication:
     cache_file: "cache/bbw_alerts_30m.json"
-    cleanup_hours: 48          # Remove old entries after 48h
-
-# CoinGlass Integration
-coinglass:
-  base_url: "https://www.coinglass.com/pro/futures/LiquidationHeatMapNew?coin="
-  validate_links: true
-  fallback_text: "N/A"
+    cleanup_hours: 48
