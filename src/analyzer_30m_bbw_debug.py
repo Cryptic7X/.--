@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-BBW 30-Minute Analyzer - DIAGNOSTIC VERSION
+BBW 30-Minute Analyzer - DIAGNOSTIC VERSION (FIXED)
 Detailed logging to identify why 0 signals are found
 """
 
@@ -24,15 +24,7 @@ def get_ist_time():
 
 class DiagnosticBBWAnalyzer:
     def __init__(self):
-        self.start_time = time.time()
-        self.config = self.load_config()
-        self.deduplicator = BBWDeduplicator()
-        self.telegram = TelegramCoinGlassAlert()
-        self.exchanges = self.init_exchanges()
-        self.blocked_coins = self.load_blocked_coins()
-        self.market_data = self.load_market_data()
-        
-        # Diagnostic counters
+        # FIXED: Initialize stats FIRST before calling any methods
         self.stats = {
             'total_coins': 0,
             'blocked_skipped': 0,
@@ -44,6 +36,15 @@ class DiagnosticBBWAnalyzer:
             'api_errors': [],
             'exchange_responses': []
         }
+        
+        # Now initialize everything else
+        self.start_time = time.time()
+        self.config = self.load_config()
+        self.deduplicator = BBWDeduplicator()
+        self.telegram = TelegramCoinGlassAlert()
+        self.exchanges = self.init_exchanges()
+        self.blocked_coins = self.load_blocked_coins()
+        self.market_data = self.load_market_data()
         
     def load_config(self):
         config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'config.yaml')
@@ -105,8 +106,8 @@ class DiagnosticBBWAnalyzer:
             if market_cap >= 50_000_000 and volume_24h >= 10_000_000:
                 quality_filtered.append(coin)
         
-        # Limit for testing
-        final_coins = quality_filtered[:20]  # Test with 20 coins first
+        # Limit for testing - start with top 10 coins for detailed analysis
+        final_coins = quality_filtered[:10]  # Test with top 10 first
         
         print(f"📊 Filtering results:")
         print(f"   Total coins: {len(coins)}")
@@ -115,12 +116,13 @@ class DiagnosticBBWAnalyzer:
         print(f"   Final for analysis: {len(final_coins)}")
         
         if final_coins:
-            print(f"   Sample coins for analysis:")
-            for i, coin in enumerate(final_coins[:5]):
+            print(f"   Coins selected for analysis:")
+            for i, coin in enumerate(final_coins):
                 symbol = coin.get('symbol', 'N/A')
                 price = coin.get('current_price', 0)
                 mcap = coin.get('market_cap', 0) / 1_000_000
-                print(f"      {i+1}. {symbol} - ${price:.4f} - MCap: ${mcap:.0f}M")
+                volume = coin.get('total_volume', 0) / 1_000_000
+                print(f"      {i+1}. {symbol} - ${price:.4f} - MCap: ${mcap:.0f}M - Vol: ${volume:.0f}M")
         
         return final_coins
     
@@ -154,6 +156,13 @@ class DiagnosticBBWAnalyzer:
             markets = bingx.load_markets()
             print(f"   ✅ BingX connected - {len(markets)} markets available")
             
+            # Test a simple API call
+            try:
+                ticker = bingx.fetch_ticker('BTC/USDT')
+                print(f"   ✅ BTC/USDT price: ${ticker['last']:.2f}")
+            except Exception as e:
+                print(f"   ⚠️ Ticker test failed: {str(e)[:100]}")
+            
             exchanges.append(('BingX', bingx))
             
         except Exception as e:
@@ -171,7 +180,7 @@ class DiagnosticBBWAnalyzer:
         exchange_name, exchange = self.exchanges[0]
         
         try:
-            print(f"🔍 {symbol}: Fetching from {exchange_name}...")
+            print(f"🔍 {symbol}: Fetching 30m data from {exchange_name}...")
             
             # Test if symbol exists
             symbol_with_usdt = f"{symbol}USDT"
@@ -192,7 +201,11 @@ class DiagnosticBBWAnalyzer:
             
             # Check data quality
             latest_price = df['close'].iloc[-1]
-            print(f"   ✅ {symbol}: Latest price ${latest_price:.6f}")
+            oldest_time = df.index[0]
+            latest_time = df.index[-1]
+            
+            print(f"   ✅ {symbol}: Price ${latest_price:.6f}")
+            print(f"   📅 Data range: {oldest_time} to {latest_time}")
             
             # Keep UTC for freshness
             df['utc_timestamp'] = df.index
@@ -213,6 +226,8 @@ class DiagnosticBBWAnalyzer:
         self.stats['total_coins'] += 1
         
         print(f"\n🔍 ANALYZING: {symbol}")
+        print(f"   Market Cap: ${coin_data.get('market_cap', 0)/1_000_000:.0f}M")
+        print(f"   Volume 24h: ${coin_data.get('total_volume', 0)/1_000_000:.0f}M")
         
         if symbol in self.blocked_coins:
             print(f"   📛 {symbol}: Blocked - skipping")
@@ -241,11 +256,19 @@ class DiagnosticBBWAnalyzer:
                 self.stats['bbw_calc_failed'] += 1
                 return None
             
-            # Show BBW values
+            # Show BBW values for last few periods
             latest_bbw = signals_df['bbw'].iloc[-1]
             latest_contraction = signals_df['lowest_contraction'].iloc[-1]
             
-            print(f"   📊 {symbol}: BBW={latest_bbw:.6f}, Contraction={latest_contraction:.6f}")
+            print(f"   📊 {symbol}: Current BBW={latest_bbw:.6f}")
+            print(f"   📉 {symbol}: Lowest Contraction={latest_contraction:.6f}")
+            print(f"   🎯 {symbol}: Difference={abs(latest_bbw - latest_contraction):.6f}")
+            print(f"   📏 {symbol}: Tolerance threshold={self.config['bbw']['squeeze_tolerance']}")
+            
+            # Check if close to squeeze
+            diff = abs(latest_bbw - latest_contraction)
+            if diff <= 0.1:  # Within 0.1 of squeeze
+                print(f"   🔥 {symbol}: CLOSE TO SQUEEZE! (diff={diff:.6f})")
             
             # Get latest signal
             latest_signal = bbw_indicator.get_latest_squeeze_signal(
@@ -256,6 +279,7 @@ class DiagnosticBBWAnalyzer:
             
             if not latest_signal:
                 print(f"   📭 {symbol}: No squeeze signal detected")
+                print(f"       Reason: BBW not touching contraction within tolerance")
                 self.stats['no_signals'] += 1
                 return None
             
@@ -263,6 +287,7 @@ class DiagnosticBBWAnalyzer:
             print(f"       Signal BBW: {latest_signal['bbw_value']:.6f}")
             print(f"       Contraction: {latest_signal['lowest_contraction']:.6f}")
             print(f"       Strength: {latest_signal.get('squeeze_strength', 'N/A')}")
+            print(f"       Timestamp: {latest_signal['timestamp']}")
             
             # Check freshness
             signal_timestamp = latest_signal['timestamp']
@@ -305,6 +330,8 @@ class DiagnosticBBWAnalyzer:
         print(f"📅 Start Time: {ist_current.strftime('%Y-%m-%d %H:%M:%S')} IST")
         print(f"📊 Coins to analyze: {len(self.market_data)}")
         print(f"🔧 Processing: SEQUENTIAL (diagnostic mode)")
+        print(f"🎯 BBW Settings: Length={self.config['bbw']['length']}, Mult={self.config['bbw']['multiplier']}")
+        print(f"📏 Tolerance: {self.config['bbw']['squeeze_tolerance']} ({self.config['bbw']['squeeze_tolerance']*100}%)")
         
         if not self.market_data:
             print("❌ No market data available")
@@ -330,7 +357,7 @@ class DiagnosticBBWAnalyzer:
                 print(f"🎯 SIGNAL ADDED: {signal_result['symbol']}")
             
             # Rate limiting
-            time.sleep(1)
+            time.sleep(2)  # 2 seconds between coins for debugging
         
         # Final diagnostics
         print("\n" + "=" * 80)
@@ -362,18 +389,27 @@ class DiagnosticBBWAnalyzer:
         if detected_signals:
             print(f"   Signals found:")
             for signal in detected_signals:
-                print(f"      - {signal['symbol']}: BBW={signal['bbw_value']:.6f}")
+                print(f"      - {signal['symbol']}: BBW={signal['bbw_value']:.6f}, Strength={signal['squeeze_strength']}")
+        else:
+            print(f"   🤔 Possible reasons for 0 signals:")
+            print(f"      - Tolerance too strict ({self.config['bbw']['squeeze_tolerance']*100}%)")
+            print(f"      - Market not in squeeze phase currently")
+            print(f"      - All signals filtered as stale/duplicate")
+            print(f"      - BBW calculation issues")
         
         # Send alerts if any
         alerts_sent = 0
         if detected_signals:
             print(f"\n📱 Sending Telegram alert...")
-            success = self.telegram.send_consolidated_bbw_alert(detected_signals)
-            if success:
-                alerts_sent = 1
-                print(f"✅ Alert sent successfully")
-            else:
-                print(f"❌ Alert sending failed")
+            try:
+                success = self.telegram.send_consolidated_bbw_alert(detected_signals)
+                if success:
+                    alerts_sent = 1
+                    print(f"✅ Alert sent successfully")
+                else:
+                    print(f"❌ Alert sending failed")
+            except Exception as e:
+                print(f"❌ Alert error: {str(e)[:100]}")
         
         elapsed = (time.time() - self.start_time) / 60
         print(f"\n⏱️ Total execution time: {elapsed:.2f} minutes")
