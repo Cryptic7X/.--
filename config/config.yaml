@@ -1,47 +1,22 @@
-# BBW 30-Minute System - OPTIMIZED Configuration
+analysis:
+  timeframe: "1h"
+  indicator: "bbw"
+  bbw_params:
+    length: 20
+    multiplier: 2.0
+    expansion_length: 125
+    contraction_length: 125
+    tolerance: 0.01
 
-# BBW Parameters (unchanged)
-bbw:
-  length: 20
-  multiplier: 2.0
-  contraction_length: 125
-  squeeze_tolerance: 0.01
-  separation_threshold: 0.05
-
-# OPTIMIZED System Settings
-system:
-  timeframe: "30m"
-  freshness_window_minutes: 35
-  batch_size: 50              # Reduced for concurrent processing
-  rate_limit_delay: 0.1       # Reduced from 0.3
-  max_execution_minutes: 12   # Internal limit
-  max_coins_analyzed: 100     # Reduced from 500
-
-# Market Filtering (optimized for top coins)
 market_filter:
-  min_market_cap: 100000000   # Increased to $100M for top coins only
-  min_volume_24h: 20000000    # Increased to $20M for liquidity
-  max_coins_analyzed: 100
+  min_market_cap: 50000000    # $50M USD minimum
+  min_volume_24h: 10000000    # $10M USD minimum
 
-# APIs (optimized settings)
-apis:
-  coingecko:
-    base_url: "https://api.coingecko.com/api/v3"
-    rate_limit: 1             # Reduced delay
-    
-  exchanges:
-    bingx:
-      rate_limit: 200         # Faster rate limit
-      timeout: 10000          # Reduced timeout
+processing:
+  batch_size: 50
+  rate_limit_delay: 0.1
 
-# Alert System (unchanged)
 alerts:
-  telegram:
-    max_message_length: 4000
-    batch_size: 20
-    include_coinglass_links: true
-    validate_links: true
-    
-  deduplication:
-    cache_file: "cache/bbw_alerts_30m.json"
-    cleanup_hours: 48
+  format: "enhanced_bbw"
+  include_coinglass: true
+  consolidate_signals: true
