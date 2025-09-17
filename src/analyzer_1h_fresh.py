@@ -66,10 +66,10 @@ def get_blocked_coins():
         return set()
 
 def create_exchange_connections():
-    """Create exchange connections with fallback sequence"""
+    """Create exchange connections with enhanced error handling"""
     exchanges = []
     
-    # BingX (Primary - Your Personal API)
+    # BingX (Primary - Your API)
     bingx_api_key = os.getenv('BINGX_API_KEY')
     bingx_secret = os.getenv('BINGX_SECRET_KEY')
     
@@ -80,90 +80,123 @@ def create_exchange_connections():
                 'secret': bingx_secret,
                 'sandbox': False,
                 'enableRateLimit': True,
+                'timeout': 30000,  # 30 second timeout
             })
             exchanges.append(('BingX', bingx))
+            print("✅ BingX connected (Primary)")
         except Exception as e:
             print(f"⚠️ BingX connection failed: {e}")
     
-    # Fallback exchanges (Public APIs)
-    fallback_exchanges = [
-        ('KuCoin', ccxt.kucoin, {'enableRateLimit': True}),
-        ('OKX', ccxt.okx, {'enableRateLimit': True}),
-        ('Bybit', ccxt.bybit, {'enableRateLimit': True}),
-        ('Blofin', ccxt.blofin, {'enableRateLimit': True})
+    # Reliable fallback exchanges only
+    fallback_configs = [
+        ('KuCoin', ccxt.kucoin, {
+            'enableRateLimit': True,
+            'timeout': 20000,
+            'headers': {'User-Agent': 'BBW-1H-System/1.0'}
+        }),
+        ('OKX', ccxt.okx, {
+            'enableRateLimit': True,
+            'timeout': 20000
+        })
     ]
     
-    for name, exchange_class, config in fallback_exchanges:
+    for name, exchange_class, config in fallback_configs:
         try:
             exchange = exchange_class(config)
+            # Test connection
+            exchange.load_markets()
             exchanges.append((name, exchange))
+            print(f"✅ {name} connected (Fallback)")
         except Exception as e:
             print(f"⚠️ {name} connection failed: {e}")
     
     return exchanges
 
-def fetch_ohlcv_data(symbol, exchange_name, exchange, limit=150):
-    """
-    Fetch 1-hour OHLCV data for BBW calculation
-    Need 125 + 20 + buffer = 150 candles minimum
-    """
+def fetch_ohlcv_data_safe(symbol, exchange_name, exchange, limit=150):
+    """Enhanced OHLCV fetching with proper error handling"""
     try:
-        # Fetch 1-hour candlesticks (changed from 30m)
-        ohlcv = exchange.fetch_ohlcv(symbol, '1h', limit=limit)
-        
-        if not ohlcv or len(ohlcv) < 145:  # Need minimum data for BBW
+        # Validate symbol exists on exchange
+        if not hasattr(exchange, 'markets') or symbol not in exchange.markets:
             return None
         
-        # Convert to DataFrame
+        # Check if market is active
+        market_info = exchange.markets.get(symbol, {})
+        if not market_info.get('active', True):
+            return None
+        
+        # Fetch with timeout protection
+        ohlcv = exchange.fetch_ohlcv(symbol, '1h', limit=limit)
+        
+        if not ohlcv or len(ohlcv) < 145:
+            return None
+        
+        # Convert to DataFrame with validation
         df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+        
+        # Validate data quality
+        if df['close'].isnull().any() or (df['close'] <= 0).any():
+            return None
+        
         df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
         df.set_index('timestamp', inplace=True)
         
         return df
         
+    except ccxt.NetworkError as e:
+        print(f"🌐 Network error for {symbol} on {exchange_name}: {str(e)[:100]}")
+        return None
+    except ccxt.ExchangeError as e:
+        print(f"🏛️ Exchange error for {symbol} on {exchange_name}: {str(e)[:100]}")
+        return None
     except Exception as e:
-        print(f"❌ Error fetching {symbol} from {exchange_name}: {e}")
+        print(f"❌ Unexpected error for {symbol} on {exchange_name}: {str(e)[:100]}")
         return None
 
 def analyze_bbw_signals(coins, exchanges):
-    """Analyze BBW signals for given coins"""
+    """Enhanced BBW analysis with better error handling"""
     signals = []
     blocked_coins = get_blocked_coins()
     
     print(f"🔍 Analyzing {len(coins)} coins for BBW squeezes...")
     
-    # Process in batches of 50
-    batch_size = 50
-    for i in range(0, len(coins), batch_size):
-        batch = coins[i:i + batch_size]
-        print(f"\n📊 Processing batch {i//batch_size + 1}/{(len(coins) + batch_size - 1)//batch_size}")
+    # Pre-filter coins for valid symbols
+    valid_coins = []
+    for coin in coins:
+        symbol_base = coin['symbol'].upper()
+        if validate_symbol(symbol_base) and symbol_base not in blocked_coins:
+            valid_coins.append(coin)
+    
+    print(f"📊 Filtered to {len(valid_coins)} valid coins")
+    
+    # Process in smaller batches to avoid timeouts
+    batch_size = 25  # Reduced from 50
+    processed = 0
+    
+    for i in range(0, len(valid_coins), batch_size):
+        batch = valid_coins[i:i + batch_size]
+        print(f"\n📊 Processing batch {i//batch_size + 1}/{(len(valid_coins) + batch_size - 1)//batch_size}")
         
         for coin in batch:
             try:
                 symbol_base = coin['symbol'].upper()
-                
-                # Skip blocked coins
-                if symbol_base in blocked_coins:
-                    continue
-                
-                # Try different symbol formats
-                symbol_variants = [f"{symbol_base}USDT", f"{symbol_base}USD"]
+                symbol_variants = get_tradeable_symbols(symbol_base)
                 
                 ohlcv_data = None
                 used_exchange = None
                 used_symbol = None
                 
-                # Try each exchange in fallback sequence
+                # Try each exchange with timeout protection
                 for exchange_name, exchange in exchanges:
                     for symbol_variant in symbol_variants:
                         try:
-                            if exchange.has['fetchOHLCV']:
-                                ohlcv_data = fetch_ohlcv_data(symbol_variant, exchange_name, exchange)
-                                if ohlcv_data is not None:
-                                    used_exchange = exchange_name
-                                    used_symbol = symbol_variant
-                                    break
-                        except Exception as e:
+                            ohlcv_data = fetch_ohlcv_data_safe(
+                                symbol_variant, exchange_name, exchange
+                            )
+                            if ohlcv_data is not None:
+                                used_exchange = exchange_name
+                                used_symbol = symbol_variant
+                                break
+                        except Exception:
                             continue
                     
                     if ohlcv_data is not None:
@@ -172,7 +205,7 @@ def analyze_bbw_signals(coins, exchanges):
                 if ohlcv_data is None:
                     continue
                 
-                # Calculate BBW
+                # Calculate BBW with validation
                 bbw_data = calculate_bbw(ohlcv_data)
                 if not bbw_data:
                     continue
@@ -181,7 +214,6 @@ def analyze_bbw_signals(coins, exchanges):
                 squeeze_result = detect_bbw_squeeze(bbw_data, tolerance=0.01)
                 
                 if squeeze_result['is_squeeze']:
-                    # Get current price and 24h change
                     current_price = ohlcv_data['close'].iloc[-1]
                     price_24h_ago = ohlcv_data['close'].iloc[-25] if len(ohlcv_data) >= 25 else ohlcv_data['close'].iloc[0]
                     change_24h = ((current_price - price_24h_ago) / price_24h_ago) * 100
@@ -203,11 +235,20 @@ def analyze_bbw_signals(coins, exchanges):
                     signals.append(signal)
                     print(f"🎯 BBW Squeeze: {used_symbol} - BBW: {squeeze_result['bbw_value']:.4f}")
                 
-                time.sleep(0.1)  # Rate limiting
+                processed += 1
+                if processed % 10 == 0:
+                    print(f"  Progress: {processed}/{len(valid_coins)} coins processed")
+                
+                time.sleep(0.2)  # Increased rate limiting
                 
             except Exception as e:
                 print(f"❌ Error analyzing {coin.get('symbol', 'Unknown')}: {e}")
                 continue
+        
+        # Longer pause between batches
+        if i + batch_size < len(valid_coins):
+            print("⏳ Cooling down between batches...")
+            time.sleep(2)
     
     return signals
 
