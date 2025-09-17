@@ -51,7 +51,7 @@ jobs:
           echo "✅ Batch ${{ matrix.batch_index }} completed at $(date)"
           
       - name: Upload Results (Batch ${{ matrix.batch_index }})
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: bbw-results-batch-${{ matrix.batch_index }}
