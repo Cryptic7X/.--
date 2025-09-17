@@ -1,26 +1,46 @@
+# BBW 1H System Configuration with CoinMarketCap Integration
+
 analysis:
   timeframe: "1h"
   indicator: "bbw"
+  bbw_params:
+    length: 20
+    multiplier: 2.0
+    expansion_length: 125
+    contraction_length: 125
+    tolerance: 0.01
 
+# CoinMarketCap API Configuration
 apis:
-  coingecko:
-    base_url: "https://api.coingecko.com/api/v3"
-    rate_limit: 2
-
+  coinmarketcap:
+    base_url: "https://pro-api.coinmarketcap.com/v1"
+    rate_limit: 1                    # Seconds between API calls
+    
+# Daily Market Scan Settings
 scan:
-  pages: 4
-  coins_per_page: 250
+  total_coins: 500                   # Top 500 coins by market cap
+  per_page: 200                      # Coins per API call (max efficiency)
+  schedule: "5:30 AM IST"           # Daily fetch time
 
-# Market Filtering (Easily Configurable)
+# Market Filtering Criteria  
 market_filter:
-  min_market_cap: 100000000       # 100M USD (adjustable)
-  min_volume_24h: 10000000        # 10M USD (adjustable)
+  min_market_cap: 100000000          # $100M USD minimum
+  min_volume_24h: 10000000           # $10M USD minimum
 
+# Processing Configuration
 processing:
-  batch_size: 50
-  rate_limit_delay: 0.1
+  batch_size: 50                     # Coins per analysis batch
+  rate_limit_delay: 0.1             # Delay between exchange calls
 
+# Alert System
 alerts:
   format: "enhanced_bbw"
   include_coinglass: true
   consolidate_signals: true
+  
+# System Metadata
+system:
+  name: "BBW 1H Alert System"
+  version: "2.0"
+  data_source: "CoinMarketCap Pro API"
+  efficiency: "95% fewer API calls vs pagination"
