@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-BBW 30-Minute Squeeze Analyzer - FIXED VERSION
-Fixed BingX symbol formatting issue
+BBW 30-Minute Matrix Analyzer - Process ALL COINS in Batches
+Each job processes a specific batch of coins based on BATCH_INDEX
 """
 
 import os
@@ -17,33 +17,32 @@ from datetime import datetime, timedelta
 sys.path.insert(0, os.path.dirname(__file__))
 
 from indicators.bbw_pinescript_exact import BBWIndicator
-from alerts.telegram_coinglass import TelegramCoinGlassAlert
 from alerts.deduplication_30m import BBWDeduplicator
 
 def get_ist_time():
-    """Convert UTC to IST"""
-    utc_now = datetime.utcnow()
-    return utc_now + timedelta(hours=5, minutes=30)
+    return datetime.utcnow() + timedelta(hours=5, minutes=30)
 
-class FixedBBW30mAnalyzer:
+class MatrixBBWAnalyzer:
     def __init__(self):
         self.start_time = time.time()
-        self.max_execution_time = 12 * 60  # 12 minutes max
+        
+        # Get matrix parameters from environment
+        self.batch_index = int(os.getenv('BATCH_INDEX', '0'))
+        self.batch_size = int(os.getenv('BATCH_SIZE', '100'))
+        self.total_batches = int(os.getenv('TOTAL_BATCHES', '4'))
+        
         self.config = self.load_config()
         self.deduplicator = BBWDeduplicator()
-        self.telegram = TelegramCoinGlassAlert()
         self.exchanges = self.init_exchanges()
         self.blocked_coins = self.load_blocked_coins()
-        self.market_data = self.load_market_data()
+        self.market_data = self.load_market_data_batch()
         
     def load_config(self):
-        """Load system configuration"""
         config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'config.yaml')
         with open(config_path) as f:
             return yaml.safe_load(f)
     
     def load_blocked_coins(self):
-        """Load blocked coins from file"""
         blocked_file = os.path.join(os.path.dirname(__file__), '..', 'config', 'blocked_coins.txt')
         blocked_coins = set()
         
@@ -53,14 +52,13 @@ class FixedBBW30mAnalyzer:
                     coin = line.strip().upper()
                     if coin and not coin.startswith('#'):
                         blocked_coins.add(coin)
-            print(f"📛 Loaded {len(blocked_coins)} blocked coins")
         except Exception as e:
             print(f"⚠️ Error loading blocked coins: {e}")
             
         return blocked_coins
     
-    def load_market_data(self):
-        """Load and filter market data"""
+    def load_market_data_batch(self):
+        """Load market data and return specific batch for this job"""
         cache_file = os.path.join(os.path.dirname(__file__), '..', 'cache', 'market_data_12h.json')
         
         if not os.path.exists(cache_file):
@@ -72,24 +70,31 @@ class FixedBBW30mAnalyzer:
             
         coins = data.get('coins', [])
         
-        # Filter out blocked coins
-        filtered_coins = [coin for coin in coins 
-                         if coin.get('symbol', '').upper() not in self.blocked_coins]
+        # Filter out blocked coins and apply quality filters
+        filtered_coins = []
+        for coin in coins:
+            symbol = coin.get('symbol', '').upper()
+            if symbol not in self.blocked_coins:
+                market_cap = coin.get('market_cap', 0) or 0
+                volume_24h = coin.get('total_volume', 0) or 0
+                
+                if market_cap >= 50_000_000 and volume_24h >= 10_000_000:
+                    filtered_coins.append(coin)
         
-        # Apply quality filters
-        quality_filtered = []
-        for coin in filtered_coins:
-            market_cap = coin.get('market_cap', 0) or 0
-            volume_24h = coin.get('total_volume', 0) or 0
-            
-            if market_cap >= 50_000_000 and volume_24h >= 10_000_000:
-                quality_filtered.append(coin)
+        # Calculate batch boundaries
+        total_coins = len(filtered_coins)
+        start_idx = self.batch_index * self.batch_size
+        end_idx = min(start_idx + self.batch_size, total_coins)
         
-        # Limit for performance - top 100 coins
-        final_coins = quality_filtered[:100]
+        # Get batch for this specific job
+        batch_coins = filtered_coins[start_idx:end_idx]
         
-        print(f"📊 Market data: {len(coins)} total → {len(final_coins)} for analysis")
-        return final_coins
+        print(f"📊 BATCH {self.batch_index + 1}/{self.total_batches}")
+        print(f"   Total coins available: {total_coins}")
+        print(f"   This batch range: {start_idx + 1} to {end_idx}")
+        print(f"   Coins in this batch: {len(batch_coins)}")
+        
+        return batch_coins
     
     def init_exchanges(self):
         """Initialize BingX exchange"""
@@ -102,42 +107,34 @@ class FixedBBW30mAnalyzer:
                 'sandbox': False,
                 'rateLimit': 300,
                 'enableRateLimit': True,
-                'timeout': 20000,
+                'timeout': 15000,
             })
             
-            # Test connection
             bingx.load_markets()
             exchanges.append(('BingX', bingx))
-            print("✅ BingX initialized successfully")
+            print("✅ BingX initialized")
             
         except Exception as e:
             print(f"❌ BingX initialization failed: {e}")
             
         return exchanges
     
-    def check_time_remaining(self):
-        """Check if we have time remaining"""
-        elapsed = time.time() - self.start_time
-        remaining = self.max_execution_time - elapsed
-        return remaining > 60
-    
-    def fetch_ohlcv_data_fixed(self, symbol, timeframe='30m'):
-        """FIXED: Correct symbol formatting for BingX"""
+    def fetch_ohlcv_data(self, symbol, timeframe='30m'):
+        """Fetch OHLCV data with correct BingX symbol formatting"""
         if not self.exchanges:
             return None, None
             
         exchange_name, exchange = self.exchanges[0]
         
         try:
-            # FIXED: Use correct BingX symbol format with slash
-            symbol_formatted = f"{symbol}/USDT"  # BTC/USDT not BTCUSDT
+            # CORRECT: Use BingX format with slash
+            symbol_formatted = f"{symbol}/USDT"
             
             ohlcv = exchange.fetch_ohlcv(symbol_formatted, timeframe, limit=130)
             
             if len(ohlcv) < 125:
                 return None, None
                 
-            # Convert to DataFrame
             df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
             df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
             df.set_index('timestamp', inplace=True)
@@ -151,20 +148,18 @@ class FixedBBW30mAnalyzer:
         except Exception:
             return None, None
     
-    def analyze_coin_bbw_fixed(self, coin_data):
-        """FIXED: BBW analysis with correct symbol handling"""
+    def analyze_coin_bbw(self, coin_data):
+        """Analyze coin for BBW signals"""
         symbol = coin_data.get('symbol', '').upper()
         
         if symbol in self.blocked_coins:
             return None
             
         try:
-            # Fetch data with fixed symbol formatting
-            df, exchange_used = self.fetch_ohlcv_data_fixed(symbol)
+            df, exchange_used = self.fetch_ohlcv_data(symbol)
             if df is None:
                 return None
             
-            # BBW calculation
             bbw_indicator = BBWIndicator(
                 length=self.config['bbw']['length'],
                 multiplier=self.config['bbw']['multiplier'],
@@ -175,7 +170,6 @@ class FixedBBW30mAnalyzer:
             if signals_df.empty:
                 return None
             
-            # Get latest signal
             latest_signal = bbw_indicator.get_latest_squeeze_signal(
                 signals_df,
                 tolerance=self.config['bbw']['squeeze_tolerance'],
@@ -202,27 +196,24 @@ class FixedBBW30mAnalyzer:
                 'lowest_contraction': latest_signal['lowest_contraction'],
                 'squeeze_strength': latest_signal.get('squeeze_strength', 'MODERATE'),
                 'timestamp': signal_timestamp,
+                'batch_index': self.batch_index,
                 'coin_data': coin_data
             }
             
         except Exception:
             return None
     
-    def process_coins_concurrent(self, coins, max_workers=8):
-        """Process coins concurrently"""
+    def process_batch_concurrent(self, max_workers=8):
+        """Process this batch concurrently"""
         signals = []
         
         with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
             future_to_coin = {
-                executor.submit(self.analyze_coin_bbw_fixed, coin): coin 
-                for coin in coins
+                executor.submit(self.analyze_coin_bbw, coin): coin 
+                for coin in self.market_data
             }
             
-            for future in concurrent.futures.as_completed(future_to_coin, timeout=600):
-                if not self.check_time_remaining():
-                    print("⏰ TIME LIMIT APPROACHING - STOPPING EARLY")
-                    break
-                    
+            for future in concurrent.futures.as_completed(future_to_coin, timeout=900):
                 try:
                     result = future.result()
                     if result:
@@ -233,20 +224,42 @@ class FixedBBW30mAnalyzer:
                     
         return signals
     
-    def run_fixed_bbw_analysis(self):
-        """Run fixed BBW analysis"""
+    def save_batch_results(self, signals):
+        """Save batch results for combination later"""
+        cache_dir = os.path.join(os.path.dirname(__file__), '..', 'cache')
+        os.makedirs(cache_dir, exist_ok=True)
+        
+        timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
+        results_file = os.path.join(cache_dir, f'bbw_batch_{self.batch_index}_{timestamp}.json')
+        
+        batch_data = {
+            'batch_index': self.batch_index,
+            'batch_size': len(self.market_data),
+            'signals_found': len(signals),
+            'timestamp': timestamp,
+            'signals': signals
+        }
+        
+        with open(results_file, 'w') as f:
+            json.dump(batch_data, f, indent=2, default=str)
+        
+        print(f"💾 Batch results saved: {results_file}")
+        return results_file
+    
+    def run_matrix_analysis(self):
+        """Run matrix BBW analysis for this batch"""
         ist_current = get_ist_time()
         
         print("=" * 80)
-        print("🚀 FIXED BBW 30-MINUTE ANALYSIS")
+        print(f"🚀 BBW MATRIX ANALYSIS - BATCH {self.batch_index + 1}")
         print("=" * 80)
         print(f"📅 Start Time: {ist_current.strftime('%Y-%m-%d %H:%M:%S')} IST")
-        print(f"🔧 Fix Applied: Correct BingX symbol formatting (BTC/USDT not BTCUSDT)")
-        print(f"📊 Coins to analyze: {len(self.market_data)}")
+        print(f"🎯 Processing ALL COINS via Matrix Strategy")
+        print(f"📊 This batch: {len(self.market_data)} coins")
         print(f"🚀 Processing: CONCURRENT (8 workers)")
         
         if not self.market_data:
-            print("❌ No market data")
+            print(f"❌ No coins in batch {self.batch_index}")
             return
         
         if not self.exchanges:
@@ -256,54 +269,32 @@ class FixedBBW30mAnalyzer:
         # Clean up old signals
         self.deduplicator.cleanup_old_signals()
         
-        # Process in batches
-        detected_signals = []
-        batch_size = 50
+        # Process this batch
+        print(f"🔄 Processing batch {self.batch_index + 1}/{self.total_batches}")
         
-        for i in range(0, len(self.market_data), batch_size):
-            if not self.check_time_remaining():
-                print("⏰ TIME LIMIT REACHED - STOPPING")
-                break
-                
-            batch = self.market_data[i:i + batch_size]
-            batch_num = (i // batch_size) + 1
-            total_batches = (len(self.market_data) - 1) // batch_size + 1
-            
-            print(f"🔄 Processing batch {batch_num}/{total_batches} ({len(batch)} coins)")
-            
-            batch_signals = self.process_coins_concurrent(batch)
-            detected_signals.extend(batch_signals)
-            
-            print(f"✅ Batch {batch_num}: {len(batch_signals)} signals found")
+        detected_signals = self.process_batch_concurrent()
         
-        # Send alerts
-        alerts_sent = 0
+        # Save results for combination
         if detected_signals:
-            try:
-                success = self.telegram.send_consolidated_bbw_alert(detected_signals)
-                if success:
-                    alerts_sent = 1
-                    print(f"📱 ALERT SENT: {len(detected_signals)} BBW signals")
-            except Exception as e:
-                print(f"❌ Alert failed: {str(e)[:100]}")
+            self.save_batch_results(detected_signals)
         
-        # Final summary
+        # Summary
         elapsed = (time.time() - self.start_time) / 60
         print("=" * 80)
-        print("✅ FIXED BBW ANALYSIS COMPLETE")
+        print(f"✅ BATCH {self.batch_index + 1} COMPLETE")
         print("=" * 80)
         print(f"⏱️ Execution time: {elapsed:.1f} minutes")
-        print(f"📊 Coins processed: ~{len(self.market_data)}")
+        print(f"📊 Coins processed: {len(self.market_data)}")
         print(f"🚨 BBW signals: {len(detected_signals)}")
-        print(f"📱 Alerts sent: {alerts_sent}")
         
         if detected_signals:
-            print(f"🎯 Signals found:")
+            print(f"🎯 Signals found in this batch:")
             for signal in detected_signals:
                 print(f"   - {signal['symbol']}: BBW={signal['bbw_value']:.4f}, Strength={signal['squeeze_strength']}")
         
         print("=" * 80)
+        print(f"📤 Results will be combined by final job")
 
 if __name__ == "__main__":
-    analyzer = FixedBBW30mAnalyzer()
-    analyzer.run_fixed_bbw_analysis()
+    analyzer = MatrixBBWAnalyzer()
+    analyzer.run_matrix_analysis()
