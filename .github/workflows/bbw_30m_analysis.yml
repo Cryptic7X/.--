@@ -1,14 +1,14 @@
-name: BBW 30m Squeeze Analysis
+name: BBW 30m Squeeze Analysis - OPTIMIZED
 
 on:
   schedule:
-    - cron: '2,32 * * * *'  # Every 30 minutes: 02, 32 minutes past each hour
-  workflow_dispatch:  # Manual trigger
+    - cron: '2,32 * * * *'  # Every 30 minutes
+  workflow_dispatch:
 
 jobs:
   bbw-squeeze-analysis:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 18  # Increased but with internal limits
     
     steps:
       - name: Checkout Repository
@@ -20,7 +20,7 @@ jobs:
           python-version: '3.11'
           
       - name: Cache Dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v3
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
@@ -30,7 +30,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           
-      - name: Run BBW 30m Analysis
+      - name: Run Optimized BBW Analysis
         env:
           BINGX_API_KEY: ${{ secrets.BINGX_API_KEY }}
           BINGX_SECRET_KEY: ${{ secrets.BINGX_SECRET_KEY }}
@@ -38,17 +38,19 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           BBW_TELEGRAM_CHAT_ID: ${{ secrets.BBW_TELEGRAM_CHAT_ID }}
         run: |
-          echo "🚀 Starting BBW Analysis at $(date)"
-          timeout 1200 python src/analyzer_30m_bbw.py  # 20-minute timeout
+          echo "🚀 Starting OPTIMIZED BBW Analysis at $(date)"
+          timeout 1080s python src/analyzer_30m_bbw.py  # 18-minute timeout
           echo "✅ BBW Analysis completed at $(date)"
+          
       - name: Commit Cache Updates
+        if: always()
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git add cache/
+          git add cache/ || true
           if git diff --staged --quiet; then
             echo "No cache changes to commit"
           else
-            git commit -m "Update BBW 30m cache [skip ci]"
-            git push
+            git commit -m "Update BBW 30m cache [skip ci]" || true
+            git push || true
           fi
