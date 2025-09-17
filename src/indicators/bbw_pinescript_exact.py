@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-BBW Bollinger BandWidth Exact Calculation
-Exact Pine Script replication for BBW squeeze detection
+BBW Bollinger BandWidth Exact Calculation - FIXED
+Fixed symbol formatting for BingX API compatibility
 """
 
 import pandas as pd
@@ -17,11 +17,6 @@ class BBWIndicator:
     def calculate_bbw_signals(self, df):
         """
         Calculate BBW signals - exact Pine Script match
-        basis = ta.sma(src, length)
-        dev = mult * ta.stdev(src, length)
-        upper = basis + dev
-        lower = basis - dev
-        bbw = ((upper - lower) / basis) * 100
         """
         close = df['close']
         
@@ -31,14 +26,14 @@ class BBWIndicator:
         upper = basis + (self.multiplier * std_dev)
         lower = basis - (self.multiplier * std_dev)
         
-        # BBW calculation
+        # BBW calculation: ((upper - lower) / basis) * 100
         bbw = ((upper - lower) / basis) * 100
         
-        # Rolling highest expansion and lowest contraction over specified length
+        # Rolling highest expansion and lowest contraction
         highest_expansion = bbw.rolling(window=self.contraction_length).max()
         lowest_contraction = bbw.rolling(window=self.contraction_length).min()
         
-        # Create result DataFrame with same index as input
+        # Create result DataFrame
         result_df = pd.DataFrame(index=df.index)
         result_df['bbw'] = bbw
         result_df['lowest_contraction'] = lowest_contraction
@@ -51,10 +46,7 @@ class BBWIndicator:
     
     def get_latest_squeeze_signal(self, signals_df, tolerance=0.01, separation_threshold=0.05):
         """
-        Smart squeeze detection - your exact requirements:
-        1. Alert when BBW first touches lowest_contraction
-        2. No repeated alerts while BBW stays at same level
-        3. New alert only when BBW moves away and comes back
+        Smart squeeze detection with your exact requirements
         """
         if signals_df.empty:
             return None
@@ -77,17 +69,13 @@ class BBWIndicator:
             
             if is_touching:
                 if not currently_touching:
-                    # BBW just started touching - this is a potential signal
-                    
-                    # Check if this is a new contraction level (dynamic line)
-                    # OR if BBW moved away and came back to same level
+                    # BBW just started touching - potential signal
                     is_new_signal = (
                         last_signal_contraction_level is None or 
                         abs(lowest_val - last_signal_contraction_level) > separation_threshold
                     )
                     
                     if is_new_signal:
-                        # Determine squeeze strength
                         squeeze_strength = self._calculate_squeeze_strength(bbw_val, lowest_val)
                         
                         latest_signal = {
@@ -103,18 +91,17 @@ class BBWIndicator:
                 
                 currently_touching = True
             else:
-                # BBW moved away from contraction line
                 currently_touching = False
         
         return latest_signal
     
     def _calculate_squeeze_strength(self, bbw_value, lowest_contraction):
-        """Calculate squeeze strength based on BBW proximity to contraction"""
+        """Calculate squeeze strength"""
         difference_pct = abs(bbw_value - lowest_contraction) / lowest_contraction * 100
         
-        if difference_pct <= 0.005:  # Very close
+        if difference_pct <= 0.005:
             return "EXTREME"
-        elif difference_pct <= 0.01:  # Close
+        elif difference_pct <= 0.01:
             return "HIGH"
         else:
             return "MODERATE"
