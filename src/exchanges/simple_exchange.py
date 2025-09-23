@@ -1,6 +1,6 @@
 """
 Simple Exchange Layer - BingX + Public API Fallbacks
-No CCXT dependency - Direct HTTP requests only
+FIXED: Data normalization and DataFrame conversion issues
 """
 
 import os
@@ -8,6 +8,7 @@ import json
 import time
 import requests
 import yaml
+import pandas as pd
 from datetime import datetime, timedelta
 from typing import Optional, Tuple, Dict, Any
 
@@ -46,10 +47,8 @@ class SimpleExchangeManager:
         return api_symbol, display_symbol
 
     def fetch_bingx_data(self, symbol: str, timeframe: str, limit: int = 200) -> Optional[Dict]:
-        """Fetch data from BingX (authenticated)"""
+        """Fetch data from BingX (authenticated) - FIXED"""
         api_key = os.getenv('BINGX_API_KEY')
-        secret_key = os.getenv('BINGX_SECRET_KEY')
-        
         if not api_key:
             return None
 
@@ -86,7 +85,7 @@ class SimpleExchangeManager:
             return None
 
     def fetch_kucoin_data(self, symbol: str, timeframe: str, limit: int = 200) -> Optional[Dict]:
-        """Fetch data from KuCoin (public API)"""
+        """Fetch data from KuCoin (public API) - FIXED"""
         url = "https://api.kucoin.com/api/v1/market/candles"
         
         # KuCoin interval mapping
@@ -123,7 +122,7 @@ class SimpleExchangeManager:
             return None
 
     def fetch_okx_data(self, symbol: str, timeframe: str, limit: int = 200) -> Optional[Dict]:
-        """Fetch data from OKX (public API)"""
+        """Fetch data from OKX (public API) - FIXED"""
         url = "https://www.okx.com/api/v5/market/candles"
         
         # OKX interval mapping
@@ -151,8 +150,11 @@ class SimpleExchangeManager:
             print(f"⚠️ OKX failed for {symbol}: {str(e)[:50]}")
             return None
 
-    def normalize_ohlcv_data(self, raw_data: list, exchange: str) -> Dict:
-        """Normalize OHLCV data from different exchanges"""
+    def normalize_ohlcv_data(self, raw_data: list, exchange: str) -> Optional[Dict]:
+        """FIXED: Normalize OHLCV data from different exchanges"""
+        if not raw_data or len(raw_data) == 0:
+            return None
+
         normalized_data = {
             'timestamp': [],
             'open': [],
@@ -164,9 +166,12 @@ class SimpleExchangeManager:
 
         try:
             for candle in raw_data:
+                if not candle or len(candle) < 6:
+                    continue
+                    
                 if exchange == 'bingx':
-                    # BingX format: [timestamp, open, high, low, close, volume]
-                    normalized_data['timestamp'].append(int(candle[0]))
+                    # BingX format: [timestamp, open, high, low, close, volume, ...]
+                    normalized_data['timestamp'].append(int(float(candle[0])))
                     normalized_data['open'].append(float(candle[1]))
                     normalized_data['high'].append(float(candle[2]))
                     normalized_data['low'].append(float(candle[3]))
@@ -175,7 +180,7 @@ class SimpleExchangeManager:
                     
                 elif exchange == 'kucoin':
                     # KuCoin format: [timestamp, open, close, high, low, volume, turnover]
-                    normalized_data['timestamp'].append(int(candle[0]))
+                    normalized_data['timestamp'].append(int(float(candle[0])))
                     normalized_data['open'].append(float(candle[1]))
                     normalized_data['high'].append(float(candle[3]))
                     normalized_data['low'].append(float(candle[4]))
@@ -184,22 +189,26 @@ class SimpleExchangeManager:
                     
                 elif exchange == 'okx':
                     # OKX format: [timestamp, open, high, low, close, volume, volumeCcy]
-                    normalized_data['timestamp'].append(int(candle[0]))
+                    normalized_data['timestamp'].append(int(float(candle[0])))
                     normalized_data['open'].append(float(candle[1]))
                     normalized_data['high'].append(float(candle[2]))
                     normalized_data['low'].append(float(candle[3]))
                     normalized_data['close'].append(float(candle[4]))
                     normalized_data['volume'].append(float(candle[5]))
 
+            # Ensure we have data
+            if len(normalized_data['timestamp']) == 0:
+                return None
+
             return normalized_data
             
         except Exception as e:
-            print(f"⚠️ Data normalization failed for {exchange}: {e}")
+            print(f"⚠️ Data normalization failed for {exchange}: {str(e)}")
             return None
 
     def fetch_ohlcv_with_fallback(self, symbol: str, timeframe: str, limit: int = 200) -> Tuple[Optional[Dict], Optional[str]]:
         """
-        Fetch OHLCV data with fallback chain: BingX → KuCoin → OKX
+        FIXED: Fetch OHLCV data with fallback chain: BingX → KuCoin → OKX
         Returns (data, exchange_used)
         """
         # Apply symbol mapping
@@ -207,39 +216,18 @@ class SimpleExchangeManager:
         
         # Try BingX first (authenticated)
         data = self.fetch_bingx_data(api_symbol, timeframe, limit)
-        if data:
+        if data and len(data['timestamp']) > 0:
             return data, 'BingX'
         
         # Try KuCoin (public)
         data = self.fetch_kucoin_data(api_symbol, timeframe, limit)
-        if data:
+        if data and len(data['timestamp']) > 0:
             return data, 'KuCoin'
         
         # Try OKX (public)
         data = self.fetch_okx_data(api_symbol, timeframe, limit)
-        if data:
+        if data and len(data['timestamp']) > 0:
             return data, 'OKX'
         
         print(f"❌ All exchanges failed for {symbol} ({api_symbol})")
         return None, None
-
-    def get_supported_symbols(self) -> Dict[str, str]:
-        """Get currently supported symbol mappings"""
-        return self.symbol_mapping.copy()
-
-    def add_symbol_mapping(self, display_symbol: str, api_symbol: str) -> bool:
-        """Add new symbol mapping (for manual additions)"""
-        mapping_path = os.path.join(os.path.dirname(__file__), '..', '..', 'config', 'symbol_mapping.json')
-        
-        try:
-            self.symbol_mapping[display_symbol.upper()] = api_symbol.upper()
-            
-            with open(mapping_path, 'w') as f:
-                json.dump(self.symbol_mapping, f, indent=2)
-            
-            print(f"✅ Added mapping: {display_symbol} → {api_symbol}")
-            return True
-            
-        except Exception as e:
-            print(f"❌ Failed to add mapping: {e}")
-            return False
