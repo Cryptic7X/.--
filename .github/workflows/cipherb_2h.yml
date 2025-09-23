@@ -1,0 +1,35 @@
+name: CipherB 2H Analysis
+
+on:
+  schedule:
+    - cron: '2 */2 * * *'  # Every 2H at :02 (02:02, 04:02, 06:02, etc.)
+  workflow_dispatch:
+
+jobs:
+  analyze-cipherb:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Run CipherB 2H Analysis
+      env:
+        BINGX_API_KEY: ${{ secrets.BINGX_API_KEY }}
+        BINGX_SECRET_KEY: ${{ secrets.BINGX_SECRET_KEY }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        CIPHERB_TELEGRAM_CHAT_ID: ${{ secrets.CIPHERB_TELEGRAM_CHAT_ID }}
+      run: |
+        echo "🎯 Starting CipherB 2H Analysis..."
+        python src/analyzers/cipherb_analyzer.py
+        echo "✅ CipherB 2H Analysis Complete"
