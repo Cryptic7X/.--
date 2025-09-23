@@ -268,5 +268,11 @@
     "bbw_value": 0.3384,
     "contraction_line": 0.3384,
     "consecutive_confirmed": false
+  },
+  "ASTER_contraction": {
+    "timestamp": "2025-09-23T22:36:58.011405",
+    "bbw_value": 13.2089,
+    "contraction_line": 13.1171,
+    "consecutive_confirmed": false
   }
 }
