@@ -238,5 +238,23 @@
     "bbw_value": 2.5588,
     "contraction_line": 2.5437,
     "consecutive_confirmed": true
+  },
+  "JST_contraction": {
+    "timestamp": "2025-09-23T21:19:17.597540",
+    "bbw_value": 0.4177,
+    "contraction_line": 0.4177,
+    "consecutive_confirmed": false
+  },
+  "MOCA_contraction": {
+    "timestamp": "2025-09-23T21:19:18.362237",
+    "bbw_value": 0.8941,
+    "contraction_line": 0.8941,
+    "consecutive_confirmed": false
+  },
+  "BabyDoge_contraction": {
+    "timestamp": "2025-09-23T21:19:18.739003",
+    "bbw_value": 1.3341,
+    "contraction_line": 1.3316,
+    "consecutive_confirmed": true
   }
 }
