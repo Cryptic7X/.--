@@ -6,10 +6,10 @@
     "consecutive_confirmed": true
   },
   "PEAQ_contraction": {
-    "timestamp": "2025-09-23T10:20:34.994921",
-    "bbw_value": 4.1478,
-    "contraction_line": 4.1478,
-    "consecutive_confirmed": false
+    "timestamp": "2025-09-23T11:33:18.955824",
+    "bbw_value": 4.2281,
+    "contraction_line": 4.196,
+    "consecutive_confirmed": true
   },
   "KAVA_contraction": {
     "timestamp": "2025-09-23T10:32:17.117078",
