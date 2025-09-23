@@ -83,10 +83,6 @@
     "sent": true,
     "timestamp": "2025-09-23T11:05:21.474961"
   },
-  "EPT_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T11:05:24.591881"
-  },
   "BOT_ranging": {
     "sent": true,
     "timestamp": "2025-09-23T11:05:24.986719"
@@ -118,5 +114,33 @@
   "EPT": {
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T12:41:06.692265"
+  },
+  "SOL_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T14:20:25.736742"
+  },
+  "BTC": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T14:20:25.807996"
+  },
+  "PUMP_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T14:20:26.671102"
+  },
+  "WOO": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T14:20:34.332721"
+  },
+  "VANA_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T14:20:34.512908"
+  },
+  "ZENT": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T14:20:37.151225"
+  },
+  "ZENT_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T14:20:37.151729"
   }
 }
