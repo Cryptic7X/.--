@@ -46,5 +46,41 @@
     "bbw_value": 1.1427,
     "contraction_line": 1.1427,
     "consecutive_confirmed": false
+  },
+  "OKB_contraction": {
+    "timestamp": "2025-09-23T14:40:54.902118",
+    "bbw_value": 1.4307,
+    "contraction_line": 1.4307,
+    "consecutive_confirmed": false
+  },
+  "AERO_contraction": {
+    "timestamp": "2025-09-23T14:40:57.945947",
+    "bbw_value": 1.6406,
+    "contraction_line": 1.6406,
+    "consecutive_confirmed": false
+  },
+  "GRT_contraction": {
+    "timestamp": "2025-09-23T14:40:57.996039",
+    "bbw_value": 0.9648,
+    "contraction_line": 0.9648,
+    "consecutive_confirmed": false
+  },
+  "JTO_contraction": {
+    "timestamp": "2025-09-23T14:41:00.280960",
+    "bbw_value": 1.6688,
+    "contraction_line": 1.6688,
+    "consecutive_confirmed": false
+  },
+  "WOO_contraction": {
+    "timestamp": "2025-09-23T14:41:08.092950",
+    "bbw_value": 2.2296,
+    "contraction_line": 2.2296,
+    "consecutive_confirmed": false
+  },
+  "ZKC_contraction": {
+    "timestamp": "2025-09-23T14:41:08.539733",
+    "bbw_value": 3.7785,
+    "contraction_line": 3.7785,
+    "consecutive_confirmed": false
   }
 }
