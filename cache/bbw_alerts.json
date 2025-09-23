@@ -208,5 +208,11 @@
     "bbw_value": 0.8654,
     "contraction_line": 0.8654,
     "consecutive_confirmed": false
+  },
+  "GALA_contraction": {
+    "timestamp": "2025-09-23T17:26:35.272691",
+    "bbw_value": 1.3757,
+    "contraction_line": 1.3757,
+    "consecutive_confirmed": false
   }
 }
