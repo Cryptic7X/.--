@@ -4,5 +4,11 @@
     "bbw_value": 0.0,
     "contraction_line": 0.0,
     "consecutive_confirmed": true
+  },
+  "PEAQ_contraction": {
+    "timestamp": "2025-09-23T10:20:34.994921",
+    "bbw_value": 4.1478,
+    "contraction_line": 4.1478,
+    "consecutive_confirmed": false
   }
 }
