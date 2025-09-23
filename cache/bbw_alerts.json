@@ -214,5 +214,11 @@
     "bbw_value": 1.3757,
     "contraction_line": 1.3757,
     "consecutive_confirmed": false
+  },
+  "SYRUP_contraction": {
+    "timestamp": "2025-09-23T18:32:52.816237",
+    "bbw_value": 1.3352,
+    "contraction_line": 1.3293,
+    "consecutive_confirmed": false
   }
 }
