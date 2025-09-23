@@ -1,46 +1,111 @@
-# BBW 1H System Configuration with CoinMarketCap Integration
-
-analysis:
-  timeframe: "1h"
-  indicator: "bbw"
-  bbw_params:
-    length: 20
-    multiplier: 2.0
-    expansion_length: 125
-    contraction_length: 125
-    tolerance: 0.01
-
-# CoinMarketCap API Configuration
-apis:
-  coinmarketcap:
-    base_url: "https://pro-api.coinmarketcap.com/v1"
-    rate_limit: 1                    # Seconds between API calls
-    
-# Daily Market Scan Settings
-scan:
-  total_coins: 500                   # Top 500 coins by market cap
-  per_page: 200                      # Coins per API call (max efficiency)
-  schedule: "5:30 AM IST"           # Daily fetch time
-
-# Market Filtering Criteria  
-market_filter:
-  min_market_cap: 100000000          # $100M USD minimum
-  min_volume_24h: 10000000           # $10M USD minimum
-
-# Processing Configuration
-processing:
-  batch_size: 50                     # Coins per analysis batch
-  rate_limit_delay: 0.1             # Delay between exchange calls
-
-# Alert System
-alerts:
-  format: "enhanced_bbw"
-  include_coinglass: true
-  consolidate_signals: true
-  
-# System Metadata
+# Multi-Indicator Crypto Trading System - Final Configuration
 system:
-  name: "BBW 1H Alert System"
-  version: "2.0"
-  data_source: "CoinMarketCap Pro API"
-  efficiency: "95% fewer API calls vs pagination"
+  name: "Multi-Indicator-Crypto-Alerts"
+  version: "3.0"
+  components: ["CipherB", "BBW", "SMA"]
+
+# Data Sources (Unlimited Fetching)
+market_data:
+  source: "coinmarketcap"
+  api_key_env: "COINMARKETCAP_API_KEY"
+  unlimited_fetch: true
+  
+  # CipherB + BBW Dataset
+  cipherb_filters:
+    min_market_cap: 100000000      # $100M
+    min_volume_24h: 10000000       # $10M
+    expected_coins: 1000
+    
+  # SMA Dataset (Larger)
+  sma_filters:
+    min_market_cap: 10000000       # $10M
+    min_volume_24h: 10000000       # $10M
+    expected_coins: 3000
+
+# Symbol Mapping (Simplified)
+symbol_mapping:
+  file: "config/symbol_mapping.json"
+
+# Exchange APIs (No CCXT)
+exchanges:
+  primary:
+    name: "bingx"
+    api_key_env: "BINGX_API_KEY"
+    secret_key_env: "BINGX_SECRET_KEY"
+    rate_limit_ms: 100
+  fallbacks:
+    - name: "kucoin"
+      base_url: "https://api.kucoin.com"
+      public_api: true
+      rate_limit_ms: 200
+    - name: "okx"
+      base_url: "https://www.okx.com"
+      public_api: true
+      rate_limit_ms: 150
+
+# CipherB Settings (No Suppression)
+cipherb:
+  timeframe: "2h"
+  capture_all_signals: true
+  parallel_processing: true
+  max_workers: 10
+  wt_channel_len: 9
+  wt_average_len: 12
+  wt_ma_len: 3
+  oversold_threshold: -60
+  overbought_threshold: 60
+
+# BBW Settings (First-Touch Logic)
+bbw:
+  timeframe: "30m"
+  parallel_processing: true
+  max_workers: 10
+  bollinger_length: 20
+  bollinger_source: "close"
+  bollinger_mult: 2.0
+  expansion_length: 125
+  contraction_length: 125
+  first_touch_logic: true
+  movement_reset_threshold: 1.20
+  consecutive_periods_check: 3
+  cache_file: "cache/bbw_alerts.json"
+
+# SMA Settings (12H Proximity Suppression)
+sma:
+  timeframe: "2h"
+  parallel_processing: true
+  max_workers: 15
+  short_length: 50
+  long_length: 200
+  proximity_threshold: 0.02
+  proximity_suppression_hours: 12
+  ranging_threshold: 0.02
+  crossover_suppression: false
+  cache_file: "cache/sma_alerts.json"
+
+# Telegram Channels (3 Separate)
+telegram:
+  bot_token_env: "TELEGRAM_BOT_TOKEN"
+  channels:
+    cipherb:
+      chat_id_env: "CIPHERB_TELEGRAM_CHAT_ID"
+      name: "CipherB 2H Signals"
+    bbw:
+      chat_id_env: "BBW_TELEGRAM_CHAT_ID"
+      name: "BBW 30M Squeezes"
+    sma:
+      chat_id_env: "SMA_TELEGRAM_CHAT_ID"
+      name: "SMA 2H Crossovers"
+  concise_format: true
+  include_chart_links: true
+  include_context: true
+  max_message_length: 4000
+
+# Performance Optimization
+performance:
+  parallel_processing: true
+  batch_processing: true
+  batch_size: 100
+  api_timeout_seconds: 30
+  max_retries: 3
+  rate_limiting: true
