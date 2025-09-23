@@ -18,9 +18,9 @@
     "consecutive_confirmed": true
   },
   "DOT_contraction": {
-    "timestamp": "2025-09-23T12:45:28.546634",
-    "bbw_value": 1.1928,
-    "contraction_line": 1.1928,
-    "consecutive_confirmed": false
+    "timestamp": "2025-09-23T13:43:23.913824",
+    "bbw_value": 1.1138,
+    "contraction_line": 1.1138,
+    "consecutive_confirmed": true
   }
 }
