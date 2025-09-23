@@ -252,9 +252,21 @@
     "consecutive_confirmed": false
   },
   "BabyDoge_contraction": {
-    "timestamp": "2025-09-23T21:19:18.739003",
+    "timestamp": "2025-09-23T21:33:17.078267",
     "bbw_value": 1.3341,
     "contraction_line": 1.3316,
     "consecutive_confirmed": true
+  },
+  "SUN_contraction": {
+    "timestamp": "2025-09-23T21:33:14.465837",
+    "bbw_value": 5.0241,
+    "contraction_line": 4.9903,
+    "consecutive_confirmed": true
+  },
+  "NFT_contraction": {
+    "timestamp": "2025-09-23T21:33:15.125094",
+    "bbw_value": 0.3384,
+    "contraction_line": 0.3384,
+    "consecutive_confirmed": false
   }
 }
