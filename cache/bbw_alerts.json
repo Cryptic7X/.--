@@ -18,9 +18,9 @@
     "consecutive_confirmed": true
   },
   "DOT_contraction": {
-    "timestamp": "2025-09-23T13:43:23.913824",
-    "bbw_value": 1.1138,
-    "contraction_line": 1.1138,
+    "timestamp": "2025-09-23T16:28:29.156624",
+    "bbw_value": 0.9197,
+    "contraction_line": 0.9115,
     "consecutive_confirmed": true
   },
   "XRP_contraction": {
@@ -48,16 +48,16 @@
     "consecutive_confirmed": false
   },
   "OKB_contraction": {
-    "timestamp": "2025-09-23T14:40:54.902118",
-    "bbw_value": 1.4307,
-    "contraction_line": 1.4307,
-    "consecutive_confirmed": false
+    "timestamp": "2025-09-23T16:28:29.484206",
+    "bbw_value": 0.9342,
+    "contraction_line": 0.9342,
+    "consecutive_confirmed": true
   },
   "AERO_contraction": {
-    "timestamp": "2025-09-23T14:40:57.945947",
-    "bbw_value": 1.6406,
-    "contraction_line": 1.6406,
-    "consecutive_confirmed": false
+    "timestamp": "2025-09-23T16:28:30.929948",
+    "bbw_value": 1.3779,
+    "contraction_line": 1.3757,
+    "consecutive_confirmed": true
   },
   "GRT_contraction": {
     "timestamp": "2025-09-23T14:40:57.996039",
@@ -84,10 +84,10 @@
     "consecutive_confirmed": false
   },
   "PUMP_contraction": {
-    "timestamp": "2025-09-23T15:23:20.074171",
-    "bbw_value": 4.4503,
-    "contraction_line": 4.4503,
-    "consecutive_confirmed": false
+    "timestamp": "2025-09-23T16:28:30.129755",
+    "bbw_value": 4.4063,
+    "contraction_line": 4.3756,
+    "consecutive_confirmed": true
   },
   "ZK_contraction": {
     "timestamp": "2025-09-23T15:23:23.733339",
@@ -135,6 +135,54 @@
     "timestamp": "2025-09-23T15:38:59.414697",
     "bbw_value": 1.0563,
     "contraction_line": 1.0515,
+    "consecutive_confirmed": false
+  },
+  "SOL_contraction": {
+    "timestamp": "2025-09-23T16:28:29.387058",
+    "bbw_value": 1.0289,
+    "contraction_line": 1.0287,
+    "consecutive_confirmed": true
+  },
+  "ENA_contraction": {
+    "timestamp": "2025-09-23T16:28:29.553984",
+    "bbw_value": 2.2728,
+    "contraction_line": 2.2728,
+    "consecutive_confirmed": false
+  },
+  "JUP_contraction": {
+    "timestamp": "2025-09-23T16:28:30.409257",
+    "bbw_value": 1.3775,
+    "contraction_line": 1.3775,
+    "consecutive_confirmed": false
+  },
+  "FIL_contraction": {
+    "timestamp": "2025-09-23T16:28:30.575340",
+    "bbw_value": 0.907,
+    "contraction_line": 0.907,
+    "consecutive_confirmed": false
+  },
+  "SPX_contraction": {
+    "timestamp": "2025-09-23T16:28:30.960160",
+    "bbw_value": 1.8209,
+    "contraction_line": 1.8209,
+    "consecutive_confirmed": false
+  },
+  "A_contraction": {
+    "timestamp": "2025-09-23T16:28:32.039357",
+    "bbw_value": 0.6552,
+    "contraction_line": 0.6552,
+    "consecutive_confirmed": true
+  },
+  "STRK_contraction": {
+    "timestamp": "2025-09-23T16:28:32.410518",
+    "bbw_value": 1.5222,
+    "contraction_line": 1.511,
+    "consecutive_confirmed": false
+  },
+  "ENJ_contraction": {
+    "timestamp": "2025-09-23T16:28:36.393677",
+    "bbw_value": 0.951,
+    "contraction_line": 0.951,
     "consecutive_confirmed": false
   }
 }
