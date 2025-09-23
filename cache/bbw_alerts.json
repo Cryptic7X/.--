@@ -222,10 +222,10 @@
     "consecutive_confirmed": false
   },
   "0G_contraction": {
-    "timestamp": "2025-09-23T19:18:22.283990",
-    "bbw_value": 15.5865,
-    "contraction_line": 15.4456,
-    "consecutive_confirmed": false
+    "timestamp": "2025-09-23T22:19:57.257439",
+    "bbw_value": 11.1566,
+    "contraction_line": 11.0771,
+    "consecutive_confirmed": true
   },
   "CVX_contraction": {
     "timestamp": "2025-09-23T19:18:24.555600",
