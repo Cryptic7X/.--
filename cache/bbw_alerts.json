@@ -234,9 +234,9 @@
     "consecutive_confirmed": true
   },
   "AWE_contraction": {
-    "timestamp": "2025-09-23T19:18:25.935358",
-    "bbw_value": 2.8148,
-    "contraction_line": 2.8148,
-    "consecutive_confirmed": false
+    "timestamp": "2025-09-23T20:37:45.944222",
+    "bbw_value": 2.5588,
+    "contraction_line": 2.5437,
+    "consecutive_confirmed": true
   }
 }
