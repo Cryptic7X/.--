@@ -47,10 +47,6 @@
     "sent": true,
     "timestamp": "2025-09-23T11:05:08.813591"
   },
-  "PENDLE_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T11:05:09.379926"
-  },
   "ID_ranging": {
     "sent": true,
     "timestamp": "2025-09-23T11:05:13.325115"
@@ -70,10 +66,6 @@
   "ARPA": {
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T11:05:21.473147"
-  },
-  "ARPA_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T11:05:21.474961"
   },
   "BOT_ranging": {
     "sent": true,
@@ -102,10 +94,6 @@
   "EPT": {
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T12:41:06.692265"
-  },
-  "SOL_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T14:20:25.736742"
   },
   "BTC": {
     "market_trend": "bearish",
@@ -170,5 +158,13 @@
   "CUDIS": {
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T20:22:10.011595"
+  },
+  "BEAM_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T22:18:23.148261"
+  },
+  "ICE_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T22:18:31.236105"
   }
 }
