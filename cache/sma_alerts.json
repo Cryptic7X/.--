@@ -7,10 +7,6 @@
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T09:55:34.921516"
   },
-  "BTT_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:35.538428"
-  },
   "ONT_ranging": {
     "sent": true,
     "timestamp": "2025-09-23T09:55:36.732799"
@@ -79,14 +75,6 @@
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T11:05:20.924252"
   },
-  "MITO_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T11:05:20.924687"
-  },
-  "C_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T11:05:21.171779"
-  },
   "ARPA": {
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T11:05:21.473147"
@@ -102,5 +90,33 @@
   "BOT_ranging": {
     "sent": true,
     "timestamp": "2025-09-23T11:05:24.986719"
+  },
+  "DOT": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T12:40:49.456806"
+  },
+  "RENDER": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T12:40:50.047127"
+  },
+  "PENDLE": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T12:40:50.969854"
+  },
+  "EGL1": {
+    "market_trend": "bullish",
+    "trend_updated": "2025-09-23T12:41:03.007857"
+  },
+  "EGL1_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T12:41:03.008346"
+  },
+  "BMT_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T12:41:03.721050"
+  },
+  "EPT": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T12:41:06.692265"
   }
 }
