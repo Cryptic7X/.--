@@ -111,10 +111,6 @@
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T14:20:25.807996"
   },
-  "PUMP_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T14:20:26.671102"
-  },
   "WOO": {
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T14:20:34.332721"
@@ -127,10 +123,6 @@
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T14:20:37.151225"
   },
-  "ZENT_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T14:20:37.151729"
-  },
   "PUMP": {
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T16:25:58.657724"
@@ -142,5 +134,21 @@
   "CUDIS_ranging": {
     "sent": true,
     "timestamp": "2025-09-23T16:25:58.996122"
+  },
+  "TRX": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T18:29:44.096113"
+  },
+  "SOL": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T18:29:44.118702"
+  },
+  "APT": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T18:29:44.939084"
+  },
+  "ID": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T18:29:51.427999"
   }
 }
