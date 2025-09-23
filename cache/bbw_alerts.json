@@ -114,10 +114,10 @@
     "consecutive_confirmed": false
   },
   "ID_contraction": {
-    "timestamp": "2025-09-23T15:38:56.953034",
-    "bbw_value": 2.3201,
-    "contraction_line": 2.3201,
-    "consecutive_confirmed": false
+    "timestamp": "2025-09-23T19:32:52.563417",
+    "bbw_value": 2.309,
+    "contraction_line": 2.309,
+    "consecutive_confirmed": true
   },
   "UMA_contraction": {
     "timestamp": "2025-09-23T15:38:59.223844",
