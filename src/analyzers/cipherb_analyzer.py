@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-CipherB 2H Analyzer - Parallel Processing with No Suppression
-Uses your EXACT CipherB indicator logic
+CipherB 2H Analyzer - FULLY INDEPENDENT
+No dependencies on BBW or SMA - completely isolated system
 """
 
 import os
 import json
 import sys
+import pandas as pd  # FIXED: Missing import
 import concurrent.futures
 from datetime import datetime
 from typing import Dict, List, Optional
@@ -16,8 +17,6 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from src.exchanges.simple_exchange import SimpleExchangeManager
 from src.indicators.cipherb import detect_exact_cipherb_signals
-from src.indicators.bbw import BBWIndicator
-from src.indicators.sma import SMAIndicator
 from src.alerts.cipherb_telegram import CipherBTelegramSender
 
 class CipherB2HAnalyzer:
@@ -45,7 +44,7 @@ class CipherB2HAnalyzer:
 
     def analyze_single_coin(self, coin_data: Dict) -> Optional[Dict]:
         """
-        Analyze single coin for CipherB signals - MINIMAL WRAPPER
+        Analyze single coin for CipherB signals - FULLY INDEPENDENT
         """
         symbol = coin_data['symbol']
         
@@ -58,35 +57,28 @@ class CipherB2HAnalyzer:
             if not ohlcv_data or len(ohlcv_data.get('timestamp', [])) < 50:
                 return None
             
-            # SIMPLE DataFrame creation - exactly like your working system
-            try:
-                df = pd.DataFrame({
-                    'timestamp': ohlcv_data['timestamp'],
-                    'open': ohlcv_data['open'], 
-                    'high': ohlcv_data['high'],
-                    'low': ohlcv_data['low'],
-                    'close': ohlcv_data['close'],
-                    'volume': ohlcv_data['volume']
-                })
-                
-                # Convert timestamp to datetime and set as index
-                df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
-                df.set_index('timestamp', inplace=True)
-                
-                # Convert to float (fix deprecated fillna)
-                df = df.astype(float)
-                df = df.ffill().bfill()  # Fixed deprecated method
-                
-            except Exception as e:
-                print(f"❌ DataFrame creation failed for {symbol}: {e}")
-                return None
+            # Simple DataFrame creation
+            df = pd.DataFrame({
+                'timestamp': ohlcv_data['timestamp'],
+                'open': ohlcv_data['open'], 
+                'high': ohlcv_data['high'],
+                'low': ohlcv_data['low'],
+                'close': ohlcv_data['close'],
+                'volume': ohlcv_data['volume']
+            })
+            
+            # Convert timestamp and set as index
+            df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
+            df.set_index('timestamp', inplace=True)
+            
+            # Convert to float and handle NaN
+            df = df.astype(float)
+            df = df.ffill().bfill()
             
             if len(df) < 50:
                 return None
             
-            # Use YOUR EXACT CipherB function - UNCHANGED
-            from src.indicators.cipherb import detect_exact_cipherb_signals
-            
+            # Use YOUR EXACT CipherB function
             cipherb_config = self.config['cipherb']
             signals_df = detect_exact_cipherb_signals(df, cipherb_config)
             
@@ -96,17 +88,10 @@ class CipherB2HAnalyzer:
             # Check for signals in latest candle
             latest_signal = signals_df.iloc[-1]
             
-            # DEBUG: Print actual values to verify
-            print(f"🔍 {symbol} - WT1: {latest_signal['wt1']:.1f}, WT2: {latest_signal['wt2']:.1f}")
-            print(f"   Buy: {latest_signal['buySignal']}, Sell: {latest_signal['sellSignal']}")
-            
             if not (latest_signal['buySignal'] or latest_signal['sellSignal']):
                 return None
             
-            # Get context
-            bbw_context = self.get_bbw_context(ohlcv_data)
-            sma_context = self.get_sma_context(ohlcv_data)
-            
+            # Prepare signal data - NO CONTEXT FROM OTHER SYSTEMS
             signal_data = {
                 'symbol': symbol,
                 'signal_type': 'BUY' if latest_signal['buySignal'] else 'SELL',
@@ -115,9 +100,7 @@ class CipherB2HAnalyzer:
                 'coin_data': coin_data,
                 'exchange_used': exchange_used,
                 'timestamp': datetime.utcnow().isoformat(),
-                'timeframe': '2h',
-                'bbw_context': bbw_context,
-                'sma_context': sma_context
+                'timeframe': '2h'
             }
             
             return signal_data
@@ -126,41 +109,19 @@ class CipherB2HAnalyzer:
             print(f"⚠️ CipherB analysis failed for {symbol}: {str(e)[:50]}")
             return None
 
-
-
-    def get_bbw_context(self, ohlcv_data: Dict) -> Dict:
-        """Get BBW context for display"""
-        try:
-            bbw_indicator = BBWIndicator(self.config['bbw'])
-            return bbw_indicator.get_bbw_context(ohlcv_data)
-        except Exception:
-            return {'bbw': 0, 'status': 'no_data'}
-
-    def get_sma_context(self, ohlcv_data: Dict) -> Dict:
-        """Get SMA context for display"""
-        try:
-            sma_indicator = SMAIndicator(self.config['sma'])
-            return sma_indicator.get_sma_context(ohlcv_data)
-        except Exception:
-            return {'sma50': 0, 'sma200': 0, 'trend': 'no_data'}
-
     def process_coins_parallel(self, coins: List[Dict]) -> List[Dict]:
-        """
-        Process multiple coins in parallel
-        """
+        """Process coins in parallel - INDEPENDENT"""
         max_workers = self.config['cipherb'].get('max_workers', 10)
         signals = []
         
         print(f"🔄 Processing {len(coins)} coins with {max_workers} workers...")
         
         with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-            # Submit all coins for processing
             future_to_coin = {
                 executor.submit(self.analyze_single_coin, coin): coin 
                 for coin in coins
             }
             
-            # Collect results as they complete
             processed = 0
             for future in concurrent.futures.as_completed(future_to_coin):
                 coin = future_to_coin[future]
@@ -170,9 +131,8 @@ class CipherB2HAnalyzer:
                     result = future.result(timeout=30)
                     if result:
                         signals.append(result)
-                        print(f"✅ {result['signal_type']} signal: {result['symbol']}")
+                        print(f"✅ {result['signal_type']} signal: {result['symbol']} (WT1: {result['wt1']}, WT2: {result['wt2']})")
                     
-                    # Progress update every 50 coins
                     if processed % 50 == 0:
                         print(f"📈 Progress: {processed}/{len(coins)} coins processed")
                         
@@ -183,9 +143,7 @@ class CipherB2HAnalyzer:
         return signals
 
     def run_cipherb_analysis(self):
-        """
-        Main CipherB 2H analysis function
-        """
+        """Main CipherB 2H analysis - FULLY INDEPENDENT"""
         print("🎯 CIPHERB 2H ANALYSIS STARTING")
         print("="*50)
         
@@ -202,7 +160,7 @@ class CipherB2HAnalyzer:
         # Process coins in parallel
         signals = self.process_coins_parallel(coins)
         
-        # Send alerts if any signals found
+        # Send alerts if signals found
         if signals:
             success = self.telegram_sender.send_cipherb_batch_alert(signals)
             
