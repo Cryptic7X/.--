@@ -16,5 +16,11 @@
     "bbw_value": 0.5449,
     "contraction_line": 0.5449,
     "consecutive_confirmed": true
+  },
+  "DOT_contraction": {
+    "timestamp": "2025-09-23T12:45:28.546634",
+    "bbw_value": 1.1928,
+    "contraction_line": 1.1928,
+    "consecutive_confirmed": false
   }
 }
