@@ -222,9 +222,9 @@
     "consecutive_confirmed": false
   },
   "0G_contraction": {
-    "timestamp": "2025-09-23T22:19:57.257439",
-    "bbw_value": 11.1566,
-    "contraction_line": 11.0771,
+    "timestamp": "2025-09-23T23:32:47.723455",
+    "bbw_value": 10.8609,
+    "contraction_line": 10.8347,
     "consecutive_confirmed": true
   },
   "CVX_contraction": {
@@ -279,6 +279,12 @@
     "timestamp": "2025-09-23T23:19:02.841002",
     "bbw_value": 0.9476,
     "contraction_line": 0.9476,
+    "consecutive_confirmed": false
+  },
+  "WLFI_contraction": {
+    "timestamp": "2025-09-23T23:32:46.444340",
+    "bbw_value": 3.1075,
+    "contraction_line": 3.1075,
     "consecutive_confirmed": false
   }
 }
