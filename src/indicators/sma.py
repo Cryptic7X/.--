@@ -36,19 +36,30 @@ class SMAIndicator:
         except Exception as e:
             print(f"⚠️ SMA cache save error: {e}")
 
+    # Replace the ranging detection in SMA indicator with this corrected version:
+    
     def calculate_sma_data(self, ohlcv_data: Dict) -> pd.DataFrame:
         """
-        Calculate SMA 50 and 200 with crossover detection
+        Calculate SMA 50 and 200 with crossover detection - FIXED RANGING THRESHOLD
         """
         try:
-            # Convert to DataFrame
-            df = pd.DataFrame(ohlcv_data)
+            # Convert dict to DataFrame (SAME FIX AS CIPHERB)
+            df = pd.DataFrame({
+                'timestamp': ohlcv_data['timestamp'],
+                'open': ohlcv_data['open'],
+                'high': ohlcv_data['high'],
+                'low': ohlcv_data['low'],
+                'close': ohlcv_data['close'],
+                'volume': ohlcv_data['volume']
+            })
+            
+            # Convert timestamp and set index
             df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
             df.set_index('timestamp', inplace=True)
             
             if len(df) < 200:  # Need at least 200 periods for SMA200
                 return pd.DataFrame()
-
+    
             # SMA calculations
             short_length = self.config.get('short_length', 50)
             long_length = self.config.get('long_length', 200)
@@ -83,9 +94,9 @@ class SMAIndicator:
             results.loc[results['sma50'] > results['sma200'], 'market_trend'] = 'bullish'
             results.loc[results['sma50'] < results['sma200'], 'market_trend'] = 'bearish'
             
-            # Ranging market detection (SMAs within 2% of each other)
+            # FIXED: Ranging market detection (much stricter threshold)
             sma_gap = abs(results['sma50'] - results['sma200']) / ((results['sma50'] + results['sma200']) / 2)
-            ranging_threshold = self.config.get('ranging_threshold', 0.02)
+            ranging_threshold = 0.005  # CHANGED: 0.5% instead of 2% (much stricter)
             results['ranging_market'] = sma_gap <= ranging_threshold
             
             return results
@@ -93,6 +104,7 @@ class SMAIndicator:
         except Exception as e:
             print(f"❌ SMA calculation failed: {e}")
             return pd.DataFrame()
+
 
     def detect_crossover_signals(self, symbol: str, sma_data: pd.DataFrame) -> List[Dict]:
         """
