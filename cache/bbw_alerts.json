@@ -82,5 +82,17 @@
     "bbw_value": 3.7785,
     "contraction_line": 3.7785,
     "consecutive_confirmed": false
+  },
+  "PUMP_contraction": {
+    "timestamp": "2025-09-23T15:23:20.074171",
+    "bbw_value": 4.4503,
+    "contraction_line": 4.4503,
+    "consecutive_confirmed": false
+  },
+  "ZK_contraction": {
+    "timestamp": "2025-09-23T15:23:23.733339",
+    "bbw_value": 1.607,
+    "contraction_line": 1.607,
+    "consecutive_confirmed": false
   }
 }
