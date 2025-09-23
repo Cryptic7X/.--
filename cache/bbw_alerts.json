@@ -30,10 +30,10 @@
     "consecutive_confirmed": false
   },
   "BTT_contraction": {
-    "timestamp": "2025-09-23T14:22:34.007263",
-    "bbw_value": 0.4512,
-    "contraction_line": 0.4512,
-    "consecutive_confirmed": false
+    "timestamp": "2025-09-23T15:38:54.176086",
+    "bbw_value": 0.4867,
+    "contraction_line": 0.4867,
+    "consecutive_confirmed": true
   },
   "DYDX_contraction": {
     "timestamp": "2025-09-23T14:22:34.169060",
@@ -93,6 +93,48 @@
     "timestamp": "2025-09-23T15:23:23.733339",
     "bbw_value": 1.607,
     "contraction_line": 1.607,
+    "consecutive_confirmed": false
+  },
+  "RENDER_contraction": {
+    "timestamp": "2025-09-23T15:38:51.416702",
+    "bbw_value": 1.4637,
+    "contraction_line": 1.4637,
+    "consecutive_confirmed": false
+  },
+  "FLOKI_contraction": {
+    "timestamp": "2025-09-23T15:38:52.761211",
+    "bbw_value": 1.1432,
+    "contraction_line": 1.1432,
+    "consecutive_confirmed": false
+  },
+  "KAITO_contraction": {
+    "timestamp": "2025-09-23T15:38:55.766051",
+    "bbw_value": 1.6208,
+    "contraction_line": 1.6208,
+    "consecutive_confirmed": false
+  },
+  "ID_contraction": {
+    "timestamp": "2025-09-23T15:38:56.953034",
+    "bbw_value": 2.3201,
+    "contraction_line": 2.3201,
+    "consecutive_confirmed": false
+  },
+  "UMA_contraction": {
+    "timestamp": "2025-09-23T15:38:59.223844",
+    "bbw_value": 0.9828,
+    "contraction_line": 0.9828,
+    "consecutive_confirmed": false
+  },
+  "GMT_contraction": {
+    "timestamp": "2025-09-23T15:38:59.374332",
+    "bbw_value": 1.1508,
+    "contraction_line": 1.1508,
+    "consecutive_confirmed": false
+  },
+  "SSV_contraction": {
+    "timestamp": "2025-09-23T15:38:59.414697",
+    "bbw_value": 1.0563,
+    "contraction_line": 1.0515,
     "consecutive_confirmed": false
   }
 }
