@@ -1,0 +1,19 @@
+# Multi-Indicator Crypto Trading System Dependencies
+
+# Core Python packages
+requests>=2.31.0
+pandas>=2.0.3
+numpy>=1.24.3
+PyYAML>=6.0.1
+
+# Technical Analysis (for indicators that need it)
+TA-Lib>=0.4.25
+
+# Async support (for future enhancements)
+aiohttp>=3.8.5
+
+# Data processing
+python-dateutil>=2.8.2
+
+# Optional: For enhanced error handling
+urllib3>=2.0.4
