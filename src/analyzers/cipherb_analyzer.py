@@ -45,7 +45,7 @@ class CipherB2HAnalyzer:
 
     def analyze_single_coin(self, coin_data: Dict) -> Optional[Dict]:
         """
-        Analyze single coin - FIXED to use your exact CipherB function
+        Analyze single coin for CipherB signals - MINIMAL WRAPPER
         """
         symbol = coin_data['symbol']
         
@@ -55,18 +55,38 @@ class CipherB2HAnalyzer:
                 symbol, '2h', limit=200
             )
             
-            if not ohlcv_data:
+            if not ohlcv_data or len(ohlcv_data.get('timestamp', [])) < 50:
                 return None
             
-            # Convert to DataFrame for your exact function
-            from src.indicators.cipherb import convert_ohlcv_to_dataframe, detect_exact_cipherb_signals
-            
-            df = convert_ohlcv_to_dataframe(ohlcv_data)
-            
-            if df.empty or len(df) < 50:
+            # SIMPLE DataFrame creation - exactly like your working system
+            try:
+                df = pd.DataFrame({
+                    'timestamp': ohlcv_data['timestamp'],
+                    'open': ohlcv_data['open'], 
+                    'high': ohlcv_data['high'],
+                    'low': ohlcv_data['low'],
+                    'close': ohlcv_data['close'],
+                    'volume': ohlcv_data['volume']
+                })
+                
+                # Convert timestamp to datetime and set as index
+                df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
+                df.set_index('timestamp', inplace=True)
+                
+                # Convert to float (fix deprecated fillna)
+                df = df.astype(float)
+                df = df.ffill().bfill()  # Fixed deprecated method
+                
+            except Exception as e:
+                print(f"❌ DataFrame creation failed for {symbol}: {e}")
                 return None
             
-            # Use YOUR EXACT CipherB function directly
+            if len(df) < 50:
+                return None
+            
+            # Use YOUR EXACT CipherB function - UNCHANGED
+            from src.indicators.cipherb import detect_exact_cipherb_signals
+            
             cipherb_config = self.config['cipherb']
             signals_df = detect_exact_cipherb_signals(df, cipherb_config)
             
@@ -76,6 +96,10 @@ class CipherB2HAnalyzer:
             # Check for signals in latest candle
             latest_signal = signals_df.iloc[-1]
             
+            # DEBUG: Print actual values to verify
+            print(f"🔍 {symbol} - WT1: {latest_signal['wt1']:.1f}, WT2: {latest_signal['wt2']:.1f}")
+            print(f"   Buy: {latest_signal['buySignal']}, Sell: {latest_signal['sellSignal']}")
+            
             if not (latest_signal['buySignal'] or latest_signal['sellSignal']):
                 return None
             
@@ -83,7 +107,6 @@ class CipherB2HAnalyzer:
             bbw_context = self.get_bbw_context(ohlcv_data)
             sma_context = self.get_sma_context(ohlcv_data)
             
-            # Prepare signal data
             signal_data = {
                 'symbol': symbol,
                 'signal_type': 'BUY' if latest_signal['buySignal'] else 'SELL',
@@ -102,6 +125,7 @@ class CipherB2HAnalyzer:
         except Exception as e:
             print(f"⚠️ CipherB analysis failed for {symbol}: {str(e)[:50]}")
             return None
+
 
 
     def get_bbw_context(self, ohlcv_data: Dict) -> Dict:
