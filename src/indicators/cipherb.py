@@ -1,6 +1,6 @@
 """
 EXACT CipherB Implementation - Matches Your Pine Script 100%
-Your original file - NO WRAPPER, NO CHANGES!
+Optimized for 30-minute timeframe analysis
 """
 
 import pandas as pd
@@ -16,7 +16,7 @@ def sma(series, length):
 
 def detect_exact_cipherb_signals(df, config):
     """
-    EXACT replication of your Pine Script CipherB logic - YOUR ORIGINAL FUNCTION
+    EXACT replication of your Pine Script CipherB logic for 30m analysis
     """
     # Your exact Pine Script parameters
     wtChannelLen = config.get('wt_channel_len', 9)
@@ -63,29 +63,3 @@ def detect_exact_cipherb_signals(df, config):
     signals['sellSignal'] = wtCross & wtCrossDown & wtOverbought
 
     return signals
-
-# SIMPLE DataFrame conversion function - minimal changes to your exact logic
-def convert_ohlcv_to_dataframe(ohlcv_data):
-    """Convert OHLCV dict to DataFrame for your exact CipherB function"""
-    try:
-        # Create DataFrame
-        df = pd.DataFrame({
-            'timestamp': pd.to_datetime(ohlcv_data['timestamp'], unit='ms'),
-            'open': pd.to_numeric(ohlcv_data['open'], errors='coerce'),
-            'high': pd.to_numeric(ohlcv_data['high'], errors='coerce'),
-            'low': pd.to_numeric(ohlcv_data['low'], errors='coerce'), 
-            'close': pd.to_numeric(ohlcv_data['close'], errors='coerce'),
-            'volume': pd.to_numeric(ohlcv_data['volume'], errors='coerce')
-        })
-        
-        # Set timestamp as index
-        df.set_index('timestamp', inplace=True)
-        
-        # Fill any NaN values
-        df = df.fillna(method='ffill').fillna(method='bfill')
-        
-        return df
-        
-    except Exception as e:
-        print(f"❌ DataFrame conversion failed: {e}")
-        return pd.DataFrame()
