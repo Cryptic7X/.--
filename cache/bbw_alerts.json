@@ -22,5 +22,29 @@
     "bbw_value": 1.1138,
     "contraction_line": 1.1138,
     "consecutive_confirmed": true
+  },
+  "XRP_contraction": {
+    "timestamp": "2025-09-23T14:22:30.807640",
+    "bbw_value": 0.766,
+    "contraction_line": 0.766,
+    "consecutive_confirmed": false
+  },
+  "BTT_contraction": {
+    "timestamp": "2025-09-23T14:22:34.007263",
+    "bbw_value": 0.4512,
+    "contraction_line": 0.4512,
+    "consecutive_confirmed": false
+  },
+  "DYDX_contraction": {
+    "timestamp": "2025-09-23T14:22:34.169060",
+    "bbw_value": 2.0491,
+    "contraction_line": 2.0491,
+    "consecutive_confirmed": false
+  },
+  "SUSHI_contraction": {
+    "timestamp": "2025-09-23T14:22:35.997909",
+    "bbw_value": 1.1427,
+    "contraction_line": 1.1427,
+    "consecutive_confirmed": false
   }
 }
