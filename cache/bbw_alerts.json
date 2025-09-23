@@ -10,5 +10,11 @@
     "bbw_value": 4.1478,
     "contraction_line": 4.1478,
     "consecutive_confirmed": false
+  },
+  "KAVA_contraction": {
+    "timestamp": "2025-09-23T10:32:17.117078",
+    "bbw_value": 0.5449,
+    "contraction_line": 0.5449,
+    "consecutive_confirmed": true
   }
 }
