@@ -220,5 +220,23 @@
     "bbw_value": 1.3352,
     "contraction_line": 1.3293,
     "consecutive_confirmed": false
+  },
+  "0G_contraction": {
+    "timestamp": "2025-09-23T19:18:22.283990",
+    "bbw_value": 15.5865,
+    "contraction_line": 15.4456,
+    "consecutive_confirmed": false
+  },
+  "CVX_contraction": {
+    "timestamp": "2025-09-23T19:18:24.555600",
+    "bbw_value": 1.8549,
+    "contraction_line": 1.8549,
+    "consecutive_confirmed": true
+  },
+  "AWE_contraction": {
+    "timestamp": "2025-09-23T19:18:25.935358",
+    "bbw_value": 2.8148,
+    "contraction_line": 2.8148,
+    "consecutive_confirmed": false
   }
 }
