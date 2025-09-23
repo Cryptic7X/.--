@@ -45,31 +45,56 @@ class CipherB2HAnalyzer:
 
     def analyze_single_coin(self, coin_data: Dict) -> Optional[Dict]:
         """
-        Analyze single coin for CipherB signals (with context from BBW/SMA)
+        Analyze single coin for CipherB signals - WITH DEBUG
         """
         symbol = coin_data['symbol']
         
         try:
+            print(f"\n🔍 Analyzing {symbol}...")
+            
             # Fetch 2H OHLCV data with fallback
             ohlcv_data, exchange_used = self.exchange_manager.fetch_ohlcv_with_fallback(
                 symbol, '2h', limit=200
             )
             
             if not ohlcv_data:
+                print(f"   ❌ No OHLCV data for {symbol}")
                 return None
             
-            # Your EXACT CipherB analysis
+            print(f"   ✅ Got {len(ohlcv_data.get('timestamp', []))} candles from {exchange_used}")
+            
+            # DEBUG: Show data format before CipherB
+            if len(ohlcv_data.get('timestamp', [])) > 0:
+                print(f"   📊 Data format check:")
+                print(f"      Timestamps: {type(ohlcv_data['timestamp'])}, len={len(ohlcv_data['timestamp'])}")
+                print(f"      Close prices: {type(ohlcv_data['close'])}, len={len(ohlcv_data['close'])}")
+                print(f"      First close: {ohlcv_data['close'][0]} (type: {type(ohlcv_data['close'][0])})")
+            
+            # Your EXACT CipherB analysis with DEBUG
+            print(f"   🎯 Running CipherB analysis...")
             cipherb_config = self.config['cipherb']
-            signals_df = detect_exact_cipherb_signals(ohlcv_data, cipherb_config)
+            
+            # Import debug function
+            from src.indicators.cipherb import debug_ohlcv_data, detect_cipherb_signals_2h
+            
+            # Debug data format
+            debug_ohlcv_data(ohlcv_data, symbol)
+            
+            # Run CipherB
+            signals_df = detect_cipherb_signals_2h(ohlcv_data, cipherb_config)
             
             if signals_df.empty:
+                print(f"   📭 No signals for {symbol}")
                 return None
             
             # Check for signals in latest candle
             latest_signal = signals_df.iloc[-1]
             
             if not (latest_signal['buySignal'] or latest_signal['sellSignal']):
+                print(f"   📭 No active signals for {symbol}")
                 return None
+            
+            print(f"   🎯 SIGNAL FOUND for {symbol}!")
             
             # Get additional context for display (BBW and SMA)
             bbw_context = self.get_bbw_context(ohlcv_data)
@@ -94,7 +119,9 @@ class CipherB2HAnalyzer:
             return signal_data
             
         except Exception as e:
-            print(f"⚠️ CipherB analysis failed for {symbol}: {str(e)[:50]}")
+            print(f"❌ CipherB analysis failed for {symbol}: {str(e)}")
+            import traceback
+            traceback.print_exc()
             return None
 
     def get_bbw_context(self, ohlcv_data: Dict) -> Dict:
