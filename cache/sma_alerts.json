@@ -3,93 +3,21 @@
     "sent": true,
     "timestamp": "2025-09-23T09:55:33.979330"
   },
-  "AAVE_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:34.361472"
-  },
-  "UNI_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:34.376627"
-  },
-  "ICP_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:34.555978"
-  },
-  "TON_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:34.567291"
-  },
-  "KAS_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:34.591574"
-  },
-  "XDC_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:34.739697"
-  },
   "QNT": {
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T09:55:34.921516"
-  },
-  "QNT_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:34.921890"
-  },
-  "FLOW_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:35.384930"
-  },
-  "JASMY_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:35.425269"
   },
   "BTT_ranging": {
     "sent": true,
     "timestamp": "2025-09-23T09:55:35.538428"
   },
-  "EGLD_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:35.735493"
-  },
-  "NFT_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:35.744627"
-  },
-  "JST_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:35.777664"
-  },
-  "ZRX_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:36.169044"
-  },
-  "WAVES_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:36.619056"
-  },
   "ONT_ranging": {
     "sent": true,
     "timestamp": "2025-09-23T09:55:36.732799"
   },
-  "API3_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:38.153413"
-  },
-  "WIN_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:38.311983"
-  },
-  "AGLD_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:38.320045"
-  },
   "BNT_ranging": {
     "sent": true,
     "timestamp": "2025-09-23T09:55:38.387788"
-  },
-  "HFT_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T09:55:38.528064"
   },
   "OXT_ranging": {
     "sent": true,
@@ -110,5 +38,69 @@
   "CEEK_ranging": {
     "sent": true,
     "timestamp": "2025-09-23T09:55:39.327627"
+  },
+  "BTC_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T11:05:07.503750"
+  },
+  "DOT_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T11:05:07.840751"
+  },
+  "APT_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T11:05:08.065807"
+  },
+  "RENDER_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T11:05:08.398384"
+  },
+  "PYUSD_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T11:05:08.813591"
+  },
+  "PENDLE_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T11:05:09.379926"
+  },
+  "ID_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T11:05:13.325115"
+  },
+  "WOO_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T11:05:15.913890"
+  },
+  "BAND_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T11:05:16.543748"
+  },
+  "MITO": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T11:05:20.924252"
+  },
+  "MITO_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T11:05:20.924687"
+  },
+  "C_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T11:05:21.171779"
+  },
+  "ARPA": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T11:05:21.473147"
+  },
+  "ARPA_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T11:05:21.474961"
+  },
+  "EPT_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T11:05:24.591881"
+  },
+  "BOT_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T11:05:24.986719"
   }
 }
