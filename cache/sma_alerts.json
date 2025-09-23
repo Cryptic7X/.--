@@ -39,17 +39,9 @@
     "sent": true,
     "timestamp": "2025-09-23T11:05:07.503750"
   },
-  "DOT_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T11:05:07.840751"
-  },
   "APT_ranging": {
     "sent": true,
     "timestamp": "2025-09-23T11:05:08.065807"
-  },
-  "RENDER_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T11:05:08.398384"
   },
   "PYUSD_ranging": {
     "sent": true,
@@ -103,10 +95,6 @@
     "market_trend": "bullish",
     "trend_updated": "2025-09-23T12:41:03.007857"
   },
-  "EGL1_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T12:41:03.008346"
-  },
   "BMT_ranging": {
     "sent": true,
     "timestamp": "2025-09-23T12:41:03.721050"
@@ -142,5 +130,17 @@
   "ZENT_ranging": {
     "sent": true,
     "timestamp": "2025-09-23T14:20:37.151729"
+  },
+  "PUMP": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T16:25:58.657724"
+  },
+  "SHELL_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T16:25:57.720719"
+  },
+  "CUDIS_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T16:25:58.996122"
   }
 }
