@@ -1,6 +1,6 @@
 """
-EXACT CipherB Implementation - Matches Your Pine Script 100%
-Optimized for 30-minute timeframe analysis
+EXACT CipherB Implementation - 100% MATCHES YOUR PINE SCRIPT
+Using your exact parameters and logic
 """
 
 import pandas as pd
@@ -16,31 +16,41 @@ def sma(series, length):
 
 def detect_exact_cipherb_signals(df, config):
     """
-    EXACT replication of your Pine Script CipherB logic for 30m analysis
+    100% EXACT replication of your Pine Script CipherB logic
     """
-    # Your exact Pine Script parameters
-    wtChannelLen = config.get('wt_channel_len', 9)
-    wtAverageLen = config.get('wt_average_len', 12)
-    wtMALen = config.get('wt_ma_len', 3)
-    osLevel2 = config.get('oversold_threshold', -60)
-    obLevel2 = config.get('overbought_threshold', 60)
+    # YOUR EXACT Pine Script parameters from the code
+    wtChannelLen = 9      # YOUR EXACT VALUE
+    wtAverageLen = 12     # YOUR EXACT VALUE  
+    wtMALen = 3           # YOUR EXACT VALUE
+    osLevel2 = -60        # YOUR EXACT VALUE
+    obLevel2 = 60         # YOUR EXACT VALUE
 
     # Calculate HLC3 (wtMASource = hlc3 in your script)
     hlc3 = (df['high'] + df['low'] + df['close']) / 3
 
-    # WaveTrend calculation - EXACT match to your Pine Script f_wavetrend function
-    esa = ema(hlc3, wtChannelLen) # ta.ema(tfsrc, chlen)
-    de = ema(abs(hlc3 - esa), wtChannelLen) # ta.ema(math.abs(tfsrc - esa), chlen)
-    ci = (hlc3 - esa) / (0.015 * de) # (tfsrc - esa) / (0.015 * de)
-    wt1 = ema(ci, wtAverageLen) # ta.ema(ci, avg) = wtf1
-    wt2 = sma(wt1, wtMALen) # ta.sma(wt1, malen) = wtf2
+    # YOUR EXACT WaveTrend calculation - f_wavetrend function
+    tfsrc = hlc3
+    esa = ema(tfsrc, wtChannelLen)  # ta.ema(tfsrc, chlen)
+    de = ema(abs(tfsrc - esa), wtChannelLen)  # ta.ema(math.abs(tfsrc - esa), chlen)
+    ci = (tfsrc - esa) / (0.015 * de)  # (tfsrc - esa) / (0.015 * de)
+    wtf1 = ema(ci, wtAverageLen)  # ta.ema(ci, avg)
+    wtf2 = sma(wtf1, wtMALen)  # ta.sma(wtf1, malen)
+    
+    wt1 = wtf1  # YOUR EXACT ASSIGNMENT
+    wt2 = wtf2  # YOUR EXACT ASSIGNMENT
 
     # Create results DataFrame
     signals = pd.DataFrame(index=df.index)
     signals['wt1'] = wt1
     signals['wt2'] = wt2
 
-    # EXACT Pine Script conditions
+    # YOUR EXACT Pine Script conditions - LINE BY LINE
+    # wtOversold = wt1 <= -60 and wt2 <= -60
+    wtOversold = (wt1 <= osLevel2) & (wt2 <= osLevel2)
+    
+    # wtOverbought = wt2 >= 60 and wt1 >= 60  (YOUR EXACT ORDER!)
+    wtOverbought = (wt2 >= obLevel2) & (wt1 >= obLevel2)
+    
     # wtCross = ta.cross(wt1, wt2)
     wt1_prev = wt1.shift(1)
     wt2_prev = wt2.shift(1)
@@ -52,14 +62,11 @@ def detect_exact_cipherb_signals(df, config):
     # wtCrossDown = wt2 - wt1 >= 0
     wtCrossDown = (wt2 - wt1) >= 0
 
-    # wtOversold = wt1 <= -60 and wt2 <= -60
-    wtOversold = (wt1 <= osLevel2) & (wt2 <= osLevel2)
-
-    # wtOverbought = wt2 >= 60 and wt1 >= 60
-    wtOverbought = (wt2 >= obLevel2) & (wt1 >= obLevel2)
-
-    # EXACT Pine Script signal logic
+    # YOUR EXACT Pine Script signal logic
+    # buySignal = wtCross and wtCrossUp and wtOversold
     signals['buySignal'] = wtCross & wtCrossUp & wtOversold
+    
+    # sellSignal = wtCross and wtCrossDown and wtOverbought
     signals['sellSignal'] = wtCross & wtCrossDown & wtOverbought
 
     return signals
