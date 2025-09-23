@@ -111,22 +111,22 @@ class MultiIndicatorDataFetcher:
         return cipherb_coins, sma_coins
 
     def fetch_coins_for_dataset(self, min_market_cap, min_volume, limit, dataset_name):
-        """Fetch coins with specific filters"""
+        """FIXED: Fetch coins with specific filters - REMOVE server-side filtering"""
         base_url = "https://pro-api.coinmarketcap.com/v1"
         
+        # FIXED: Remove server-side filters to get ALL coins, then filter locally
         params = {
             'start': 1,
             'limit': limit,
             'convert': 'USD',
             'sort': 'market_cap',
-            'sort_dir': 'desc',
-            'market_cap_min': min_market_cap,
-            'volume_24h_min': min_volume
+            'sort_dir': 'desc'
+            # REMOVED: market_cap_min and volume_24h_min (filter locally instead)
         }
-
+    
         try:
             url = f"{base_url}/cryptocurrency/listings/latest"
-            print(f"📡 Fetching {dataset_name} dataset...")
+            print(f"📡 Fetching {dataset_name} dataset (all {limit} coins)...")
             
             response = self.session.get(url, params=params, timeout=30)
             
@@ -144,31 +144,42 @@ class MultiIndicatorDataFetcher:
                 print(f"📭 No data received for {dataset_name}")
                 return []
             
-            # Convert CMC format to our expected format
+            # Convert CMC format and FILTER LOCALLY
             coins = []
+            filtered_count = 0
+            
             for coin in data['data']:
                 try:
-                    coin_data = {
-                        'id': coin['id'],
-                        'symbol': coin['symbol'],
-                        'name': coin['name'],
-                        'current_price': coin['quote']['USD']['price'],
-                        'market_cap': coin['quote']['USD']['market_cap'],
-                        'total_volume': coin['quote']['USD']['volume_24h'],
-                        'price_change_percentage_24h': coin['quote']['USD']['percent_change_24h'],
-                        'market_cap_rank': coin['cmc_rank']
-                    }
-                    coins.append(coin_data)
+                    market_cap = coin['quote']['USD']['market_cap']
+                    volume_24h = coin['quote']['USD']['volume_24h']
+                    
+                    # LOCAL FILTERING (this is why you're getting 275+ coins)
+                    if market_cap and volume_24h and market_cap >= min_market_cap and volume_24h >= min_volume:
+                        coin_data = {
+                            'id': coin['id'],
+                            'symbol': coin['symbol'],
+                            'name': coin['name'],
+                            'current_price': coin['quote']['USD']['price'],
+                            'market_cap': market_cap,
+                            'total_volume': volume_24h,
+                            'price_change_percentage_24h': coin['quote']['USD']['percent_change_24h'],
+                            'market_cap_rank': coin['cmc_rank']
+                        }
+                        coins.append(coin_data)
+                    else:
+                        filtered_count += 1
+                        
                 except (KeyError, TypeError) as e:
                     continue
             
-            print(f"✅ {dataset_name}: Fetched {len(coins)} coins")
+            print(f"✅ {dataset_name}: {len(coins)} qualified coins (filtered out {filtered_count})")
             
             return coins
             
         except Exception as e:
             print(f"❌ {dataset_name} fetch failed: {str(e)[:100]}")
             return []
+
 
     def filter_blocked_coins(self, coins_list, dataset_name):
         """Filter out blocked coins locally"""
