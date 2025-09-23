@@ -1,0 +1,114 @@
+{
+  "TRX_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:33.979330"
+  },
+  "AAVE_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:34.361472"
+  },
+  "UNI_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:34.376627"
+  },
+  "ICP_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:34.555978"
+  },
+  "TON_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:34.567291"
+  },
+  "KAS_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:34.591574"
+  },
+  "XDC_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:34.739697"
+  },
+  "QNT": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T09:55:34.921516"
+  },
+  "QNT_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:34.921890"
+  },
+  "FLOW_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:35.384930"
+  },
+  "JASMY_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:35.425269"
+  },
+  "BTT_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:35.538428"
+  },
+  "EGLD_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:35.735493"
+  },
+  "NFT_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:35.744627"
+  },
+  "JST_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:35.777664"
+  },
+  "ZRX_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:36.169044"
+  },
+  "WAVES_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:36.619056"
+  },
+  "ONT_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:36.732799"
+  },
+  "API3_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:38.153413"
+  },
+  "WIN_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:38.311983"
+  },
+  "AGLD_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:38.320045"
+  },
+  "BNT_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:38.387788"
+  },
+  "HFT_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:38.528064"
+  },
+  "OXT_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:38.536314"
+  },
+  "MBL_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:38.551667"
+  },
+  "OMG_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:39.067729"
+  },
+  "BLZ_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:39.144427"
+  },
+  "CEEK_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T09:55:39.327627"
+  }
+}
