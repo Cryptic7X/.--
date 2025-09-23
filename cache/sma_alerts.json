@@ -150,5 +150,25 @@
   "ID": {
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T18:29:51.427999"
+  },
+  "REZ_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T20:22:08.626962"
+  },
+  "ALPINE_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-23T20:22:08.723351"
+  },
+  "SHELL": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T20:22:08.763153"
+  },
+  "BMT": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T20:22:09.732704"
+  },
+  "CUDIS": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-23T20:22:10.011595"
   }
 }
