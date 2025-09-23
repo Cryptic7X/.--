@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-CipherB 2H Analyzer - FULLY INDEPENDENT
-No dependencies on BBW or SMA - completely isolated system
+CipherB 2H Analyzer - 100% Pine Script Match
+Fully independent system with your exact indicator logic
 """
 
 import os
 import json
 import sys
-import pandas as pd  # FIXED: Missing import
+import pandas as pd
 import concurrent.futures
 from datetime import datetime
 from typing import Dict, List, Optional
@@ -44,20 +44,20 @@ class CipherB2HAnalyzer:
 
     def analyze_single_coin(self, coin_data: Dict) -> Optional[Dict]:
         """
-        Analyze single coin for CipherB signals - FULLY INDEPENDENT
+        Analyze single coin for CipherB signals - 2H TIMEFRAME EXACT MATCH
         """
         symbol = coin_data['symbol']
         
         try:
-            # Fetch 2H OHLCV data
+            # Fetch 2H OHLCV data (matching your TradingView timeframe)
             ohlcv_data, exchange_used = self.exchange_manager.fetch_ohlcv_with_fallback(
-                symbol, '2h', limit=200
+                symbol, '2h', limit=200  # Enough data for indicator calculations
             )
             
             if not ohlcv_data or len(ohlcv_data.get('timestamp', [])) < 50:
                 return None
             
-            # Simple DataFrame creation
+            # Create DataFrame - simple and clean
             df = pd.DataFrame({
                 'timestamp': ohlcv_data['timestamp'],
                 'open': ohlcv_data['open'], 
@@ -78,20 +78,27 @@ class CipherB2HAnalyzer:
             if len(df) < 50:
                 return None
             
-            # Use YOUR EXACT CipherB function
-            cipherb_config = self.config['cipherb']
+            # Use YOUR EXACT CipherB function with Pine Script logic
+            cipherb_config = {
+                'wt_channel_len': 9,      # Your exact value
+                'wt_average_len': 12,     # Your exact value
+                'wt_ma_len': 3,           # Your exact value
+                'oversold_threshold': -60, # Your exact value
+                'overbought_threshold': 60 # Your exact value
+            }
+            
             signals_df = detect_exact_cipherb_signals(df, cipherb_config)
             
             if signals_df.empty:
                 return None
             
-            # Check for signals in latest candle
+            # Check for signals in latest candle (most recent 2H period)
             latest_signal = signals_df.iloc[-1]
             
             if not (latest_signal['buySignal'] or latest_signal['sellSignal']):
                 return None
             
-            # Prepare signal data - NO CONTEXT FROM OTHER SYSTEMS
+            # Prepare signal data - CLEAN AND INDEPENDENT
             signal_data = {
                 'symbol': symbol,
                 'signal_type': 'BUY' if latest_signal['buySignal'] else 'SELL',
@@ -110,7 +117,7 @@ class CipherB2HAnalyzer:
             return None
 
     def process_coins_parallel(self, coins: List[Dict]) -> List[Dict]:
-        """Process coins in parallel - INDEPENDENT"""
+        """Process coins in parallel"""
         max_workers = self.config['cipherb'].get('max_workers', 10)
         signals = []
         
@@ -143,7 +150,7 @@ class CipherB2HAnalyzer:
         return signals
 
     def run_cipherb_analysis(self):
-        """Main CipherB 2H analysis - FULLY INDEPENDENT"""
+        """Main CipherB 2H analysis function"""
         print("🎯 CIPHERB 2H ANALYSIS STARTING")
         print("="*50)
         
@@ -155,7 +162,7 @@ class CipherB2HAnalyzer:
             return
         
         print(f"📊 Analyzing {len(coins)} CipherB coins (≥$100M cap, ≥$10M vol)")
-        print(f"⚡ Timeframe: 2H | No Suppression: Every signal captured")
+        print(f"⚡ Timeframe: 2H | Exact Pine Script Match | No Suppression")
         
         # Process coins in parallel
         signals = self.process_coins_parallel(coins)
