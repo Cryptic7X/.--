@@ -39,21 +39,9 @@
     "sent": true,
     "timestamp": "2025-09-23T11:05:07.503750"
   },
-  "APT_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T11:05:08.065807"
-  },
   "PYUSD_ranging": {
     "sent": true,
     "timestamp": "2025-09-23T11:05:08.813591"
-  },
-  "ID_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T11:05:13.325115"
-  },
-  "WOO_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T11:05:15.913890"
   },
   "BAND_ranging": {
     "sent": true,
@@ -115,14 +103,6 @@
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T16:25:58.657724"
   },
-  "SHELL_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T16:25:57.720719"
-  },
-  "CUDIS_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T16:25:58.996122"
-  },
   "TRX": {
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T18:29:44.096113"
@@ -166,5 +146,9 @@
   "ICE_ranging": {
     "sent": true,
     "timestamp": "2025-09-23T22:18:31.236105"
+  },
+  "ICE": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-24T01:27:27.814814"
   }
 }
