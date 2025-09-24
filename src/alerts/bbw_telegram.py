@@ -1,6 +1,5 @@
 """
-BBW Telegram Alert System - FIXED (No 400 errors)
-Simple, robust format that always works
+BBW Telegram Alert System - Professional MT Format (Matches SMA/CipherB)
 """
 import os
 import requests
@@ -14,84 +13,106 @@ class BBWTelegramSender:
         self.chat_id = os.getenv('BBW_TELEGRAM_CHAT_ID')
 
     def format_price(self, price: float) -> str:
-        """Format price safely"""
-        try:
-            if price < 0.001:
-                return f"${price:.6f}"
-            elif price < 1:
-                return f"${price:.4f}"
-            else:
-                return f"${price:.2f}"
-        except:
-            return "$0.00"
+        """Format price for display - Same as SMA"""
+        if price < 0.001:
+            return f"${price:.8f}"
+        elif price < 1:
+            return f"${price:.4f}"
+        else:
+            return f"${price:.2f}"
 
-    def format_number(self, num: float) -> str:
-        """Format large numbers safely"""
-        try:
-            if num >= 1_000_000_000:
-                return f"${num/1_000_000_000:.1f}B"
-            elif num >= 1_000_000:
-                return f"${num/1_000_000:.0f}M"
-            else:
-                return f"${num/1_000:.0f}K"
-        except:
-            return "$0"
+    def format_large_number(self, num: float) -> str:
+        """Format large numbers - Same as SMA"""
+        if num >= 1_000_000_000:
+            return f"${num/1_000_000_000:.1f}B"
+        elif num >= 1_000_000:
+            return f"${num/1_000_000:.0f}M"
+        else:
+            return f"${num/1_000:.0f}K"
 
-    def send_bbw_alerts(self, signals: List[Dict]) -> bool:
-        """Send BBW alerts - SIMPLE and RELIABLE"""
+    def create_chart_links(self, symbol: str) -> tuple:
+        """Create TradingView and CoinGlass links - Same as SMA/CipherB"""
+        # TradingView 2H chart (same as other systems)
+        clean_symbol = symbol.replace('USDT', '').replace('USD', '')
+        tv_link = f"https://www.tradingview.com/chart/?symbol={clean_symbol}USDT&interval=120"
+        
+        # CoinGlass liquidation heatmap
+        cg_link = f"https://www.coinglass.com/pro/futures/LiquidationHeatMapNew?coin={clean_symbol}"
+        
+        return tv_link, cg_link
+
+    def send_bbw_batch_alert(self, signals: List[Dict]) -> bool:
+        """Send BBW alerts with PROFESSIONAL MT FORMAT - Matches SMA"""
         if not self.bot_token or not self.chat_id or not signals:
             return False
 
         try:
+            # Build message header (EXACT same format as SMA)
             current_time = datetime.now().strftime('%H:%M:%S IST')
+            message = f"""🔵 **BBW 2H SIGNALS**
+
+📊 **{len(signals)} SQUEEZE SIGNALS DETECTED**
+
+🕐 **{current_time}**
+
+⏰ **Timeframe: 2H Candles**
+
+"""
+
+            # Add squeeze signals (SAME format as SMA detailed format)
+            message += "🔵 **SQUEEZE SIGNALS:**\n"
             
-            # Keep it SIMPLE - no complex markdown
-            message = f"🔵 BBW SQUEEZE ALERTS - {current_time}\n\n"
-            message += f"📊 {len(signals)} SQUEEZES DETECTED (2H)\n\n"
-            
-            # Add each signal (keep simple)
             for i, signal in enumerate(signals, 1):
-                if i > 10:  # Limit to prevent message being too long
-                    message += f"... and {len(signals) - 10} more\n"
-                    break
-                    
                 symbol = signal['symbol']
                 coin_data = signal['coin_data']
+                price = self.format_price(coin_data['current_price'])
+                change_24h = coin_data['price_change_percentage_24h']
+                market_cap = self.format_large_number(coin_data['market_cap'])
+                volume = self.format_large_number(coin_data['total_volume'])
                 
-                # Safe formatting
-                price = self.format_price(coin_data.get('current_price', 0))
-                change_24h = coin_data.get('price_change_percentage_24h', 0)
-                
-                bbw_value = signal.get('bbw_value', 0)
-                contraction = signal.get('lowest_contraction', 0)
-                threshold = signal.get('squeeze_threshold', 0)
-                
-                message += f"{i}. {symbol} | {price} ({change_24h:+.1f}%)\n"
-                message += f"   BBW: {bbw_value:.2f} | Range: {contraction:.2f}-{threshold:.2f}\n\n"
-            
-            message += f"🎯 Squeeze Logic: BBW enters 75% above contraction\n"
-            message += f"⏰ Deduplication: Once per 24H per symbol"
-            
-            # Send with basic formatting only
+                bbw_value = signal['bbw_value']
+                contraction_line = signal['lowest_contraction']
+                squeeze_threshold = signal['squeeze_threshold']
+
+                # Create chart links
+                tv_link, cg_link = self.create_chart_links(symbol)
+
+                message += f"""🔵 **SQUEEZE: {symbol}**
+
+💰 {price} ({change_24h:+.1f}% 24h)
+Cap: {market_cap} | Vol: {volume}
+
+📊 BBW: {bbw_value:.2f}
+📉 Squeeze Range: {contraction_line:.2f} - {squeeze_threshold:.2f}
+🎯 Status: FIRST ENTRY
+
+📈 [Chart →]({tv_link}) | 🔥 [Liq Heat →]({cg_link})
+
+"""
+
+            # Add summary (SAME format as SMA)
+            message += f"""📊 **BBW SQUEEZE SUMMARY**
+
+• Total Squeezes: {len(signals)}
+• Squeeze Logic: BBW enters 75% above contraction
+• Deduplication: Once per 24H per symbol
+🎯 **Volatility contraction = Breakout potential**"""
+
+            # Send message
             url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
             payload = {
                 'chat_id': self.chat_id,
-                'text': message[:4000],  # Ensure under Telegram limit
-                'disable_web_page_preview': True  # Prevent any link issues
+                'text': message,
+                'parse_mode': 'Markdown',
+                'disable_web_page_preview': False
             }
 
-            response = requests.post(url, json=payload, timeout=10)
+            response = requests.post(url, json=payload, timeout=30)
+            response.raise_for_status()
             
-            if response.status_code == 200:
-                print(f"📱 BBW alert sent: {len(signals)} squeezes")
-                return True
-            else:
-                print(f"❌ Telegram error {response.status_code}: {response.text}")
-                return False
+            print(f"📱 BBW alert sent: {len(signals)} squeezes")
+            return True
 
-        except requests.exceptions.RequestException as e:
-            print(f"❌ Telegram request failed: {e}")
-            return False
         except Exception as e:
-            print(f"❌ BBW alert error: {e}")
+            print(f"❌ BBW alert failed: {e}")
             return False
