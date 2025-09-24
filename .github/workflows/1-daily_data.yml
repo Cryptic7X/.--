@@ -32,16 +32,38 @@ jobs:
         LOG_LEVEL: INFO
       run: |
         echo "📊 Starting Daily Data Collection..."
-        python src/data_fetcher.py || echo "❌ Data fetcher failed - check logs above"
-
-    - name: Check if datasets were created
-      run: |
-        if [ -f "cache/cipherb_dataset.json" ] && [ -f "cache/sma_dataset.json" ]; then
-          echo "✅ Dataset files created successfully"
-          ls -la cache/
+        echo "🔧 Checking environment..."
+        if [ -z "$COINMARKETCAP_API_KEY" ]; then
+          echo "❌ COINMARKETCAP_API_KEY is not set!"
+          exit 1
         else
-          echo "❌ Dataset files not found!"
-          ls -la cache/ || echo "Cache directory not found"
+          echo "✅ API key is configured"
+        fi
+        echo "🔧 Checking Python script..."
+        if [ -f "src/data_fetcher.py" ]; then
+          echo "✅ data_fetcher.py found"
+        else
+          echo "❌ data_fetcher.py not found!"
+          ls -la src/ || echo "src/ directory not found"
+          exit 1
+        fi
+        echo "🚀 Running data fetcher..."
+        python src/data_fetcher.py
+        echo "✅ Data fetcher completed"
+
+    - name: Verify datasets were updated
+      run: |
+        echo "🔍 Checking dataset files..."
+        if [ -f "cache/cipherb_dataset.json" ] && [ -f "cache/sma_dataset.json" ]; then
+          echo "✅ Dataset files exist"
+          echo "📊 File sizes:"
+          ls -lh cache/*.json
+          echo "📅 File timestamps:"
+          ls -lt cache/*.json
+        else
+          echo "❌ Dataset files missing!"
+          ls -la cache/ 2>/dev/null || echo "Cache directory not found"
+          exit 1
         fi
 
     - name: Commit updated datasets
@@ -50,9 +72,9 @@ jobs:
         git config --local user.name "GitHub Action"
         git add cache/*.json
         if git diff --staged --quiet; then
-          echo "📭 No changes to commit"
+          echo "📭 No changes to commit (datasets unchanged)"
         else
           git commit -m "📊 Daily data update $(date '+%Y-%m-%d %H:%M')"
           git push
-          echo "✅ Datasets committed and pushed"
+          echo "✅ Updated datasets committed and pushed"
         fi
