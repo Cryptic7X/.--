@@ -286,5 +286,23 @@
     "bbw_value": 3.1075,
     "contraction_line": 3.1075,
     "consecutive_confirmed": false
+  },
+  "TRX_contraction": {
+    "timestamp": "2025-09-24T01:43:55.801707",
+    "bbw_value": 0.4144,
+    "contraction_line": 0.4144,
+    "consecutive_confirmed": false
+  },
+  "TWT_contraction": {
+    "timestamp": "2025-09-24T01:43:59.585312",
+    "bbw_value": 3.0329,
+    "contraction_line": 3.0329,
+    "consecutive_confirmed": false
+  },
+  "B_contraction": {
+    "timestamp": "2025-09-24T01:44:00.562586",
+    "bbw_value": 2.9856,
+    "contraction_line": 2.9769,
+    "consecutive_confirmed": true
   }
 }
