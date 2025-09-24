@@ -1,8 +1,8 @@
-name: BBW 15M Analysis
+name: BBW 30M Analysis
 
 on:
   schedule:
-    - cron: '1,16,31,46 * * * *'
+    - cron: '2,32 * * * *'  # Every 30 minutes at :02 and :32
   workflow_dispatch:
 
 jobs:
@@ -14,9 +14,11 @@ jobs:
       with:
         python-version: '3.10'
     - run: pip install -r requirements.txt
-    - name: Run BBW Analysis
+    - name: Run BBW 30M Analysis
       env:
         BINGX_API_KEY: ${{ secrets.BINGX_API_KEY }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         BBW_TELEGRAM_CHAT_ID: ${{ secrets.BBW_TELEGRAM_CHAT_ID }}
-      run: python src/analyzers/bbw_analyzer.py
+      run: |
+        echo "🔵 Starting BBW 30M Analysis..."
+        python src/analyzers/bbw_analyzer.py
