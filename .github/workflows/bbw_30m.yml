@@ -1,9 +1,8 @@
-name: BBW 30M Analysis
+name: BBW 15M Analysis
 
 on:
   schedule:
-    - cron: '1 * * * *'    # Every hour at :01 (00:01, 01:01, 02:01, etc.)
-    - cron: '31 * * * *'   # Every hour at :31 (00:31, 01:31, 02:31, etc.)
+    - cron: '*/15 * * * *'    # Every 15 minutes
   workflow_dispatch:
 
 jobs:
@@ -24,25 +23,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
-    - name: Run BBW 30M Analysis
+    - name: Run BBW 15M Analysis
       env:
         BINGX_API_KEY: ${{ secrets.BINGX_API_KEY }}
         BINGX_SECRET_KEY: ${{ secrets.BINGX_SECRET_KEY }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         BBW_TELEGRAM_CHAT_ID: ${{ secrets.BBW_TELEGRAM_CHAT_ID }}
       run: |
-        echo "🔵 Starting BBW 30M Analysis..."
+        echo "🔵 Starting BBW 15M Analysis..."
         python src/analyzers/bbw_analyzer.py
-        echo "✅ BBW 30M Analysis Complete"
-        
-    - name: Commit updated BBW cache
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add cache/bbw_alerts.json
-        if ! git diff --staged --quiet; then
-          git commit -m "BBW cache update: $(date +'%Y-%m-%d %H:%M IST')"
-          git push
-        else
-          echo "No BBW cache changes"
-        fi
