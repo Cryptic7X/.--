@@ -2,11 +2,11 @@ name: BBW 2H Analysis
 
 on:
   schedule:
-    - cron: '4 */2 * * *'  # Every 2 hours at :04
+    - cron: '5 */2 * * *'  # Every 2 hours
   workflow_dispatch:
 
 jobs:
-  analyze-bbw:
+  bbw-analysis:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -14,11 +14,11 @@ jobs:
       with:
         python-version: '3.10'
     - run: pip install -r requirements.txt
-    - name: Run BBW 2H Analysis
+    - name: Run BBW Analysis
       env:
         BINGX_API_KEY: ${{ secrets.BINGX_API_KEY }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         BBW_TELEGRAM_CHAT_ID: ${{ secrets.BBW_TELEGRAM_CHAT_ID }}
       run: |
-        echo "🔵 Starting BBW 2H Analysis..."
+        echo "🔵 BBW 2H Analysis..."
         python src/analyzers/bbw_analyzer.py
