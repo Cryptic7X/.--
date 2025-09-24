@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-SIMPLE BBW 2H Analyzer - No Complexity
+Fixed BBW 2H Analyzer - Method Names Match
 """
 import os
 import json
 import sys
 import concurrent.futures
 from datetime import datetime
+from typing import Dict, List, Optional
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
@@ -22,7 +23,7 @@ class SimpleBBWAnalyzer:
         self.bbw_indicator = BBWIndicator()
 
     def load_coins(self):
-        """Load BBW coins (≥$100M cap, ≥$50M vol)"""
+        """Load BBW coins"""
         cache_file = os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'cipherb_dataset.json')
         
         try:
@@ -71,8 +72,8 @@ class SimpleBBWAnalyzer:
         except:
             return None
 
-    def run_analysis(self):
-        """Main analysis"""
+    def run_analysis(self):  # ← This method name matches your main() call
+        """Main analysis - Method name matches the call from main()"""
         print("🔵 BBW 2H ANALYSIS - SIMPLE MODE")
         
         coins = self.load_coins()
@@ -96,9 +97,9 @@ class SimpleBBWAnalyzer:
                 except:
                     continue
         
-        # Send alerts
+        # Send alerts using CORRECT method name
         if signals:
-            success = self.telegram_sender.send_bbw_alerts(signals)
+            success = self.telegram_sender.send_bbw_batch_alert(signals)  # ← CORRECT method name
             print(f"✅ Found {len(signals)} squeezes, Alert: {'Sent' if success else 'Failed'}")
         else:
             print("📭 No BBW squeezes found")
@@ -112,7 +113,7 @@ def main():
         config = {}
     
     analyzer = SimpleBBWAnalyzer(config)
-    analyzer.run_analysis()
+    analyzer.run_analysis()  # ← This calls the correct method
 
 if __name__ == '__main__':
     main()
