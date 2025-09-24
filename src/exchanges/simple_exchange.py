@@ -1,4 +1,4 @@
-"""Simple Exchange Manager - 15M + 2H Only"""
+"""Simple Exchange Manager - 30M + 2H Only (15M REMOVED)"""
 import os
 import json
 import time
@@ -31,7 +31,8 @@ class SimpleExchangeManager:
 
         url = "https://open-api.bingx.com/openApi/swap/v2/quote/klines"
         
-        interval_map = {'15m': '15m', '2h': '2h'}
+        # UPDATED: 15m removed, 30m added
+        interval_map = {'30m': '30m', '2h': '2h'}
         if timeframe not in interval_map:
             return None
 
@@ -56,14 +57,15 @@ class SimpleExchangeManager:
     def _fetch_kucoin_data(self, symbol: str, timeframe: str, limit: int = 200):
         url = "https://api.kucoin.com/api/v1/market/candles"
         
-        interval_map = {'15m': '15min', '2h': '2hour'}
+        # UPDATED: 15m removed, 30m added
+        interval_map = {'30m': '30min', '2h': '2hour'}
         if timeframe not in interval_map:
             return None
 
         end_time = int(time.time())
-        if timeframe == '15m':
-            start_time = end_time - (limit * 15 * 60)
-        else:
+        if timeframe == '30m':
+            start_time = end_time - (limit * 30 * 60)  # 30 minutes
+        else:  # 2h
             start_time = end_time - (limit * 2 * 60 * 60)
 
         params = {
@@ -87,7 +89,8 @@ class SimpleExchangeManager:
     def _fetch_okx_data(self, symbol: str, timeframe: str, limit: int = 200):
         url = "https://www.okx.com/api/v5/market/candles"
         
-        interval_map = {'15m': '15m', '2h': '2H'}
+        # UPDATED: 15m removed, 30m added  
+        interval_map = {'30m': '30m', '2h': '2H'}
         if timeframe not in interval_map:
             return None
 
@@ -160,7 +163,8 @@ class SimpleExchangeManager:
             return None
 
     def fetch_ohlcv_with_fallback(self, symbol: str, timeframe: str, limit: int = 200):
-        if timeframe not in ['15m', '2h']:
+        # UPDATED: 15m removed, 30m added
+        if timeframe not in ['30m', '2h']:
             return None, None
 
         api_symbol = self.symbol_mapping.get(symbol.upper(), symbol.upper())
