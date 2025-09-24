@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""
-SIMPLE Data Fetcher - No complex logging, just basic functionality
-"""
+"""Simple Data Fetcher"""
 import os
 import json
 import requests
@@ -15,7 +13,6 @@ class SimpleDataFetcher:
             print("❌ COINMARKETCAP_API_KEY not set")
             exit(1)
         
-        # Load blocked coins
         self.blocked_coins = self._load_blocked_coins()
         print(f"Blocked coins: {len(self.blocked_coins)}")
 
@@ -35,20 +32,15 @@ class SimpleDataFetcher:
         return blocked
 
     def fetch_coins(self):
-        """Fetch coins from CoinMarketCap - SIMPLE"""
         print("Fetching coins from CoinMarketCap...")
         
         url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
         headers = {'X-CMC_PRO_API_KEY': self.api_key}
         
         all_coins = []
-        for start in [1, 5001]:  # Get first 10,000 coins max
+        for start in [1, 5001]:
             try:
-                params = {
-                    'start': start,
-                    'limit': 5000,
-                    'sort': 'market_cap'
-                }
+                params = {'start': start, 'limit': 5000, 'sort': 'market_cap'}
                 
                 response = requests.get(url, headers=headers, params=params, timeout=30)
                 data = response.json()
@@ -59,7 +51,6 @@ class SimpleDataFetcher:
                 for coin in data['data']:
                     symbol = coin.get('symbol', '').upper()
                     
-                    # Skip blocked coins - SIMPLE CHECK
                     if symbol in self.blocked_coins:
                         continue
                     
@@ -68,7 +59,6 @@ class SimpleDataFetcher:
                     volume = quote.get('volume_24h', 0)
                     price = quote.get('price', 0)
                     
-                    # Only valid coins
                     if market_cap and volume and price:
                         all_coins.append({
                             'id': coin.get('id'),
@@ -92,15 +82,11 @@ class SimpleDataFetcher:
         return all_coins
 
     def filter_coins(self, all_coins):
-        """Filter coins into CipherB and SMA datasets - SIMPLE"""
-        
-        # CipherB/BBW: Market cap ≥ $100M, Volume ≥ $10M
         cipherb_coins = [
             coin for coin in all_coins
             if coin['market_cap'] >= 100_000_000 and coin['total_volume'] >= 10_000_000
         ]
         
-        # SMA: Market cap ≥ $10M, Volume ≥ $10M  
         sma_coins = [
             coin for coin in all_coins
             if coin['market_cap'] >= 10_000_000 and coin['total_volume'] >= 10_000_000
@@ -112,10 +98,8 @@ class SimpleDataFetcher:
         return cipherb_coins, sma_coins
 
     def save_datasets(self, cipherb_coins, sma_coins):
-        """Save datasets - SIMPLE"""
         os.makedirs('cache', exist_ok=True)
         
-        # Save CipherB dataset
         cipherb_data = {
             'timestamp': datetime.utcnow().isoformat(),
             'total_coins': len(cipherb_coins),
@@ -125,7 +109,6 @@ class SimpleDataFetcher:
         with open('cache/cipherb_dataset.json', 'w') as f:
             json.dump(cipherb_data, f)
         
-        # Save SMA dataset
         sma_data = {
             'timestamp': datetime.utcnow().isoformat(),
             'total_coins': len(sma_coins),
