@@ -1,80 +1,15 @@
-# Multi-Indicator Crypto Trading System - Optimized Configuration
-system:
-  name: "Multi-Indicator-Crypto-Alerts"
-  version: "3.1"
-  log_level: "INFO"
-
-# Market Data Source
-market_data:
-  source: "coinmarketcap"
-  api_key_env: "COINMARKETCAP_API_KEY"
-
-# CipherB Configuration (2H Analysis)
+# Simple Config - Just the essentials
 cipherb_config:
-  timeframe: "2h"
   filters:
     min_market_cap: 100000000    # $100M
     min_volume_24h: 10000000     # $10M
-  processing:
-    max_workers: 10
-    timeout_seconds: 30
-    retry_attempts: 3
-  cache_file: "cache/cipherb_dataset.json"
 
-# BBW Configuration (15M Analysis) 
 bbw_config:
-  timeframe: "15m"
   filters:
     min_market_cap: 100000000    # $100M
     min_volume_24h: 50000000     # $50M
-  processing:
-    max_workers: 10
-    timeout_seconds: 30
-    retry_attempts: 3
-  cache_file: "cache/cipherb_dataset.json"  # Same dataset as CipherB
-  deduplication:
-    first_touch_only: true
 
-# SMA Configuration (2H Analysis)
 sma_config:
-  timeframe: "2h"
   filters:
     min_market_cap: 10000000     # $10M
     min_volume_24h: 10000000     # $10M
-  processing:
-    max_workers: 15
-    timeout_seconds: 30
-    retry_attempts: 3
-  cache_file: "cache/sma_dataset.json"
-  suppression:
-    proximity_hours: 12
-
-# Exchange Configuration (15M and 2H only)
-exchanges:
-  primary:
-    name: "bingx"
-    api_key_env: "BINGX_API_KEY"
-    secret_key_env: "BINGX_SECRET_KEY"
-    rate_limit_ms: 100
-  fallbacks:
-    - name: "kucoin"
-      base_url: "https://api.kucoin.com"
-      rate_limit_ms: 200
-    - name: "okx"
-      base_url: "https://www.okx.com"
-      rate_limit_ms: 150
-
-# Telegram Configuration
-telegram:
-  bot_token_env: "TELEGRAM_BOT_TOKEN"
-  channels:
-    cipherb: "CIPHERB_TELEGRAM_CHAT_ID"
-    bbw: "BBW_TELEGRAM_CHAT_ID"
-    sma: "SMA_TELEGRAM_CHAT_ID"
-
-# Shared Configuration
-shared:
-  symbol_mapping_file: "config/symbol_mapping.json"
-  blocked_coins_file: "config/blocked_coins.txt"
-  data_limit: 200
-  cache_dir: "cache"
