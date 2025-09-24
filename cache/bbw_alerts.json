@@ -294,10 +294,10 @@
     "consecutive_confirmed": false
   },
   "TWT_contraction": {
-    "timestamp": "2025-09-24T01:43:59.585312",
-    "bbw_value": 3.0329,
-    "contraction_line": 3.0329,
-    "consecutive_confirmed": false
+    "timestamp": "2025-09-24T02:08:27.808219",
+    "bbw_value": 3.0234,
+    "contraction_line": 3.0195,
+    "consecutive_confirmed": true
   },
   "B_contraction": {
     "timestamp": "2025-09-24T01:44:00.562586",
