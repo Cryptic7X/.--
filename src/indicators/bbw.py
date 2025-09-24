@@ -1,6 +1,6 @@
 """
-BBW Indicator - CORRECTED SQUEEZE LOGIC
-BBW Squeeze: When BBW enters range from contraction_line to squeeze_threshold (75% above contraction)
+BBW Indicator - CORRECT 75% Range Logic (Matching Pine Script)
+BBW Squeeze: When BBW enters range from contraction_line to 75% of full range
 """
 import numpy as np
 import json
@@ -18,7 +18,7 @@ class BBWIndicator:
         self.cache_file = "cache/bbw_alerts.json"
 
     def calculate_sma(self, data: List[float], period: int) -> List[float]:
-        """Calculate Simple Moving Average"""
+        """Calculate Simple Moving Average (matching ta.sma)"""
         if len(data) < period:
             return [0.0] * len(data)
         
@@ -32,7 +32,7 @@ class BBWIndicator:
         return sma
 
     def calculate_stddev(self, data: List[float], period: int) -> List[float]:
-        """Calculate Standard Deviation"""
+        """Calculate Standard Deviation (matching ta.stdev)"""
         if len(data) < period:
             return [0.0] * len(data)
         
@@ -48,24 +48,22 @@ class BBWIndicator:
         
         return stddev
 
-    def calculate_bollinger_bands(self, closes: List[float]) -> Tuple[List[float], List[float], List[float]]:
-        """Calculate Bollinger Bands"""
+    def calculate_bbw(self, closes: List[float]) -> Tuple[List[float], List[float], List[float]]:
+        """
+        Calculate BBW exactly matching Pine Script:
+        basis = ta.sma(src, length)
+        dev = mult * ta.stdev(src, length)  
+        upper = basis + dev
+        lower = basis - dev
+        bbw = ((upper - lower) / basis) * 100
+        """
         basis = self.calculate_sma(closes, self.length)
         dev = self.calculate_stddev(closes, self.length)
         
         upper = [basis[i] + (self.mult * dev[i]) for i in range(len(basis))]
         lower = [basis[i] - (self.mult * dev[i]) for i in range(len(basis))]
         
-        return upper, lower, basis
-
-    def calculate_bbw(self, closes: List[float]) -> Tuple[List[float], List[float], List[float]]:
-        """
-        Calculate Bollinger BandWidth with CORRECT formula
-        BBW = ((Upper Band - Lower Band) / Middle Band) * 100
-        """
-        upper, lower, basis = self.calculate_bollinger_bands(closes)
-        
-        # Calculate BBW with CORRECT formula
+        # BBW calculation exactly matching Pine Script
         bbw = []
         for i in range(len(upper)):
             if basis[i] != 0:
@@ -74,14 +72,14 @@ class BBWIndicator:
                 bbw_val = 0
             bbw.append(bbw_val)
         
-        # Calculate dynamic thresholds
+        # Calculate dynamic thresholds (matching ta.highest and ta.lowest)
         highest_expansion = self.calculate_rolling_max(bbw, self.expansion_length)
         lowest_contraction = self.calculate_rolling_min(bbw, self.contraction_length)
         
         return bbw, highest_expansion, lowest_contraction
 
     def calculate_rolling_max(self, data: List[float], period: int) -> List[float]:
-        """Calculate rolling maximum"""
+        """Calculate rolling maximum (matching ta.highest)"""
         rolling_max = []
         for i in range(len(data)):
             if i < period - 1:
@@ -91,7 +89,7 @@ class BBWIndicator:
         return rolling_max
 
     def calculate_rolling_min(self, data: List[float], period: int) -> List[float]:
-        """Calculate rolling minimum"""
+        """Calculate rolling minimum (matching ta.lowest)"""
         rolling_min = []
         for i in range(len(data)):
             if i < period - 1:
@@ -121,33 +119,45 @@ class BBWIndicator:
             print(f"Error saving BBW cache: {e}")
             return False
 
-    def calculate_squeeze_threshold(self, contraction_line: float) -> float:
+    def calculate_75_percent_threshold(self, contraction_line: float, expansion_line: float) -> float:
         """
-        Calculate 75% above contraction line (squeeze threshold)
-        Formula: contraction_line + (contraction_line * 0.75)
-        Example: if contraction = 2.23, then 75% above = 2.23 + (2.23 * 0.75) = 3.91
-        """
-        return contraction_line + (contraction_line * 0.75)
-
-    def detect_squeeze_entry(self, symbol: str, bbw_values: List[float], lowest_contraction: List[float]) -> bool:
-        """
-        CORRECTED: Detect BBW squeeze entry
+        CORRECTED: Calculate 75% threshold within the dynamic range
         
-        Squeeze Range: From contraction_line to squeeze_threshold (75% above contraction)
-        Example: contraction = 2.23, squeeze_threshold = 3.91
-        Alert when BBW FIRST enters this range [2.23 - 3.91]
+        Range = expansion_line - contraction_line  
+        75% threshold = contraction_line + (range * 0.75)
+        
+        Example:
+        - contraction_line = 2.23
+        - expansion_line = 10.50  
+        - range = 10.50 - 2.23 = 8.27
+        - 75% threshold = 2.23 + (8.27 * 0.75) = 2.23 + 6.20 = 8.43
         """
-        if len(bbw_values) < 3 or len(lowest_contraction) < 3:
+        if expansion_line <= contraction_line:
+            return contraction_line
+        
+        range_size = expansion_line - contraction_line
+        threshold = contraction_line + (range_size * 0.75)
+        return threshold
+
+    def detect_squeeze_entry(self, symbol: str, bbw_values: List[float], lowest_contraction: List[float], highest_expansion: List[float]) -> bool:
+        """
+        CORRECTED: Detect BBW squeeze entry in dynamic 75% range
+        
+        Squeeze Range: From contraction_line to 75% of (expansion - contraction)
+        Alert when BBW FIRST enters this range
+        """
+        if len(bbw_values) < 3 or len(lowest_contraction) < 3 or len(highest_expansion) < 3:
             return False
 
         current_bbw = bbw_values[-1]
         contraction_line = lowest_contraction[-1]
+        expansion_line = highest_expansion[-1]
         
-        # Calculate squeeze threshold (75% above contraction)
-        squeeze_threshold = self.calculate_squeeze_threshold(contraction_line)
+        # Calculate 75% threshold correctly
+        threshold_75 = self.calculate_75_percent_threshold(contraction_line, expansion_line)
         
-        # Check if BBW is in squeeze range
-        is_in_squeeze_range = contraction_line <= current_bbw <= squeeze_threshold
+        # Check if BBW is in squeeze range (contraction to 75% threshold)
+        is_in_squeeze_range = contraction_line <= current_bbw <= threshold_75
         
         if not is_in_squeeze_range:
             return False
@@ -170,27 +180,28 @@ class BBWIndicator:
                 return False
             
             # Check if we've exited and now re-entered squeeze
-            if self.has_exited_squeeze_and_reentered(bbw_values, contraction_line, squeeze_threshold):
-                print(f"BBW squeeze re-entry: {symbol} BBW:{current_bbw:.4f} in [{contraction_line:.4f} - {squeeze_threshold:.4f}]")
+            if self.has_exited_squeeze_and_reentered(bbw_values, contraction_line, threshold_75):
+                print(f"BBW squeeze re-entry: {symbol} BBW:{current_bbw:.2f} in [{contraction_line:.2f} - {threshold_75:.2f}]")
             else:
                 return False
         else:
             # First time seeing this symbol in squeeze
-            print(f"BBW squeeze first entry: {symbol} BBW:{current_bbw:.4f} in [{contraction_line:.4f} - {squeeze_threshold:.4f}]")
+            print(f"BBW squeeze first entry: {symbol} BBW:{current_bbw:.2f} in [{contraction_line:.2f} - {threshold_75:.2f}]")
 
         # Update cache to mark we're now in squeeze
         cache[cache_key] = {
             'last_alert_time': current_time,
             'last_bbw_value': current_bbw,
             'contraction_line': contraction_line,
-            'squeeze_threshold': squeeze_threshold,
+            'expansion_line': expansion_line,
+            'threshold_75': threshold_75,
             'was_in_squeeze': True
         }
         
         self.save_bbw_cache(cache)
         return True
 
-    def has_exited_squeeze_and_reentered(self, bbw_values: List[float], contraction_line: float, squeeze_threshold: float, lookback_periods: int = 6) -> bool:
+    def has_exited_squeeze_and_reentered(self, bbw_values: List[float], contraction_line: float, threshold_75: float, lookback_periods: int = 6) -> bool:
         """
         Check if BBW has exited squeeze range and is now re-entering
         Look at last 6 periods (12 hours of 2H data)
@@ -204,13 +215,13 @@ class BBWIndicator:
         # Check if we were outside squeeze range recently
         was_outside_recently = False
         for bbw_val in recent_bbw[:-1]:  # Exclude current value
-            if bbw_val < contraction_line or bbw_val > squeeze_threshold:
+            if bbw_val < contraction_line or bbw_val > threshold_75:
                 was_outside_recently = True
                 break
         
         return was_outside_recently
 
-    def update_squeeze_exit_status(self, symbol: str, bbw_values: List[float], lowest_contraction: List[float]):
+    def update_squeeze_exit_status(self, symbol: str, bbw_values: List[float], lowest_contraction: List[float], highest_expansion: List[float]):
         """
         Update cache when BBW exits squeeze range
         """
@@ -219,10 +230,11 @@ class BBWIndicator:
 
         current_bbw = bbw_values[-1]
         contraction_line = lowest_contraction[-1] if lowest_contraction else 0
-        squeeze_threshold = self.calculate_squeeze_threshold(contraction_line)
+        expansion_line = highest_expansion[-1] if highest_expansion else 0
+        threshold_75 = self.calculate_75_percent_threshold(contraction_line, expansion_line)
         
         # Check if currently outside squeeze range
-        is_outside_squeeze = current_bbw < contraction_line or current_bbw > squeeze_threshold
+        is_outside_squeeze = current_bbw < contraction_line or current_bbw > threshold_75
         
         if is_outside_squeeze:
             cache = self.load_bbw_cache()
@@ -250,23 +262,23 @@ class BBWIndicator:
             bbw, highest_expansion, lowest_contraction = self.calculate_bbw(closes)
 
             # Update squeeze exit status first
-            self.update_squeeze_exit_status(symbol, bbw, lowest_contraction)
+            self.update_squeeze_exit_status(symbol, bbw, lowest_contraction, highest_expansion)
 
             # Detect squeeze entry
-            squeeze_entry_signal = self.detect_squeeze_entry(symbol, bbw, lowest_contraction)
+            squeeze_entry_signal = self.detect_squeeze_entry(symbol, bbw, lowest_contraction, highest_expansion)
 
             current_bbw = bbw[-1]
             contraction_line = lowest_contraction[-1]
             expansion_line = highest_expansion[-1]
-            squeeze_threshold = self.calculate_squeeze_threshold(contraction_line)
+            threshold_75 = self.calculate_75_percent_threshold(contraction_line, expansion_line)
 
             return {
                 'squeeze_signal': squeeze_entry_signal,  # True when first entering squeeze range
                 'bbw': current_bbw,
                 'lowest_contraction': contraction_line,
                 'highest_expansion': expansion_line,
-                'squeeze_threshold': squeeze_threshold,
-                'is_in_squeeze': contraction_line <= current_bbw <= squeeze_threshold
+                'threshold_75': threshold_75,
+                'is_in_squeeze': contraction_line <= current_bbw <= threshold_75
             }
 
         except Exception as e:
