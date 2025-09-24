@@ -1,38 +1,55 @@
-# Multi-Indicator Crypto Trading System - Final Configuration
+# Multi-Indicator Crypto Trading System - Optimized Configuration
 system:
   name: "Multi-Indicator-Crypto-Alerts"
-  version: "3.0"
-  components: ["CipherB", "BBW", "SMA"]
+  version: "3.1"
+  log_level: "INFO"
 
-# Data Sources (Unlimited Fetching)
+# Market Data Source
 market_data:
   source: "coinmarketcap"
   api_key_env: "COINMARKETCAP_API_KEY"
-  unlimited_fetch: true
-  
-  # CipherB + BBW Dataset
-  cipherb_filters:
-    min_market_cap: 100000000      # $100M
-    min_volume_24h: 10000000       # $10M
 
+# CipherB Configuration (2H Analysis)
+cipherb_config:
+  timeframe: "2h"
+  filters:
+    min_market_cap: 100000000    # $100M
+    min_volume_24h: 10000000     # $10M
+  processing:
+    max_workers: 10
+    timeout_seconds: 30
+    retry_attempts: 3
+  cache_file: "cache/cipherb_dataset.json"
 
-  bbw:
-    min_market_cap: 100000000       # $100M
-    min_volume_24h: 50000000        # $50M
+# BBW Configuration (15M Analysis) 
+bbw_config:
+  timeframe: "15m"
+  filters:
+    min_market_cap: 100000000    # $100M
+    min_volume_24h: 50000000     # $50M
+  processing:
+    max_workers: 10
+    timeout_seconds: 30
+    retry_attempts: 3
+  cache_file: "cache/cipherb_dataset.json"  # Same dataset as CipherB
+  deduplication:
+    first_touch_only: true
 
+# SMA Configuration (2H Analysis)
+sma_config:
+  timeframe: "2h"
+  filters:
+    min_market_cap: 10000000     # $10M
+    min_volume_24h: 10000000     # $10M
+  processing:
+    max_workers: 15
+    timeout_seconds: 30
+    retry_attempts: 3
+  cache_file: "cache/sma_dataset.json"
+  suppression:
+    proximity_hours: 12
 
-    
-  # SMA Dataset (Larger)
-  sma_filters:
-    min_market_cap: 10000000       # $10M
-    min_volume_24h: 10000000       # $10M
-
-
-# Symbol Mapping (Simplified)
-symbol_mapping:
-  file: "config/symbol_mapping.json"
-
-# Exchange APIs (No CCXT)
+# Exchange Configuration (15M and 2H only)
 exchanges:
   primary:
     name: "bingx"
@@ -42,76 +59,22 @@ exchanges:
   fallbacks:
     - name: "kucoin"
       base_url: "https://api.kucoin.com"
-      public_api: true
       rate_limit_ms: 200
     - name: "okx"
       base_url: "https://www.okx.com"
-      public_api: true
       rate_limit_ms: 150
 
-# CipherB Settings (No Suppression)
-cipherb:
-  timeframe: "2h"  # or "30m" - what timeframe are you using on TradingView?
-  capture_all_signals: true
-  parallel_processing: true
-  max_workers: 10
-  wt_channel_len: 9     # wtChannelLen = 9 (YOUR EXACT VALUE)
-  wt_average_len: 12    # wtAverageLen = 12 (YOUR EXACT VALUE) 
-  wt_ma_len: 3          # wtMALen = 3 (YOUR EXACT VALUE)
-  oversold_threshold: -60  # osLevel2 = -60 (YOUR EXACT VALUE)
-  overbought_threshold: 60 # obLevel2 = 60 (YOUR EXACT VALUE)
-
-# BBW Settings (First-Touch Logic)
-bbw:
-  timeframe: "15m"
-  parallel_processing: true
-  max_workers: 10
-  bollinger_length: 20
-  bollinger_source: "close"
-  bollinger_mult: 2.0
-  expansion_length: 125
-  contraction_length: 125
-  first_touch_logic: true
-  movement_reset_threshold: 1.20
-  consecutive_periods_check: 3
-  cache_file: "cache/bbw_alerts.json"
-
-# SMA Settings (12H Proximity Suppression)
-sma:
-  timeframe: "2h"
-  parallel_processing: true
-  max_workers: 15
-  short_length: 50
-  long_length: 200
-  proximity_threshold: 0.02
-  proximity_suppression_hours: 12
-  ranging_threshold: 0.02
-  crossover_suppression: false
-  cache_file: "cache/sma_alerts.json"
-
-# Telegram Channels (3 Separate)
+# Telegram Configuration
 telegram:
   bot_token_env: "TELEGRAM_BOT_TOKEN"
   channels:
-    cipherb:
-      chat_id_env: "CIPHERB_TELEGRAM_CHAT_ID"
-      name: "CipherB 2H Signals"
-    bbw:
-      chat_id_env: "BBW_TELEGRAM_CHAT_ID"
-      name: "BBW 30M Squeezes"
-    sma:
-      chat_id_env: "SMA_TELEGRAM_CHAT_ID"
-      name: "SMA 2H Crossovers"
-  concise_format: true
-  include_chart_links: true
-  include_context: true
-  max_message_length: 4000
+    cipherb: "CIPHERB_TELEGRAM_CHAT_ID"
+    bbw: "BBW_TELEGRAM_CHAT_ID"
+    sma: "SMA_TELEGRAM_CHAT_ID"
 
-# Performance Optimization
-performance:
-  parallel_processing: true
-  batch_processing: true
-  batch_size: 100
-  api_timeout_seconds: 30
-  max_retries: 3
-  rate_limiting: true
+# Shared Configuration
+shared:
+  symbol_mapping_file: "config/symbol_mapping.json"
+  blocked_coins_file: "config/blocked_coins.txt"
+  data_limit: 200
+  cache_dir: "cache"
