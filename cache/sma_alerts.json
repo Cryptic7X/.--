@@ -75,10 +75,6 @@
     "market_trend": "bullish",
     "trend_updated": "2025-09-23T12:41:03.007857"
   },
-  "BMT_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T12:41:03.721050"
-  },
   "EPT": {
     "market_trend": "bearish",
     "trend_updated": "2025-09-23T12:41:06.692265"
@@ -143,10 +139,6 @@
     "sent": true,
     "timestamp": "2025-09-23T22:18:23.148261"
   },
-  "ICE_ranging": {
-    "sent": true,
-    "timestamp": "2025-09-23T22:18:31.236105"
-  },
   "ICE": {
     "market_trend": "bearish",
     "trend_updated": "2025-09-24T01:27:27.814814"
@@ -169,5 +161,21 @@
   "LQTY_ranging": {
     "sent": true,
     "timestamp": "2025-09-24T02:59:44.704550"
+  },
+  "ROSE": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-24T04:23:34.790060"
+  },
+  "LQTY": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-24T04:23:38.787319"
+  },
+  "REZ": {
+    "market_trend": "bearish",
+    "trend_updated": "2025-09-24T04:23:41.740822"
+  },
+  "BTR_ranging": {
+    "sent": true,
+    "timestamp": "2025-09-24T04:23:43.146712"
   }
 }
