@@ -1,5 +1,5 @@
 """
-BBW Telegram Alert System - Squeeze Entry Alerts  
+BBW Telegram Alert System - FIXED (Shorter Messages)
 Sends alerts when BBW first enters squeeze range (2H timeframe)
 """
 import os
@@ -22,75 +22,54 @@ class BBWTelegramSender:
         else:
             return f"${price:.2f}"
 
-    def create_chart_links(self, symbol: str) -> tuple:
-        """Create TradingView and CoinGlass links"""
-        # TradingView 2H chart
+    def create_chart_links(self, symbol: str) -> str:
+        """Create TradingView link only"""
         clean_symbol = symbol.replace('USDT', '').replace('USD', '')
-        tv_link = f"https://www.tradingview.com/chart/?symbol={clean_symbol}USDT&interval=120"
-        
-        # CoinGlass liquidation heatmap
-        cg_link = f"https://www.coinglass.com/pro/futures/LiquidationHeatMapNew?coin={clean_symbol}"
-        
-        return tv_link, cg_link
+        return f"https://www.tradingview.com/chart/?symbol={clean_symbol}USDT&interval=120"
 
     def send_bbw_batch_alert(self, signals: List[Dict]) -> bool:
-        """Send consolidated BBW squeeze entry alert"""
+        """Send consolidated BBW squeeze entry alert - SHORTER VERSION"""
         if not self.bot_token or not self.chat_id or not signals:
             return False
 
         try:
-            # Build message header
-            current_time = datetime.now().strftime('%H:%M:%S IST')
-            message = f"""🔵 **BBW 2H - SQUEEZE ALERTS**
+            # Limit to 10 signals max to avoid message size limit
+            display_signals = signals[:10]
+            
+            # Build shorter message
+            current_time = datetime.now().strftime('%H:%M IST')
+            message = f"🔵 **BBW 2H SQUEEZE** - {current_time}\n\n"
+            message += f"📊 **{len(signals)} entries detected**\n\n"
 
-📊 **{len(signals)} SQUEEZE ENTRIES DETECTED**
-
-🕐 **{current_time}**
-
-⏰ **Timeframe: 2H Candles**
-🎯 **Alert Type: First Squeeze Entry**
-
-"""
-
-            # Add squeeze entry signals
-            for i, signal in enumerate(signals, 1):
+            # Add squeeze entries (shortened format)
+            for i, signal in enumerate(display_signals, 1):
                 symbol = signal['symbol']
                 coin_data = signal['coin_data']
                 price = self.format_price(coin_data['current_price'])
                 change_24h = coin_data['price_change_percentage_24h']
                 bbw_value = signal['bbw_value']
-                contraction_line = signal['contraction_line']
-                squeeze_threshold = signal['squeeze_threshold']
+                contraction = signal['contraction_line']
+                threshold_75 = signal.get('threshold_75', 0)
 
-                # Create chart links
-                tv_link, cg_link = self.create_chart_links(symbol)
+                # Create chart link
+                tv_link = self.create_chart_links(symbol)
 
-                message += f"""{i}. **{symbol}** | {price} ({change_24h:+.1f}% 24h)
-🔵 BBW: {bbw_value:.2f}
-📉 Squeeze Range: {contraction_line:.2f} - {squeeze_threshold:.2f}
-🎯 Status: SQUEEZE ENTRY
+                message += f"{i}. **{symbol}** | {price} ({change_24h:+.1f}%)\n"
+                message += f"BBW: {bbw_value:.1f} | Range: {contraction:.1f}-{threshold_75:.1f}\n"
+                message += f"[Chart]({tv_link})\n\n"
 
-📈 [Chart →]({tv_link}) | 🔥 [Liq Heat →]({cg_link})
+            # Add summary if more than 10 signals
+            if len(signals) > 10:
+                message += f"... and {len(signals) - 10} more signals\n\n"
 
-"""
+            message += f"🎯 **Squeeze = Low volatility → Breakout potential**"
 
-            # Add summary
-            message += f"""📊 **BBW SQUEEZE SUMMARY**
-
-• Total Squeeze Entries: {len(signals)}
-• Timeframe: 2 Hours
-• Squeeze Range: Contraction to 75% above
-• Deduplication: Active (no repeats until exit + re-entry)
-
-🎯 **BBW Squeeze = Volatility Contraction = Potential Breakout Setup**"""
-
-            # Send message
+            # Send message (NO parse_mode to avoid Markdown errors)
             url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
             payload = {
                 'chat_id': self.chat_id,
                 'text': message,
-                'parse_mode': 'Markdown',
-                'disable_web_page_preview': False
+                'disable_web_page_preview': True
             }
 
             response = requests.post(url, json=payload, timeout=30)
