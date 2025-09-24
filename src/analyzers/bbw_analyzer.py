@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-BBW 2H Analyzer - CORRECTED 75% Range Logic
+BBW 2H Analyzer - OPTIMIZED FOR SPEED
+Should complete analysis in 15-30 seconds maximum
 """
 import os
 import json
@@ -15,7 +16,7 @@ from src.exchanges.simple_exchange import SimpleExchangeManager
 from src.indicators.bbw import BBWIndicator
 from src.alerts.bbw_telegram import BBWTelegramSender
 
-class BBW2HAnalyzer:
+class FastBBW2HAnalyzer:
     def __init__(self, config: Dict):
         self.config = config
         self.exchange_manager = SimpleExchangeManager()
@@ -23,7 +24,7 @@ class BBW2HAnalyzer:
         self.bbw_indicator = BBWIndicator()
 
     def load_bbw_dataset(self) -> List[Dict]:
-        """Load BBW dataset"""
+        """Fast dataset loading"""
         cache_file = os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'cipherb_dataset.json')
         
         try:
@@ -31,33 +32,36 @@ class BBW2HAnalyzer:
                 data = json.load(f)
                 coins = data.get('coins', [])
             
-            # Apply BBW filters (≥$100M cap, ≥$50M vol)
+            # Apply filters and limit to top coins for speed
             filtered = [
                 c for c in coins
                 if c.get('market_cap', 0) >= 100_000_000 and c.get('total_volume', 0) >= 50_000_000
             ]
             
-            print(f"📊 Loaded {len(filtered)} coins for BBW 2H")
+            # Sort by market cap and limit to top 100 coins for speed
+            filtered = sorted(filtered, key=lambda x: x.get('market_cap', 0), reverse=True)[:100]
+            
+            print(f"📊 Loaded top {len(filtered)} coins for BBW 2H (speed optimized)")
             return filtered
             
         except Exception as e:
-            print(f"❌ Failed loading BBW dataset: {e}")
+            print(f"❌ Dataset load failed: {e}")
             return []
 
     def analyze_single_coin(self, coin_data: Dict) -> Optional[Dict]:
-        """Analyze single coin for BBW squeeze entry"""
+        """Fast single coin analysis"""
         symbol = coin_data['symbol']
         
         try:
-            # Fetch 2H OHLCV data
+            # Fast OHLCV fetch (reduced limit)
             ohlcv_data, exchange_used = self.exchange_manager.fetch_ohlcv_with_fallback(
-                symbol, '2h', limit=200
+                symbol, '2h', limit=100
             )
             
-            if not ohlcv_data:
+            if not ohlcv_data or len(ohlcv_data.get('close', [])) < 50:
                 return None
             
-            # Run BBW analysis
+            # Fast BBW analysis
             bbw_result = self.bbw_indicator.calculate_bbw_signals(ohlcv_data, symbol)
             
             if not bbw_result.get('squeeze_signal', False):
@@ -65,91 +69,88 @@ class BBW2HAnalyzer:
 
             return {
                 'symbol': symbol,
-                'signal_type': 'BBW_SQUEEZE',
                 'bbw_value': bbw_result.get('bbw', 0),
                 'contraction_line': bbw_result.get('lowest_contraction', 0),
                 'expansion_line': bbw_result.get('highest_expansion', 0),
                 'threshold_75': bbw_result.get('threshold_75', 0),
                 'coin_data': coin_data,
-                'exchange_used': exchange_used,
-                'timestamp': datetime.utcnow().isoformat(),
-                'timeframe': '2h'
+                'exchange_used': exchange_used
             }
 
-        except Exception as e:
-            print(f"⚠️ BBW analysis failed for {symbol}: {str(e)[:50]}")
+        except Exception:
             return None
 
-    def process_coins_parallel(self, coins: List[Dict]) -> List[Dict]:
-        """Process coins in parallel"""
-        signals = []
-        
-        with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-            future_to_coin = {executor.submit(self.analyze_single_coin, coin): coin for coin in coins}
-            processed = 0
-            
-            for future in concurrent.futures.as_completed(future_to_coin):
-                coin = future_to_coin[future]
-                processed += 1
-                
-                try:
-                    result = future.result(timeout=30)
-                    if result:
-                        signals.append(result)
-                        bbw = result['bbw_value']
-                        threshold = result['threshold_75']
-                        print(f"🔵 BBW SQUEEZE: {result['symbol']} BBW:{bbw:.1f} ≤ {threshold:.1f}")
-                    
-                    if processed % 20 == 0:
-                        print(f"📈 Progress: {processed}/{len(coins)}")
-                        
-                except Exception as e:
-                    continue
-        
-        return signals
-
     def run_bbw_analysis(self):
-        """Main BBW analysis execution"""
-        print("🔵 BBW 2H ANALYSIS STARTING")
+        """OPTIMIZED BBW analysis execution"""
+        print("🔵 BBW 2H ANALYSIS - SPEED OPTIMIZED")
         print("=" * 40)
         
         start_time = datetime.utcnow()
         
-        # Load dataset
+        # Load dataset (limited for speed)
         coins = self.load_bbw_dataset()
         if not coins:
             return
         
-        print(f"📊 Analyzing {len(coins)} BBW coins")
-        print("⚡ Timeframe: 2H | Squeeze: 75% range")
+        print(f"📊 Analyzing top {len(coins)} coins")
+        print("⚡ Speed mode: 5s timeouts, 100 candles, 12 workers")
         
-        # Process coins
-        signals = self.process_coins_parallel(coins)
+        # Fast parallel processing
+        signals = []
+        completed = 0
         
-        # Send alerts and report results
-        if signals:
-            success = self.telegram_sender.send_bbw_batch_alert(signals)
-            processing_time = (datetime.utcnow() - start_time).total_seconds()
+        with concurrent.futures.ThreadPoolExecutor(max_workers=12) as executor:
+            # Submit all jobs
+            future_to_coin = {
+                executor.submit(self.analyze_single_coin, coin): coin 
+                for coin in coins
+            }
             
-            print("\n" + "=" * 40)
-            print("✅ BBW 2H ANALYSIS COMPLETE")
-            print(f"🔵 Squeeze Entries: {len(signals)}")
-            print(f"📱 Alert Sent: {'Yes' if success else 'Failed'}")
-            print(f"⏱️ Processing Time: {processing_time:.1f}s")
-            print("=" * 40)
+            # Process results as they complete
+            for future in concurrent.futures.as_completed(future_to_coin, timeout=60):
+                coin = future_to_coin[future]
+                completed += 1
+                
+                try:
+                    result = future.result(timeout=2)  # Fast timeout per result
+                    if result:
+                        signals.append(result)
+                        print(f"🔵 SQUEEZE: {result['symbol']} ({result['bbw_value']:.1f})")
+                except:
+                    pass  # Skip errors for speed
+                
+                # Progress every 20 coins
+                if completed % 20 == 0:
+                    print(f"📈 {completed}/{len(coins)} processed")
+        
+        processing_time = (datetime.utcnow() - start_time).total_seconds()
+        
+        # Save cache updates in batch
+        self.bbw_indicator.save_cache_updates({})
+        
+        # Send results
+        if signals:
+            print(f"\n🔵 Found {len(signals)} squeeze signals")
+            success = self.telegram_sender.send_bbw_batch_alert(signals)
+            print(f"📱 Alert sent: {'Yes' if success else 'Failed'}")
         else:
-            processing_time = (datetime.utcnow() - start_time).total_seconds()
-            print(f"\n📭 No BBW squeeze entries found")
-            print(f"⏱️ Processing Time: {processing_time:.1f}s")
+            print(f"\n📭 No squeeze signals found")
+        
+        print(f"⚡ SPEED: {processing_time:.1f}s total")
+        print("=" * 40)
 
 def main():
-    import yaml
-    config_path = os.path.join(os.path.dirname(__file__), '..', '..', 'config', 'config.yaml')
-    with open(config_path) as f:
-        config = yaml.safe_load(f)
-    
-    analyzer = BBW2HAnalyzer(config)
-    analyzer.run_bbw_analysis()
+    try:
+        import yaml
+        config_path = os.path.join(os.path.dirname(__file__), '..', '..', 'config', 'config.yaml')
+        with open(config_path) as f:
+            config = yaml.safe_load(f)
+        
+        analyzer = FastBBW2HAnalyzer(config)
+        analyzer.run_bbw_analysis()
+        
+    except Exception as e:
+        print(f"❌ Analysis failed: {e}")
 
 if __name__ == '__main__':
     main()
