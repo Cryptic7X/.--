@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Daily Market Data Fetcher - FIXED Blocked Coins Filtering
+Daily Market Data Fetcher - PROPERLY FILTERS BLOCKED COINS
 """
 import os
 import sys
@@ -25,26 +25,25 @@ class DataFetcher:
         self.cache_dir = os.path.join(os.path.dirname(__file__), '..', 'cache')
         os.makedirs(self.cache_dir, exist_ok=True)
         
-        # LOAD BLOCKED COINS
+        # LOAD BLOCKED COINS - CRITICAL FIX
         self.blocked_coins = self._load_blocked_coins()
         
-        print(f"📊 DataFetcher initialized - Cache dir: {self.cache_dir}")
-        print(f"🚫 Blocked coins loaded: {len(self.blocked_coins)}")
+        print(f"📊 DataFetcher initialized")
+        print(f"🚫 Blocked {len(self.blocked_coins)} coins: {', '.join(list(self.blocked_coins)[:10])}...")
 
     def _load_config(self):
         config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'config.yaml')
         try:
             with open(config_path, 'r') as f:
                 return yaml.safe_load(f)
-        except Exception as e:
-            print(f"❌ Error loading config: {e}")
+        except:
             return {
                 'cipherb_config': {'filters': {'min_market_cap': 100000000, 'min_volume_24h': 10000000}},
                 'sma_config': {'filters': {'min_market_cap': 10000000, 'min_volume_24h': 10000000}}
             }
 
     def _load_blocked_coins(self):
-        """FIXED: Load blocked coins from blocked_coins.txt"""
+        """Load blocked coins from config/blocked_coins.txt"""
         blocked_file = os.path.join(os.path.dirname(__file__), '..', 'config', 'blocked_coins.txt')
         blocked_coins = set()
         
@@ -52,31 +51,35 @@ class DataFetcher:
             with open(blocked_file, 'r') as f:
                 for line in f:
                     coin = line.strip().upper()
+                    # Skip empty lines and comments
                     if coin and not coin.startswith('#'):
                         blocked_coins.add(coin)
             
-            print(f"🚫 Loaded {len(blocked_coins)} blocked coins: {', '.join(list(blocked_coins)[:10])}...")
+            print(f"🚫 Loaded {len(blocked_coins)} blocked coins from {blocked_file}")
             return blocked_coins
             
         except FileNotFoundError:
-            print("❌ blocked_coins.txt not found")
+            print(f"❌ {blocked_file} not found!")
             return set()
         except Exception as e:
             print(f"❌ Error loading blocked coins: {e}")
             return set()
 
-    def _is_blocked_coin(self, symbol: str) -> bool:
-        """Check if coin is blocked"""
+    def _is_coin_blocked(self, symbol: str) -> bool:
+        """Check if coin symbol is in blocked list"""
         return symbol.upper() in self.blocked_coins
 
     def fetch_all_coins(self) -> list:
-        """Fetch unlimited coins from CoinMarketCap"""
+        """Fetch all coins and FILTER OUT BLOCKED COINS"""
         print("🚀 Starting unlimited CoinMarketCap fetch...")
         
         url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
         all_coins = []
         start = 1
         limit = 5000
+        
+        total_blocked = 0
+        total_processed = 0
         
         while True:
             try:
@@ -95,31 +98,26 @@ class DataFetcher:
                 response.raise_for_status()
                 data = response.json()
                 
-                if 'data' not in data:
-                    print(f"❌ No data in API response")
+                if 'data' not in data or not data['data']:
+                    print("✅ No more coins to fetch")
                     break
                 
                 coins = data['data']
-                if not coins:
-                    print(f"✅ No more coins to fetch")
-                    break
+                print(f"📊 Retrieved {len(coins)} coins from API")
                 
-                print(f"📊 Retrieved {len(coins)} coins")
-                
-                # Process and filter each coin
-                filtered_count = 0
-                blocked_count = 0
-                
+                # Process each coin and APPLY BLOCKING FILTER
                 for coin in coins:
                     try:
+                        total_processed += 1
                         symbol = coin.get('symbol', '').upper()
                         
-                        # APPLY BLOCKED COINS FILTER FIRST
-                        if self._is_blocked_coin(symbol):
-                            blocked_count += 1
-                            print(f"🚫 Blocked: {symbol}")
-                            continue
+                        # CRITICAL: Check if coin is blocked FIRST
+                        if self._is_coin_blocked(symbol):
+                            total_blocked += 1
+                            print(f"🚫 BLOCKED: {symbol}")
+                            continue  # SKIP this coin completely
                         
+                        # Process non-blocked coin
                         processed_coin = {
                             'id': coin.get('id'),
                             'symbol': symbol,
@@ -131,42 +129,44 @@ class DataFetcher:
                             'last_updated': coin.get('last_updated')
                         }
                         
-                        # Filter out coins with missing data
-                        if (processed_coin['market_cap'] and 
-                            processed_coin['current_price'] and 
-                            processed_coin['total_volume']):
+                        # Only add coins with valid data
+                        if (processed_coin['market_cap'] > 0 and 
+                            processed_coin['current_price'] > 0 and 
+                            processed_coin['total_volume'] > 0):
                             all_coins.append(processed_coin)
+                            print(f"✅ ADDED: {symbol}")
                         else:
-                            filtered_count += 1
+                            print(f"⚠️ SKIPPED (invalid data): {symbol}")
                             
                     except Exception as e:
-                        print(f"⚠️ Error processing coin {coin.get('symbol', 'UNKNOWN')}: {e}")
+                        print(f"⚠️ Error processing {coin.get('symbol', 'UNKNOWN')}: {e}")
                         continue
                 
-                print(f"🛡️ Blocked {blocked_count} coins, filtered {filtered_count} invalid coins")
-                
+                # Break conditions
                 if len(coins) < limit:
-                    print(f"✅ Reached end of available coins")
+                    print("✅ Reached end of available coins")
                     break
                     
                 start += limit
                 
-                if len(all_coins) >= 10000:
+                # Safety limit
+                if len(all_coins) >= 8000:
                     print(f"⚠️ Safety limit reached: {len(all_coins)} coins")
                     break
                     
-            except requests.exceptions.RequestException as e:
+            except Exception as e:
                 print(f"❌ API request failed: {e}")
                 break
-            except Exception as e:
-                print(f"❌ Unexpected error: {e}")
-                break
         
-        print(f"🎯 Total coins fetched (after blocking): {len(all_coins)}")
+        print(f"🎯 FILTERING SUMMARY:")
+        print(f"   📊 Total processed: {total_processed}")
+        print(f"   🚫 Total blocked: {total_blocked}")
+        print(f"   ✅ Final dataset: {len(all_coins)} coins")
+        
         return all_coins
 
     def create_filtered_datasets(self, all_coins: list) -> tuple:
-        """Create filtered datasets"""
+        """Create CipherB and SMA datasets"""
         print("🔧 Creating filtered datasets...")
         
         # CipherB/BBW filters
@@ -185,21 +185,23 @@ class DataFetcher:
                 coin['total_volume'] >= sma_filters['min_volume_24h'])
         ]
         
-        print(f"✅ CipherB/BBW dataset: {len(cipherb_coins)} coins")
-        print(f"✅ SMA dataset: {len(sma_coins)} coins")
+        print(f"✅ CipherB/BBW dataset: {len(cipherb_coins)} coins (≥${cipherb_filters['min_market_cap']:,} cap, ≥${cipherb_filters['min_volume_24h']:,} vol)")
+        print(f"✅ SMA dataset: {len(sma_coins)} coins (≥${sma_filters['min_market_cap']:,} cap, ≥${sma_filters['min_volume_24h']:,} vol)")
         
         return cipherb_coins, sma_coins
 
-    def save_datasets(self, cipherb_coins: list, sma_coins: list) -> tuple:
-        """Save datasets to cache files"""
+    def save_datasets(self, cipherb_coins: list, sma_coins: list):
+        """Save datasets with timestamp"""
         print("💾 Saving datasets to cache...")
         
         try:
-            # Save CipherB dataset
+            timestamp = datetime.utcnow().isoformat()
+            
+            # CipherB dataset
             cipherb_data = {
-                'timestamp': datetime.utcnow().isoformat(),
+                'timestamp': timestamp,
                 'total_coins': len(cipherb_coins),
-                'filters_applied': 'Market cap ≥ $100M, Volume ≥ $10M, Blocked coins filtered',
+                'filters_applied': 'Market cap ≥ $100M, Volume ≥ $10M, Blocked coins removed',
                 'coins': cipherb_coins
             }
             
@@ -207,11 +209,11 @@ class DataFetcher:
             with open(cipherb_file, 'w') as f:
                 json.dump(cipherb_data, f, indent=2)
             
-            # Save SMA dataset
+            # SMA dataset
             sma_data = {
-                'timestamp': datetime.utcnow().isoformat(),
+                'timestamp': timestamp,
                 'total_coins': len(sma_coins),
-                'filters_applied': 'Market cap ≥ $10M, Volume ≥ $10M, Blocked coins filtered',
+                'filters_applied': 'Market cap ≥ $10M, Volume ≥ $10M, Blocked coins removed',
                 'coins': sma_coins
             }
             
@@ -219,10 +221,7 @@ class DataFetcher:
             with open(sma_file, 'w') as f:
                 json.dump(sma_data, f, indent=2)
             
-            print(f"✅ Datasets saved:")
-            print(f"   📁 {cipherb_file}")
-            print(f"   📁 {sma_file}")
-            
+            print(f"✅ Datasets saved successfully")
             return cipherb_file, sma_file
             
         except Exception as e:
@@ -231,7 +230,7 @@ class DataFetcher:
 
 def main():
     print("=" * 60)
-    print("📊 STARTING UNLIMITED DAILY MARKET SCAN")
+    print("📊 STARTING DAILY MARKET SCAN WITH BLOCKED COIN FILTERING")
     print("=" * 60)
     
     try:
@@ -240,17 +239,15 @@ def main():
         
         if all_coins:
             cipherb_filtered, sma_filtered = fetcher.create_filtered_datasets(all_coins)
-            cipherb_file, sma_file = fetcher.save_datasets(cipherb_filtered, sma_filtered)
+            fetcher.save_datasets(cipherb_filtered, sma_filtered)
             
             print("\n" + "=" * 60)
-            print("✅ UNLIMITED DAILY SCAN COMPLETE!")
-            print(f"💰 API Credits Used: 1-2 (maximum efficiency)")
+            print("✅ DAILY SCAN COMPLETE - BLOCKED COINS FILTERED!")
             print(f"📊 CipherB/BBW Coins: {len(cipherb_filtered)}")
             print(f"📊 SMA Coins: {len(sma_filtered)}")
-            print(f"🎯 Ready for multi-indicator analysis")
             print("=" * 60)
         else:
-            print("❌ No coins fetched - check API connection")
+            print("❌ No coins fetched")
             
     except Exception as e:
         print(f"❌ CRITICAL ERROR: {e}")
