@@ -1,27 +1,45 @@
 #!/usr/bin/env python3
-"""
-CipherB 2H Analyzer - Using Base Class
-"""
+"""Simple CipherB 2H Analyzer"""
 import os
+import json
 import sys
 import pandas as pd
-from typing import Dict, Optional
+import concurrent.futures
+from datetime import datetime
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
-from src.utils.base_analyzer import BaseAnalyzer
+from src.exchanges.simple_exchange import SimpleExchangeManager
 from src.indicators.cipherb import detect_exact_cipherb_signals
 from src.alerts.cipherb_telegram import CipherBTelegramSender
 
-class CipherB2HAnalyzer(BaseAnalyzer):
-    def __init__(self, config: Dict):
-        super().__init__(config, 'cipherb')
+class SimpleCipherBAnalyzer:
+    def __init__(self, config):
+        self.config = config
+        self.exchange_manager = SimpleExchangeManager()
         self.telegram_sender = CipherBTelegramSender(config)
+
+    def load_dataset(self):
+        cache_file = os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'cipherb_dataset.json')
         
-    def _analyze_indicator(self, ohlcv_data: Dict, coin_data: Dict, exchange_used: str) -> Optional[Dict]:
-        """CipherB-specific analysis"""
         try:
-            # Create DataFrame
+            with open(cache_file, 'r') as f:
+                data = json.load(f)
+                return data.get('coins', [])
+        except:
+            return []
+
+    def analyze_coin(self, coin_data):
+        symbol = coin_data['symbol']
+        
+        try:
+            ohlcv_data, exchange_used = self.exchange_manager.fetch_ohlcv_with_fallback(
+                symbol, '2h', limit=200
+            )
+            
+            if not ohlcv_data:
+                return None
+            
             df = pd.DataFrame({
                 'timestamp': ohlcv_data['timestamp'],
                 'open': ohlcv_data['open'],
@@ -38,7 +56,6 @@ class CipherB2HAnalyzer(BaseAnalyzer):
             if len(df) < 25:
                 return None
 
-            # Run CipherB analysis
             signals_df = detect_exact_cipherb_signals(df, {
                 'wt_channel_len': 9, 
                 'wt_average_len': 12,
@@ -50,14 +67,13 @@ class CipherB2HAnalyzer(BaseAnalyzer):
             if signals_df.empty:
                 return None
 
-            # Check penultimate candle for signals (TradingView behavior)
             penultimate = signals_df.iloc[-2]
             
             if not (penultimate["buySignal"] or penultimate["sellSignal"]):
                 return None
 
             return {
-                'symbol': coin_data['symbol'],
+                'symbol': symbol,
                 'signal_type': 'BUY' if penultimate["buySignal"] else 'SELL',
                 'wt1': round(penultimate['wt1'], 1),
                 'wt2': round(penultimate['wt2'], 1),
@@ -67,12 +83,38 @@ class CipherB2HAnalyzer(BaseAnalyzer):
             }
 
         except Exception as e:
-            self.logger.error(f"CipherB indicator analysis failed: {str(e)}")
+            print(f"Error analyzing {symbol}: {e}")
             return None
 
-    def _send_alerts(self, signals: list) -> bool:
-        """Send CipherB alerts"""
-        return self.telegram_sender.send_cipherb_batch_alert(signals)
+    def run_analysis(self):
+        print("🎯 Starting CipherB 2H Analysis...")
+        
+        coins = self.load_dataset()
+        if not coins:
+            print("❌ No coins to analyze")
+            return
+        
+        print(f"📊 Analyzing {len(coins)} coins...")
+        
+        signals = []
+        
+        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+            future_to_coin = {executor.submit(self.analyze_coin, coin): coin for coin in coins}
+            
+            for future in concurrent.futures.as_completed(future_to_coin):
+                try:
+                    result = future.result(timeout=30)
+                    if result:
+                        signals.append(result)
+                        print(f"🎯 CipherB {result['signal_type']}: {result['symbol']}")
+                except:
+                    continue
+        
+        if signals:
+            success = self.telegram_sender.send_cipherb_batch_alert(signals)
+            print(f"✅ Found {len(signals)} signals, Alert sent: {success}")
+        else:
+            print("📭 No CipherB signals found")
 
 def main():
     import yaml
@@ -80,7 +122,7 @@ def main():
     with open(config_path) as f:
         config = yaml.safe_load(f)
     
-    analyzer = CipherB2HAnalyzer(config)
+    analyzer = SimpleCipherBAnalyzer(config)
     analyzer.run_analysis()
 
 if __name__ == '__main__':
