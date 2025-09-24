@@ -1,4 +1,4 @@
-name: Daily Market Data Collection
+name: Daily Data Collection
 
 on:
   schedule:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  fetch-unlimited-data:
+  collect-data:
     runs-on: ubuntu-latest
     
     steps:
@@ -23,20 +23,18 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
-    - name: Run Unlimited Data Fetcher
+    - name: Collect Market Data
       env:
         COINMARKETCAP_API_KEY: ${{ secrets.COINMARKETCAP_API_KEY }}
+        LOG_LEVEL: INFO
       run: |
-        python src/data_fetcher.py --daily-scan
-        
-    - name: Commit updated cache
+        echo "📊 Starting Daily Data Collection..."
+        python src/data_fetcher.py
+
+    - name: Commit updated datasets
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add cache/
-        if ! git diff --staged --quiet; then
-          git commit -m "Daily data update: $(date +'%Y-%m-%d %H:%M IST')"
-          git push
-        else
-          echo "No changes to commit"
-        fi
+        git add cache/*.json
+        git diff --staged --quiet || git commit -m "📊 Daily data update $(date '+%Y-%m-%d %H:%M')"
+        git push
