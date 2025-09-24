@@ -18,7 +18,7 @@ class BBWIndicator:
         self.cache_file = "cache/bbw_alerts.json"
         
         # BBW 100% Range Settings (CORRECTED)
-        self.squeeze_threshold_percent = 10.0  # 10% above contraction line = 100% range
+        self.squeeze_threshold_percent = 100.0  # 100% above contraction line = 100% range
 
     def calculate_sma(self, data: List[float], period: int) -> List[float]:
         """Calculate Simple Moving Average"""
