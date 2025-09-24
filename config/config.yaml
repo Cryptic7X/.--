@@ -14,21 +14,19 @@ market_data:
   cipherb_filters:
     min_market_cap: 100000000      # $100M
     min_volume_24h: 10000000       # $10M
-    expected_coins: 1000
+
 
   bbw:
     min_market_cap: 100000000       # $100M
     min_volume_24h: 50000000        # $50M
-    timeframe: "15m"
-    max_workers: 10
-  # Add any other BBW config needed
+
 
     
   # SMA Dataset (Larger)
   sma_filters:
     min_market_cap: 10000000       # $10M
     min_volume_24h: 10000000       # $10M
-    expected_coins: 3000
+
 
 # Symbol Mapping (Simplified)
 symbol_mapping:
@@ -52,7 +50,6 @@ exchanges:
       rate_limit_ms: 150
 
 # CipherB Settings (No Suppression)
-# CipherB Settings - YOUR EXACT PINE SCRIPT VALUES
 cipherb:
   timeframe: "2h"  # or "30m" - what timeframe are you using on TradingView?
   capture_all_signals: true
@@ -66,7 +63,7 @@ cipherb:
 
 # BBW Settings (First-Touch Logic)
 bbw:
-  timeframe: "30m"
+  timeframe: "15m"
   parallel_processing: true
   max_workers: 10
   bollinger_length: 20
