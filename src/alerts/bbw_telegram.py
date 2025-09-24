@@ -42,11 +42,11 @@ class BBWTelegramSender:
         try:
             # Build message header
             current_time = datetime.now().strftime('%H:%M:%S IST')
-            message = f"""🔵 **BBW 30M SQUEEZE ALERTS**
+            message = f"""🔵 **BBW 15M SQUEEZE ALERTS**
 
 📊 **{len(signals)} FIRST-TOUCH SQUEEZES DETECTED**
 🕐 **{current_time}**
-⏰ **Timeframe: 30M Candles**
+⏰ **Timeframe: 15M Candles**
 
 """
             
