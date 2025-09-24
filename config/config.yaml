@@ -15,6 +15,14 @@ market_data:
     min_market_cap: 100000000      # $100M
     min_volume_24h: 10000000       # $10M
     expected_coins: 1000
+
+  bbw:
+    min_market_cap: 100000000       # $100M
+    min_volume_24h: 50000000        # $50M
+    timeframe: "15m"
+    max_workers: 10
+  # Add any other BBW config needed
+
     
   # SMA Dataset (Larger)
   sma_filters:
