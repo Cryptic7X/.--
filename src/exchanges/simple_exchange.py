@@ -1,4 +1,4 @@
-"""Simple Exchange Manager - 30M + 2H Only (15M REMOVED)"""
+"""Simple Exchange Manager - 2H ONLY (All other timeframes removed)"""
 import os
 import json
 import time
@@ -31,8 +31,8 @@ class SimpleExchangeManager:
 
         url = "https://open-api.bingx.com/openApi/swap/v2/quote/klines"
         
-        # UPDATED: 15m removed, 30m added
-        interval_map = {'30m': '30m', '2h': '2h'}
+        # ONLY 2H supported
+        interval_map = {'2h': '2h'}
         if timeframe not in interval_map:
             return None
 
@@ -57,16 +57,13 @@ class SimpleExchangeManager:
     def _fetch_kucoin_data(self, symbol: str, timeframe: str, limit: int = 200):
         url = "https://api.kucoin.com/api/v1/market/candles"
         
-        # UPDATED: 15m removed, 30m added
-        interval_map = {'30m': '30min', '2h': '2hour'}
+        # ONLY 2H supported
+        interval_map = {'2h': '2hour'}
         if timeframe not in interval_map:
             return None
 
         end_time = int(time.time())
-        if timeframe == '30m':
-            start_time = end_time - (limit * 30 * 60)  # 30 minutes
-        else:  # 2h
-            start_time = end_time - (limit * 2 * 60 * 60)
+        start_time = end_time - (limit * 2 * 60 * 60)  # Only 2H
 
         params = {
             'symbol': f'{symbol}-USDT',
@@ -89,8 +86,8 @@ class SimpleExchangeManager:
     def _fetch_okx_data(self, symbol: str, timeframe: str, limit: int = 200):
         url = "https://www.okx.com/api/v5/market/candles"
         
-        # UPDATED: 15m removed, 30m added  
-        interval_map = {'30m': '30m', '2h': '2H'}
+        # ONLY 2H supported  
+        interval_map = {'2h': '2H'}
         if timeframe not in interval_map:
             return None
 
@@ -163,8 +160,8 @@ class SimpleExchangeManager:
             return None
 
     def fetch_ohlcv_with_fallback(self, symbol: str, timeframe: str, limit: int = 200):
-        # UPDATED: 15m removed, 30m added
-        if timeframe not in ['30m', '2h']:
+        # ONLY 2H supported
+        if timeframe not in ['2h']:
             return None, None
 
         api_symbol = self.symbol_mapping.get(symbol.upper(), symbol.upper())
