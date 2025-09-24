@@ -1,23 +1,67 @@
 """
-BBW Indicator - OPTIMIZED FOR SPEED
-Fast BBW calculation with minimal file operations
+SIMPLE BBW Indicator - Exact Pine Script Match
+Alert when BBW first enters squeeze zone (lowest contraction to 75% above it)
 """
-import numpy as np
 import json
 import os
 import time
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Tuple
 
 class BBWIndicator:
-    def __init__(self, length: int = 20, mult: float = 2.0):
-        self.length = length
-        self.mult = mult
+    def __init__(self):
+        self.length = 20
+        self.mult = 2.0
+        self.expansion_length = 125
+        self.contraction_length = 125
         self.cache_file = "cache/bbw_alerts.json"
-        # Load cache once at startup
-        self._cache = self._load_cache()
 
-    def _load_cache(self) -> Dict:
-        """Load cache once at startup"""
+    def calculate_bbw(self, closes: List[float]) -> Tuple[List[float], float, float]:
+        """Calculate BBW exactly like Pine Script"""
+        if len(closes) < max(self.length, self.expansion_length, self.contraction_length):
+            return [], 0, 0
+        
+        # Calculate Bollinger Bands (exactly like Pine Script)
+        bbw_values = []
+        
+        for i in range(len(closes)):
+            if i < self.length - 1:
+                bbw_values.append(0)
+                continue
+            
+            # SMA (basis)
+            basis = sum(closes[i - self.length + 1:i + 1]) / self.length
+            
+            # Standard deviation
+            variance = sum((closes[j] - basis) ** 2 for j in range(i - self.length + 1, i + 1)) / self.length
+            stddev = variance ** 0.5
+            
+            # Bollinger Bands
+            upper = basis + (self.mult * stddev)
+            lower = basis - (self.mult * stddev)
+            
+            # BBW calculation (exactly like Pine Script)
+            if basis != 0:
+                bbw = ((upper - lower) / basis) * 100
+            else:
+                bbw = 0
+            
+            bbw_values.append(bbw)
+        
+        # Calculate highest expansion and lowest contraction (exactly like Pine Script)
+        current_bbw = bbw_values[-1] if bbw_values else 0
+        
+        # Highest expansion (ta.highest equivalent)
+        expansion_lookback = min(self.expansion_length, len(bbw_values))
+        highest_expansion = max(bbw_values[-expansion_lookback:]) if expansion_lookback > 0 else 0
+        
+        # Lowest contraction (ta.lowest equivalent)
+        contraction_lookback = min(self.contraction_length, len(bbw_values))
+        lowest_contraction = min(bbw_values[-contraction_lookback:]) if contraction_lookback > 0 else 0
+        
+        return bbw_values, highest_expansion, lowest_contraction
+
+    def load_cache(self) -> Dict:
+        """Load alert cache"""
         try:
             if os.path.exists(self.cache_file):
                 with open(self.cache_file, 'r') as f:
@@ -26,121 +70,69 @@ class BBWIndicator:
             pass
         return {}
 
-    def _save_cache_batch(self, updates: Dict) -> None:
-        """Save cache in batch (called once at end)"""
+    def save_cache(self, cache_data: Dict):
+        """Save alert cache"""
         try:
-            self._cache.update(updates)
             os.makedirs(os.path.dirname(self.cache_file), exist_ok=True)
             with open(self.cache_file, 'w') as f:
-                json.dump(self._cache, f)
-        except Exception as e:
-            print(f"Cache save error: {e}")
+                json.dump(cache_data, f)
+        except:
+            pass
 
-    def calculate_bbw_fast(self, closes: List[float]) -> Tuple[float, float, float, bool]:
+    def is_squeeze_entry(self, symbol: str, current_bbw: float, lowest_contraction: float) -> bool:
         """
-        FAST BBW calculation using numpy - returns only current values
-        Returns: (current_bbw, contraction, expansion, is_squeeze)
+        SIMPLE squeeze detection:
+        - Calculate 75% above lowest contraction
+        - Alert when BBW first enters range [lowest_contraction to squeeze_threshold]
         """
-        try:
-            closes_array = np.array(closes[-200:])  # Use only last 200 candles
-            
-            if len(closes_array) < max(self.length, 125):
-                return 0, 0, 0, False
-            
-            # Calculate SMA and std using numpy (much faster)
-            sma = np.convolve(closes_array, np.ones(self.length)/self.length, mode='valid')
-            
-            # Calculate rolling std
-            rolling_std = np.array([
-                np.std(closes_array[i:i+self.length]) 
-                for i in range(len(closes_array) - self.length + 1)
-            ])
-            
-            # Bollinger Bands
-            upper = sma + (self.mult * rolling_std)
-            lower = sma - (self.mult * rolling_std)
-            
-            # BBW calculation
-            bbw = ((upper - lower) / sma) * 100
-            
-            # Get current values only (no rolling calculations)
-            current_bbw = bbw[-1]
-            
-            # Simple min/max over last 125 periods (much faster than rolling)
-            lookback = min(125, len(bbw))
-            recent_bbw = bbw[-lookback:]
-            
-            contraction_line = np.min(recent_bbw)
-            expansion_line = np.max(recent_bbw)
-            
-            # Calculate 75% threshold
-            range_size = expansion_line - contraction_line
-            threshold_75 = contraction_line + (range_size * 0.75)
-            
-            # Check if in squeeze (simple comparison)
-            is_squeeze = contraction_line <= current_bbw <= threshold_75
-            
-            return current_bbw, contraction_line, expansion_line, is_squeeze
-            
-        except Exception as e:
-            return 0, 0, 0, False
-
-    def check_squeeze_signal(self, symbol: str, bbw: float, contraction: float, expansion: float, is_squeeze: bool) -> bool:
-        """
-        FAST squeeze signal check - minimal cache operations
-        """
-        if not is_squeeze:
+        # Calculate squeeze threshold (75% above lowest contraction)
+        squeeze_threshold = lowest_contraction * 1.75  # 75% above
+        
+        # Check if BBW is in squeeze range
+        is_in_squeeze = lowest_contraction <= current_bbw <= squeeze_threshold
+        
+        if not is_in_squeeze:
             return False
         
-        cache_key = f"{symbol}_sq"
+        # Simple deduplication
+        cache = self.load_cache()
         current_time = time.time()
         
-        # Check cache in memory (no file I/O)
-        if cache_key in self._cache:
-            last_alert = self._cache[cache_key].get('last_alert', 0)
-            was_in_squeeze = self._cache[cache_key].get('in_squeeze', False)
-            
-            # Don't alert if already in squeeze recently (2 hours = 7200 seconds)
-            if was_in_squeeze and (current_time - last_alert) < 7200:
+        # Only alert once per 24 hours per symbol
+        if symbol in cache:
+            last_alert = cache[symbol]
+            if (current_time - last_alert) < (24 * 60 * 60):  # 24 hours
                 return False
         
-        # Mark as alerted (will be saved in batch later)
-        self._cache[cache_key] = {
-            'last_alert': current_time,
-            'in_squeeze': True,
-            'bbw': bbw
-        }
+        # Save alert time
+        cache[symbol] = current_time
+        self.save_cache(cache)
         
+        print(f"BBW squeeze: {symbol} BBW:{current_bbw:.2f} in range [{lowest_contraction:.2f} - {squeeze_threshold:.2f}]")
         return True
 
-    def calculate_bbw_signals(self, ohlcv_data: Dict[str, List[float]], symbol: str) -> Dict:
-        """
-        FAST main BBW calculation
-        """
+    def calculate_bbw_signals(self, ohlcv_data: Dict, symbol: str) -> Dict:
+        """Main BBW calculation"""
         try:
             closes = ohlcv_data['close']
-            if len(closes) < 50:
-                return {'squeeze_signal': False}
-
-            # Fast BBW calculation
-            bbw, contraction, expansion, is_squeeze = self.calculate_bbw_fast(closes)
+            bbw_values, highest_expansion, lowest_contraction = self.calculate_bbw(closes)
             
-            # Fast squeeze signal check
-            squeeze_signal = self.check_squeeze_signal(symbol, bbw, contraction, expansion, is_squeeze)
-
+            if not bbw_values:
+                return {'squeeze_signal': False, 'error': 'Insufficient data'}
+            
+            current_bbw = bbw_values[-1]
+            squeeze_threshold = lowest_contraction * 1.75
+            
+            # Check for squeeze entry
+            squeeze_detected = self.is_squeeze_entry(symbol, current_bbw, lowest_contraction)
+            
             return {
-                'squeeze_signal': squeeze_signal,
-                'bbw': bbw,
-                'lowest_contraction': contraction,
-                'highest_expansion': expansion,
-                'threshold_75': contraction + ((expansion - contraction) * 0.75),
-                'is_in_squeeze': is_squeeze
+                'squeeze_signal': squeeze_detected,
+                'bbw': current_bbw,
+                'lowest_contraction': lowest_contraction,
+                'highest_expansion': highest_expansion,
+                'squeeze_threshold': squeeze_threshold
             }
-
+            
         except Exception as e:
-            return {'squeeze_signal': False}
-
-    def save_cache_updates(self, cache_updates: Dict) -> None:
-        """Save all cache updates at once"""
-        if cache_updates:
-            self._save_cache_batch(cache_updates)
+            return {'squeeze_signal': False, 'error': str(e)}
