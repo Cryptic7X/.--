@@ -1,276 +1,239 @@
 #!/usr/bin/env python3
 """
-Multi-Indicator Data Fetcher - Unlimited CoinMarketCap Integration
-Fetches all coins meeting criteria for CipherB, BBW, and SMA systems
+Daily Market Data Fetcher - With Structured Logging
+Fetches unlimited coins from CoinMarketCap and creates filtered datasets
 """
-
 import os
+import sys
 import json
-import time
 import requests
 import yaml
 from datetime import datetime
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
+from typing import Dict, List, Optional
 
-class MultiIndicatorDataFetcher:
+# Add project root to path for imports
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+class DataFetcher:
     def __init__(self):
-        self.config = self.load_config()
-        self.session = self.create_robust_session()
-        self.blocked_coins = self.load_blocked_coins()
-
-    def load_config(self):
-        config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'config.yaml')
-        with open(config_path) as f:
-            return yaml.safe_load(f)
-
-    def load_blocked_coins(self):
-        """Load blocked coins from blocked_coins.txt"""
-        blocked_file = os.path.join(os.path.dirname(__file__), '..', 'config', 'blocked_coins.txt')
-        blocked_coins = set()
-        
-        try:
-            with open(blocked_file, 'r') as f:
-                for line in f:
-                    coin = line.strip().upper()
-                    if coin and not coin.startswith('#'):
-                        blocked_coins.add(coin)
+        self.config = self._load_config()
+        self.api_key = os.getenv('COINMARKETCAP_API_KEY')
+        if not self.api_key:
+            raise ValueError("COINMARKETCAP_API_KEY environment variable not set")
             
-            print(f"🚫 Loaded {len(blocked_coins)} blocked coins")
-                    
-        except FileNotFoundError:
-            print("📝 No blocked_coins.txt found - analyzing all coins")
-        except Exception as e:
-            print(f"⚠️ Error loading blocked coins: {e}")
-            
-        return blocked_coins
-
-    def create_robust_session(self):
-        """Create session with CMC API authentication"""
-        session = requests.Session()
-        
-        retry_strategy = Retry(
-            total=3,
-            backoff_factor=2,
-            status_forcelist=[429, 500, 502, 503, 504],
-            allowed_methods=["HEAD", "GET", "OPTIONS"]
-        )
-        
-        adapter = HTTPAdapter(max_retries=retry_strategy)
-        session.mount("https://", adapter)
-        session.mount("http://", adapter)
-
-        session.headers.update({
-            'User-Agent': 'Multi-Indicator-System/3.0',
-            'Accept': 'application/json',
-            'Accept-Encoding': 'gzip, deflate',
-            'Connection': 'keep-alive'
+        self.session = requests.Session()
+        self.session.headers.update({
+            'X-CMC_PRO_API_KEY': self.api_key,
+            'Accept': 'application/json'
         })
+        
+        # Create cache directory if it doesn't exist
+        self.cache_dir = os.path.join(os.path.dirname(__file__), '..', 'cache')
+        os.makedirs(self.cache_dir, exist_ok=True)
+        
+        print(f"📊 DataFetcher initialized - Cache dir: {self.cache_dir}")
 
-        api_key = os.getenv('COINMARKETCAP_API_KEY')
-        if api_key:
-            session.headers['X-CMC_PRO_API_KEY'] = api_key
-            print("✅ Using CoinMarketCap API Key")
-        else:
-            print("❌ No CoinMarketCap API Key found")
-            return None
+    def _load_config(self):
+        """Load configuration file"""
+        config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'config.yaml')
+        try:
+            with open(config_path, 'r') as f:
+                return yaml.safe_load(f)
+        except Exception as e:
+            print(f"❌ Error loading config: {e}")
+            # Fallback config
+            return {
+                'cipherb_config': {'filters': {'min_market_cap': 100000000, 'min_volume_24h': 10000000}},
+                'sma_config': {'filters': {'min_market_cap': 10000000, 'min_volume_24h': 10000000}}
+            }
 
-        return session
-
-    def fetch_unlimited_coins(self):
+    def fetch_all_coins(self) -> Optional[List[Dict]]:
         """
-        Fetch unlimited coins with server-side filtering for both datasets
+        Fetch unlimited coins from CoinMarketCap
         """
-        if not self.session:
-            return [], []
+        print("🚀 Starting unlimited CoinMarketCap fetch...")
+        
+        url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
+        all_coins = []
+        start = 1
+        limit = 5000  # Maximum per request
+        
+        while True:
+            try:
+                print(f"📡 Fetching coins {start} to {start + limit - 1}...")
+                
+                params = {
+                    'start': start,
+                    'limit': limit,
+                    'sort': 'market_cap',
+                    'sort_dir': 'desc',
+                    'cryptocurrency_type': 'all',
+                    'tag': 'all'
+                }
+                
+                response = self.session.get(url, params=params, timeout=30)
+                response.raise_for_status()
+                
+                data = response.json()
+                
+                if 'data' not in data:
+                    print(f"❌ No data in API response: {data}")
+                    break
+                
+                coins = data['data']
+                if not coins:
+                    print(f"✅ No more coins to fetch (reached end)")
+                    break
+                
+                print(f"📊 Retrieved {len(coins)} coins")
+                
+                # Process each coin
+                for coin in coins:
+                    try:
+                        processed_coin = {
+                            'id': coin.get('id'),
+                            'symbol': coin.get('symbol'),
+                            'name': coin.get('name'),
+                            'market_cap': coin.get('quote', {}).get('USD', {}).get('market_cap', 0),
+                            'current_price': coin.get('quote', {}).get('USD', {}).get('price', 0),
+                            'total_volume': coin.get('quote', {}).get('USD', {}).get('volume_24h', 0),
+                            'price_change_percentage_24h': coin.get('quote', {}).get('USD', {}).get('percent_change_24h', 0),
+                            'last_updated': coin.get('last_updated')
+                        }
+                        
+                        # Filter out coins with missing essential data
+                        if (processed_coin['market_cap'] and 
+                            processed_coin['current_price'] and 
+                            processed_coin['total_volume']):
+                            all_coins.append(processed_coin)
+                            
+                    except Exception as e:
+                        print(f"⚠️ Error processing coin {coin.get('symbol', 'UNKNOWN')}: {e}")
+                        continue
+                
+                # Check if we got fewer coins than requested (end of data)
+                if len(coins) < limit:
+                    print(f"✅ Reached end of available coins")
+                    break
+                    
+                start += limit
+                
+                # Safety limit to prevent infinite loops
+                if len(all_coins) >= 10000:
+                    print(f"⚠️ Safety limit reached: {len(all_coins)} coins")
+                    break
+                    
+            except requests.exceptions.RequestException as e:
+                print(f"❌ API request failed: {e}")
+                break
+            except Exception as e:
+                print(f"❌ Unexpected error: {e}")
+                break
+        
+        print(f"🎯 Total coins fetched: {len(all_coins)}")
+        return all_coins if all_coins else None
 
-        print(f"🚀 Fetching unlimited coins from CoinMarketCap...")
+    def create_filtered_datasets(self, all_coins: List[Dict]) -> tuple:
+        """
+        Create filtered datasets for CipherB/BBW and SMA systems
+        """
+        print("🔧 Creating filtered datasets...")
         
-        # Fetch large dataset for SMA (less restrictive)
-        sma_coins = self.fetch_coins_for_dataset(
-            min_market_cap=self.config['market_data']['sma_filters']['min_market_cap'],
-            min_volume=self.config['market_data']['sma_filters']['min_volume_24h'],
-            limit=5000,
-            dataset_name="SMA"
-        )
+        # CipherB/BBW filters (higher requirements)
+        cipherb_filters = self.config['cipherb_config']['filters']
+        cipherb_coins = [
+            coin for coin in all_coins 
+            if (coin['market_cap'] >= cipherb_filters['min_market_cap'] and 
+                coin['total_volume'] >= cipherb_filters['min_volume_24h'])
+        ]
         
-        # Filter SMA coins for CipherB/BBW (more restrictive)
-        cipherb_coins = []
-        cipherb_min_cap = self.config['market_data']['cipherb_filters']['min_market_cap']
-        cipherb_min_vol = self.config['market_data']['cipherb_filters']['min_volume_24h']
+        # SMA filters (lower requirements for larger dataset)  
+        sma_filters = self.config['sma_config']['filters']
+        sma_coins = [
+            coin for coin in all_coins
+            if (coin['market_cap'] >= sma_filters['min_market_cap'] and 
+                coin['total_volume'] >= sma_filters['min_volume_24h'])
+        ]
         
-        for coin in sma_coins:
-            if (coin.get('market_cap', 0) >= cipherb_min_cap and 
-                coin.get('total_volume', 0) >= cipherb_min_vol):
-                cipherb_coins.append(coin)
-        
-        print(f"✅ Dataset Summary:")
-        print(f"   CipherB/BBW: {len(cipherb_coins)} coins (≥$100M cap, ≥$10M vol)")
-        print(f"   SMA: {len(sma_coins)} coins (≥$10M cap, ≥$10M vol)")
+        print(f"✅ CipherB/BBW dataset: {len(cipherb_coins)} coins (≥${cipherb_filters['min_market_cap']:,} cap, ≥${cipherb_filters['min_volume_24h']:,} vol)")
+        print(f"✅ SMA dataset: {len(sma_coins)} coins (≥${sma_filters['min_market_cap']:,} cap, ≥${sma_filters['min_volume_24h']:,} vol)")
         
         return cipherb_coins, sma_coins
 
-    def fetch_coins_for_dataset(self, min_market_cap, min_volume, limit, dataset_name):
-        """FIXED: Fetch coins with specific filters - REMOVE server-side filtering"""
-        base_url = "https://pro-api.coinmarketcap.com/v1"
+    def save_datasets(self, cipherb_coins: List[Dict], sma_coins: List[Dict]) -> tuple:
+        """
+        Save datasets to cache files
+        """
+        print("💾 Saving datasets to cache...")
         
-        # FIXED: Remove server-side filters to get ALL coins, then filter locally
-        params = {
-            'start': 1,
-            'limit': limit,
-            'convert': 'USD',
-            'sort': 'market_cap',
-            'sort_dir': 'desc'
-            # REMOVED: market_cap_min and volume_24h_min (filter locally instead)
-        }
-    
         try:
-            url = f"{base_url}/cryptocurrency/listings/latest"
-            print(f"📡 Fetching {dataset_name} dataset (all {limit} coins)...")
+            # Save CipherB dataset
+            cipherb_data = {
+                'timestamp': datetime.utcnow().isoformat(),
+                'total_coins': len(cipherb_coins),
+                'filters_applied': 'Market cap ≥ $100M, Volume ≥ $10M',
+                'coins': cipherb_coins
+            }
             
-            response = self.session.get(url, params=params, timeout=30)
+            cipherb_file = os.path.join(self.cache_dir, 'cipherb_dataset.json')
+            with open(cipherb_file, 'w') as f:
+                json.dump(cipherb_data, f, indent=2)
             
-            if response.status_code == 429:
-                retry_after = response.headers.get('Retry-After', '60')
-                wait_time = int(retry_after)
-                print(f"⏳ Rate limited. Waiting {wait_time} seconds...")
-                time.sleep(wait_time + 1)
-                response = self.session.get(url, params=params, timeout=30)
+            # Save SMA dataset  
+            sma_data = {
+                'timestamp': datetime.utcnow().isoformat(),
+                'total_coins': len(sma_coins),
+                'filters_applied': 'Market cap ≥ $10M, Volume ≥ $10M',
+                'coins': sma_coins
+            }
             
-            response.raise_for_status()
-            data = response.json()
+            sma_file = os.path.join(self.cache_dir, 'sma_dataset.json')
+            with open(sma_file, 'w') as f:
+                json.dump(sma_data, f, indent=2)
             
-            if 'data' not in data or not data['data']:
-                print(f"📭 No data received for {dataset_name}")
-                return []
+            print(f"✅ Datasets saved:")
+            print(f"   📁 {cipherb_file}")
+            print(f"   📁 {sma_file}")
             
-            # Convert CMC format and FILTER LOCALLY
-            coins = []
-            filtered_count = 0
-            
-            for coin in data['data']:
-                try:
-                    market_cap = coin['quote']['USD']['market_cap']
-                    volume_24h = coin['quote']['USD']['volume_24h']
-                    
-                    # LOCAL FILTERING (this is why you're getting 275+ coins)
-                    if market_cap and volume_24h and market_cap >= min_market_cap and volume_24h >= min_volume:
-                        coin_data = {
-                            'id': coin['id'],
-                            'symbol': coin['symbol'],
-                            'name': coin['name'],
-                            'current_price': coin['quote']['USD']['price'],
-                            'market_cap': market_cap,
-                            'total_volume': volume_24h,
-                            'price_change_percentage_24h': coin['quote']['USD']['percent_change_24h'],
-                            'market_cap_rank': coin['cmc_rank']
-                        }
-                        coins.append(coin_data)
-                    else:
-                        filtered_count += 1
-                        
-                except (KeyError, TypeError) as e:
-                    continue
-            
-            print(f"✅ {dataset_name}: {len(coins)} qualified coins (filtered out {filtered_count})")
-            
-            return coins
+            return cipherb_file, sma_file
             
         except Exception as e:
-            print(f"❌ {dataset_name} fetch failed: {str(e)[:100]}")
-            return []
-
-
-    def filter_blocked_coins(self, coins_list, dataset_name):
-        """Filter out blocked coins locally"""
-        if not self.blocked_coins:
-            return coins_list
-            
-        filtered_coins = []
-        blocked_count = 0
-        
-        for coin in coins_list:
-            symbol = coin.get('symbol', '').upper()
-            if symbol in self.blocked_coins:
-                blocked_count += 1
-                continue
-            filtered_coins.append(coin)
-        
-        print(f"🛡️ {dataset_name}: Filtered out {blocked_count} blocked coins")
-        return filtered_coins
-
-    def save_datasets(self, cipherb_coins, sma_coins):
-        """Save both datasets to cache"""
-        cache_dir = os.path.join(os.path.dirname(__file__), '..', 'cache')
-        os.makedirs(cache_dir, exist_ok=True)
-        
-        # Save CipherB/BBW dataset
-        cipherb_data = {
-            'updated_at': datetime.utcnow().isoformat(),
-            'source': 'CoinMarketCap-Unlimited',
-            'dataset_type': 'CipherB-BBW',
-            'filters_applied': self.config['market_data']['cipherb_filters'],
-            'total_coins': len(cipherb_coins),
-            'coins': cipherb_coins
-        }
-        
-        cipherb_file = os.path.join(cache_dir, 'cipherb_dataset.json')
-        with open(cipherb_file, 'w') as f:
-            json.dump(cipherb_data, f, indent=2)
-        
-        # Save SMA dataset
-        sma_data = {
-            'updated_at': datetime.utcnow().isoformat(),
-            'source': 'CoinMarketCap-Unlimited',
-            'dataset_type': 'SMA',
-            'filters_applied': self.config['market_data']['sma_filters'],
-            'total_coins': len(sma_coins),
-            'coins': sma_coins
-        }
-        
-        sma_file = os.path.join(cache_dir, 'sma_dataset.json')
-        with open(sma_file, 'w') as f:
-            json.dump(sma_data, f, indent=2)
-        
-        print(f"\n💾 Datasets saved:")
-        print(f"   CipherB/BBW: {cipherb_file}")
-        print(f"   SMA: {sma_file}")
-        
-        return cipherb_file, sma_file
+            print(f"❌ Error saving datasets: {e}")
+            return None, None
 
 def main():
-    import argparse
+    """Main execution function"""
+    print("=" * 60)
+    print("📊 STARTING UNLIMITED DAILY MARKET SCAN")
+    print("=" * 60)
     
-    parser = argparse.ArgumentParser(description='Multi-Indicator Data Fetcher')
-    parser.add_argument('--daily-scan', action='store_true', help='Run unlimited daily scan')
-    args = parser.parse_args()
-
-    if args.daily_scan:
-        print("🌅 UNLIMITED MULTI-INDICATOR DAILY SCAN")
-        print("="*60)
+    try:
+        # Initialize fetcher
+        fetcher = DataFetcher()
         
-        fetcher = MultiIndicatorDataFetcher()
+        # Fetch all coins from CoinMarketCap
+        all_coins = fetcher.fetch_all_coins()
         
-        # Fetch unlimited coins for both datasets
-        cipherb_coins, sma_coins = fetcher.fetch_unlimited_coins()
-        
-        if cipherb_coins or sma_coins:
-            # Filter blocked coins
-            cipherb_filtered = fetcher.filter_blocked_coins(cipherb_coins, "CipherB/BBW")
-            sma_filtered = fetcher.filter_blocked_coins(sma_coins, "SMA")
+        if all_coins:
+            # Create filtered datasets
+            cipherb_filtered, sma_filtered = fetcher.create_filtered_datasets(all_coins)
             
             # Save datasets
             cipherb_file, sma_file = fetcher.save_datasets(cipherb_filtered, sma_filtered)
             
-            print("\n" + "="*60)
+            print("\n" + "=" * 60)
             print("✅ UNLIMITED DAILY SCAN COMPLETE!")
             print(f"💰 API Credits Used: 1-2 (maximum efficiency)")
             print(f"📊 CipherB/BBW Coins: {len(cipherb_filtered)}")
             print(f"📊 SMA Coins: {len(sma_filtered)}")
             print(f"🎯 Ready for multi-indicator analysis")
-            print("="*60)
+            print("=" * 60)
         else:
             print("❌ No coins fetched - check API connection")
+            
+    except Exception as e:
+        print(f"❌ CRITICAL ERROR: {e}")
+        sys.exit(1)
 
 if __name__ == '__main__':
     main()
