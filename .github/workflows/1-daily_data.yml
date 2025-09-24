@@ -23,18 +23,36 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
+    - name: Create cache directory
+      run: mkdir -p cache
+        
     - name: Collect Market Data
       env:
         COINMARKETCAP_API_KEY: ${{ secrets.COINMARKETCAP_API_KEY }}
         LOG_LEVEL: INFO
       run: |
         echo "📊 Starting Daily Data Collection..."
-        python src/data_fetcher.py
+        python src/data_fetcher.py || echo "❌ Data fetcher failed - check logs above"
+
+    - name: Check if datasets were created
+      run: |
+        if [ -f "cache/cipherb_dataset.json" ] && [ -f "cache/sma_dataset.json" ]; then
+          echo "✅ Dataset files created successfully"
+          ls -la cache/
+        else
+          echo "❌ Dataset files not found!"
+          ls -la cache/ || echo "Cache directory not found"
+        fi
 
     - name: Commit updated datasets
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add cache/*.json
-        git diff --staged --quiet || git commit -m "📊 Daily data update $(date '+%Y-%m-%d %H:%M')"
-        git push
+        if git diff --staged --quiet; then
+          echo "📭 No changes to commit"
+        else
+          git commit -m "📊 Daily data update $(date '+%Y-%m-%d %H:%M')"
+          git push
+          echo "✅ Datasets committed and pushed"
+        fi
