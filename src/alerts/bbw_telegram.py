@@ -27,7 +27,7 @@ class BBWTelegramSender:
         """Create TradingView and CoinGlass links"""
         # TradingView 30M chart
         clean_symbol = symbol.replace('USDT', '').replace('USD', '')
-        tv_link = f"https://www.tradingview.com/chart/?symbol={clean_symbol}USDT&interval=30"
+        tv_link = f"https://www.tradingview.com/chart/?symbol={clean_symbol}USDT&interval=15"
         
         # CoinGlass liquidation heatmap
         cg_link = f"https://www.coinglass.com/pro/futures/LiquidationHeatMapNew?coin={clean_symbol}"
