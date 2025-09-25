@@ -50,8 +50,8 @@
     "reminder_sent": false
   },
   "CAKE_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758806755.3746,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false
   },
   "AVNT_squeeze": {
