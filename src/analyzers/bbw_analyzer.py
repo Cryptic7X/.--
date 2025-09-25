@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-BBW 2H Analyzer - 100% Range Logic with 20H Reminders
+BBW 2H Analyzer - Simple & Bulletproof
 """
 import os
 import json
 import sys
 import concurrent.futures
 from datetime import datetime
-from typing import Dict, List, Optional
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
@@ -15,7 +14,7 @@ from src.exchanges.simple_exchange import SimpleExchangeManager
 from src.indicators.bbw import BBWIndicator
 from src.alerts.bbw_telegram import BBWTelegramSender
 
-class SimpleBBWAnalyzer:
+class BBWAnalyzer:
     def __init__(self, config):
         self.config = config
         self.exchange_manager = SimpleExchangeManager()
@@ -23,7 +22,7 @@ class SimpleBBWAnalyzer:
         self.bbw_indicator = BBWIndicator()
 
     def load_coins(self):
-        """Load BBW coins (≥$100M cap, ≥$50M vol)"""
+        """Load coins for analysis"""
         cache_file = os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'cipherb_dataset.json')
         
         try:
@@ -31,22 +30,26 @@ class SimpleBBWAnalyzer:
                 data = json.load(f)
                 coins = data.get('coins', [])
             
-            # Filter for BBW
+            # Filter: Market cap ≥ $100M, Volume ≥ $50M
             filtered = [
-                c for c in coins
-                if c.get('market_cap', 0) >= 100_000_000 and c.get('total_volume', 0) >= 50_000_000
+                coin for coin in coins
+                if coin.get('market_cap', 0) >= 100_000_000 
+                and coin.get('total_volume', 0) >= 50_000_000
             ]
             
+            print(f"📊 Loaded {len(filtered)} coins for BBW analysis")
             return filtered
-        except:
+            
+        except Exception as e:
+            print(f"❌ Error loading coins: {e}")
             return []
 
     def analyze_coin(self, coin_data):
-        """Analyze single coin for BBW 100% range entry"""
+        """Analyze single coin"""
         symbol = coin_data['symbol']
         
         try:
-            # Get 2H data
+            # Get 2H OHLCV data
             ohlcv_data, exchange_used = self.exchange_manager.fetch_ohlcv_with_fallback(
                 symbol, '2h', limit=200
             )
@@ -54,10 +57,10 @@ class SimpleBBWAnalyzer:
             if not ohlcv_data:
                 return None
             
-            # Run BBW analysis with smart alert logic
-            result = self.bbw_indicator.calculate_bbw_signals(ohlcv_data, symbol)
+            # Run BBW analysis
+            result = self.bbw_indicator.analyze(ohlcv_data, symbol)
             
-            if not result.get('squeeze_signal', False):
+            if not result.get('send_alert', False):
                 return None
 
             return {
@@ -70,19 +73,19 @@ class SimpleBBWAnalyzer:
                 'exchange_used': exchange_used
             }
 
-        except:
+        except Exception as e:
+            print(f"❌ Error analyzing {symbol}: {e}")
             return None
 
     def run_analysis(self):
-        """Main BBW analysis with smart deduplication"""
-        print("🔵 BBW 2H ANALYSIS - 100% Range + 20H Reminders")
+        """Main analysis runner"""
+        print("🔵 BBW 2H ANALYSIS - STARTING")
+        print(f"⏰ Time: {datetime.now().strftime('%H:%M:%S IST')}")
         
         coins = self.load_coins()
         if not coins:
             print("❌ No coins to analyze")
             return
-        
-        print(f"📊 Analyzing {len(coins)} coins...")
         
         # Process coins in parallel
         signals = []
@@ -94,19 +97,21 @@ class SimpleBBWAnalyzer:
                     result = future.result(timeout=30)
                     if result:
                         signals.append(result)
-                        alert_type = result['alert_type']
-                        print(f"🔵 {alert_type}: {result['symbol']} BBW:{result['bbw_value']:.2f}")
-                except:
+                        print(f"✅ ALERT: {result['symbol']} ({result['alert_type']})")
+                except Exception as e:
+                    print(f"❌ Future error: {e}")
                     continue
         
-        # Send alerts
+        # Send alerts if any
         if signals:
-            success = self.telegram_sender.send_bbw_batch_alert(signals)
+            success = self.telegram_sender.send_bbw_alerts(signals)
             first_entry = len([s for s in signals if s.get('alert_type') == 'FIRST ENTRY'])
             reminders = len([s for s in signals if s.get('alert_type') == 'EXTENDED SQUEEZE'])
-            print(f"✅ {first_entry} squeezes, {reminders} reminders, Alert: {'Sent' if success else 'Failed'}")
+            
+            print(f"📱 Results: {first_entry} first entries, {reminders} reminders")
+            print(f"📤 Telegram: {'✅ Sent' if success else '❌ Failed'}")
         else:
-            print("📭 No BBW signals found")
+            print("📭 No BBW squeeze alerts to send")
 
 def main():
     import yaml
@@ -116,7 +121,7 @@ def main():
     except:
         config = {}
     
-    analyzer = SimpleBBWAnalyzer(config)
+    analyzer = BBWAnalyzer(config)
     analyzer.run_analysis()
 
 if __name__ == '__main__':
