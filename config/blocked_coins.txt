@@ -14,6 +14,7 @@ UST
 
 # Wrapped Tokens
 WBTC
+JITOSOL
 WETH
 WBNB
 WMATIC
