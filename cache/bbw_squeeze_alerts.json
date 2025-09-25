@@ -20,8 +20,8 @@
     "reminder_sent": false
   },
   "OKB_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758806749.6220012,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false
   },
   "MYX_squeeze": {
