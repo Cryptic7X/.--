@@ -1,6 +1,5 @@
 """
-BBW Indicator - 100% TradingView Match
-Uses high-precision calculations and exact Pine Script behavior
+BBW Indicator - Simple & Bulletproof with Persistent Cache
 """
 import json
 import os
@@ -8,365 +7,226 @@ import time
 from decimal import Decimal, getcontext
 from typing import Dict, List, Tuple
 
-# Set high precision for calculations
 getcontext().prec = 50
 
 class BBWIndicator:
     def __init__(self):
         self.length = 20
-        self.mult = 2.0
+        self.mult = 2.0  
         self.expansion_length = 125
         self.contraction_length = 125
-        self.cache_file = "cache/bbw_alerts.json"
+        # IMPORTANT: Use absolute path for cache persistence
+        self.cache_file = os.path.abspath("cache/bbw_squeeze_alerts.json")
 
-    def precise_sma(self, data: List[float], period: int) -> List[float]:
-        """High-precision SMA calculation"""
-        sma_values = []
+    def calculate_sma(self, data: List[float], period: int) -> List[float]:
+        """High-precision SMA"""
+        result = []
+        for i in range(len(data)):
+            if i < period - 1:
+                result.append(float('nan'))
+            else:
+                sum_val = sum(Decimal(str(data[j])) for j in range(i - period + 1, i + 1))
+                result.append(float(sum_val / period))
+        return result
+
+    def calculate_stdev(self, data: List[float], period: int) -> List[float]:
+        """High-precision standard deviation (sample with N-1)"""
+        result = []
+        sma_vals = self.calculate_sma(data, period)
         
         for i in range(len(data)):
             if i < period - 1:
-                # Pine Script behavior: return na for insufficient data
-                sma_values.append(float('nan'))
+                result.append(float('nan'))
             else:
-                # Use high precision arithmetic
-                sum_val = Decimal('0')
-                for j in range(i - period + 1, i + 1):
-                    sum_val += Decimal(str(data[j]))
-                
-                avg = sum_val / Decimal(str(period))
-                sma_values.append(float(avg))
-        
-        return sma_values
+                mean = Decimal(str(sma_vals[i]))
+                variance_sum = sum((Decimal(str(data[j])) - mean) ** 2 
+                                 for j in range(i - period + 1, i + 1))
+                variance = variance_sum / (period - 1)  # Sample std dev
+                result.append(float(variance.sqrt()))
+        return result
 
-    def precise_stdev(self, data: List[float], period: int) -> List[float]:
-        """High-precision standard deviation matching Pine Script exactly"""
-        stdev_values = []
-        sma_values = self.precise_sma(data, period)
-        
+    def calculate_highest(self, data: List[float], period: int) -> List[float]:
+        """Rolling maximum"""
+        result = []
         for i in range(len(data)):
-            if i < period - 1 or str(sma_values[i]) == 'nan':
-                stdev_values.append(float('nan'))
-            else:
-                mean = Decimal(str(sma_values[i]))
-                variance_sum = Decimal('0')
-                
-                for j in range(i - period + 1, i + 1):
-                    diff = Decimal(str(data[j])) - mean
-                    variance_sum += diff * diff
-                
-                # Pine Script uses sample standard deviation (N-1)
-                variance = variance_sum / Decimal(str(period - 1))
-                stdev = float(variance.sqrt())
-                stdev_values.append(stdev)
-        
-        return stdev_values
+            start_idx = max(0, i - period + 1)
+            window = data[start_idx:i + 1]
+            result.append(max(window))
+        return result
 
-    def precise_highest(self, data: List[float], period: int) -> List[float]:
-        """Precise rolling maximum matching Pine Script ta.highest()"""
-        highest_values = []
-        
+    def calculate_lowest(self, data: List[float], period: int) -> List[float]:
+        """Rolling minimum"""
+        result = []
         for i in range(len(data)):
-            if i < period - 1:
-                # For incomplete lookback, use available data
-                highest_values.append(max(data[0:i + 1]))
-            else:
-                # Full lookback window
-                window = data[i - period + 1:i + 1]
-                highest_values.append(max(window))
-        
-        return highest_values
+            start_idx = max(0, i - period + 1)
+            window = data[start_idx:i + 1]
+            result.append(min(window))
+        return result
 
-    def precise_lowest(self, data: List[float], period: int) -> List[float]:
-        """Precise rolling minimum matching Pine Script ta.lowest()"""
-        lowest_values = []
-        
-        for i in range(len(data)):
-            if i < period - 1:
-                # For incomplete lookback, use available data
-                lowest_values.append(min(data[0:i + 1]))
-            else:
-                # Full lookback window
-                window = data[i - period + 1:i + 1]
-                lowest_values.append(min(window))
-        
-        return lowest_values
-
-    def calculate_bbw_precision_matched(self, closes: List[float]) -> Tuple[List[float], List[float], List[float]]:
-        """
-        PRECISION-MATCHED Pine Script BBW calculation:
-        
-        Exact replication with high-precision arithmetic and correct NaN handling
-        """
+    def calculate_bbw(self, closes: List[float]) -> Tuple[float, float, float]:
+        """Calculate current BBW and dynamic lines"""
         if len(closes) < max(self.length, self.expansion_length, self.contraction_length):
-            return [], [], []
+            return 0, 0, 0
+
+        # Calculate BBW
+        basis = self.calculate_sma(closes, self.length)
+        stdev = self.calculate_stdev(closes, self.length)
         
-        # Step 1: Calculate basis (high-precision SMA)
-        basis = self.precise_sma(closes, self.length)
-        
-        # Step 2: Calculate standard deviation (high-precision)
-        stdev = self.precise_stdev(closes, self.length)
-        
-        # Step 3: Calculate Bollinger Bands with exact Pine Script logic
-        upper = []
-        lower = []
-        
-        for i in range(len(basis)):
-            if str(basis[i]) == 'nan' or str(stdev[i]) == 'nan':
-                upper.append(float('nan'))
-                lower.append(float('nan'))
+        bbw_values = []
+        for i in range(len(closes)):
+            if str(basis[i]) == 'nan' or str(stdev[i]) == 'nan' or basis[i] == 0:
+                bbw_values.append(0)
             else:
                 dev = self.mult * stdev[i]
-                upper.append(basis[i] + dev)
-                lower.append(basis[i] - dev)
-        
-        # Step 4: Calculate BBW with proper NaN and zero handling
-        bbw = []
-        for i in range(len(upper)):
-            if (str(upper[i]) == 'nan' or str(lower[i]) == 'nan' or 
-                str(basis[i]) == 'nan' or basis[i] == 0):
-                bbw.append(float('nan'))
-            else:
-                # High precision BBW calculation
-                upper_dec = Decimal(str(upper[i]))
-                lower_dec = Decimal(str(lower[i]))
-                basis_dec = Decimal(str(basis[i]))
-                
-                bbw_val = ((upper_dec - lower_dec) / basis_dec) * Decimal('100')
-                bbw.append(float(bbw_val))
-        
-        # Step 5: Filter out NaN values for highest/lowest calculations
-        valid_bbw = [x for x in bbw if str(x) != 'nan']
-        
+                upper = basis[i] + dev
+                lower = basis[i] - dev
+                bbw_val = ((upper - lower) / basis[i]) * 100
+                bbw_values.append(bbw_val)
+
+        # Calculate dynamic lines
+        valid_bbw = [x for x in bbw_values if x > 0]
         if len(valid_bbw) < max(self.expansion_length, self.contraction_length):
-            return bbw, [], []
-        
-        # Step 6: Calculate dynamic lines on valid BBW values only
-        highest_expansion = self.precise_highest(valid_bbw, self.expansion_length)
-        lowest_contraction = self.precise_lowest(valid_bbw, self.contraction_length)
-        
-        # Pad to match original length
-        while len(highest_expansion) < len(bbw):
-            highest_expansion.insert(0, highest_expansion[0] if highest_expansion else 0)
-        while len(lowest_contraction) < len(bbw):
-            lowest_contraction.insert(0, lowest_contraction[0] if lowest_contraction else 0)
-        
-        return bbw, highest_expansion, lowest_contraction
+            return 0, 0, 0
+            
+        highest_expansion = self.calculate_highest(valid_bbw, self.expansion_length)
+        lowest_contraction = self.calculate_lowest(valid_bbw, self.contraction_length)
+
+        return bbw_values[-1], highest_expansion[-1], lowest_contraction[-1]
 
     def load_cache(self) -> Dict:
-        """Load BBW alert cache"""
+        """Load persistent cache"""
         try:
+            # Ensure cache directory exists
+            os.makedirs(os.path.dirname(self.cache_file), exist_ok=True)
+            
             if os.path.exists(self.cache_file):
                 with open(self.cache_file, 'r') as f:
-                    return json.load(f)
-        except:
-            pass
+                    cache = json.load(f)
+                    print(f"📁 Loaded cache with {len(cache)} entries")
+                    return cache
+        except Exception as e:
+            print(f"❌ Cache load error: {e}")
+        
+        print("📁 Creating new cache")
         return {}
 
     def save_cache(self, cache_data: Dict):
-        """Save BBW alert cache"""
+        """Save persistent cache"""
         try:
             os.makedirs(os.path.dirname(self.cache_file), exist_ok=True)
             with open(self.cache_file, 'w') as f:
                 json.dump(cache_data, f, indent=2)
-        except:
-            pass
+            print(f"💾 Cache saved with {len(cache_data)} entries")
+        except Exception as e:
+            print(f"❌ Cache save error: {e}")
 
-    def check_squeeze_entry_and_reminders(self, symbol: str, current_bbw: float, lowest_contraction: float) -> Dict:
+    def check_squeeze_alert(self, symbol: str, current_bbw: float, lowest_contraction: float) -> Dict:
         """
-        BULLETPROOF Zone-Based Alert Logic:
+        BULLETPROOF squeeze detection with persistent cache:
         
-        ZONE = [lowest_contraction, lowest_contraction * 2.0]
-        
-        ALERTS:
-        1. FIRST ENTRY: When BBW enters zone for first time
-        2. NO ALERTS: While BBW stays in zone (across multiple runs)
-        3. RE-ENTRY: When BBW exits zone completely then re-enters
-        4. 20H REMINDER: After 20 hours in zone (once per zone session)
+        1. Alert ONLY on FIRST entry into squeeze zone
+        2. NO alerts while staying in zone (across multiple runs)
+        3. 20H reminder after prolonged squeeze
+        4. New alert only after complete exit and re-entry
         """
         current_time = time.time()
         
-        # Skip if invalid values
-        if str(current_bbw) == 'nan' or str(lowest_contraction) == 'nan':
+        if current_bbw <= 0 or lowest_contraction <= 0:
             return {
-                'first_entry_alert': False,
-                'reminder_alert': False,
+                'send_alert': False,
                 'alert_type': None,
                 'range_top': 0
             }
-        
-        # Calculate squeeze zone boundaries
+
+        # Calculate squeeze zone
         zone_bottom = lowest_contraction
         zone_top = lowest_contraction * 2.0  # 100% above contraction
-        
-        # Check if BBW is currently in the squeeze zone
         is_in_zone = zone_bottom <= current_bbw <= zone_top
-        
-        # Load persistent cache
+
+        # Load cache
         cache = self.load_cache()
-        cache_key = f"{symbol}_zone"
-        
-        # Default result
+        cache_key = f"{symbol}_squeeze"
+
+        # Get previous state
+        if cache_key in cache:
+            was_in_zone = cache[cache_key].get('in_zone', False)
+            zone_entry_time = cache[cache_key].get('entry_time', current_time)
+            reminder_sent = cache[cache_key].get('reminder_sent', False)
+        else:
+            was_in_zone = False
+            zone_entry_time = current_time
+            reminder_sent = False
+
         result = {
-            'first_entry_alert': False,
-            'reminder_alert': False,
+            'send_alert': False,
             'alert_type': None,
             'range_top': zone_top
         }
-        
-        # Get previous state from persistent cache
-        if cache_key in cache:
-            # We have previous data for this symbol
-            was_in_zone = cache[cache_key].get('was_in_zone', False)
-            zone_entry_time = cache[cache_key].get('zone_entry_time', current_time)
-            first_alert_sent = cache[cache_key].get('first_alert_sent', False)
-            reminder_sent = cache[cache_key].get('reminder_sent', False)
-            last_zone_bottom = cache[cache_key].get('last_zone_bottom', zone_bottom)
-            last_zone_top = cache[cache_key].get('last_zone_top', zone_top)
-            
-            # Check if zone boundaries have changed significantly (dynamic ranges change)
-            zone_changed = (abs(zone_bottom - last_zone_bottom) > zone_bottom * 0.1 or 
-                           abs(zone_top - last_zone_top) > zone_top * 0.1)
-            
-            if zone_changed:
-                # Zone boundaries changed significantly, reset state
-                was_in_zone = False
-                first_alert_sent = False
-                reminder_sent = False
-                print(f"ZONE CHANGED {symbol}: Old [{last_zone_bottom:.2f}-{last_zone_top:.2f}] → New [{zone_bottom:.2f}-{zone_top:.2f}]")
-            
-        else:
-            # No previous data - first time seeing this symbol
-            was_in_zone = False
-            zone_entry_time = current_time
-            first_alert_sent = False
-            reminder_sent = False
-            
-            print(f"NEW SYMBOL {symbol}: BBW={current_bbw:.2f}, Zone=[{zone_bottom:.2f}-{zone_top:.2f}], InZone={is_in_zone}")
-        
-        # MAIN LOGIC: Determine alerts based on zone transitions
+
         if is_in_zone:
-            # BBW is currently in squeeze zone
-            
             if not was_in_zone:
-                # ZONE ENTRY: BBW just entered zone → SEND ALERT
-                result['first_entry_alert'] = True
+                # 🚨 FIRST ENTRY - SEND ALERT
+                result['send_alert'] = True
                 result['alert_type'] = 'FIRST ENTRY'
                 
-                # Update cache for zone entry
                 cache[cache_key] = {
-                    'was_in_zone': True,
-                    'zone_entry_time': current_time,
-                    'first_alert_sent': True,
-                    'reminder_sent': False,
-                    'last_zone_bottom': zone_bottom,
-                    'last_zone_top': zone_top,
-                    'last_check_time': current_time
+                    'in_zone': True,
+                    'entry_time': current_time,
+                    'reminder_sent': False
                 }
                 
-                print(f"🚨 ZONE ENTRY ALERT: {symbol} BBW {current_bbw:.2f} entered zone [{zone_bottom:.2f}-{zone_top:.2f}]")
+                print(f"🚨 FIRST ENTRY: {symbol} BBW {current_bbw:.2f} entered zone [{zone_bottom:.2f}-{zone_top:.2f}]")
                 
             else:
-                # BBW was already in zone → NO ALERT (check for 20H reminder)
-                time_in_zone_hours = (current_time - zone_entry_time) / 3600
+                # Already in zone - check for 20H reminder
+                hours_in_zone = (current_time - zone_entry_time) / 3600
                 
-                if time_in_zone_hours >= 20 and not reminder_sent:
-                    # Send 20H reminder
-                    result['reminder_alert'] = True
+                if hours_in_zone >= 20 and not reminder_sent:
+                    result['send_alert'] = True
                     result['alert_type'] = 'EXTENDED SQUEEZE'
                     
                     cache[cache_key]['reminder_sent'] = True
-                    cache[cache_key]['last_check_time'] = current_time
                     
-                    print(f"🔔 20H REMINDER: {symbol} in zone for {time_in_zone_hours:.1f} hours")
+                    print(f"🔔 REMINDER: {symbol} in zone for {hours_in_zone:.1f} hours")
                 else:
-                    # Just update last check time
-                    cache[cache_key]['last_check_time'] = current_time
-                    print(f"📍 STAY IN ZONE: {symbol} BBW {current_bbw:.2f} (in zone {time_in_zone_hours:.1f}h, no alert)")
-        
+                    print(f"📍 STAY IN ZONE: {symbol} (in zone {hours_in_zone:.1f}h) - NO ALERT")
         else:
-            # BBW is currently OUTSIDE squeeze zone
-            
             if was_in_zone:
-                # ZONE EXIT: BBW just exited zone → RESET for future entry
+                # 🚪 EXIT ZONE - Reset for future alerts
                 cache[cache_key] = {
-                    'was_in_zone': False,
-                    'zone_entry_time': 0,
-                    'first_alert_sent': False,
-                    'reminder_sent': False,
-                    'last_zone_bottom': zone_bottom,
-                    'last_zone_top': zone_top,
-                    'last_check_time': current_time
+                    'in_zone': False,
+                    'entry_time': 0,
+                    'reminder_sent': False
                 }
-                
-                print(f"🚪 ZONE EXIT: {symbol} BBW {current_bbw:.2f} exited zone (ready for re-entry alerts)")
+                print(f"🚪 ZONE EXIT: {symbol} BBW {current_bbw:.2f} - Ready for new alerts")
             else:
-                # BBW was already outside zone → NO CHANGE
-                if cache_key in cache:
-                    cache[cache_key]['last_check_time'] = current_time
-                    cache[cache_key]['last_zone_bottom'] = zone_bottom
-                    cache[cache_key]['last_zone_top'] = zone_top
-                else:
-                    # Create cache entry for future tracking
-                    cache[cache_key] = {
-                        'was_in_zone': False,
-                        'zone_entry_time': 0,
-                        'first_alert_sent': False,
-                        'reminder_sent': False,
-                        'last_zone_bottom': zone_bottom,
-                        'last_zone_top': zone_top,
-                        'last_check_time': current_time
-                    }
-                
-                print(f"🌐 OUTSIDE ZONE: {symbol} BBW {current_bbw:.2f} outside zone [{zone_bottom:.2f}-{zone_top:.2f}]")
-        
-        # Save updated cache (CRITICAL for persistence between runs)
+                print(f"🌐 OUTSIDE ZONE: {symbol} BBW {current_bbw:.2f}")
+
+        # SAVE CACHE (Critical!)
         self.save_cache(cache)
         return result
 
-
-
-    def calculate_bbw_signals(self, ohlcv_data: Dict, symbol: str) -> Dict:
-        """Main BBW calculation with PRECISION-MATCHED logic"""
+    def analyze(self, ohlcv_data: Dict, symbol: str) -> Dict:
+        """Main analysis function"""
         try:
             closes = ohlcv_data['close']
+            current_bbw, highest_expansion, lowest_contraction = self.calculate_bbw(closes)
             
-            if len(closes) < max(self.length, self.expansion_length, self.contraction_length):
-                return {'squeeze_signal': False, 'error': 'Insufficient data'}
+            if current_bbw <= 0:
+                return {'send_alert': False, 'error': 'Invalid BBW calculation'}
 
-            # Use PRECISION-MATCHED BBW calculation
-            bbw_values, highest_expansion, lowest_contraction = self.calculate_bbw_precision_matched(closes)
-            
-            if not bbw_values or not highest_expansion or not lowest_contraction:
-                return {'squeeze_signal': False, 'error': 'BBW calculation failed'}
-            
-            current_bbw = bbw_values[-1]
-            current_highest = highest_expansion[-1]
-            current_lowest = lowest_contraction[-1]
-            
-            # Skip if any value is NaN
-            if (str(current_bbw) == 'nan' or str(current_highest) == 'nan' or 
-                str(current_lowest) == 'nan'):
-                return {'squeeze_signal': False, 'error': 'Invalid BBW values'}
-            
-            # Debug output - should now be 100% accurate to TradingView
-            print(f"PRECISION {symbol}: BBW={current_bbw:.2f}, Highest={current_highest:.2f}, Lowest={current_lowest:.2f}")
-            
-            # Check squeeze logic
-            alert_result = self.check_squeeze_entry_and_reminders(symbol, current_bbw, current_lowest)
-            send_alert = alert_result['first_entry_alert'] or alert_result['reminder_alert']
-            
-            if send_alert:
-                print(f"BBW {alert_result['alert_type']}: {symbol} BBW:{current_bbw:.2f} in range [{current_lowest:.2f} - {alert_result['range_top']:.2f}]")
+            # Check for squeeze alert
+            alert_result = self.check_squeeze_alert(symbol, current_bbw, lowest_contraction)
             
             return {
-                'squeeze_signal': send_alert,
+                'send_alert': alert_result['send_alert'],
                 'alert_type': alert_result['alert_type'],
                 'bbw': current_bbw,
-                'lowest_contraction': current_lowest,
-                'highest_expansion': current_highest,
+                'lowest_contraction': lowest_contraction,
+                'highest_expansion': highest_expansion,
                 'range_top': alert_result['range_top']
             }
             
         except Exception as e:
-            print(f"ERROR calculating precision BBW for {symbol}: {e}")
-            return {'squeeze_signal': False, 'error': str(e)}
+            print(f"❌ BBW analysis error for {symbol}: {e}")
+            return {'send_alert': False, 'error': str(e)}
