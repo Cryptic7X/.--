@@ -1,6 +1,5 @@
 """
-BBW Indicator - STRICTER SQUEEZE DETECTION
-Only alert when BBW is REALLY in squeeze zone
+BBW Indicator - New Deduplication Logic with 20H Reminders
 """
 import json
 import os
@@ -76,43 +75,88 @@ class BBWIndicator:
         except:
             pass
 
-    def is_squeeze_entry(self, symbol: str, current_bbw: float, lowest_contraction: float) -> bool:
+    def check_squeeze_status(self, symbol: str, current_bbw: float, lowest_contraction: float) -> Dict:
         """
-        STRICTER squeeze detection to reduce false positives:
-        - Calculate 50% above lowest contraction (not 75%)
-        - Alert when BBW first enters range [lowest_contraction to 50% above]
-        - Only alert if current BBW is VERY close to contraction line
+        NEW DEDUPLICATION LOGIC:
+        - Alert when BBW first enters squeeze range (contraction to 75% above)
+        - Track entry time and status
+        - Send 20-hour reminder if still in squeeze
         """
-        # STRICTER: Only 50% above contraction (was 75%)
-        squeeze_threshold = lowest_contraction * 1.50  # 50% above instead of 75%
+        # Calculate squeeze threshold (75% above contraction)
+        squeeze_threshold = lowest_contraction * 1.75  # Exact 75% above
         
-        # STRICTER: BBW must be very close to contraction line (within 25% above)
-        close_to_contraction_threshold = lowest_contraction * 1.25  # 25% above contraction
+        # Check if BBW is in squeeze range
+        is_in_squeeze = lowest_contraction <= current_bbw <= squeeze_threshold
         
-        # Check if BBW is in the tight squeeze range
-        is_very_close_to_contraction = lowest_contraction <= current_bbw <= close_to_contraction_threshold
-        
-        if not is_very_close_to_contraction:
-            return False
-        
-        # Deduplication - only alert once per 48 hours (was 24)
+        # Load cache
         cache = self.load_cache()
         current_time = time.time()
         
-        if symbol in cache:
-            last_alert = cache[symbol]
-            if (current_time - last_alert) < (48 * 60 * 60):  # 48 hours
-                return False
+        # Initialize tracking for this symbol
+        if symbol not in cache:
+            cache[symbol] = {
+                'is_in_squeeze': False,
+                'first_entry_time': None,
+                'last_alert_time': None,
+                'reminder_sent': False
+            }
         
-        # Save alert time
-        cache[symbol] = current_time
+        symbol_data = cache[symbol]
+        
+        result = {
+            'should_alert': False,
+            'alert_type': 'FIRST ENTRY',
+            'should_remind': False,
+            'hours_in_squeeze': 0
+        }
+        
+        if is_in_squeeze:
+            # BBW is currently in squeeze range
+            if not symbol_data['is_in_squeeze']:
+                # FIRST ENTRY into squeeze range
+                symbol_data['is_in_squeeze'] = True
+                symbol_data['first_entry_time'] = current_time
+                symbol_data['last_alert_time'] = current_time
+                symbol_data['reminder_sent'] = False
+                
+                result['should_alert'] = True
+                result['alert_type'] = 'FIRST ENTRY'
+                
+                print(f"BBW first squeeze entry: {symbol} BBW:{current_bbw:.2f} in range [{lowest_contraction:.2f} - {squeeze_threshold:.2f}]")
+            
+            else:
+                # Already in squeeze - check for 20-hour reminder
+                time_in_squeeze = current_time - symbol_data['first_entry_time']
+                hours_in_squeeze = time_in_squeeze / 3600
+                
+                if hours_in_squeeze >= 20 and not symbol_data['reminder_sent']:
+                    # Send 20-hour reminder
+                    result['should_remind'] = True
+                    result['hours_in_squeeze'] = int(hours_in_squeeze)
+                    
+                    symbol_data['reminder_sent'] = True
+                    symbol_data['last_alert_time'] = current_time
+                    
+                    print(f"BBW 20H reminder: {symbol} still in squeeze for {hours_in_squeeze:.1f} hours")
+        
+        else:
+            # BBW has exited squeeze range
+            if symbol_data['is_in_squeeze']:
+                # Just exited - reset tracking
+                symbol_data['is_in_squeeze'] = False
+                symbol_data['first_entry_time'] = None
+                symbol_data['reminder_sent'] = False
+                
+                print(f"BBW exit squeeze: {symbol} BBW:{current_bbw:.2f} exited range")
+        
+        # Save updated cache
+        cache[symbol] = symbol_data
         self.save_cache(cache)
         
-        print(f"BBW STRICT squeeze: {symbol} BBW:{current_bbw:.2f} in tight range [{lowest_contraction:.2f} - {close_to_contraction_threshold:.2f}]")
-        return True
+        return result
 
     def calculate_bbw_signals(self, ohlcv_data: Dict, symbol: str) -> Dict:
-        """Main BBW calculation with STRICT logic"""
+        """Main BBW calculation with new deduplication logic"""
         try:
             closes = ohlcv_data['close']
             bbw_values, highest_expansion, lowest_contraction = self.calculate_bbw(closes)
@@ -121,13 +165,16 @@ class BBWIndicator:
                 return {'squeeze_signal': False, 'error': 'Insufficient data'}
             
             current_bbw = bbw_values[-1]
-            squeeze_threshold = lowest_contraction * 1.50  # 50% threshold for display
+            squeeze_threshold = lowest_contraction * 1.75
             
-            # STRICT squeeze entry detection
-            squeeze_detected = self.is_squeeze_entry(symbol, current_bbw, lowest_contraction)
+            # Check squeeze status with new logic
+            squeeze_status = self.check_squeeze_status(symbol, current_bbw, lowest_contraction)
             
             return {
-                'squeeze_signal': squeeze_detected,
+                'squeeze_signal': squeeze_status['should_alert'],
+                'reminder_signal': squeeze_status['should_remind'],
+                'alert_type': squeeze_status['alert_type'],
+                'hours_in_squeeze': squeeze_status['hours_in_squeeze'],
                 'bbw': current_bbw,
                 'lowest_contraction': lowest_contraction,
                 'highest_expansion': highest_expansion,
