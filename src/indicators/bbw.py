@@ -172,7 +172,14 @@ class BBWIndicator:
             pass
 
     def check_squeeze_entry_and_reminders(self, symbol: str, current_bbw: float, lowest_contraction: float) -> Dict:
-        """100% Range + 20H reminder logic"""
+        """
+        BULLETPROOF deduplication logic:
+        
+        1. First Entry Alert: Only when BBW enters range for first time
+        2. No Duplicate Alerts: While BBW remains in range
+        3. 20H Reminder: After 20 hours in range (only once)
+        4. New First Entry: Only after complete exit and re-entry
+        """
         current_time = time.time()
         
         # Skip if invalid values
@@ -184,15 +191,17 @@ class BBWIndicator:
                 'range_top': 0
             }
         
-        # 100% above contraction 
+        # Calculate 100% range
         range_top = lowest_contraction * 2.0
         
-        # Check if in squeeze range
-        is_in_squeeze_range = lowest_contraction <= current_bbw <= range_top
+        # Check current state
+        is_currently_in_range = lowest_contraction <= current_bbw <= range_top
         
+        # Load cache
         cache = self.load_cache()
         cache_key = f"{symbol}_squeeze"
         
+        # Default result
         result = {
             'first_entry_alert': False,
             'reminder_alert': False,
@@ -200,50 +209,87 @@ class BBWIndicator:
             'range_top': range_top
         }
         
-        if is_in_squeeze_range:
-            if cache_key in cache:
-                entry_time = cache[cache_key].get('entry_time', current_time)
-                was_in_range = cache[cache_key].get('was_in_range', False)
-                reminder_sent = cache[cache_key].get('reminder_sent', False)
-                
-                if not was_in_range:
-                    result['first_entry_alert'] = True
-                    result['alert_type'] = 'FIRST ENTRY'
-                    
-                    cache[cache_key] = {
-                        'entry_time': current_time,
-                        'last_alert_time': current_time,
-                        'was_in_range': True,
-                        'reminder_sent': False
-                    }
-                else:
-                    time_in_range_hours = (current_time - entry_time) / 3600
-                    
-                    if time_in_range_hours >= 20 and not reminder_sent:
-                        result['reminder_alert'] = True
-                        result['alert_type'] = 'EXTENDED SQUEEZE'
-                        
-                        cache[cache_key]['reminder_sent'] = True
-                        cache[cache_key]['last_alert_time'] = current_time
-                    
-                    cache[cache_key]['was_in_range'] = True
-            else:
+        # Get previous state from cache
+        if cache_key in cache:
+            was_in_range_last_check = cache[cache_key].get('is_in_range', False)
+            entry_time = cache[cache_key].get('entry_time', current_time)
+            first_alert_sent = cache[cache_key].get('first_alert_sent', False)
+            reminder_sent = cache[cache_key].get('reminder_sent', False)
+            
+            print(f"CACHE {symbol}: was_in_range={was_in_range_last_check}, currently_in_range={is_currently_in_range}")
+        else:
+            # No previous data
+            was_in_range_last_check = False
+            entry_time = current_time
+            first_alert_sent = False
+            reminder_sent = False
+            
+            print(f"NEW {symbol}: currently_in_range={is_currently_in_range}")
+        
+        # LOGIC: Determine what alerts to send
+        if is_currently_in_range:
+            # BBW is currently in squeeze range
+            
+            if not was_in_range_last_check:
+                # STATE CHANGE: BBW just entered range → FIRST ENTRY ALERT
                 result['first_entry_alert'] = True
                 result['alert_type'] = 'FIRST ENTRY'
                 
+                # Update cache for new entry
                 cache[cache_key] = {
+                    'is_in_range': True,
                     'entry_time': current_time,
-                    'last_alert_time': current_time,
-                    'was_in_range': True,
-                    'reminder_sent': False
+                    'first_alert_sent': True,
+                    'reminder_sent': False,
+                    'last_check_time': current_time
                 }
-        else:
-            if cache_key in cache:
-                cache[cache_key]['was_in_range'] = False
-                cache[cache_key]['reminder_sent'] = False
+                
+                print(f"FIRST ENTRY: {symbol} BBW entered range {current_bbw:.2f} in [{lowest_contraction:.2f} - {range_top:.2f}]")
+                
+            else:
+                # BBW was already in range - check for 20H reminder
+                time_in_range_hours = (current_time - entry_time) / 3600
+                
+                if time_in_range_hours >= 20 and not reminder_sent:
+                    # Send 20H reminder (only once)
+                    result['reminder_alert'] = True
+                    result['alert_type'] = 'EXTENDED SQUEEZE'
+                    
+                    # Update cache to mark reminder as sent
+                    cache[cache_key]['reminder_sent'] = True
+                    cache[cache_key]['last_check_time'] = current_time
+                    
+                    print(f"REMINDER: {symbol} in squeeze for {time_in_range_hours:.1f} hours")
+                else:
+                    # Stay in range, no alert needed
+                    cache[cache_key]['last_check_time'] = current_time
+                    print(f"STAY IN RANGE: {symbol} BBW {current_bbw:.2f} (no alert)")
         
+        else:
+            # BBW is currently OUTSIDE squeeze range
+            
+            if was_in_range_last_check:
+                # STATE CHANGE: BBW just exited range
+                cache[cache_key] = {
+                    'is_in_range': False,
+                    'entry_time': 0,
+                    'first_alert_sent': False,
+                    'reminder_sent': False,
+                    'last_check_time': current_time
+                }
+                
+                print(f"EXITED RANGE: {symbol} BBW left squeeze range {current_bbw:.2f}")
+            else:
+                # BBW was already outside range
+                if cache_key in cache:
+                    cache[cache_key]['last_check_time'] = current_time
+                
+                print(f"OUTSIDE RANGE: {symbol} BBW {current_bbw:.2f} (no alert)")
+        
+        # Save updated cache
         self.save_cache(cache)
         return result
+
 
     def calculate_bbw_signals(self, ohlcv_data: Dict, symbol: str) -> Dict:
         """Main BBW calculation with PRECISION-MATCHED logic"""
