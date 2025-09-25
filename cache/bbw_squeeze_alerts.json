@@ -8,5 +8,10 @@
     "in_zone": true,
     "entry_time": 1758806748.0285265,
     "reminder_sent": false
+  },
+  "WLFI_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758806748.1224883,
+    "reminder_sent": false
   }
 }
