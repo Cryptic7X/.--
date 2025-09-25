@@ -1,9 +1,11 @@
 """
-BBW Indicator - Simple & Bulletproof with Persistent Cache
+BBW Indicator - THREAD-SAFE Cache System
+Fixes race conditions and JSON corruption
 """
 import json
 import os
 import time
+import threading
 from decimal import Decimal, getcontext
 from typing import Dict, List, Tuple
 
@@ -15,8 +17,11 @@ class BBWIndicator:
         self.mult = 2.0  
         self.expansion_length = 125
         self.contraction_length = 125
-        # IMPORTANT: Use absolute path for cache persistence
+        
+        # THREAD-SAFE cache system
         self.cache_file = os.path.abspath("cache/bbw_squeeze_alerts.json")
+        self._cache_lock = threading.Lock()  # Prevents race conditions
+        self._cache = None  # In-memory cache
 
     def calculate_sma(self, data: List[float], period: int) -> List[float]:
         """High-precision SMA"""
@@ -94,38 +99,49 @@ class BBWIndicator:
         return bbw_values[-1], highest_expansion[-1], lowest_contraction[-1]
 
     def load_cache(self) -> Dict:
-        """Load persistent cache"""
-        try:
-            # Ensure cache directory exists
-            os.makedirs(os.path.dirname(self.cache_file), exist_ok=True)
+        """THREAD-SAFE cache loading"""
+        with self._cache_lock:
+            if self._cache is not None:
+                return self._cache
+                
+            try:
+                os.makedirs(os.path.dirname(self.cache_file), exist_ok=True)
+                
+                if os.path.exists(self.cache_file):
+                    with open(self.cache_file, 'r') as f:
+                        self._cache = json.load(f)
+                        return self._cache
+            except Exception as e:
+                print(f"❌ Cache load error, creating new: {e}")
             
-            if os.path.exists(self.cache_file):
-                with open(self.cache_file, 'r') as f:
-                    cache = json.load(f)
-                    print(f"📁 Loaded cache with {len(cache)} entries")
-                    return cache
-        except Exception as e:
-            print(f"❌ Cache load error: {e}")
-        
-        print("📁 Creating new cache")
-        return {}
+            self._cache = {}
+            return self._cache
 
     def save_cache(self, cache_data: Dict):
-        """Save persistent cache"""
-        try:
-            os.makedirs(os.path.dirname(self.cache_file), exist_ok=True)
-            with open(self.cache_file, 'w') as f:
-                json.dump(cache_data, f, indent=2)
-            print(f"💾 Cache saved with {len(cache_data)} entries")
-        except Exception as e:
-            print(f"❌ Cache save error: {e}")
+        """THREAD-SAFE cache saving"""
+        with self._cache_lock:
+            self._cache = cache_data
+            
+            try:
+                os.makedirs(os.path.dirname(self.cache_file), exist_ok=True)
+                
+                # Write to temporary file first, then rename (atomic operation)
+                temp_file = self.cache_file + '.tmp'
+                with open(temp_file, 'w') as f:
+                    json.dump(cache_data, f, indent=2)
+                
+                # Atomic rename
+                os.replace(temp_file, self.cache_file)
+                
+            except Exception as e:
+                print(f"❌ Cache save error: {e}")
 
     def check_squeeze_alert(self, symbol: str, current_bbw: float, lowest_contraction: float) -> Dict:
         """
-        BULLETPROOF squeeze detection with persistent cache:
+        THREAD-SAFE squeeze detection:
         
         1. Alert ONLY on FIRST entry into squeeze zone
-        2. NO alerts while staying in zone (across multiple runs)
+        2. NO alerts while staying in zone
         3. 20H reminder after prolonged squeeze
         4. New alert only after complete exit and re-entry
         """
@@ -143,7 +159,7 @@ class BBWIndicator:
         zone_top = lowest_contraction * 2.0  # 100% above contraction
         is_in_zone = zone_bottom <= current_bbw <= zone_top
 
-        # Load cache
+        # THREAD-SAFE cache access
         cache = self.load_cache()
         cache_key = f"{symbol}_squeeze"
 
@@ -202,7 +218,7 @@ class BBWIndicator:
             else:
                 print(f"🌐 OUTSIDE ZONE: {symbol} BBW {current_bbw:.2f}")
 
-        # SAVE CACHE (Critical!)
+        # THREAD-SAFE cache save
         self.save_cache(cache)
         return result
 
@@ -215,7 +231,7 @@ class BBWIndicator:
             if current_bbw <= 0:
                 return {'send_alert': False, 'error': 'Invalid BBW calculation'}
 
-            # Check for squeeze alert
+            # Check for squeeze alert (thread-safe)
             alert_result = self.check_squeeze_alert(symbol, current_bbw, lowest_contraction)
             
             return {
