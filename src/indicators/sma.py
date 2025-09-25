@@ -1,8 +1,8 @@
 """
 Multi-Indicator Crypto Trading System - SMA Indicator
 SMA crossovers and proximity detection with 12H suppression
+NO RANGING ALERTS
 """
-
 import json
 import os
 import time
@@ -17,10 +17,9 @@ class SMAIndicator:
         self.short_length = short_length
         self.long_length = long_length
         self.proximity_threshold = 0.02  # 2%
-        self.ranging_threshold = 0.02    # 2%
-        self.suppression_hours = 12      # 12 hours
+        self.suppression_hours = 12  # 12 hours
         self.cache_file = "cache/sma_alerts.json"
-        
+
     def calculate_sma(self, data: List[float], period: int) -> List[float]:
         """Calculate Simple Moving Average"""
         if len(data) < period:
@@ -33,9 +32,8 @@ class SMAIndicator:
             else:
                 avg = sum(data[i - period + 1:i + 1]) / period
                 sma.append(avg)
-        
         return sma
-    
+
     def detect_crossovers(self, closes: List[float]) -> Dict:
         """Detect Golden Cross and Death Cross"""
         sma50 = self.calculate_sma(closes, self.short_length)
@@ -69,15 +67,7 @@ class SMAIndicator:
             'sma50_prev': prev_50,
             'sma200_prev': prev_200
         }
-    
-    def detect_ranging_market(self, sma50: float, sma200: float) -> bool:
-        """Detect if SMAs are within ranging threshold"""
-        if sma50 == 0 or sma200 == 0:
-            return False
-        
-        sma_gap = abs(sma50 - sma200) / ((sma50 + sma200) / 2)
-        return sma_gap <= self.ranging_threshold
-    
+
     def load_sma_cache(self) -> Dict:
         """Load SMA alert cache"""
         try:
@@ -86,9 +76,8 @@ class SMAIndicator:
                     return json.load(f)
         except Exception as e:
             logger.error(f"Error loading SMA cache: {e}")
-        
         return {}
-    
+
     def save_sma_cache(self, cache_data: Dict) -> bool:
         """Save SMA alert cache"""
         try:
@@ -99,7 +88,7 @@ class SMAIndicator:
         except Exception as e:
             logger.error(f"Error saving SMA cache: {e}")
             return False
-    
+
     def check_proximity_suppression(self, symbol: str, alert_type: str) -> bool:
         """Check if proximity alert should be suppressed (12H rule)"""
         cache = self.load_sma_cache()
@@ -114,7 +103,7 @@ class SMAIndicator:
                 return True  # Suppress
         
         return False  # Don't suppress
-    
+
     def update_proximity_cache(self, symbol: str, alert_type: str):
         """Update proximity alert cache"""
         cache = self.load_sma_cache()
@@ -126,40 +115,13 @@ class SMAIndicator:
         }
         
         self.save_sma_cache(cache)
-    
-    def check_ranging_status(self, symbol: str) -> Tuple[bool, bool]:
-        """
-        Check if coin is in ranging mode
-        Returns: (is_ranging, ranging_alert_sent)
-        """
-        cache = self.load_sma_cache()
-        ranging_key = f"{symbol}_ranging"
-        
-        is_ranging = cache.get(ranging_key, {}).get('is_ranging', False)
-        ranging_alert_sent = cache.get(ranging_key, {}).get('alert_sent', False)
-        
-        return is_ranging, ranging_alert_sent
-    
-    def set_ranging_status(self, symbol: str, is_ranging: bool, alert_sent: bool = False):
-        """Set ranging status in cache"""
-        cache = self.load_sma_cache()
-        ranging_key = f"{symbol}_ranging"
-        
-        cache[ranging_key] = {
-            'is_ranging': is_ranging,
-            'alert_sent': alert_sent,
-            'timestamp': time.time()
-        }
-        
-        self.save_sma_cache(cache)
-    
+
     def get_market_trend(self, symbol: str) -> str:
         """Get current market trend from last crossover"""
         cache = self.load_sma_cache()
         trend_key = f"{symbol}_trend"
-        
         return cache.get(trend_key, {}).get('trend', 'neutral')
-    
+
     def set_market_trend(self, symbol: str, trend: str):
         """Set market trend after crossover"""
         cache = self.load_sma_cache()
@@ -170,89 +132,78 @@ class SMAIndicator:
             'timestamp': time.time()
         }
         
-        # Reset ranging status on crossover
-        self.set_ranging_status(symbol, False, False)
-        
         self.save_sma_cache(cache)
-    
+
     def detect_proximity_alerts(self, symbol: str, price: float, sma50: float, sma200: float) -> List[Dict]:
         """Detect support/resistance proximity alerts"""
         alerts = []
         market_trend = self.get_market_trend(symbol)
-        
-        # Check if in ranging mode
-        is_ranging, _ = self.check_ranging_status(symbol)
-        if is_ranging:
-            return []  # Suppress all proximity alerts in ranging mode
-        
+
         # SMA50 Proximity Check
         if sma50 > 0:
             sma50_distance = abs(price - sma50) / sma50
             if sma50_distance <= self.proximity_threshold:
-                
                 # Determine support/resistance based on trend
                 if market_trend == 'bullish' and price >= sma50 * 0.98:  # Approaching from above
                     if not self.check_proximity_suppression(symbol, 'sma50_support'):
                         alerts.append({
                             'type': 'support',
                             'level': 'SMA50',
-                            'price': sma50,
-                            'distance': sma50_distance
+                            'sma_value': sma50,
+                            'distance_percent': sma50_distance * 100
                         })
                         self.update_proximity_cache(symbol, 'sma50_support')
-                
+                        
                 elif market_trend == 'bearish' and price <= sma50 * 1.02:  # Approaching from below
                     if not self.check_proximity_suppression(symbol, 'sma50_resistance'):
                         alerts.append({
                             'type': 'resistance',
                             'level': 'SMA50',
-                            'price': sma50,
-                            'distance': sma50_distance
+                            'sma_value': sma50,
+                            'distance_percent': sma50_distance * 100
                         })
                         self.update_proximity_cache(symbol, 'sma50_resistance')
-        
+
         # SMA200 Proximity Check (similar logic)
         if sma200 > 0:
             sma200_distance = abs(price - sma200) / sma200
             if sma200_distance <= self.proximity_threshold:
-                
                 if market_trend == 'bullish' and price >= sma200 * 0.98:
                     if not self.check_proximity_suppression(symbol, 'sma200_support'):
                         alerts.append({
                             'type': 'support',
                             'level': 'SMA200',
-                            'price': sma200,
-                            'distance': sma200_distance
+                            'sma_value': sma200,
+                            'distance_percent': sma200_distance * 100
                         })
                         self.update_proximity_cache(symbol, 'sma200_support')
-                
+                        
                 elif market_trend == 'bearish' and price <= sma200 * 1.02:
                     if not self.check_proximity_suppression(symbol, 'sma200_resistance'):
                         alerts.append({
                             'type': 'resistance',
                             'level': 'SMA200',
-                            'price': sma200,
-                            'distance': sma200_distance
+                            'sma_value': sma200,
+                            'distance_percent': sma200_distance * 100
                         })
                         self.update_proximity_cache(symbol, 'sma200_resistance')
-        
+
         return alerts
-    
+
     def calculate_sma_signals(self, ohlcv_data: Dict[str, List[float]], symbol: str, price: float) -> Dict:
         """
         Main SMA calculation and signal detection
+        NO RANGING ALERTS
         """
         try:
             closes = ohlcv_data['close']
-            
             if len(closes) < max(self.short_length, self.long_length) + 5:
                 return {
                     'error': 'Insufficient data for SMA calculation',
                     'crossover_alerts': [],
-                    'proximity_alerts': [],
-                    'ranging_alert': False
+                    'proximity_alerts': []
                 }
-            
+
             # Detect crossovers
             crossover_data = self.detect_crossovers(closes)
             sma50 = crossover_data['sma50']
@@ -260,8 +211,7 @@ class SMAIndicator:
             
             crossover_alerts = []
             proximity_alerts = []
-            ranging_alert = False
-            
+
             # Handle crossovers (NO SUPPRESSION)
             if crossover_data['golden_cross']:
                 crossover_alerts.append({
@@ -270,7 +220,7 @@ class SMAIndicator:
                     'sma200': sma200
                 })
                 self.set_market_trend(symbol, 'bullish')
-            
+                
             elif crossover_data['death_cross']:
                 crossover_alerts.append({
                     'type': 'death_cross',
@@ -278,40 +228,35 @@ class SMAIndicator:
                     'sma200': sma200
                 })
                 self.set_market_trend(symbol, 'bearish')
-            
-            # Check for ranging market
-            if self.detect_ranging_market(sma50, sma200):
-                is_ranging, ranging_alert_sent = self.check_ranging_status(symbol)
-                
-                if not ranging_alert_sent:
-                    ranging_alert = True
-                    self.set_ranging_status(symbol, True, True)
-            else:
-                # Not ranging, reset status
-                self.set_ranging_status(symbol, False, False)
-                
-                # Check proximity alerts
-                proximity_alerts = self.detect_proximity_alerts(symbol, price, sma50, sma200)
-            
+
+            # Check proximity alerts (NO RANGING CHECK)
+            proximity_alerts = self.detect_proximity_alerts(symbol, price, sma50, sma200)
+
             return {
                 'crossover_alerts': crossover_alerts,
                 'proximity_alerts': proximity_alerts,
-                'ranging_alert': ranging_alert,
                 'sma50': sma50,
                 'sma200': sma200,
-                'market_trend': self.get_market_trend(symbol),
-                'is_ranging': self.check_ranging_status(symbol)[0]
+                'market_trend': self.get_market_trend(symbol)
             }
-            
+
         except Exception as e:
             logger.error(f"Error calculating SMA signals for {symbol}: {e}")
             return {
                 'error': str(e),
                 'crossover_alerts': [],
-                'proximity_alerts': [],
-                'ranging_alert': False
+                'proximity_alerts': []
             }
 
-# Global instance
-sma_indicator = SMAIndicator()
-
+# Standalone function for backward compatibility  
+def detect_sma_signals(ohlcv_data: Dict[str, List[float]], config: Dict, symbol: str) -> Tuple[List[Dict], List[Dict]]:
+    """Detect SMA signals - backward compatibility function"""
+    sma_indicator = SMAIndicator()
+    
+    # Get current price from closes
+    current_price = ohlcv_data['close'][-1] if ohlcv_data['close'] else 0
+    
+    # Calculate signals
+    result = sma_indicator.calculate_sma_signals(ohlcv_data, symbol, current_price)
+    
+    return result.get('crossover_alerts', []), result.get('proximity_alerts', [])
