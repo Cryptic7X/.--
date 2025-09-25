@@ -1,10 +1,11 @@
 """
-BBW Indicator - DEBUGGING VERSION
-Shows exactly what's happening with cache logic
+BBW Indicator - GitHub-Persistent Cache
+Commits cache to git repository to persist between GitHub Action runs
 """
 import json
 import os
 import time
+import subprocess
 import threading
 from decimal import Decimal, getcontext
 from typing import Dict, List, Tuple
@@ -18,7 +19,7 @@ class BBWIndicator:
         self.expansion_length = 125
         self.contraction_length = 125
         
-        # THREAD-SAFE cache system
+        # GitHub-persistent cache
         self.cache_file = os.path.abspath("cache/bbw_squeeze_alerts.json")
         self._cache_lock = threading.Lock()
         self._cache = None
@@ -69,7 +70,7 @@ class BBWIndicator:
         return result
 
     def calculate_bbw(self, closes: List[float]) -> Tuple[float, float, float]:
-        """Calculate current BBW and dynamic lines"""
+        """Calculate current BBW and dynamic lines with debugging"""
         if len(closes) < max(self.length, self.expansion_length, self.contraction_length):
             return 0, 0, 0
 
@@ -96,10 +97,41 @@ class BBWIndicator:
         highest_expansion = self.calculate_highest(valid_bbw, self.expansion_length)
         lowest_contraction = self.calculate_lowest(valid_bbw, self.contraction_length)
 
-        return bbw_values[-1], highest_expansion[-1], lowest_contraction[-1]
+        current_bbw = bbw_values[-1]
+        current_highest = highest_expansion[-1]
+        current_lowest = lowest_contraction[-1]
+
+        return current_bbw, current_highest, current_lowest
+
+    def commit_cache_to_git(self):
+        """Commit cache file to git for persistence"""
+        try:
+            # Configure git
+            subprocess.run(['git', 'config', 'user.name', 'BBW Cache Bot'], check=False)
+            subprocess.run(['git', 'config', 'user.email', 'cache@bbw.bot'], check=False)
+            
+            # Add and commit cache file
+            subprocess.run(['git', 'add', self.cache_file], check=False)
+            result = subprocess.run(['git', 'commit', '-m', 'Update BBW cache'], 
+                                  capture_output=True, text=True, check=False)
+            
+            if result.returncode == 0:
+                print(f"✅ COMMITTED CACHE TO GIT")
+                
+                # Push to remote
+                push_result = subprocess.run(['git', 'push'], capture_output=True, text=True, check=False)
+                if push_result.returncode == 0:
+                    print(f"✅ PUSHED CACHE TO REMOTE")
+                else:
+                    print(f"❌ Push failed: {push_result.stderr}")
+            else:
+                print(f"📝 No changes to commit")
+                
+        except Exception as e:
+            print(f"❌ Git commit error: {e}")
 
     def load_cache(self) -> Dict:
-        """THREAD-SAFE cache loading with DEBUG"""
+        """Load cache from git repository"""
         with self._cache_lock:
             if self._cache is not None:
                 return self._cache
@@ -110,49 +142,53 @@ class BBWIndicator:
                 if os.path.exists(self.cache_file):
                     with open(self.cache_file, 'r') as f:
                         content = f.read()
-                        if content.strip():  # Check if file has content
+                        if content.strip():
                             self._cache = json.loads(content)
-                            print(f"📁 LOADED CACHE: {len(self._cache)} entries from {self.cache_file}")
+                            print(f"📁 LOADED CACHE: {len(self._cache)} entries from git")
+                            
+                            # Show cached symbols
+                            cached_symbols = []
+                            for key in self._cache.keys():
+                                if '_squeeze' in key:
+                                    symbol = key.replace('_squeeze', '')
+                                    in_zone = self._cache[key].get('in_zone', False)
+                                    cached_symbols.append(f"{symbol}:{in_zone}")
+                            
+                            print(f"📋 CACHED SYMBOLS: {', '.join(cached_symbols[:10])}" + 
+                                  (f" + {len(cached_symbols)-10} more" if len(cached_symbols) > 10 else ""))
+                            
                             return self._cache
-                        else:
-                            print(f"📁 EMPTY CACHE FILE: {self.cache_file}")
-                else:
-                    print(f"📁 NO CACHE FILE EXISTS: {self.cache_file}")
             except Exception as e:
                 print(f"❌ Cache load error: {e}")
             
-            print(f"📁 CREATING NEW CACHE: {self.cache_file}")
+            print(f"📁 CREATING NEW CACHE")
             self._cache = {}
             return self._cache
 
     def save_cache(self, cache_data: Dict):
-        """THREAD-SAFE cache saving with DEBUG"""
+        """Save cache and commit to git"""
         with self._cache_lock:
             self._cache = cache_data
             
             try:
                 os.makedirs(os.path.dirname(self.cache_file), exist_ok=True)
                 
-                temp_file = self.cache_file + '.tmp'
-                with open(temp_file, 'w') as f:
+                with open(self.cache_file, 'w') as f:
                     json.dump(cache_data, f, indent=2)
                 
-                os.replace(temp_file, self.cache_file)
-                print(f"💾 SAVED CACHE: {len(cache_data)} entries to {self.cache_file}")
+                print(f"💾 SAVED CACHE: {len(cache_data)} entries")
                 
-                # DEBUG: Print cache content
-                for key, value in cache_data.items():
-                    print(f"   📋 {key}: in_zone={value.get('in_zone', False)}")
+                # Commit to git for persistence
+                self.commit_cache_to_git()
                 
             except Exception as e:
                 print(f"❌ Cache save error: {e}")
 
     def check_squeeze_alert(self, symbol: str, current_bbw: float, lowest_contraction: float) -> Dict:
-        """DEBUGGING squeeze detection with verbose output"""
+        """Squeeze detection with git-persistent cache"""
         current_time = time.time()
         
         if current_bbw <= 0 or lowest_contraction <= 0:
-            print(f"❌ INVALID VALUES: {symbol} BBW={current_bbw} Contraction={lowest_contraction}")
             return {
                 'send_alert': False,
                 'alert_type': None,
@@ -164,12 +200,7 @@ class BBWIndicator:
         zone_top = lowest_contraction * 2.0
         is_in_zone = zone_bottom <= current_bbw <= zone_top
 
-        print(f"🔍 ANALYZING {symbol}:")
-        print(f"   BBW: {current_bbw:.2f}")
-        print(f"   Zone: [{zone_bottom:.2f} - {zone_top:.2f}]")
-        print(f"   In Zone: {is_in_zone}")
-
-        # Load cache with debugging
+        # Load git-persistent cache
         cache = self.load_cache()
         cache_key = f"{symbol}_squeeze"
 
@@ -178,14 +209,10 @@ class BBWIndicator:
             was_in_zone = cache[cache_key].get('in_zone', False)
             zone_entry_time = cache[cache_key].get('entry_time', current_time)
             reminder_sent = cache[cache_key].get('reminder_sent', False)
-            
-            print(f"   📋 CACHE FOUND: was_in_zone={was_in_zone}, entry_time={zone_entry_time}, reminder_sent={reminder_sent}")
         else:
             was_in_zone = False
             zone_entry_time = current_time
             reminder_sent = False
-            
-            print(f"   📋 NO CACHE: First time seeing {symbol}")
 
         result = {
             'send_alert': False,
@@ -205,7 +232,7 @@ class BBWIndicator:
                     'reminder_sent': False
                 }
                 
-                print(f"🚨 FIRST ENTRY ALERT: {symbol} - SENDING ALERT")
+                print(f"🚨 FIRST ENTRY: {symbol} BBW {current_bbw:.2f} in zone [{zone_bottom:.2f}-{zone_top:.2f}]")
                 
             else:
                 # Already in zone
@@ -216,9 +243,9 @@ class BBWIndicator:
                     result['alert_type'] = 'EXTENDED SQUEEZE'
                     
                     cache[cache_key]['reminder_sent'] = True
-                    print(f"🔔 REMINDER ALERT: {symbol} - in zone for {hours_in_zone:.1f}h")
+                    print(f"🔔 REMINDER: {symbol} - in zone for {hours_in_zone:.1f}h")
                 else:
-                    print(f"📍 STAY IN ZONE: {symbol} - in zone {hours_in_zone:.1f}h - NO ALERT")
+                    print(f"📍 STAY IN ZONE: {symbol} - {hours_in_zone:.1f}h - NO ALERT")
         else:
             if was_in_zone:
                 # Exit zone
@@ -227,16 +254,16 @@ class BBWIndicator:
                     'entry_time': 0,
                     'reminder_sent': False
                 }
-                print(f"🚪 ZONE EXIT: {symbol} - reset for future alerts")
+                print(f"🚪 EXIT ZONE: {symbol}")
             else:
-                print(f"🌐 OUTSIDE ZONE: {symbol} - no change")
+                print(f"🌐 OUTSIDE ZONE: {symbol}")
 
-        # Save cache
+        # Save to git
         self.save_cache(cache)
         return result
 
     def analyze(self, ohlcv_data: Dict, symbol: str) -> Dict:
-        """Main analysis function with debugging"""
+        """Main analysis function"""
         try:
             closes = ohlcv_data['close']
             current_bbw, highest_expansion, lowest_contraction = self.calculate_bbw(closes)
@@ -244,7 +271,7 @@ class BBWIndicator:
             if current_bbw <= 0:
                 return {'send_alert': False, 'error': 'Invalid BBW calculation'}
 
-            # Check for squeeze alert with full debugging
+            # Check for squeeze alert with git persistence
             alert_result = self.check_squeeze_alert(symbol, current_bbw, lowest_contraction)
             
             return {
