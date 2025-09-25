@@ -1,5 +1,5 @@
 """
-BBW Telegram Alert System - EXACT Format Match
+BBW Telegram Alert System - CONCISE Format
 """
 import os
 import requests
@@ -29,7 +29,7 @@ class BBWTelegramSender:
         return tv_link, cg_link
 
     def send_bbw_batch_alert(self, signals: List[Dict]) -> bool:
-        """Send BBW alerts in EXACT format you specified"""
+        """Send BBW alerts in CONCISE format"""
         if not self.bot_token or not self.chat_id or not signals:
             return False
 
@@ -38,7 +38,7 @@ class BBWTelegramSender:
             first_entry_signals = [s for s in signals if s.get('alert_type') == 'FIRST ENTRY']
             reminder_signals = [s for s in signals if s.get('alert_type') == 'EXTENDED SQUEEZE']
             
-            # Build message header - EXACT format match
+            # Build message header - CONCISE
             current_time = datetime.now().strftime('%H:%M:%S IST')
             
             if first_entry_signals:
@@ -48,7 +48,7 @@ class BBWTelegramSender:
 
 """
                 
-                # Add first entry signals - EXACT format
+                # Add first entry signals - CONCISE format (EXACTLY like your example)
                 for i, signal in enumerate(first_entry_signals, 1):
                     symbol = signal['symbol']
                     coin_data = signal['coin_data']
@@ -62,16 +62,16 @@ class BBWTelegramSender:
                     # Create chart links
                     tv_link, cg_link = self.create_chart_links(symbol)
 
-                    message += f"""{i}. 🔵 SQUEEZE: {symbol}
-💰 {price} ({change_24h:+.1f}% 24h)
-📊 BBW: {bbw_value:.2f}
-📉 Squeeze Range: {contraction_line:.2f} - {range_top:.2f}
-🎯 Status: FIRST ENTRY
-📈 [Chart →]({tv_link}) | 🔥  [Liq Heat →]({cg_link})
+                    # CONCISE format - exactly like your example
+                    message += f"""{i}. {symbol} | {price} | ({change_24h:+.1f}% 24h)
+    📊 BBW: {bbw_value:.2f}
+    📉 Squeeze Range: {contraction_line:.2f} - {range_top:.2f}
+    🎯 Status: FIRST ENTRY 
+    📈 [Chart →]({tv_link}) | 🔥    [Liq Heat →]({cg_link})
 
 """
 
-                # Add summary - EXACT format
+                # Add summary - CONCISE
                 message += f"""📊 BBW SQUEEZE SUMMARY
 • Total Squeezes: {len(first_entry_signals)}
 • Squeeze Logic: BBW enters 100% above contraction
