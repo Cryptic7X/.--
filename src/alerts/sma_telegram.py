@@ -80,8 +80,12 @@ class SMATelegramSender:
                     }
                     crossover_signals.append(alert_data)
 
-                # Process proximity alerts (NO RANGING FILTERING)
+                # Process proximity alerts (SKIP ANY RANGING ALERTS)
                 for alert in signal['proximity_alerts']:
+                    # SKIP RANGING ALERTS COMPLETELY
+                    if alert.get('type') == 'ranging_market':
+                        continue  # Skip ranging alerts
+                        
                     alert_data = {
                         'symbol': symbol,
                         'coin_data': coin_data,
@@ -121,7 +125,7 @@ Cap: {market_cap} | Vol: {volume}
 
 """
 
-            # Add proximity signals
+            # Add proximity signals (NO RANGING)
             if proximity_signals:
                 message += "📍 **PROXIMITY SIGNALS:**\n"
                 
