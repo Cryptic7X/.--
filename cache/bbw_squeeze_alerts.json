@@ -43,5 +43,10 @@
     "in_zone": true,
     "entry_time": 1758806753.4254036,
     "reminder_sent": false
+  },
+  "IMX_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758806753.912496,
+    "reminder_sent": false
   }
 }
