@@ -1,4 +1,4 @@
-name: SMA 2H Analysis
+name: EMA 2H Analysis
 
 on:
   schedule:
@@ -14,9 +14,9 @@ jobs:
       with:
         python-version: '3.10'
     - run: pip install -r requirements.txt
-    - name: Run SMA Analysis
+    - name: Run EMA Analysis
       env:
         BINGX_API_KEY: ${{ secrets.BINGX_API_KEY }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         SMA_TELEGRAM_CHAT_ID: ${{ secrets.SMA_TELEGRAM_CHAT_ID }}
-      run: python src/analyzers/sma_analyzer.py
+      run: python src/analyzers/ema_analyzer.py
