@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-Fixed BBW 2H Analyzer - Method Names Match
+BBW 2H Analyzer - New Deduplication Logic with Reminders
 """
 import os
 import json
 import sys
 import concurrent.futures
 from datetime import datetime
-from typing import Dict, List, Optional
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
@@ -54,27 +53,39 @@ class SimpleBBWAnalyzer:
             if not ohlcv_data:
                 return None
             
-            # Run BBW analysis
+            # Run BBW analysis with new logic
             result = self.bbw_indicator.calculate_bbw_signals(ohlcv_data, symbol)
             
-            if not result.get('squeeze_signal', False):
-                return None
+            # Check for new squeeze alerts
+            if result.get('squeeze_signal', False):
+                return {
+                    'type': 'squeeze',
+                    'symbol': symbol,
+                    'bbw_value': result['bbw'],
+                    'lowest_contraction': result['lowest_contraction'],
+                    'squeeze_threshold': result['squeeze_threshold'],
+                    'alert_type': result['alert_type'],
+                    'coin_data': coin_data,
+                    'exchange_used': exchange_used
+                }
+            
+            # Check for reminder alerts
+            elif result.get('reminder_signal', False):
+                return {
+                    'type': 'reminder',
+                    'symbol': symbol,
+                    'hours_in_squeeze': result['hours_in_squeeze'],
+                    'coin_data': coin_data
+                }
 
-            return {
-                'symbol': symbol,
-                'bbw_value': result['bbw'],
-                'lowest_contraction': result['lowest_contraction'],
-                'squeeze_threshold': result['squeeze_threshold'],
-                'coin_data': coin_data,
-                'exchange_used': exchange_used
-            }
+            return None
 
         except:
             return None
 
-    def run_analysis(self):  # ← This method name matches your main() call
-        """Main analysis - Method name matches the call from main()"""
-        print("🔵 BBW 2H ANALYSIS - SIMPLE MODE")
+    def run_analysis(self):
+        """Main analysis with new logic"""
+        print("🔵 BBW 2H ANALYSIS - New Deduplication Logic")
         
         coins = self.load_coins()
         if not coins:
@@ -84,7 +95,9 @@ class SimpleBBWAnalyzer:
         print(f"📊 Analyzing {len(coins)} coins...")
         
         # Process coins in parallel
-        signals = []
+        squeeze_signals = []
+        reminder_signals = []
+        
         with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
             futures = {executor.submit(self.analyze_coin, coin): coin for coin in coins}
             
@@ -92,17 +105,34 @@ class SimpleBBWAnalyzer:
                 try:
                     result = future.result(timeout=30)
                     if result:
-                        signals.append(result)
-                        print(f"🔵 SQUEEZE: {result['symbol']} BBW:{result['bbw_value']:.2f}")
+                        if result['type'] == 'squeeze':
+                            squeeze_signals.append(result)
+                            print(f"🔵 SQUEEZE: {result['symbol']} BBW:{result['bbw_value']:.2f}")
+                        elif result['type'] == 'reminder':
+                            reminder_signals.append(result)
+                            print(f"⏰ REMINDER: {result['symbol']} ({result['hours_in_squeeze']}H in squeeze)")
                 except:
                     continue
         
-        # Send alerts using CORRECT method name
-        if signals:
-            success = self.telegram_sender.send_bbw_batch_alert(signals)  # ← CORRECT method name
-            print(f"✅ Found {len(signals)} squeezes, Alert: {'Sent' if success else 'Failed'}")
-        else:
-            print("📭 No BBW squeezes found")
+        # Send alerts
+        alerts_sent = 0
+        
+        # Send squeeze alerts (first entry)
+        if squeeze_signals:
+            success = self.telegram_sender.send_bbw_batch_alert(squeeze_signals)
+            if success:
+                alerts_sent += 1
+            print(f"✅ Squeeze alerts: {len(squeeze_signals)} signals, Sent: {'Yes' if success else 'Failed'}")
+        
+        # Send reminder alerts (20H+)
+        if reminder_signals:
+            success = self.telegram_sender.send_reminder_alert(reminder_signals)
+            if success:
+                alerts_sent += 1
+            print(f"⏰ Reminder alerts: {len(reminder_signals)} signals, Sent: {'Yes' if success else 'Failed'}")
+        
+        if not squeeze_signals and not reminder_signals:
+            print("📭 No BBW signals or reminders found")
 
 def main():
     import yaml
@@ -113,7 +143,7 @@ def main():
         config = {}
     
     analyzer = SimpleBBWAnalyzer(config)
-    analyzer.run_analysis()  # ← This calls the correct method
+    analyzer.run_analysis()
 
 if __name__ == '__main__':
     main()
