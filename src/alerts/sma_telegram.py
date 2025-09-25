@@ -1,6 +1,6 @@
 """
-SMA Telegram Alert System - Crossovers + Proximity Alerts
-NO RANGING ALERTS
+SMA Telegram Alert System - New Concise Format
+NO RANGING ALERTS - Clean and Simple
 """
 import os
 import requests
@@ -33,36 +33,29 @@ class SMATelegramSender:
 
     def create_chart_links(self, symbol: str) -> tuple:
         """Create TradingView and CoinGlass links"""
-        # TradingView 2H chart
         clean_symbol = symbol.replace('USDT', '').replace('USD', '')
         tv_link = f"https://www.tradingview.com/chart/?symbol={clean_symbol}USDT&interval=120"
-        
-        # CoinGlass liquidation heatmap
         cg_link = f"https://www.coinglass.com/pro/futures/LiquidationHeatMapNew?coin={clean_symbol}"
-        
         return tv_link, cg_link
 
     def send_sma_batch_alert(self, signals: List[Dict], summary: Dict) -> bool:
-        """Send consolidated SMA alert - NO RANGING ALERTS"""
+        """Send SMA alerts in your new concise format"""
         if not self.bot_token or not self.chat_id or not signals:
             return False
 
         try:
-            # Build message header
+            # Build message header - EXACT format match
             current_time = datetime.now().strftime('%H:%M:%S IST')
             total_alerts = sum(s['total_alerts'] for s in signals)
             
-            message = f"""🟡 **SMA 2H SIGNALS**
-
-📊 **{total_alerts} SMA SIGNALS DETECTED**
-
-🕐 **{current_time}**
-
-⏰ **Timeframe: 2H Candles**
+            message = f"""🟡 SMA 2H SIGNALS
+📊 {total_alerts} SMA SIGNALS DETECTED
+🕐 {current_time}
+⏰ Timeframe: 2H Candles
 
 """
 
-            # Group and display different types of alerts (NO RANGING)
+            # Separate crossover and proximity signals
             crossover_signals = []
             proximity_signals = []
 
@@ -80,12 +73,8 @@ class SMATelegramSender:
                     }
                     crossover_signals.append(alert_data)
 
-                # Process proximity alerts (SKIP ANY RANGING ALERTS)
+                # Process proximity alerts
                 for alert in signal['proximity_alerts']:
-                    # SKIP RANGING ALERTS COMPLETELY
-                    if alert.get('type') == 'ranging_market':
-                        continue  # Skip ranging alerts
-                        
                     alert_data = {
                         'symbol': symbol,
                         'coin_data': coin_data,
@@ -94,81 +83,120 @@ class SMATelegramSender:
                     }
                     proximity_signals.append(alert_data)
 
-            # Add crossover signals
+            # Add crossover signals in your exact format
             if crossover_signals:
-                message += "🔄 **CROSSOVER SIGNALS:**\n"
+                # Group by crossover type
+                golden_cross_signals = [s for s in crossover_signals if s['alert']['type'] == 'golden_cross']
+                death_cross_signals = [s for s in crossover_signals if s['alert']['type'] == 'death_cross']
                 
-                for i, signal_data in enumerate(crossover_signals, 1):
-                    symbol = signal_data['symbol']
-                    coin_data = signal_data['coin_data']
-                    alert = signal_data['alert']
-                    
-                    price = self.format_price(coin_data['current_price'])
-                    change_24h = coin_data['price_change_percentage_24h']
-                    market_cap = self.format_large_number(coin_data['market_cap'])
-                    volume = self.format_large_number(coin_data['total_volume'])
-                    
-                    signal_emoji = "🟡" if alert['type'] == 'golden_cross' else "🔴"
-                    signal_name = "GOLDEN CROSS" if alert['type'] == 'golden_cross' else "DEATH CROSS"
-                    
-                    tv_link, cg_link = self.create_chart_links(symbol)
+                message += "🔄 CROSSOVER SIGNALS:\n"
+                
+                # Golden Cross section
+                if golden_cross_signals:
+                    message += "🟡 GOLDEN CROSS:\n"
+                    for i, signal_data in enumerate(golden_cross_signals, 1):
+                        symbol = signal_data['symbol']
+                        coin_data = signal_data['coin_data']
+                        alert = signal_data['alert']
+                        
+                        price = self.format_price(coin_data['current_price'])
+                        change_24h = coin_data['price_change_percentage_24h']
+                        market_cap = self.format_large_number(coin_data['market_cap'])
+                        volume = self.format_large_number(coin_data['total_volume'])
+                        
+                        tv_link, cg_link = self.create_chart_links(symbol)
 
-                    message += f"""{signal_emoji} **{signal_name}: {symbol}**
-
-💰 {price} ({change_24h:+.1f}% 24h)
-Cap: {market_cap} | Vol: {volume}
-
-📊 50 SMA: ${alert['sma50']:.2f}
-📊 200 SMA: ${alert['sma200']:.2f}
-
-📈 [Chart →]({tv_link}) | 🔥 [Liq Heat →]({cg_link})
+                        message += f"""{i}. {symbol} |💰 {price} | ({change_24h:+.1f}% 24h)
+   Cap: {market_cap} | Vol: {volume}
+   📊 50 SMA: {alert['sma50']:.2f}
+   📊 200 SMA: {alert['sma200']:.2f}
+   📈  [Chart →]({tv_link}) | 🔥  [Liq Heat →]({cg_link})
 
 """
 
-            # Add proximity signals (NO RANGING)
+                # Death Cross section  
+                if death_cross_signals:
+                    message += "🔴 DEATH CROSS:\n"
+                    for i, signal_data in enumerate(death_cross_signals, 1):
+                        symbol = signal_data['symbol']
+                        coin_data = signal_data['coin_data']
+                        alert = signal_data['alert']
+                        
+                        price = self.format_price(coin_data['current_price'])
+                        change_24h = coin_data['price_change_percentage_24h']
+                        market_cap = self.format_large_number(coin_data['market_cap'])
+                        volume = self.format_large_number(coin_data['total_volume'])
+                        
+                        tv_link, cg_link = self.create_chart_links(symbol)
+
+                        message += f"""{i}. {symbol} |💰 {price} | ({change_24h:+.1f}% 24h)
+   Cap: {market_cap} | Vol: {volume}
+   📊 50 SMA: {alert['sma50']:.2f}
+   📊 200 SMA: {alert['sma200']:.2f}
+   📈  [Chart →]({tv_link}) | 🔥  [Liq Heat →]({cg_link})
+
+"""
+
+            # Add proximity signals in similar concise format
             if proximity_signals:
-                message += "📍 **PROXIMITY SIGNALS:**\n"
+                # Group by support/resistance
+                support_signals = [s for s in proximity_signals if s['alert']['type'] == 'support']
+                resistance_signals = [s for s in proximity_signals if s['alert']['type'] == 'resistance']
                 
-                for i, signal_data in enumerate(proximity_signals, 1):
-                    symbol = signal_data['symbol']
-                    coin_data = signal_data['coin_data']
-                    alert = signal_data['alert']
-                    
-                    price = self.format_price(coin_data['current_price'])
-                    change_24h = coin_data['price_change_percentage_24h']
-                    
-                    signal_emoji = "🟢" if alert['type'] == 'support' else "🔴"
-                    signal_name = f"{alert['type'].upper()}: {alert['level']}"
-                    
-                    tv_link, cg_link = self.create_chart_links(symbol)
+                message += "📍 PROXIMITY SIGNALS:\n"
+                
+                # Support section
+                if support_signals:
+                    message += "🟢 SUPPORT:\n"
+                    for i, signal_data in enumerate(support_signals, 1):
+                        symbol = signal_data['symbol']
+                        coin_data = signal_data['coin_data']
+                        alert = signal_data['alert']
+                        
+                        price = self.format_price(coin_data['current_price'])
+                        change_24h = coin_data['price_change_percentage_24h']
+                        
+                        tv_link, cg_link = self.create_chart_links(symbol)
 
-                    message += f"""{signal_emoji} **{signal_name}: {symbol}**
-
-💰 {price} ({change_24h:+.1f}% 24h)
-
-📊 {alert['level']}: ${alert['sma_value']:.2f} ({alert['distance_percent']:.1f}% away)
-
-📈 [Chart →]({tv_link}) | 🔥 [Liq Heat →]({cg_link})
+                        message += f"""{i}. {symbol} |💰 {price} | ({change_24h:+.1f}% 24h)
+   📊 {alert['level']}: {alert['sma_value']:.2f} ({alert['distance_percent']:.1f}% away)
+   📈  [Chart →]({tv_link}) | 🔥  [Liq Heat →]({cg_link})
 
 """
 
-            # Add summary (NO RANGING COUNT)
+                # Resistance section
+                if resistance_signals:
+                    message += "🔴 RESISTANCE:\n"
+                    for i, signal_data in enumerate(resistance_signals, 1):
+                        symbol = signal_data['symbol']
+                        coin_data = signal_data['coin_data']
+                        alert = signal_data['alert']
+                        
+                        price = self.format_price(coin_data['current_price'])
+                        change_24h = coin_data['price_change_percentage_24h']
+                        
+                        tv_link, cg_link = self.create_chart_links(symbol)
+
+                        message += f"""{i}. {symbol} |💰 {price} | ({change_24h:+.1f}% 24h)
+   📊 {alert['level']}: {alert['sma_value']:.2f} ({alert['distance_percent']:.1f}% away)
+   📈  [Chart →]({tv_link}) | 🔥  [Liq Heat →]({cg_link})
+
+"""
+
+            # Add summary - EXACT format match
             support_count = sum(1 for s in proximity_signals if s['alert']['type'] == 'support')
             resistance_count = sum(1 for s in proximity_signals if s['alert']['type'] == 'resistance')
             
-            message += f"""📊 **SMA SUMMARY**
-
+            message += f"""📊 SMA SUMMARY
 • Total Crossovers: {summary['total_crossovers']}
 • Coins Near Support: {support_count}
-• Coins Near Resistance: {resistance_count}
-
-🎯 Manual direction analysis required"""
+• Coins Near Resistance: {resistance_count}"""
 
             # Send message
             url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
             payload = {
                 'chat_id': self.chat_id,
-                'text': message,
+                'text': message.strip(),
                 'parse_mode': 'Markdown',
                 'disable_web_page_preview': False
             }
