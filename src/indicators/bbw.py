@@ -1,91 +1,132 @@
 """
 BBW Indicator - CORRECTED Pine Script Implementation
-Exact match to your Pine Script logic
+EXACT replication of Pine Script BBW calculation
 """
 import json
 import os
 import time
-from typing import Dict, List, Tuple
 import math
+from typing import Dict, List, Tuple
 
 class BBWIndicator:
     def __init__(self):
-        # Exact Pine Script parameters
-        self.length = 20
-        self.mult = 2.0
-        self.expansion_length = 125
-        self.contraction_length = 125
+        # EXACT Pine Script parameters
+        self.length = 20  # input.int(20, minval = 1)
+        self.mult = 2.0   # input.float(2.0, minval = 0.001, maxval = 50)
+        self.expansion_length = 125   # input.int(125, "Highest Expansion Length")
+        self.contraction_length = 125 # input.int(125, "Lowest Contraction Length")
         self.cache_file = "cache/bbw_alerts.json"
 
-    def calculate_sma(self, data: List[float], period: int) -> float:
-        """Calculate SMA for a single period - matches ta.sma()"""
-        if len(data) < period:
-            return 0.0
-        return sum(data[-period:]) / period
-
-    def calculate_stdev(self, data: List[float], period: int) -> float:
-        """Calculate standard deviation - matches ta.stdev()"""
-        if len(data) < period:
-            return 0.0
+    def calculate_sma(self, data: List[float], period: int) -> List[float]:
+        """Calculate SMA exactly like Pine Script ta.sma()"""
+        sma_values = []
         
-        recent_data = data[-period:]
-        mean = sum(recent_data) / period
-        variance = sum((x - mean) ** 2 for x in recent_data) / period
-        return math.sqrt(variance)
-
-    def calculate_bbw_series(self, closes: List[float]) -> List[float]:
-        """
-        Calculate BBW series exactly like Pine Script
-        bbw = ((upper - lower) / basis) * 100
-        """
-        if len(closes) < self.length:
-            return []
-        
-        bbw_values = []
-        
-        # Calculate BBW for each point where we have enough data
-        for i in range(self.length - 1, len(closes)):
-            # Get data up to current point
-            data_slice = closes[:i + 1]
-            
-            # Calculate basis (SMA) - ta.sma(src, length)
-            basis = self.calculate_sma(data_slice, self.length)
-            
-            # Calculate deviation - mult * ta.stdev(src, length)  
-            dev = self.mult * self.calculate_stdev(data_slice, self.length)
-            
-            # Calculate Bollinger Bands
-            upper = basis + dev
-            lower = basis - dev
-            
-            # Calculate BBW - ((upper - lower) / basis) * 100
-            if basis != 0:
-                bbw = ((upper - lower) / basis) * 100
+        for i in range(len(data)):
+            if i < period - 1:
+                sma_values.append(0.0)  # Not enough data yet
             else:
-                bbw = 0
-            
-            bbw_values.append(bbw)
+                # Calculate average of last 'period' values
+                sum_values = sum(data[i - period + 1:i + 1])
+                sma_values.append(sum_values / period)
         
-        return bbw_values
+        return sma_values
 
-    def calculate_dynamic_levels(self, bbw_values: List[float]) -> Tuple[float, float]:
+    def calculate_stdev(self, data: List[float], period: int) -> List[float]:
+        """Calculate standard deviation exactly like Pine Script ta.stdev()"""
+        stdev_values = []
+        sma_values = self.calculate_sma(data, period)
+        
+        for i in range(len(data)):
+            if i < period - 1:
+                stdev_values.append(0.0)
+            else:
+                # Calculate variance
+                mean = sma_values[i]
+                variance_sum = 0.0
+                
+                for j in range(i - period + 1, i + 1):
+                    variance_sum += (data[j] - mean) ** 2
+                
+                variance = variance_sum / period
+                stdev = math.sqrt(variance)
+                stdev_values.append(stdev)
+        
+        return stdev_values
+
+    def calculate_highest(self, data: List[float], period: int) -> List[float]:
+        """Calculate rolling highest exactly like Pine Script ta.highest()"""
+        highest_values = []
+        
+        for i in range(len(data)):
+            if i < period - 1:
+                # For insufficient data, use max of available data
+                if i >= 0:
+                    highest_values.append(max(data[0:i + 1]))
+                else:
+                    highest_values.append(data[0] if data else 0.0)
+            else:
+                # Calculate max of last 'period' values
+                window = data[i - period + 1:i + 1]
+                highest_values.append(max(window))
+        
+        return highest_values
+
+    def calculate_lowest(self, data: List[float], period: int) -> List[float]:
+        """Calculate rolling lowest exactly like Pine Script ta.lowest()"""
+        lowest_values = []
+        
+        for i in range(len(data)):
+            if i < period - 1:
+                # For insufficient data, use min of available data
+                if i >= 0:
+                    lowest_values.append(min(data[0:i + 1]))
+                else:
+                    lowest_values.append(data[0] if data else 0.0)
+            else:
+                # Calculate min of last 'period' values
+                window = data[i - period + 1:i + 1]
+                lowest_values.append(min(window))
+        
+        return lowest_values
+
+    def calculate_bbw_exact_pinescript(self, closes: List[float]) -> Tuple[List[float], List[float], List[float]]:
         """
-        Calculate dynamic levels exactly like Pine Script:
-        - ta.highest(bbw, expansionLengthInput) 
-        - ta.lowest(bbw, contractionLengthInput)
+        EXACT Pine Script BBW calculation:
+        
+        basis = ta.sma(src, length)
+        dev   = mult * ta.stdev(src, length)
+        upper = basis + dev
+        lower = basis - dev
+        bbw   = ((upper - lower) / basis) * 100
         """
-        if not bbw_values:
-            return 0.0, 0.0
+        if len(closes) < max(self.length, self.expansion_length, self.contraction_length):
+            return [], [], []
         
-        # Highest expansion - ta.highest(bbw, 125)
-        expansion_lookback = min(self.expansion_length, len(bbw_values))
-        highest_expansion = max(bbw_values[-expansion_lookback:]) if expansion_lookback > 0 else 0.0
+        # Step 1: Calculate basis (SMA) - exact Pine Script ta.sma()
+        basis = self.calculate_sma(closes, self.length)
         
-        # Lowest contraction - ta.lowest(bbw, 125)
-        contraction_lookback = min(self.contraction_length, len(bbw_values))
-        lowest_contraction = min(bbw_values[-contraction_lookback:]) if contraction_lookback > 0 else 0.0
+        # Step 2: Calculate dev (standard deviation) - exact Pine Script ta.stdev()
+        stdev = self.calculate_stdev(closes, self.length)
+        dev = [self.mult * s for s in stdev]
         
-        return highest_expansion, lowest_contraction
+        # Step 3: Calculate Bollinger Bands
+        upper = [basis[i] + dev[i] for i in range(len(basis))]
+        lower = [basis[i] - dev[i] for i in range(len(basis))]
+        
+        # Step 4: Calculate BBW - EXACT Pine Script formula
+        bbw = []
+        for i in range(len(upper)):
+            if basis[i] != 0:
+                bbw_val = ((upper[i] - lower[i]) / basis[i]) * 100
+            else:
+                bbw_val = 0.0
+            bbw.append(bbw_val)
+        
+        # Step 5: Calculate dynamic lines - EXACT Pine Script ta.highest() and ta.lowest()
+        highest_expansion = self.calculate_highest(bbw, self.expansion_length)
+        lowest_contraction = self.calculate_lowest(bbw, self.contraction_length)
+        
+        return bbw, highest_expansion, lowest_contraction
 
     def load_cache(self) -> Dict:
         """Load BBW alert cache"""
@@ -107,13 +148,10 @@ class BBWIndicator:
             pass
 
     def check_squeeze_entry_and_reminders(self, symbol: str, current_bbw: float, lowest_contraction: float) -> Dict:
-        """
-        Smart deduplication + 20H reminders:
-        Range: From lowest_contraction to 100% above (lowest_contraction * 2.0)
-        """
+        """Smart deduplication + 20H reminders logic"""
         current_time = time.time()
         
-        # Calculate 100% range (100% above contraction)
+        # Calculate 100% range (100% above contraction) 
         range_top = lowest_contraction * 2.0  # 100% above contraction
         
         # Check if BBW is in squeeze range
@@ -131,15 +169,13 @@ class BBWIndicator:
         }
         
         if is_in_squeeze_range:
-            # BBW is currently in squeeze range
             if cache_key in cache:
-                # We've seen this symbol before
                 entry_time = cache[cache_key].get('entry_time', current_time)
                 was_in_range = cache[cache_key].get('was_in_range', False)
                 reminder_sent = cache[cache_key].get('reminder_sent', False)
                 
                 if not was_in_range:
-                    # BBW just re-entered squeeze range - FIRST ENTRY ALERT
+                    # BBW just re-entered squeeze range
                     result['first_entry_alert'] = True
                     result['alert_type'] = 'FIRST ENTRY'
                     
@@ -150,21 +186,19 @@ class BBWIndicator:
                         'reminder_sent': False
                     }
                 else:
-                    # BBW has been in range for some time
+                    # BBW has been in range
                     time_in_range_hours = (current_time - entry_time) / 3600
                     
                     if time_in_range_hours >= 20 and not reminder_sent:
-                        # Send 20H reminder alert
                         result['reminder_alert'] = True
                         result['alert_type'] = 'EXTENDED SQUEEZE'
                         
                         cache[cache_key]['reminder_sent'] = True
                         cache[cache_key]['last_alert_time'] = current_time
                     
-                    # Update current state
                     cache[cache_key]['was_in_range'] = True
             else:
-                # First time seeing this symbol in squeeze range - FIRST ENTRY ALERT
+                # First time seeing this symbol in squeeze range
                 result['first_entry_alert'] = True
                 result['alert_type'] = 'FIRST ENTRY'
                 
@@ -177,7 +211,6 @@ class BBWIndicator:
         else:
             # BBW is outside squeeze range
             if cache_key in cache:
-                # Mark that we're no longer in range (reset for next entry)
                 cache[cache_key]['was_in_range'] = False
                 cache[cache_key]['reminder_sent'] = False
         
@@ -193,36 +226,38 @@ class BBWIndicator:
             if len(closes) < max(self.length, self.expansion_length, self.contraction_length):
                 return {'squeeze_signal': False, 'error': 'Insufficient data'}
 
-            # Calculate BBW series exactly like Pine Script
-            bbw_values = self.calculate_bbw_series(closes)
+            # Use CORRECTED BBW calculation
+            bbw_values, highest_expansion, lowest_contraction = self.calculate_bbw_exact_pinescript(closes)
             
             if not bbw_values:
-                return {'squeeze_signal': False, 'error': 'No BBW values calculated'}
+                return {'squeeze_signal': False, 'error': 'BBW calculation failed'}
             
-            # Get current BBW
+            # Get current values (most recent)
             current_bbw = bbw_values[-1]
+            current_highest = highest_expansion[-1]
+            current_lowest = lowest_contraction[-1]
             
-            # Calculate dynamic levels exactly like Pine Script
-            highest_expansion, lowest_contraction = self.calculate_dynamic_levels(bbw_values)
+            # Debug output
+            print(f"DEBUG {symbol}: BBW={current_bbw:.2f}, Highest={current_highest:.2f}, Lowest={current_lowest:.2f}")
             
             # Check for squeeze entry and reminders
-            alert_result = self.check_squeeze_entry_and_reminders(symbol, current_bbw, lowest_contraction)
+            alert_result = self.check_squeeze_entry_and_reminders(symbol, current_bbw, current_lowest)
             
             # Determine if any alert should be sent
             send_alert = alert_result['first_entry_alert'] or alert_result['reminder_alert']
             
             if send_alert:
-                print(f"BBW {alert_result['alert_type']}: {symbol} BBW:{current_bbw:.2f} Range:[{lowest_contraction:.2f} - {alert_result['range_top']:.2f}]")
+                print(f"BBW {alert_result['alert_type']}: {symbol} BBW:{current_bbw:.2f} in range [{current_lowest:.2f} - {alert_result['range_top']:.2f}]")
             
             return {
                 'squeeze_signal': send_alert,
                 'alert_type': alert_result['alert_type'],
                 'bbw': current_bbw,
-                'lowest_contraction': lowest_contraction,
-                'highest_expansion': highest_expansion,
+                'lowest_contraction': current_lowest,
+                'highest_expansion': current_highest,
                 'range_top': alert_result['range_top']
             }
             
         except Exception as e:
-            print(f"BBW calculation error for {symbol}: {e}")
+            print(f"ERROR calculating BBW for {symbol}: {e}")
             return {'squeeze_signal': False, 'error': str(e)}
