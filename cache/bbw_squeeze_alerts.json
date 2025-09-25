@@ -55,8 +55,8 @@
     "reminder_sent": false
   },
   "AVNT_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758806756.7007773,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false
   },
   "ZORA_squeeze": {
