@@ -38,17 +38,16 @@ class BBWTelegramSender:
             first_entry_signals = [s for s in signals if s.get('alert_type') == 'FIRST ENTRY']
             reminder_signals = [s for s in signals if s.get('alert_type') == 'EXTENDED SQUEEZE']
             
-            # Build message header - CONCISE
-            current_time = datetime.now().strftime('%H:%M:%S IST')
-            
             if first_entry_signals:
+                current_time = datetime.now().strftime('%H:%M:%S IST')
+                
                 message = f"""📊 BBW 2H SQUEEZE SIGNALS DETECTED
 🕐 {current_time}
 ⏰ Timeframe: 2H Candles
 
 """
                 
-                # Add first entry signals - CONCISE format (EXACTLY like your example)
+                # Add first entry signals in CONCISE format
                 for i, signal in enumerate(first_entry_signals, 1):
                     symbol = signal['symbol']
                     coin_data = signal['coin_data']
@@ -62,7 +61,7 @@ class BBWTelegramSender:
                     # Create chart links
                     tv_link, cg_link = self.create_chart_links(symbol)
 
-                    # CONCISE format - exactly like your example
+                    # CONCISE FORMAT - exactly like you specified
                     message += f"""{i}. {symbol} | {price} | ({change_24h:+.1f}% 24h)
     📊 BBW: {bbw_value:.2f}
     📉 Squeeze Range: {contraction_line:.2f} - {range_top:.2f}
@@ -71,7 +70,7 @@ class BBWTelegramSender:
 
 """
 
-                # Add summary - CONCISE
+                # Add CONCISE summary
                 message += f"""📊 BBW SQUEEZE SUMMARY
 • Total Squeezes: {len(first_entry_signals)}
 • Squeeze Logic: BBW enters 100% above contraction
@@ -80,12 +79,10 @@ class BBWTelegramSender:
 
             # Add reminder alerts if any
             if reminder_signals:
-                if first_entry_signals:
-                    message += "\n"
-                
-                message += f"""🔔 EXTENDED SQUEEZE REMINDERS
-
-"""
+                if not first_entry_signals:
+                    message = "🔔 EXTENDED SQUEEZE REMINDERS\n\n"
+                else:
+                    message += "\n🔔 EXTENDED SQUEEZE REMINDERS\n\n"
                 
                 for signal in reminder_signals:
                     symbol = signal['symbol']
