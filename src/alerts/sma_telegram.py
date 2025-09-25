@@ -1,8 +1,7 @@
 """
 SMA Telegram Alert System - Crossovers + Proximity Alerts
-Sends alerts to SMA channel with summary statistics
+NO RANGING ALERTS
 """
-
 import os
 import requests
 from datetime import datetime
@@ -13,7 +12,7 @@ class SMATelegramSender:
         self.config = config
         self.bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
         self.chat_id = os.getenv('SMA_TELEGRAM_CHAT_ID')
-        
+
     def format_price(self, price: float) -> str:
         """Format price for display"""
         if price < 0.001:
@@ -22,7 +21,7 @@ class SMATelegramSender:
             return f"${price:.4f}"
         else:
             return f"${price:.2f}"
-    
+
     def format_large_number(self, num: float) -> str:
         """Format large numbers"""
         if num >= 1_000_000_000:
@@ -31,7 +30,7 @@ class SMATelegramSender:
             return f"${num/1_000_000:.0f}M"
         else:
             return f"${num/1_000:.0f}K"
-    
+
     def create_chart_links(self, symbol: str) -> tuple:
         """Create TradingView and CoinGlass links"""
         # TradingView 2H chart
@@ -42,12 +41,12 @@ class SMATelegramSender:
         cg_link = f"https://www.coinglass.com/pro/futures/LiquidationHeatMapNew?coin={clean_symbol}"
         
         return tv_link, cg_link
-    
+
     def send_sma_batch_alert(self, signals: List[Dict], summary: Dict) -> bool:
-        """Send consolidated SMA alert"""
+        """Send consolidated SMA alert - NO RANGING ALERTS"""
         if not self.bot_token or not self.chat_id or not signals:
             return False
-        
+
         try:
             # Build message header
             current_time = datetime.now().strftime('%H:%M:%S IST')
@@ -56,20 +55,21 @@ class SMATelegramSender:
             message = f"""🟡 **SMA 2H SIGNALS**
 
 📊 **{total_alerts} SMA SIGNALS DETECTED**
+
 🕐 **{current_time}**
+
 ⏰ **Timeframe: 2H Candles**
 
 """
-            
-            # Group and display different types of alerts
+
+            # Group and display different types of alerts (NO RANGING)
             crossover_signals = []
             proximity_signals = []
-            ranging_signals = []
-            
+
             for signal in signals:
                 symbol = signal['symbol']
                 coin_data = signal['coin_data']
-                
+
                 # Process crossover alerts
                 for alert in signal['crossover_alerts']:
                     alert_data = {
@@ -79,8 +79,8 @@ class SMATelegramSender:
                         'type': 'crossover'
                     }
                     crossover_signals.append(alert_data)
-                
-                # Process proximity alerts
+
+                # Process proximity alerts (NO RANGING FILTERING)
                 for alert in signal['proximity_alerts']:
                     alert_data = {
                         'symbol': symbol,
@@ -88,14 +88,12 @@ class SMATelegramSender:
                         'alert': alert,
                         'type': 'proximity'
                     }
-                    if alert['type'] == 'ranging_market':
-                        ranging_signals.append(alert_data)
-                    else:
-                        proximity_signals.append(alert_data)
-            
+                    proximity_signals.append(alert_data)
+
             # Add crossover signals
             if crossover_signals:
                 message += "🔄 **CROSSOVER SIGNALS:**\n"
+                
                 for i, signal_data in enumerate(crossover_signals, 1):
                     symbol = signal_data['symbol']
                     coin_data = signal_data['coin_data']
@@ -110,20 +108,23 @@ class SMATelegramSender:
                     signal_name = "GOLDEN CROSS" if alert['type'] == 'golden_cross' else "DEATH CROSS"
                     
                     tv_link, cg_link = self.create_chart_links(symbol)
-                    
+
                     message += f"""{signal_emoji} **{signal_name}: {symbol}**
+
 💰 {price} ({change_24h:+.1f}% 24h)
 Cap: {market_cap} | Vol: {volume}
 
 📊 50 SMA: ${alert['sma50']:.2f}
 📊 200 SMA: ${alert['sma200']:.2f}
+
 📈 [Chart →]({tv_link}) | 🔥 [Liq Heat →]({cg_link})
 
 """
-            
+
             # Add proximity signals
             if proximity_signals:
                 message += "📍 **PROXIMITY SIGNALS:**\n"
+                
                 for i, signal_data in enumerate(proximity_signals, 1):
                     symbol = signal_data['symbol']
                     coin_data = signal_data['coin_data']
@@ -136,47 +137,29 @@ Cap: {market_cap} | Vol: {volume}
                     signal_name = f"{alert['type'].upper()}: {alert['level']}"
                     
                     tv_link, cg_link = self.create_chart_links(symbol)
-                    
+
                     message += f"""{signal_emoji} **{signal_name}: {symbol}**
+
 💰 {price} ({change_24h:+.1f}% 24h)
+
 📊 {alert['level']}: ${alert['sma_value']:.2f} ({alert['distance_percent']:.1f}% away)
+
 📈 [Chart →]({tv_link}) | 🔥 [Liq Heat →]({cg_link})
 
 """
-            
-            # Add ranging signals
-            if ranging_signals:
-                message += "↔️ **RANGING MARKETS:**\n"
-                for i, signal_data in enumerate(ranging_signals, 1):
-                    symbol = signal_data['symbol']
-                    coin_data = signal_data['coin_data']
-                    alert = signal_data['alert']
-                    
-                    price = self.format_price(coin_data['current_price'])
-                    change_24h = coin_data['price_change_percentage_24h']
-                    
-                    tv_link, cg_link = self.create_chart_links(symbol)
-                    
-                    message += f"""↔️ **RANGING: {symbol}**
-💰 {price} ({change_24h:+.1f}% 24h)
-📊 50 SMA: ${alert['sma50']:.2f} | 200 SMA: ${alert['sma200']:.2f}
-Gap: {alert['gap_percentage']:.1f}%
-📈 [Chart →]({tv_link}) | 🔥 [Liq Heat →]({cg_link})
 
-"""
-            
-            # Add summary (with Coins Ranging as requested)
+            # Add summary (NO RANGING COUNT)
             support_count = sum(1 for s in proximity_signals if s['alert']['type'] == 'support')
             resistance_count = sum(1 for s in proximity_signals if s['alert']['type'] == 'resistance')
             
             message += f"""📊 **SMA SUMMARY**
+
 • Total Crossovers: {summary['total_crossovers']}
 • Coins Near Support: {support_count}
 • Coins Near Resistance: {resistance_count}
-• Coins Ranging: {summary['total_ranging']}
 
 🎯 Manual direction analysis required"""
-            
+
             # Send message
             url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
             payload = {
@@ -185,13 +168,13 @@ Gap: {alert['gap_percentage']:.1f}%
                 'parse_mode': 'Markdown',
                 'disable_web_page_preview': False
             }
-            
+
             response = requests.post(url, json=payload, timeout=30)
             response.raise_for_status()
             
             print(f"📱 SMA alert sent: {total_alerts} total alerts")
             return True
-            
+
         except Exception as e:
             print(f"❌ SMA alert failed: {e}")
             return False
