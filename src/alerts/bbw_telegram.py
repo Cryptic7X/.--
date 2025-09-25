@@ -1,5 +1,5 @@
 """
-BBW Telegram Alert System - CONCISE Format
+BBW Telegram Alert System - Your Exact Format
 """
 import os
 import requests
@@ -13,41 +13,46 @@ class BBWTelegramSender:
         self.chat_id = os.getenv('BBW_TELEGRAM_CHAT_ID')
 
     def format_price(self, price: float) -> str:
-        """Format price for display"""
-        if price < 0.001:
-            return f"${price:.8f}"
-        elif price < 1:
-            return f"${price:.4f}"
-        else:
-            return f"${price:.2f}"
+        """Format price display"""
+        try:
+            if price < 0.001:
+                return f"${price:.8f}"
+            elif price < 1:
+                return f"${price:.4f}"
+            else:
+                return f"${price:.2f}"
+        except:
+            return "$0.00"
 
     def create_chart_links(self, symbol: str) -> tuple:
-        """Create TradingView and CoinGlass links"""
+        """Create chart links"""
         clean_symbol = symbol.replace('USDT', '').replace('USD', '')
         tv_link = f"https://www.tradingview.com/chart/?symbol={clean_symbol}USDT&interval=120"
         cg_link = f"https://www.coinglass.com/pro/futures/LiquidationHeatMapNew?coin={clean_symbol}"
         return tv_link, cg_link
 
-    def send_bbw_batch_alert(self, signals: List[Dict]) -> bool:
-        """Send BBW alerts in CONCISE format"""
+    def send_bbw_alerts(self, signals: List[Dict]) -> bool:
+        """Send BBW alerts in YOUR EXACT FORMAT"""
         if not self.bot_token or not self.chat_id or not signals:
             return False
 
         try:
-            # Separate first entry and reminder alerts
+            # Separate signal types
             first_entry_signals = [s for s in signals if s.get('alert_type') == 'FIRST ENTRY']
             reminder_signals = [s for s in signals if s.get('alert_type') == 'EXTENDED SQUEEZE']
             
+            current_time = datetime.now().strftime('%H:%M:%S IST')
+            
+            message = ""
+            
+            # First entry alerts in YOUR EXACT FORMAT
             if first_entry_signals:
-                current_time = datetime.now().strftime('%H:%M:%S IST')
-                
                 message = f"""📊 BBW 2H SQUEEZE SIGNALS DETECTED
 🕐 {current_time}
 ⏰ Timeframe: 2H Candles
 
 """
                 
-                # Add first entry signals in CONCISE format
                 for i, signal in enumerate(first_entry_signals, 1):
                     symbol = signal['symbol']
                     coin_data = signal['coin_data']
@@ -58,10 +63,9 @@ class BBWTelegramSender:
                     contraction_line = signal['lowest_contraction']
                     range_top = signal['range_top']
 
-                    # Create chart links
                     tv_link, cg_link = self.create_chart_links(symbol)
 
-                    # CONCISE FORMAT - exactly like you specified
+                    # YOUR EXACT CONCISE FORMAT
                     message += f"""{i}. {symbol} | {price} | ({change_24h:+.1f}% 24h)
     📊 BBW: {bbw_value:.2f}
     📉 Squeeze Range: {contraction_line:.2f} - {range_top:.2f}
@@ -70,25 +74,27 @@ class BBWTelegramSender:
 
 """
 
-                # Add CONCISE summary
+                # Summary in YOUR FORMAT
                 message += f"""📊 BBW SQUEEZE SUMMARY
 • Total Squeezes: {len(first_entry_signals)}
 • Squeeze Logic: BBW enters 100% above contraction
 
 """
 
-            # Add reminder alerts if any
+            # Extended squeeze reminders
             if reminder_signals:
                 if not first_entry_signals:
-                    message = "🔔 EXTENDED SQUEEZE REMINDERS\n\n"
+                    message = f"🔔 BBW EXTENDED SQUEEZE REMINDERS - {current_time}\n\n"
                 else:
-                    message += "\n🔔 EXTENDED SQUEEZE REMINDERS\n\n"
+                    message += "🔔 EXTENDED SQUEEZE REMINDERS\n\n"
                 
                 for signal in reminder_signals:
                     symbol = signal['symbol']
                     message += f"• {symbol} is still in a long squeeze (20+ hours)\n"
+                
+                message += "\n"
 
-            # Send message
+            # Send to Telegram
             url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
             payload = {
                 'chat_id': self.chat_id,
@@ -98,11 +104,14 @@ class BBWTelegramSender:
             }
 
             response = requests.post(url, json=payload, timeout=30)
-            response.raise_for_status()
             
-            print(f"📱 BBW alert sent: {len(first_entry_signals)} squeezes, {len(reminder_signals)} reminders")
-            return True
+            if response.status_code == 200:
+                print(f"📱 BBW alert sent successfully!")
+                return True
+            else:
+                print(f"❌ Telegram error {response.status_code}: {response.text}")
+                return False
 
         except Exception as e:
-            print(f"❌ BBW alert failed: {e}")
+            print(f"❌ BBW telegram error: {e}")
             return False
