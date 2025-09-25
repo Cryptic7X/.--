@@ -1,7 +1,7 @@
 {
   "TRX_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758832129.7480536,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false
   },
   "TON_squeeze": {
