@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-BBW 2H Analyzer - New Deduplication Logic with Reminders
+BBW 2H Analyzer - 100% Range Logic with 20H Reminders
 """
 import os
 import json
 import sys
 import concurrent.futures
 from datetime import datetime
+from typing import Dict, List, Optional
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
@@ -22,7 +23,7 @@ class SimpleBBWAnalyzer:
         self.bbw_indicator = BBWIndicator()
 
     def load_coins(self):
-        """Load BBW coins"""
+        """Load BBW coins (≥$100M cap, ≥$50M vol)"""
         cache_file = os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'cipherb_dataset.json')
         
         try:
@@ -41,7 +42,7 @@ class SimpleBBWAnalyzer:
             return []
 
     def analyze_coin(self, coin_data):
-        """Analyze single coin"""
+        """Analyze single coin for BBW 100% range entry"""
         symbol = coin_data['symbol']
         
         try:
@@ -53,39 +54,28 @@ class SimpleBBWAnalyzer:
             if not ohlcv_data:
                 return None
             
-            # Run BBW analysis with new logic
+            # Run BBW analysis with smart alert logic
             result = self.bbw_indicator.calculate_bbw_signals(ohlcv_data, symbol)
             
-            # Check for new squeeze alerts
-            if result.get('squeeze_signal', False):
-                return {
-                    'type': 'squeeze',
-                    'symbol': symbol,
-                    'bbw_value': result['bbw'],
-                    'lowest_contraction': result['lowest_contraction'],
-                    'squeeze_threshold': result['squeeze_threshold'],
-                    'alert_type': result['alert_type'],
-                    'coin_data': coin_data,
-                    'exchange_used': exchange_used
-                }
-            
-            # Check for reminder alerts
-            elif result.get('reminder_signal', False):
-                return {
-                    'type': 'reminder',
-                    'symbol': symbol,
-                    'hours_in_squeeze': result['hours_in_squeeze'],
-                    'coin_data': coin_data
-                }
+            if not result.get('squeeze_signal', False):
+                return None
 
-            return None
+            return {
+                'symbol': symbol,
+                'alert_type': result.get('alert_type'),
+                'bbw_value': result['bbw'],
+                'lowest_contraction': result['lowest_contraction'],
+                'range_top': result['range_top'],
+                'coin_data': coin_data,
+                'exchange_used': exchange_used
+            }
 
         except:
             return None
 
     def run_analysis(self):
-        """Main analysis with new logic"""
-        print("🔵 BBW 2H ANALYSIS - New Deduplication Logic")
+        """Main BBW analysis with smart deduplication"""
+        print("🔵 BBW 2H ANALYSIS - 100% Range + 20H Reminders")
         
         coins = self.load_coins()
         if not coins:
@@ -95,9 +85,7 @@ class SimpleBBWAnalyzer:
         print(f"📊 Analyzing {len(coins)} coins...")
         
         # Process coins in parallel
-        squeeze_signals = []
-        reminder_signals = []
-        
+        signals = []
         with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
             futures = {executor.submit(self.analyze_coin, coin): coin for coin in coins}
             
@@ -105,34 +93,20 @@ class SimpleBBWAnalyzer:
                 try:
                     result = future.result(timeout=30)
                     if result:
-                        if result['type'] == 'squeeze':
-                            squeeze_signals.append(result)
-                            print(f"🔵 SQUEEZE: {result['symbol']} BBW:{result['bbw_value']:.2f}")
-                        elif result['type'] == 'reminder':
-                            reminder_signals.append(result)
-                            print(f"⏰ REMINDER: {result['symbol']} ({result['hours_in_squeeze']}H in squeeze)")
+                        signals.append(result)
+                        alert_type = result['alert_type']
+                        print(f"🔵 {alert_type}: {result['symbol']} BBW:{result['bbw_value']:.2f}")
                 except:
                     continue
         
         # Send alerts
-        alerts_sent = 0
-        
-        # Send squeeze alerts (first entry)
-        if squeeze_signals:
-            success = self.telegram_sender.send_bbw_batch_alert(squeeze_signals)
-            if success:
-                alerts_sent += 1
-            print(f"✅ Squeeze alerts: {len(squeeze_signals)} signals, Sent: {'Yes' if success else 'Failed'}")
-        
-        # Send reminder alerts (20H+)
-        if reminder_signals:
-            success = self.telegram_sender.send_reminder_alert(reminder_signals)
-            if success:
-                alerts_sent += 1
-            print(f"⏰ Reminder alerts: {len(reminder_signals)} signals, Sent: {'Yes' if success else 'Failed'}")
-        
-        if not squeeze_signals and not reminder_signals:
-            print("📭 No BBW signals or reminders found")
+        if signals:
+            success = self.telegram_sender.send_bbw_batch_alert(signals)
+            first_entry = len([s for s in signals if s.get('alert_type') == 'FIRST ENTRY'])
+            reminders = len([s for s in signals if s.get('alert_type') == 'EXTENDED SQUEEZE'])
+            print(f"✅ {first_entry} squeezes, {reminders} reminders, Alert: {'Sent' if success else 'Failed'}")
+        else:
+            print("📭 No BBW signals found")
 
 def main():
     import yaml
