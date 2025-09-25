@@ -33,5 +33,10 @@
     "in_zone": true,
     "entry_time": 1758806752.0000925,
     "reminder_sent": false
+  },
+  "FLR_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758806752.3946345,
+    "reminder_sent": false
   }
 }
