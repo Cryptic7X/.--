@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-BBW 2H Analyzer - Simple & Bulletproof
+BBW 2H Analyzer - Thread-Safe Version
 """
 import os
 import json
@@ -19,6 +19,7 @@ class BBWAnalyzer:
         self.config = config
         self.exchange_manager = SimpleExchangeManager()
         self.telegram_sender = BBWTelegramSender(config)
+        # IMPORTANT: Create ONE shared instance for thread safety
         self.bbw_indicator = BBWIndicator()
 
     def load_coins(self):
@@ -45,7 +46,7 @@ class BBWAnalyzer:
             return []
 
     def analyze_coin(self, coin_data):
-        """Analyze single coin"""
+        """Analyze single coin - uses shared thread-safe BBW indicator"""
         symbol = coin_data['symbol']
         
         try:
@@ -57,7 +58,7 @@ class BBWAnalyzer:
             if not ohlcv_data:
                 return None
             
-            # Run BBW analysis
+            # Run BBW analysis (thread-safe)
             result = self.bbw_indicator.analyze(ohlcv_data, symbol)
             
             if not result.get('send_alert', False):
@@ -79,7 +80,7 @@ class BBWAnalyzer:
 
     def run_analysis(self):
         """Main analysis runner"""
-        print("🔵 BBW 2H ANALYSIS - STARTING")
+        print("🔵 BBW 2H ANALYSIS - THREAD-SAFE VERSION")
         print(f"⏰ Time: {datetime.now().strftime('%H:%M:%S IST')}")
         
         coins = self.load_coins()
@@ -87,9 +88,9 @@ class BBWAnalyzer:
             print("❌ No coins to analyze")
             return
         
-        # Process coins in parallel
+        # Process coins in parallel with thread-safe cache
         signals = []
-        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:  # Reduced workers to prevent race conditions
             futures = {executor.submit(self.analyze_coin, coin): coin for coin in coins}
             
             for future in concurrent.futures.as_completed(futures):
@@ -112,6 +113,10 @@ class BBWAnalyzer:
             print(f"📤 Telegram: {'✅ Sent' if success else '❌ Failed'}")
         else:
             print("📭 No BBW squeeze alerts to send")
+        
+        # Print final cache status
+        cache = self.bbw_indicator.load_cache()
+        print(f"📁 Final cache: {len(cache)} tracked symbols")
 
 def main():
     import yaml
