@@ -173,12 +173,15 @@ class BBWIndicator:
 
     def check_squeeze_entry_and_reminders(self, symbol: str, current_bbw: float, lowest_contraction: float) -> Dict:
         """
-        BULLETPROOF deduplication logic:
+        BULLETPROOF Zone-Based Alert Logic:
         
-        1. First Entry Alert: Only when BBW enters range for first time
-        2. No Duplicate Alerts: While BBW remains in range
-        3. 20H Reminder: After 20 hours in range (only once)
-        4. New First Entry: Only after complete exit and re-entry
+        ZONE = [lowest_contraction, lowest_contraction * 2.0]
+        
+        ALERTS:
+        1. FIRST ENTRY: When BBW enters zone for first time
+        2. NO ALERTS: While BBW stays in zone (across multiple runs)
+        3. RE-ENTRY: When BBW exits zone completely then re-enters
+        4. 20H REMINDER: After 20 hours in zone (once per zone session)
         """
         current_time = time.time()
         
@@ -191,104 +194,135 @@ class BBWIndicator:
                 'range_top': 0
             }
         
-        # Calculate 100% range
-        range_top = lowest_contraction * 2.0
+        # Calculate squeeze zone boundaries
+        zone_bottom = lowest_contraction
+        zone_top = lowest_contraction * 2.0  # 100% above contraction
         
-        # Check current state
-        is_currently_in_range = lowest_contraction <= current_bbw <= range_top
+        # Check if BBW is currently in the squeeze zone
+        is_in_zone = zone_bottom <= current_bbw <= zone_top
         
-        # Load cache
+        # Load persistent cache
         cache = self.load_cache()
-        cache_key = f"{symbol}_squeeze"
+        cache_key = f"{symbol}_zone"
         
         # Default result
         result = {
             'first_entry_alert': False,
             'reminder_alert': False,
             'alert_type': None,
-            'range_top': range_top
+            'range_top': zone_top
         }
         
-        # Get previous state from cache
+        # Get previous state from persistent cache
         if cache_key in cache:
-            was_in_range_last_check = cache[cache_key].get('is_in_range', False)
-            entry_time = cache[cache_key].get('entry_time', current_time)
+            # We have previous data for this symbol
+            was_in_zone = cache[cache_key].get('was_in_zone', False)
+            zone_entry_time = cache[cache_key].get('zone_entry_time', current_time)
             first_alert_sent = cache[cache_key].get('first_alert_sent', False)
             reminder_sent = cache[cache_key].get('reminder_sent', False)
+            last_zone_bottom = cache[cache_key].get('last_zone_bottom', zone_bottom)
+            last_zone_top = cache[cache_key].get('last_zone_top', zone_top)
             
-            print(f"CACHE {symbol}: was_in_range={was_in_range_last_check}, currently_in_range={is_currently_in_range}")
+            # Check if zone boundaries have changed significantly (dynamic ranges change)
+            zone_changed = (abs(zone_bottom - last_zone_bottom) > zone_bottom * 0.1 or 
+                           abs(zone_top - last_zone_top) > zone_top * 0.1)
+            
+            if zone_changed:
+                # Zone boundaries changed significantly, reset state
+                was_in_zone = False
+                first_alert_sent = False
+                reminder_sent = False
+                print(f"ZONE CHANGED {symbol}: Old [{last_zone_bottom:.2f}-{last_zone_top:.2f}] → New [{zone_bottom:.2f}-{zone_top:.2f}]")
+            
         else:
-            # No previous data
-            was_in_range_last_check = False
-            entry_time = current_time
+            # No previous data - first time seeing this symbol
+            was_in_zone = False
+            zone_entry_time = current_time
             first_alert_sent = False
             reminder_sent = False
             
-            print(f"NEW {symbol}: currently_in_range={is_currently_in_range}")
+            print(f"NEW SYMBOL {symbol}: BBW={current_bbw:.2f}, Zone=[{zone_bottom:.2f}-{zone_top:.2f}], InZone={is_in_zone}")
         
-        # LOGIC: Determine what alerts to send
-        if is_currently_in_range:
-            # BBW is currently in squeeze range
+        # MAIN LOGIC: Determine alerts based on zone transitions
+        if is_in_zone:
+            # BBW is currently in squeeze zone
             
-            if not was_in_range_last_check:
-                # STATE CHANGE: BBW just entered range → FIRST ENTRY ALERT
+            if not was_in_zone:
+                # ZONE ENTRY: BBW just entered zone → SEND ALERT
                 result['first_entry_alert'] = True
                 result['alert_type'] = 'FIRST ENTRY'
                 
-                # Update cache for new entry
+                # Update cache for zone entry
                 cache[cache_key] = {
-                    'is_in_range': True,
-                    'entry_time': current_time,
+                    'was_in_zone': True,
+                    'zone_entry_time': current_time,
                     'first_alert_sent': True,
                     'reminder_sent': False,
+                    'last_zone_bottom': zone_bottom,
+                    'last_zone_top': zone_top,
                     'last_check_time': current_time
                 }
                 
-                print(f"FIRST ENTRY: {symbol} BBW entered range {current_bbw:.2f} in [{lowest_contraction:.2f} - {range_top:.2f}]")
+                print(f"🚨 ZONE ENTRY ALERT: {symbol} BBW {current_bbw:.2f} entered zone [{zone_bottom:.2f}-{zone_top:.2f}]")
                 
             else:
-                # BBW was already in range - check for 20H reminder
-                time_in_range_hours = (current_time - entry_time) / 3600
+                # BBW was already in zone → NO ALERT (check for 20H reminder)
+                time_in_zone_hours = (current_time - zone_entry_time) / 3600
                 
-                if time_in_range_hours >= 20 and not reminder_sent:
-                    # Send 20H reminder (only once)
+                if time_in_zone_hours >= 20 and not reminder_sent:
+                    # Send 20H reminder
                     result['reminder_alert'] = True
                     result['alert_type'] = 'EXTENDED SQUEEZE'
                     
-                    # Update cache to mark reminder as sent
                     cache[cache_key]['reminder_sent'] = True
                     cache[cache_key]['last_check_time'] = current_time
                     
-                    print(f"REMINDER: {symbol} in squeeze for {time_in_range_hours:.1f} hours")
+                    print(f"🔔 20H REMINDER: {symbol} in zone for {time_in_zone_hours:.1f} hours")
                 else:
-                    # Stay in range, no alert needed
+                    # Just update last check time
                     cache[cache_key]['last_check_time'] = current_time
-                    print(f"STAY IN RANGE: {symbol} BBW {current_bbw:.2f} (no alert)")
+                    print(f"📍 STAY IN ZONE: {symbol} BBW {current_bbw:.2f} (in zone {time_in_zone_hours:.1f}h, no alert)")
         
         else:
-            # BBW is currently OUTSIDE squeeze range
+            # BBW is currently OUTSIDE squeeze zone
             
-            if was_in_range_last_check:
-                # STATE CHANGE: BBW just exited range
+            if was_in_zone:
+                # ZONE EXIT: BBW just exited zone → RESET for future entry
                 cache[cache_key] = {
-                    'is_in_range': False,
-                    'entry_time': 0,
+                    'was_in_zone': False,
+                    'zone_entry_time': 0,
                     'first_alert_sent': False,
                     'reminder_sent': False,
+                    'last_zone_bottom': zone_bottom,
+                    'last_zone_top': zone_top,
                     'last_check_time': current_time
                 }
                 
-                print(f"EXITED RANGE: {symbol} BBW left squeeze range {current_bbw:.2f}")
+                print(f"🚪 ZONE EXIT: {symbol} BBW {current_bbw:.2f} exited zone (ready for re-entry alerts)")
             else:
-                # BBW was already outside range
+                # BBW was already outside zone → NO CHANGE
                 if cache_key in cache:
                     cache[cache_key]['last_check_time'] = current_time
+                    cache[cache_key]['last_zone_bottom'] = zone_bottom
+                    cache[cache_key]['last_zone_top'] = zone_top
+                else:
+                    # Create cache entry for future tracking
+                    cache[cache_key] = {
+                        'was_in_zone': False,
+                        'zone_entry_time': 0,
+                        'first_alert_sent': False,
+                        'reminder_sent': False,
+                        'last_zone_bottom': zone_bottom,
+                        'last_zone_top': zone_top,
+                        'last_check_time': current_time
+                    }
                 
-                print(f"OUTSIDE RANGE: {symbol} BBW {current_bbw:.2f} (no alert)")
+                print(f"🌐 OUTSIDE ZONE: {symbol} BBW {current_bbw:.2f} outside zone [{zone_bottom:.2f}-{zone_top:.2f}]")
         
-        # Save updated cache
+        # Save updated cache (CRITICAL for persistence between runs)
         self.save_cache(cache)
         return result
+
 
 
     def calculate_bbw_signals(self, ohlcv_data: Dict, symbol: str) -> Dict:
