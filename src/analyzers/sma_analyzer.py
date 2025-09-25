@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 SMA 2H Analyzer - Crossovers + Proximity with 12H Suppression
-NO RANGING ALERTS
+NO RANGING ALERTS - FIXED CONFIG HANDLING
 """
 import os
 import json
@@ -14,7 +14,7 @@ from typing import Dict, List, Optional
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from src.exchanges.simple_exchange import SimpleExchangeManager
-from src.indicators.sma import detect_sma_signals
+from src.indicators.sma import SMAIndicator  # Direct class import instead of function
 from src.alerts.sma_telegram import SMATelegramSender
 
 class SMA2HAnalyzer:
@@ -22,6 +22,12 @@ class SMA2HAnalyzer:
         self.config = config
         self.exchange_manager = SimpleExchangeManager()
         self.telegram_sender = SMATelegramSender(config)
+        
+        # Initialize SMA indicator with config values
+        sma_config = config.get('sma', {})
+        short_length = sma_config.get('short_length', 50)
+        long_length = sma_config.get('long_length', 200)
+        self.sma_indicator = SMAIndicator(short_length=short_length, long_length=long_length)
 
     def load_sma_dataset(self) -> List[Dict]:
         """Load SMA coin dataset (larger dataset)"""
@@ -58,10 +64,17 @@ class SMA2HAnalyzer:
             if not ohlcv_data:
                 return None
 
-            # Detect SMA signals (crossovers + proximity) - NO RANGING
-            crossover_alerts, proximity_alerts = detect_sma_signals(
-                ohlcv_data, self.config['sma'], symbol
-            )
+            # Get current price
+            current_price = ohlcv_data['close'][-1] if ohlcv_data['close'] else 0
+
+            # Use SMA indicator directly (NO RANGING)
+            result = self.sma_indicator.calculate_sma_signals(ohlcv_data, symbol, current_price)
+            
+            if result.get('error'):
+                return None
+
+            crossover_alerts = result.get('crossover_alerts', [])
+            proximity_alerts = result.get('proximity_alerts', [])
 
             all_alerts = crossover_alerts + proximity_alerts
             if not all_alerts:
@@ -89,13 +102,16 @@ class SMA2HAnalyzer:
         """
         Process multiple coins in parallel (larger dataset)
         """
-        max_workers = self.config['sma'].get('max_workers', 15)  # More workers for SMA
+        # Get max_workers from config with safe fallback
+        sma_config = self.config.get('sma', {})
+        max_workers = sma_config.get('max_workers', 15)  # Fallback to 15
         signals = []
         
         print(f"🔄 Processing {len(coins)} coins with {max_workers} workers...")
         
         # Process in batches to manage large dataset
-        batch_size = self.config['performance'].get('batch_size', 100)
+        performance_config = self.config.get('performance', {})
+        batch_size = performance_config.get('batch_size', 100)
         
         for i in range(0, len(coins), batch_size):
             batch = coins[i:i + batch_size]
