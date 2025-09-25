@@ -30,8 +30,8 @@
     "reminder_sent": false
   },
   "PYUSD_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758806752.0000925,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false
   },
   "FLR_squeeze": {
