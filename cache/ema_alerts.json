@@ -169,5 +169,9 @@
   "USELESS_crossover": {
     "last_alert_time": 1758860094.9633875,
     "crossover_type": "death_cross"
+  },
+  "MEME_crossover": {
+    "last_alert_time": 1758860095.9853663,
+    "crossover_type": "death_cross"
   }
 }
