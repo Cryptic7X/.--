@@ -97,5 +97,9 @@
   "MASK_zone": {
     "in_zone": true,
     "entry_time": 1758858768.6476538
+  },
+  "BNB_crossover": {
+    "last_alert_time": 1758859734.6409943,
+    "crossover_type": "death_cross"
   }
 }
