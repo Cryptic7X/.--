@@ -63,5 +63,10 @@
     "in_zone": false,
     "entry_time": 0,
     "reminder_sent": false
+  },
+  "TRUMP_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758861046.817512,
+    "reminder_sent": false
   }
 }
