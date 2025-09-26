@@ -154,8 +154,7 @@
     "crossover_type": "death_cross"
   },
   "ZRX_zone": {
-    "in_zone": true,
-    "entry_time": 1758860092.5979788
+    "in_zone": false
   },
   "ORDI_crossover": {
     "last_alert_time": 1758860093.9997694,
@@ -192,5 +191,9 @@
   "FTT_zone": {
     "in_zone": true,
     "entry_time": 1758860417.6902423
+  },
+  "DOG_zone": {
+    "in_zone": true,
+    "entry_time": 1758860422.0143068
   }
 }
