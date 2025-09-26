@@ -138,5 +138,9 @@
   "SAND_crossover": {
     "last_alert_time": 1758860086.6904125,
     "crossover_type": "death_cross"
+  },
+  "SUPER_crossover": {
+    "last_alert_time": 1758860089.7461371,
+    "crossover_type": "death_cross"
   }
 }
