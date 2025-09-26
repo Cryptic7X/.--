@@ -100,5 +100,9 @@
   "BNB_crossover": {
     "last_alert_time": 1758859734.6409943,
     "crossover_type": "death_cross"
+  },
+  "TOSHI_crossover": {
+    "last_alert_time": 1758859740.9437003,
+    "crossover_type": "death_cross"
   }
 }
