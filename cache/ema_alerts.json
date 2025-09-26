@@ -1,7 +1,6 @@
 {
   "BTC_zone": {
-    "in_zone": true,
-    "entry_time": 1758853175.5578523
+    "in_zone": false
   },
   "XRP_zone": {
     "in_zone": false
@@ -17,8 +16,7 @@
     "entry_time": 1758853180.3049395
   },
   "SUI_zone": {
-    "in_zone": true,
-    "entry_time": 1758853181.8963473
+    "in_zone": false
   },
   "XLM_zone": {
     "in_zone": false
