@@ -53,5 +53,9 @@
   "SOL_zone": {
     "in_zone": true,
     "entry_time": 1758855943.0397267
+  },
+  "DOGE_zone": {
+    "in_zone": true,
+    "entry_time": 1758855943.7936587
   }
 }
