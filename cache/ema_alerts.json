@@ -49,5 +49,9 @@
   "DOT_zone": {
     "in_zone": true,
     "entry_time": 1758853188.29541
+  },
+  "SOL_zone": {
+    "in_zone": true,
+    "entry_time": 1758855943.0397267
   }
 }
