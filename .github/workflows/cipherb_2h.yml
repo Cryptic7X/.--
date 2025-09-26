@@ -1,22 +1,44 @@
-name: CipherB 2H Analysis
+name: CipherB Multi-Timeframe Analysis
 
 on:
   schedule:
-    - cron: '2 */2 * * *'
+    - cron: '2 */2 * * *'  # Every 2 hours at 02 minutes past the hour
   workflow_dispatch:
 
 jobs:
-  analyze-cipherb:
+  cipherb-multi-analysis:
     runs-on: ubuntu-latest
+    
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-python@v4
       with:
-        python-version: '3.10'
-    - run: pip install -r requirements.txt
-    - name: Run CipherB Analysis
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Configure Git
+      run: |
+        git config --global user.name "CipherB Multi Bot"
+        git config --global user.email "cipherb-multi@github-actions.com"
+
+    - name: Run CipherB Multi-Timeframe Analysis
       env:
-        BINGX_API_KEY: ${{ secrets.BINGX_API_KEY }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        CIPHERB_TELEGRAM_CHAT_ID: ${{ secrets.CIPHERB_TELEGRAM_CHAT_ID }}
-      run: python src/analyzers/cipherb_analyzer.py
+        SMA_TELEGRAM_CHAT_ID: ${{ secrets.SMA_TELEGRAM_CHAT_ID }}
+        BINGX_API_KEY: ${{ secrets.BINGX_API_KEY }}
+        BINGX_SECRET_KEY: ${{ secrets.BINGX_SECRET_KEY }}
+      run: |
+        python src/analyzers/cipherb_multi_analyzer.py
+
+    - name: Commit cache changes
+      run: |
+        git add cache/cipherb_multi_alerts.json || true
+        git commit -m "Update CipherB multi cache - $(date '+%Y-%m-%d %H:%M:%S')" || true
+        git push || true
