@@ -57,7 +57,6 @@
     "in_zone": false
   },
   "LINK_zone": {
-    "in_zone": true,
-    "entry_time": 1758855945.5005906
+    "in_zone": false
   }
 }
