@@ -93,5 +93,9 @@
   "MERL_zone": {
     "in_zone": true,
     "entry_time": 1758858765.2782938
+  },
+  "MASK_zone": {
+    "in_zone": true,
+    "entry_time": 1758858768.6476538
   }
 }
