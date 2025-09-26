@@ -6,5 +6,37 @@
     "monitoring_direction": "buy",
     "last_2h_time": 1758877931.7391095,
     "last_8h_time": 0
+  },
+  "OKB": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1758878524.2662258,
+    "last_8h_time": 0
+  },
+  "NEAR": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1758878524.2664886,
+    "last_8h_time": 0
+  },
+  "SUN": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1758878524.2668831,
+    "last_8h_time": 0
+  },
+  "FORM": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1758878524.2672057,
+    "last_8h_time": 0
   }
 }
