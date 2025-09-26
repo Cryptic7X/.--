@@ -68,7 +68,8 @@
   "ZORA_squeeze": {
     "in_zone": true,
     "entry_time": 1758861051.026026,
-    "reminder_sent": false
+    "reminder_sent": false,
+    "candle_count": 1
   },
   "TRUMP_squeeze": {
     "in_zone": true,
