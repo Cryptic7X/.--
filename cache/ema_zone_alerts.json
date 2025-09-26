@@ -5,7 +5,7 @@
   "MNT_zone": {
     "last_alert_time": 1758863253.6883006,
     "last_price": 1.6841,
-    "blocked": true
+    "blocked": false
   },
   "PYUSD_zone": {
     "last_alert_time": 1758863255.6929996,
@@ -33,7 +33,7 @@
   "FTT_zone": {
     "last_alert_time": 1758863258.8456132,
     "last_price": 0.8063,
-    "blocked": true
+    "blocked": false
   },
   "TOSHI_crossover": {
     "last_alert_time": 1758863259.2181478
@@ -41,7 +41,7 @@
   "ZORA_zone": {
     "last_alert_time": 1758863259.6245244,
     "last_price": 0.06117,
-    "blocked": true
+    "blocked": false
   },
   "DOG_zone": {
     "last_alert_time": 1758863260.9107544,
@@ -55,5 +55,45 @@
   },
   "ME_crossover": {
     "last_alert_time": 1758863262.6130328
+  },
+  "CRO_zone": {
+    "last_alert_time": 1758875146.7309806,
+    "last_price": 0.19807,
+    "blocked": true
+  },
+  "TRUMP_zone": {
+    "last_alert_time": 1758875148.919788,
+    "last_price": 0.1387,
+    "blocked": true
+  },
+  "TWT_zone": {
+    "last_alert_time": 1758875150.7860227,
+    "last_price": 1.1997,
+    "blocked": true
+  },
+  "WAL_zone": {
+    "last_alert_time": 1758875150.835627,
+    "last_price": 0.3807,
+    "blocked": true
+  },
+  "JST_zone": {
+    "last_alert_time": 1758875152.1072621,
+    "last_price": 0.03394,
+    "blocked": true
+  },
+  "GMX_zone": {
+    "last_alert_time": 1758875154.3666444,
+    "last_price": 16.521,
+    "blocked": true
+  },
+  "T_zone": {
+    "last_alert_time": 1758875154.80344,
+    "last_price": 0.01643,
+    "blocked": true
+  },
+  "NMR_zone": {
+    "last_alert_time": 1758875155.5883884,
+    "last_price": 15.712,
+    "blocked": true
   }
 }
