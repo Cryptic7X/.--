@@ -22,12 +22,10 @@
     "in_zone": false
   },
   "BCH_zone": {
-    "in_zone": true,
-    "entry_time": 1758853183.3768451
+    "in_zone": false
   },
   "HBAR_zone": {
-    "in_zone": true,
-    "entry_time": 1758853184.1623816
+    "in_zone": false
   },
   "LTC_zone": {
     "in_zone": true,
