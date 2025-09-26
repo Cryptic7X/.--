@@ -22,5 +22,9 @@
   "SUI_zone": {
     "in_zone": true,
     "entry_time": 1758853181.8963473
+  },
+  "XLM_zone": {
+    "in_zone": true,
+    "entry_time": 1758853182.6116722
   }
 }
