@@ -191,5 +191,9 @@
   "AB_zone": {
     "in_zone": true,
     "entry_time": 1758860414.5951488
+  },
+  "FTT_zone": {
+    "in_zone": true,
+    "entry_time": 1758860417.6902423
   }
 }
