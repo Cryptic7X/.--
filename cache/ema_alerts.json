@@ -67,7 +67,8 @@
     "crossover_type": "death_cross"
   },
   "NFT_zone": {
-    "in_zone": false
+    "in_zone": true,
+    "entry_time": 1758860415.9440062
   },
   "W_zone": {
     "in_zone": false
