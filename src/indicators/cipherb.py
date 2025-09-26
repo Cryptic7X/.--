@@ -1,6 +1,6 @@
 """
 EXACT CipherB Implementation - 100% MATCHES YOUR PINE SCRIPT
-Multi-timeframe (2H + 8H) analysis with your exact parameters
+Multi-timeframe (2H + 8H) with PINPOINT TIMING ACCURACY
 """
 import pandas as pd
 import numpy as np
@@ -8,6 +8,7 @@ import json
 import os
 import time
 from typing import Dict, List, Optional
+from datetime import datetime, timezone
 
 def ema(series, length):
     """Exponential Moving Average - matches Pine Script ta.ema()"""
@@ -68,10 +69,22 @@ def detect_exact_cipherb_signals(df, config):
     signals['buySignal'] = wtCross & wtCrossUp & wtOversold    # buySignal = wtCross and wtCrossUp and wtOversold
     signals['sellSignal'] = wtCross & wtCrossDown & wtOverbought  # sellSignal = wtCross and wtCrossDown and wtOverbought
     
+    # Add timestamp column for signal timing
+    signals['timestamp'] = df.index
+    
     return signals
 
+def get_timeframe_freshness_window(timeframe: str) -> int:
+    """Get freshness window in seconds for each timeframe"""
+    if timeframe == '2h':
+        return 2 * 60 * 60  # 2 hours in seconds
+    elif timeframe == '8h':
+        return 8 * 60 * 60  # 8 hours in seconds
+    else:
+        return 2 * 60 * 60  # Default 2 hours
+
 class CipherBMultiTimeframe:
-    """Multi-timeframe CipherB with caching and state management"""
+    """Multi-timeframe CipherB with pinpoint timing accuracy"""
     
     def __init__(self):
         self.cache_file = "cache/cipherb_multi_alerts.json"
@@ -95,8 +108,60 @@ class CipherBMultiTimeframe:
         except Exception as e:
             print(f"❌ Cache save error: {e}")
     
-    def analyze_timeframe(self, df: pd.DataFrame, timeframe: str, symbol: str) -> Dict:
-        """Analyze single timeframe for CipherB signals"""
+    def find_fresh_signals(self, signals_df: pd.DataFrame, timeframe: str, current_time: float) -> List[Dict]:
+        """
+        Find signals that are fresh within the timeframe window
+        Returns list of fresh signals with exact timing
+        """
+        fresh_signals = []
+        freshness_window = get_timeframe_freshness_window(timeframe)
+        
+        try:
+            # Check each candle for signals
+            for idx in signals_df.index:
+                row = signals_df.loc[idx]
+                
+                # Convert pandas timestamp to unix timestamp
+                if hasattr(idx, 'timestamp'):
+                    candle_timestamp = idx.timestamp()
+                else:
+                    # Fallback if timestamp conversion fails
+                    candle_timestamp = current_time - (len(signals_df) - signals_df.index.get_loc(idx)) * freshness_window
+                
+                # Check if signal is within freshness window
+                time_diff = current_time - candle_timestamp
+                
+                if 0 <= time_diff <= freshness_window:
+                    # Check for buy signal
+                    if row['buySignal']:
+                        fresh_signals.append({
+                            'signal_type': 'BUY',
+                            'candle_time': candle_timestamp,
+                            'wt1': round(row['wt1'], 1),
+                            'wt2': round(row['wt2'], 1),
+                            'time_diff_hours': time_diff / 3600,
+                            'is_fresh': True
+                        })
+                    
+                    # Check for sell signal
+                    if row['sellSignal']:
+                        fresh_signals.append({
+                            'signal_type': 'SELL',
+                            'candle_time': candle_timestamp,
+                            'wt1': round(row['wt1'], 1),
+                            'wt2': round(row['wt2'], 1),
+                            'time_diff_hours': time_diff / 3600,
+                            'is_fresh': True
+                        })
+            
+            return fresh_signals
+            
+        except Exception as e:
+            print(f"❌ Error finding fresh signals: {e}")
+            return []
+    
+    def analyze_timeframe(self, df: pd.DataFrame, timeframe: str, symbol: str) -> Optional[Dict]:
+        """Analyze timeframe for fresh CipherB signals only"""
         try:
             if len(df) < 25:
                 return None
@@ -112,25 +177,29 @@ class CipherBMultiTimeframe:
             
             if signals_df.empty:
                 return None
-                
-            # Check the second-to-last candle (TradingView plots on previous candle)
-            penultimate = signals_df.iloc[-2]
             
-            buy_signal = bool(penultimate['buySignal'])
-            sell_signal = bool(penultimate['sellSignal'])
+            # Find fresh signals within the timeframe window
+            current_time = time.time()
+            fresh_signals = self.find_fresh_signals(signals_df, timeframe, current_time)
             
-            if not buy_signal and not sell_signal:
+            if not fresh_signals:
                 return None
-                
+            
+            # Return the most recent fresh signal
+            latest_signal = max(fresh_signals, key=lambda x: x['candle_time'])
+            
             return {
                 'symbol': symbol,
                 'timeframe': timeframe,
-                'signal_type': 'BUY' if buy_signal else 'SELL',
-                'buy_signal': buy_signal,
-                'sell_signal': sell_signal,
-                'wt1': round(penultimate['wt1'], 1),
-                'wt2': round(penultimate['wt2'], 1),
-                'timestamp': time.time()
+                'signal_type': latest_signal['signal_type'],
+                'buy_signal': latest_signal['signal_type'] == 'BUY',
+                'sell_signal': latest_signal['signal_type'] == 'SELL',
+                'wt1': latest_signal['wt1'],
+                'wt2': latest_signal['wt2'],
+                'candle_time': latest_signal['candle_time'],
+                'time_diff_hours': latest_signal['time_diff_hours'],
+                'timestamp': current_time,
+                'is_fresh': True
             }
             
         except Exception as e:
@@ -140,7 +209,7 @@ class CipherBMultiTimeframe:
     def determine_alert_action(self, symbol: str, signal_2h: Dict, signal_8h: Optional[Dict] = None) -> Dict:
         """
         Determine what alert to send based on multi-timeframe logic
-        Returns: {'send_alert': bool, 'alert_type': str, 'message_type': str}
+        Only processes FRESH signals within their respective windows
         """
         cache = self.load_cache()
         current_time = time.time()
@@ -162,18 +231,30 @@ class CipherBMultiTimeframe:
             last_signal = cache[cache_key]['last_signal']
             signal_count = cache[cache_key]['signal_count']
             monitoring_8h = cache[cache_key]['monitoring_8h']
+            last_2h_time = cache[cache_key].get('last_2h_time', 0)
         else:
             last_signal = None
             signal_count = 0
             monitoring_8h = False
+            last_2h_time = 0
         
-        # LOGIC IMPLEMENTATION
+        # CRITICAL: Check if this 2H signal was already processed
+        signal_age_hours = signal_2h['time_diff_hours']
+        if last_2h_time > 0:
+            time_since_last_alert = (current_time - last_2h_time) / 3600
+            if time_since_last_alert < 1.8:  # Less than 1.8 hours since last alert
+                print(f"🔄 {symbol}: Signal too recent (last alert {time_since_last_alert:.1f}h ago)")
+                return result  # Don't process
+        
+        # LOGIC IMPLEMENTATION WITH FRESH SIGNALS
         
         # Case 1: Direction change (reset)
         if last_signal and last_signal != signal_type_2h.lower():
             result['send_alert'] = True
             result['alert_type'] = signal_type_2h
             result['message_type'] = '2H_SIGNAL'
+            
+            print(f"✅ {symbol}: Direction change {last_signal.upper()} → {signal_type_2h}")
             
             # Reset cache
             cache[cache_key] = {
@@ -194,6 +275,8 @@ class CipherBMultiTimeframe:
                 result['alert_type'] = signal_type_2h
                 result['message_type'] = '2H_SIGNAL'
                 
+                print(f"✅ {symbol}: First {signal_type_2h} signal")
+                
                 cache[cache_key] = {
                     'last_signal': signal_type_2h.lower(),
                     'signal_count': 1,
@@ -208,6 +291,8 @@ class CipherBMultiTimeframe:
                 result['send_alert'] = True
                 result['alert_type'] = signal_type_2h
                 result['message_type'] = '2H_REPEATED'
+                
+                print(f"✅ {symbol}: Second {signal_type_2h} signal → 8H monitoring activated")
                 
                 cache[cache_key] = {
                     'last_signal': signal_type_2h.lower(),
@@ -225,11 +310,14 @@ class CipherBMultiTimeframe:
                     result['alert_type'] = signal_type_2h
                     result['message_type'] = '2H_8H_CONFIRMED'
                     
+                    print(f"✅ {symbol}: 2H+8H confirmed {signal_type_2h}")
+                    
                     cache[cache_key]['last_2h_time'] = current_time
                     cache[cache_key]['last_8h_time'] = current_time
                 else:
                     # 8h doesn't confirm - silent
                     result['send_alert'] = False
+                    print(f"🔍 {symbol}: 8H no confirmation for {signal_type_2h}")
                     cache[cache_key]['last_2h_time'] = current_time
         
         # Save cache
