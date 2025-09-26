@@ -105,5 +105,9 @@
   "CVX_crossover": {
     "last_alert_time": 1758859741.3251061,
     "crossover_type": "death_cross"
+  },
+  "STBL_zone": {
+    "in_zone": true,
+    "entry_time": 1758859744.512132
   }
 }
