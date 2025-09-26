@@ -1,6 +1,6 @@
 """
-EMA Telegram Alert System - EXACT SMA Format
-Crossovers + Zone Touch with Support/Resistance Zone Logic
+EMA Telegram Alert System - PRODUCTION 4H VERSION
+Exact SMA format with Support/Resistance Zone Logic
 """
 import os
 import requests
@@ -11,28 +11,34 @@ class EMATelegramSender:
     def __init__(self, config: Dict):
         self.config = config
         self.bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
-        self.chat_id = os.getenv('SMA_TELEGRAM_CHAT_ID')  # Using same SMA channel
+        self.chat_id = os.getenv('SMA_TELEGRAM_CHAT_ID')
 
     def format_price(self, price: float) -> str:
         """Format price for display"""
-        if price < 0.001:
-            return f"${price:.8f}"
-        elif price < 1:
-            return f"${price:.4f}"
-        else:
-            return f"${price:.2f}"
+        try:
+            if price < 0.001:
+                return f"${price:.8f}"
+            elif price < 1:
+                return f"${price:.4f}"
+            else:
+                return f"${price:.2f}"
+        except:
+            return "$0.00"
 
     def format_large_number(self, num: float) -> str:
         """Format large numbers"""
-        if num >= 1_000_000_000:
-            return f"${num/1_000_000_000:.1f}B"
-        elif num >= 1_000_000:
-            return f"${num/1_000_000:.0f}M"
-        else:
-            return f"${num/1_000:.0f}K"
+        try:
+            if num >= 1_000_000_000:
+                return f"${num/1_000_000_000:.1f}B"
+            elif num >= 1_000_000:
+                return f"${num/1_000_000:.0f}M"
+            else:
+                return f"${num/1_000:.0f}K"
+        except:
+            return "$0"
 
     def create_chart_links(self, symbol: str, timeframe_minutes: int = 240) -> tuple:
-        """Create TradingView and CoinGlass links - Default 4H for production"""
+        """Create TradingView and CoinGlass links"""
         clean_symbol = symbol.replace('USDT', '').replace('USD', '')
         tv_link = f"https://www.tradingview.com/chart/?symbol={clean_symbol}USDT&interval={timeframe_minutes}"
         cg_link = f"https://www.coinglass.com/pro/futures/LiquidationHeatMapNew?coin={clean_symbol}"
@@ -44,35 +50,33 @@ class EMATelegramSender:
         - If 21 EMA > 50 EMA: Bullish Setup → Support Zone = [50 EMA, 21 EMA]
         - If 50 EMA > 21 EMA: Bearish Setup → Resistance Zone = [21 EMA, 50 EMA]
         """
-        if ema21 > ema50:
-            # Bullish setup
-            zone_bottom = ema50
-            zone_top = ema21
-            setup_type = "Bullish Setup"
-            zone_type = "Support Zone"
-            zone_range = f"[${zone_bottom:.2f} - ${zone_top:.2f}]"
-        else:
-            # Bearish setup  
-            zone_bottom = ema21
-            zone_top = ema50
-            setup_type = "Bearish Setup"
-            zone_type = "Resistance Zone" 
-            zone_range = f"[${zone_bottom:.2f} - ${zone_top:.2f}]"
+        try:
+            if ema21 > ema50:
+                # Bullish setup
+                setup_type = "Bullish Setup"
+                zone_type = "Support Zone"
+                zone_range = f"[{self.format_price(ema50)} - {self.format_price(ema21)}]"
+            else:
+                # Bearish setup  
+                setup_type = "Bearish Setup"
+                zone_type = "Resistance Zone" 
+                zone_range = f"[{self.format_price(ema21)} - {self.format_price(ema50)}]"
 
-        # Check if price is in zone
-        is_in_zone = zone_bottom <= current_price <= zone_top
+            return {
+                'setup_type': setup_type,
+                'zone_type': zone_type,
+                'zone_range': zone_range
+            }
+        except Exception as e:
+            print(f"❌ Zone calculation error: {e}")
+            return {
+                'setup_type': "Unknown Setup",
+                'zone_type': "Unknown Zone",
+                'zone_range': "[Error]"
+            }
 
-        return {
-            'setup_type': setup_type,
-            'zone_type': zone_type,
-            'zone_range': zone_range,
-            'zone_bottom': zone_bottom,
-            'zone_top': zone_top,
-            'is_in_zone': is_in_zone
-        }
-
-    def send_ema_alerts(self, signals: List[Dict], timeframe_minutes: int = 15) -> bool:
-        """Send EMA alerts in EXACT SMA format with zone logic"""
+    def send_ema_alerts(self, signals: List[Dict], timeframe_minutes: int = 240) -> bool:
+        """Send EMA alerts in EXACT SMA format"""
         if not self.bot_token or not self.chat_id or not signals:
             return False
 
@@ -81,15 +85,15 @@ class EMATelegramSender:
             total_alerts = len(signals)
             
             # Determine timeframe display
-            if timeframe_minutes == 15:
-                tf_display = "15M Candles (TESTING)"
-            elif timeframe_minutes == 240:
+            if timeframe_minutes == 240:
                 tf_display = "4H Candles"
+            elif timeframe_minutes == 15:
+                tf_display = "15M Candles (TESTING)"
             else:
                 tf_display = f"{timeframe_minutes}M Candles"
 
-            # Build message header - EXACT SMA FORMAT
-            message = f"""🟡 **EMA {tf_display.split()[0]} SIGNALS**
+            # EXACT SMA FORMAT header
+            message = f"""🟡 **EMA 4H SIGNALS**
 📊 **{total_alerts} EMA SIGNALS DETECTED**
 🕐 **{current_time}**
 ⏰ **Timeframe: {tf_display}**
@@ -110,9 +114,9 @@ class EMATelegramSender:
                     crossover_type = signal['crossover_type']
                     
                     price = self.format_price(coin_data['current_price'])
-                    change_24h = coin_data['price_change_percentage_24h']
-                    market_cap = self.format_large_number(coin_data['market_cap'])
-                    volume = self.format_large_number(coin_data['total_volume'])
+                    change_24h = coin_data.get('price_change_percentage_24h', 0)
+                    market_cap = self.format_large_number(coin_data.get('market_cap', 0))
+                    volume = self.format_large_number(coin_data.get('total_volume', 0))
                     
                     signal_emoji = "🟡" if crossover_type == 'golden_cross' else "🔴"
                     signal_name = "GOLDEN CROSS" if crossover_type == 'golden_cross' else "DEATH CROSS"
@@ -137,7 +141,7 @@ Cap: {market_cap} | Vol: {volume}
                     coin_data = signal['coin_data']
                     
                     price = self.format_price(coin_data['current_price'])
-                    change_24h = coin_data['price_change_percentage_24h']
+                    change_24h = coin_data.get('price_change_percentage_24h', 0)
                     
                     # Get zone information
                     zone_info = self.determine_zone_info(
@@ -183,12 +187,9 @@ Cap: {market_cap} | Vol: {volume}
             response = requests.post(url, json=payload, timeout=30)
             response.raise_for_status()
             
-            print(f"📱 EMA alert sent: {total_alerts} total signals")
+            print(f"📱 EMA 4H alert sent: {total_alerts} signals")
             return True
 
         except Exception as e:
             print(f"❌ EMA alert failed: {e}")
-            import traceback
-            traceback.print_exc()
             return False
-
