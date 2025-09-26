@@ -135,5 +135,9 @@
   "JTO_zone": {
     "in_zone": true,
     "entry_time": 1758860086.4492047
+  },
+  "SAND_crossover": {
+    "last_alert_time": 1758860086.6904125,
+    "crossover_type": "death_cross"
   }
 }
