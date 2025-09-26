@@ -148,8 +148,7 @@
     "in_zone": false
   },
   "ZIL_zone": {
-    "in_zone": true,
-    "entry_time": 1758860092.1093721
+    "in_zone": false
   },
   "CKB_crossover": {
     "last_alert_time": 1758860092.5746481,
