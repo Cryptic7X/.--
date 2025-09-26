@@ -39,8 +39,7 @@
     "entry_time": 1758853185.7553859
   },
   "TON_zone": {
-    "in_zone": true,
-    "entry_time": 1758853186.4602404
+    "in_zone": false
   },
   "SHIB_zone": {
     "in_zone": true,
