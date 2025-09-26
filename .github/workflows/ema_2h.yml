@@ -19,4 +19,4 @@ jobs:
         BINGX_API_KEY: ${{ secrets.BINGX_API_KEY }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         SMA_TELEGRAM_CHAT_ID: ${{ secrets.SMA_TELEGRAM_CHAT_ID }}
-      run: python src/analyzers/ema_analyzer.py
+      run: python src/analyzers/ema_analyzer_15m_test.py
