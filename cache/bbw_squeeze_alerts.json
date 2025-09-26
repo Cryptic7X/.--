@@ -119,5 +119,11 @@
     "entry_time": 1758896290.682559,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "MOODENG_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758896292.6513042,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
