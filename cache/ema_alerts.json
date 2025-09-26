@@ -21,8 +21,7 @@
     "entry_time": 1758853181.8963473
   },
   "XLM_zone": {
-    "in_zone": true,
-    "entry_time": 1758853182.6116722
+    "in_zone": false
   },
   "BCH_zone": {
     "in_zone": true,
@@ -49,14 +48,12 @@
     "entry_time": 1758853188.29541
   },
   "SOL_zone": {
-    "in_zone": true,
-    "entry_time": 1758857312.4943101
+    "in_zone": false
   },
   "DOGE_zone": {
     "in_zone": false
   },
   "LINK_zone": {
-    "in_zone": true,
-    "entry_time": 1758857314.7559302
+    "in_zone": false
   }
 }
