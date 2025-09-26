@@ -81,8 +81,7 @@
     "crossover_type": "death_cross"
   },
   "DASH_zone": {
-    "in_zone": true,
-    "entry_time": 1758858104.3729498
+    "in_zone": false
   },
   "DORA_zone": {
     "in_zone": true,
@@ -101,6 +100,10 @@
   },
   "TOSHI_crossover": {
     "last_alert_time": 1758859740.9437003,
+    "crossover_type": "death_cross"
+  },
+  "CVX_crossover": {
+    "last_alert_time": 1758859741.3251061,
     "crossover_type": "death_cross"
   }
 }
