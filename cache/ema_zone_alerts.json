@@ -20,7 +20,7 @@
   "AB_zone": {
     "last_alert_time": 1758863257.0326169,
     "last_price": 0.00845,
-    "blocked": true
+    "blocked": false
   },
   "NFT_zone": {
     "last_alert_time": 1758863257.7576694,
@@ -46,7 +46,7 @@
   "DOG_zone": {
     "last_alert_time": 1758863260.9107544,
     "last_price": 0.002601,
-    "blocked": true
+    "blocked": false
   },
   "MASK_zone": {
     "last_alert_time": 1758863262.189448,
@@ -59,7 +59,7 @@
   "CRO_zone": {
     "last_alert_time": 1758875146.7309806,
     "last_price": 0.19807,
-    "blocked": true
+    "blocked": false
   },
   "TRUMP_zone": {
     "last_alert_time": 1758875148.919788,
@@ -69,7 +69,7 @@
   "TWT_zone": {
     "last_alert_time": 1758875150.7860227,
     "last_price": 1.1997,
-    "blocked": true
+    "blocked": false
   },
   "WAL_zone": {
     "last_alert_time": 1758875150.835627,
@@ -84,7 +84,7 @@
   "GMX_zone": {
     "last_alert_time": 1758875154.3666444,
     "last_price": 16.521,
-    "blocked": true
+    "blocked": false
   },
   "T_zone": {
     "last_alert_time": 1758875154.80344,
@@ -94,6 +94,71 @@
   "NMR_zone": {
     "last_alert_time": 1758875155.5883884,
     "last_price": 15.712,
+    "blocked": false
+  },
+  "TRX_zone": {
+    "last_alert_time": 1758890334.210197,
+    "last_price": 0.33611,
+    "blocked": true
+  },
+  "WLFI_zone": {
+    "last_alert_time": 1758890334.5048537,
+    "last_price": 0.2018,
+    "blocked": true
+  },
+  "BONK_crossover": {
+    "last_alert_time": 1758890335.8075616
+  },
+  "ZEC_zone": {
+    "last_alert_time": 1758890336.8550134,
+    "last_price": 48.366,
+    "blocked": true
+  },
+  "AB_crossover": {
+    "last_alert_time": 1758890337.4456525
+  },
+  "SUN_crossover": {
+    "last_alert_time": 1758890337.792142
+  },
+  "DEXE_zone": {
+    "last_alert_time": 1758890337.8717444,
+    "last_price": 6.9776,
+    "blocked": true
+  },
+  "ZBCN_zone": {
+    "last_alert_time": 1758890338.6835556,
+    "last_price": 0.0039107,
+    "blocked": true
+  },
+  "MOCA_zone": {
+    "last_alert_time": 1758890339.6740234,
+    "last_price": 0.07142,
+    "blocked": true
+  },
+  "SFP_crossover": {
+    "last_alert_time": 1758890339.8740788
+  },
+  "BABYDOGE_crossover": {
+    "last_alert_time": 1758890341.2124023
+  },
+  "YFI_zone": {
+    "last_alert_time": 1758890341.8239121,
+    "last_price": 5072.0,
+    "blocked": true
+  },
+  "WAVES_zone": {
+    "last_alert_time": 1758890343.9006972,
+    "last_price": 1.1317,
+    "blocked": true
+  },
+  "ZEN_zone": {
+    "last_alert_time": 1758890344.5216014,
+    "last_price": 7.543,
+    "blocked": true
+  },
+  "ALEO_zone": {
+    "last_alert_time": 1758890344.5957065,
+    "last_price": 0.2382,
     "blocked": true
   }
 }
