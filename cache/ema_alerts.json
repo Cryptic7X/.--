@@ -127,7 +127,8 @@
     "in_zone": false
   },
   "S_zone": {
-    "in_zone": false
+    "in_zone": true,
+    "entry_time": 1758861430.3559656
   },
   "JTO_zone": {
     "in_zone": false
