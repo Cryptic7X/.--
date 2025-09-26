@@ -90,8 +90,7 @@
     "entry_time": 1758858105.611798
   },
   "MERL_zone": {
-    "in_zone": true,
-    "entry_time": 1758858765.2782938
+    "in_zone": false
   },
   "MASK_zone": {
     "in_zone": true,
