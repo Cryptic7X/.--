@@ -1,6 +1,6 @@
 """
 EMA Telegram Alert System - Crossovers + Zone Touch
-Using existing SMA alert format style
+Updated for 15M testing with better debugging
 """
 import os
 import requests
@@ -22,26 +22,18 @@ class EMATelegramSender:
         else:
             return f"${price:.2f}"
 
-    def format_large_number(self, num: float) -> str:
-        """Format large numbers"""
-        if num >= 1_000_000_000:
-            return f"${num/1_000_000_000:.1f}B"
-        elif num >= 1_000_000:
-            return f"${num/1_000_000:.0f}M"
-        else:
-            return f"${num/1_000:.0f}K"
-
-    def create_chart_links(self, symbol: str) -> tuple:
-        """Create TradingView and CoinGlass links for 4H"""
+    def create_chart_links(self, symbol: str, timeframe: str = '15') -> tuple:
+        """Create TradingView and CoinGlass links"""
         clean_symbol = symbol.replace('USDT', '').replace('USD', '')
-        # 4H chart (240 minutes)
-        tv_link = f"https://www.tradingview.com/chart/?symbol={clean_symbol}USDT&interval=240"
+        # Use timeframe parameter for flexibility
+        tv_link = f"https://www.tradingview.com/chart/?symbol={clean_symbol}USDT&interval={timeframe}"
         cg_link = f"https://www.coinglass.com/pro/futures/LiquidationHeatMapNew?coin={clean_symbol}"
         return tv_link, cg_link
 
     def send_ema_alerts(self, signals: List[Dict]) -> bool:
-        """Send EMA alerts in existing SMA format style"""
+        """Send EMA alerts with testing format"""
         if not self.bot_token or not self.chat_id or not signals:
+            print("❌ Missing bot token, chat ID, or no signals")
             return False
 
         try:
@@ -52,10 +44,10 @@ class EMATelegramSender:
             crossover_signals = [s for s in signals if s.get('crossover_alert')]
             zone_signals = [s for s in signals if s.get('zone_alert')]
             
-            message = f"""🟡 **EMA 4H SIGNALS**
-📊 **{total_alerts} EMA SIGNALS DETECTED**
+            message = f"""🟡 **EMA 15M TEST SIGNALS**
+📊 **{total_alerts} EMA TEST SIGNALS**
 🕐 **{current_time}**
-⏰ **Timeframe: 4H Candles**
+⏰ **Timeframe: 15M Candles (TESTING)**
 
 """
 
@@ -70,20 +62,17 @@ class EMATelegramSender:
                     
                     price = self.format_price(coin_data['current_price'])
                     change_24h = coin_data['price_change_percentage_24h']
-                    market_cap = self.format_large_number(coin_data['market_cap'])
-                    volume = self.format_large_number(coin_data['total_volume'])
                     
                     signal_emoji = "🟡" if crossover_type == 'golden_cross' else "🔴"
                     signal_name = "GOLDEN CROSS" if crossover_type == 'golden_cross' else "DEATH CROSS"
                     
-                    tv_link, cg_link = self.create_chart_links(symbol)
+                    tv_link, cg_link = self.create_chart_links(symbol, '15')
                     
                     message += f"""{signal_emoji} **{signal_name}: {symbol}**
 💰 {price} ({change_24h:+.1f}% 24h)
-Cap: {market_cap} | Vol: {volume}
-📊 21 EMA: ${signal['ema21']:.2f}
-📊 50 EMA: ${signal['ema50']:.2f}
-📈 [Chart →]({tv_link}) | 🔥 [Liq Heat →]({cg_link})
+📊 21 EMA: {self.format_price(signal['ema21'])}
+📊 50 EMA: {self.format_price(signal['ema50'])}
+📈 [15M Chart →]({tv_link}) | 🔥 [Liq →]({cg_link})
 
 """
 
@@ -98,13 +87,16 @@ Cap: {market_cap} | Vol: {volume}
                     price = self.format_price(coin_data['current_price'])
                     change_24h = coin_data['price_change_percentage_24h']
                     
-                    tv_link, cg_link = self.create_chart_links(symbol)
+                    # Calculate distance from 21 EMA
+                    distance = abs(signal['current_price'] - signal['ema21']) / signal['ema21'] * 100
+                    
+                    tv_link, cg_link = self.create_chart_links(symbol, '15')
                     
                     message += f"""🎯 **21 EMA TOUCH: {symbol}**
 💰 {price} ({change_24h:+.1f}% 24h)
-📊 21 EMA: ${signal['ema21']:.2f} (Price touching)
-📊 50 EMA: ${signal['ema50']:.2f}
-📈 [Chart →]({tv_link}) | 🔥 [Liq Heat →]({cg_link})
+📊 21 EMA: {self.format_price(signal['ema21'])} (Distance: {distance:.2f}%)
+📊 50 EMA: {self.format_price(signal['ema50'])}
+📈 [15M Chart →]({tv_link}) | 🔥 [Liq →]({cg_link})
 
 """
 
@@ -112,11 +104,11 @@ Cap: {market_cap} | Vol: {volume}
             golden_count = len([s for s in crossover_signals if s.get('crossover_type') == 'golden_cross'])
             death_count = len([s for s in crossover_signals if s.get('crossover_type') == 'death_cross'])
             
-            message += f"""📊 **EMA SUMMARY**
+            message += f"""📊 **TEST RESULTS**
 • Golden Crosses: {golden_count}
-• Death Crosses: {death_count}
+• Death Crosses: {death_count}  
 • Zone Touches: {len(zone_signals)}
-🎯 Manual direction analysis required"""
+🔧 15M Testing Mode - Logic Validation"""
 
             # Send to Telegram
             url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
@@ -127,12 +119,18 @@ Cap: {market_cap} | Vol: {volume}
                 'disable_web_page_preview': False
             }
 
+            print(f"📤 Sending to Telegram: {len(message)} characters")
             response = requests.post(url, json=payload, timeout=30)
-            response.raise_for_status()
             
-            print(f"📱 EMA alert sent: {total_alerts} signals")
-            return True
+            if response.status_code == 200:
+                print(f"📱 EMA test alert sent successfully!")
+                return True
+            else:
+                print(f"❌ Telegram error {response.status_code}: {response.text}")
+                return False
 
         except Exception as e:
             print(f"❌ EMA alert failed: {e}")
+            import traceback
+            traceback.print_exc()
             return False
