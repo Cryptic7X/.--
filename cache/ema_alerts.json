@@ -11,8 +11,7 @@
     "in_zone": false
   },
   "TRX_zone": {
-    "in_zone": true,
-    "entry_time": 1758853179.568196
+    "in_zone": false
   },
   "ADA_zone": {
     "in_zone": true,
