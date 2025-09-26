@@ -173,8 +173,7 @@
     "in_zone": false
   },
   "LRC_zone": {
-    "in_zone": true,
-    "entry_time": 1758860097.4428923
+    "in_zone": false
   },
   "KAS_zone": {
     "in_zone": true,
