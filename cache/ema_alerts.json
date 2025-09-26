@@ -60,8 +60,7 @@
     "crossover_type": "death_cross"
   },
   "DEXE_zone": {
-    "in_zone": true,
-    "entry_time": 1758858099.8486636
+    "in_zone": false
   },
   "ATH_crossover": {
     "last_alert_time": 1758858100.06218,
