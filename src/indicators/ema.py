@@ -11,8 +11,8 @@ class EMAIndicator:
     def __init__(self):
         self.ema_short = 21
         self.ema_long = 50
-        self.cache_file = "cache/ema_zone_alerts.json"
-        self.crossover_cooldown_hours = 48
+        self.cache_file = "cache/ema_crossover_alerts.json"
+        self.crossover_cooldown_hours = 24  # CHANGED: 24-hour unified cooldown
 
     def calculate_ema(self, data: List[float], period: int) -> List[float]:
         if len(data) < period:
@@ -66,11 +66,15 @@ class EMAIndicator:
         return abs(current_price - ema21_value) / ema21_value <= 0.005
 
     def analyze(self, ohlcv_data: Dict, symbol: str) -> Dict:
+        """CROSSOVER ONLY ANALYSIS - Zone logic completely removed"""
         try:
             closes = ohlcv_data['close']
-            if len(closes) < 60:
-                return {'crossover_alert': False, 'zone_alert': False}
             
+            # Need sufficient data for accurate EMA calculations
+            if len(closes) < 100:  # Increased for 30-minute accuracy
+                return {'crossover_alert': False}
+            
+            # Calculate EMAs
             ema21 = self.calculate_ema(closes, self.ema_short)
             ema50 = self.calculate_ema(closes, self.ema_long)
             
@@ -78,69 +82,31 @@ class EMAIndicator:
             cache = self.load_ema_cache()
             cache_updated = False
             
-            # 1. CROSSOVER CHECK
+            # CROSSOVER CHECK ONLY
             crossover_type = self.detect_crossover(ema21, ema50)
             crossover_alert = False
             
             if crossover_type:
+                # UNIFIED COOLDOWN - any crossover blocks all crossovers for 24 hours
                 crossover_key = f"{symbol}_crossover"
+                
                 if crossover_key in cache:
                     last_time = cache[crossover_key].get('last_alert_time', 0)
                     hours_since = (current_time - last_time) / 3600
+                    
                     if hours_since >= self.crossover_cooldown_hours:
                         crossover_alert = True
                         cache[crossover_key] = {'last_alert_time': current_time}
                         cache_updated = True
                 else:
+                    # First crossover for this symbol
                     crossover_alert = True
                     cache[crossover_key] = {'last_alert_time': current_time}
                     cache_updated = True
             
-            # 2. ZONE TOUCH CHECK - VERY SIMPLE
-            current_price = closes[-1]
-            ema21_value = ema21[-1]
-            is_touching = self.is_touching_zone(current_price, ema21_value)
-            zone_alert = False
-            
-            zone_key = f"{symbol}_zone"
-            
-            if is_touching:
-                if zone_key not in cache:
-                    # First touch - alert
-                    zone_alert = True
-                    cache[zone_key] = {
-                        'last_alert_time': current_time,
-                        'last_price': current_price,
-                        'blocked': True
-                    }
-                    cache_updated = True
-                else:
-                    # Already touched - check if should unblock
-                    last_price = cache[zone_key].get('last_price', current_price)
-                    blocked = cache[zone_key].get('blocked', False)
-                    
-                    if blocked:
-                        # Check if moved away 3% to unblock
-                        if abs(current_price - last_price) / last_price >= 0.03:
-                            # Moved away enough - unblock for next touch
-                            cache[zone_key]['blocked'] = False
-                            cache[zone_key]['last_price'] = current_price
-                            cache_updated = True
-            else:
-                # Not touching - unblock for future touches
-                if zone_key in cache and cache[zone_key].get('blocked', False):
-                    cache[zone_key]['blocked'] = False
-                    cache_updated = True
-            
-            # Save cache if updated
-            if cache_updated:
-                self.save_ema_cache(cache)
-            
             return {
                 'crossover_alert': crossover_alert,
                 'crossover_type': crossover_type if crossover_alert else None,
-                'zone_alert': zone_alert,
-                'zone_type': 'zone_touch' if zone_alert else None,
                 'ema21': ema21[-1],
                 'ema50': ema50[-1],
                 'current_price': closes[-1]
