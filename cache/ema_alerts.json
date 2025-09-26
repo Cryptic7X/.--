@@ -50,5 +50,9 @@
   "MNT_zone": {
     "in_zone": true,
     "entry_time": 1758858095.9957645
+  },
+  "PYUSD_zone": {
+    "in_zone": true,
+    "entry_time": 1758858098.151593
   }
 }
