@@ -82,22 +82,24 @@ class SimpleDataFetcher:
         return all_coins
 
     def filter_coins(self, all_coins):
+        # CipherB/BBW coins (unchanged)
         cipherb_coins = [
             coin for coin in all_coins
-            if coin['market_cap'] >= 100_000_000 and coin['total_volume'] >= 10_000_000
+            if coin['market_cap'] >= 500_000_000 and coin['total_volume'] >= 10_000_000
         ]
         
-        sma_coins = [
+        # EMA coins - UPDATED FILTER: $10M - $500M market cap, ≥$10M volume
+        ema_coins = [
             coin for coin in all_coins
-            if coin['market_cap'] >= 10_000_000 and coin['total_volume'] >= 10_000_000
+            if 10_000_000 <= coin['market_cap'] <= 500_000_000 and coin['total_volume'] >= 10_000_000
         ]
         
         print(f"CipherB/BBW coins: {len(cipherb_coins)}")
-        print(f"SMA coins: {len(sma_coins)}")
+        print(f"EMA coins: {len(ema_coins)}")
         
-        return cipherb_coins, sma_coins
+        return cipherb_coins, ema_coins
 
-    def save_datasets(self, cipherb_coins, sma_coins):
+    def save_datasets(self, cipherb_coins, ema_coins):
         os.makedirs('cache', exist_ok=True)
         
         cipherb_data = {
@@ -109,15 +111,15 @@ class SimpleDataFetcher:
         with open('cache/cipherb_dataset.json', 'w') as f:
             json.dump(cipherb_data, f)
         
-        sma_data = {
-            'timestamp': datetime.utcnow().isoformat(),
-            'total_coins': len(sma_coins),
-            'coins': sma_coins
+        ema_data = {
+        'timestamp': datetime.utcnow().isoformat(),
+        'total_coins': len(ema_coins),
+        'coins': ema_coins
         }
         
-        with open('cache/sma_dataset.json', 'w') as f:
-            json.dump(sma_data, f)
-        
+        with open('cache/ema_dataset.json', 'w') as f:
+            json.dump(ema_data, f)
+            
         print("Datasets saved to cache/")
 
 def main():
@@ -127,7 +129,7 @@ def main():
     all_coins = fetcher.fetch_coins()
     
     if all_coins:
-        cipherb_coins, sma_coins = fetcher.filter_coins(all_coins)
+        cipherb_coins, ema_coins = fetcher.filter_coins(all_coins)
         fetcher.save_datasets(cipherb_coins, sma_coins)
         print("✅ Data collection complete")
     else:
