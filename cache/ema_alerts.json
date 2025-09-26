@@ -169,8 +169,7 @@
     "crossover_type": "death_cross"
   },
   "VANA_zone": {
-    "in_zone": true,
-    "entry_time": 1758860096.9456503
+    "in_zone": false
   },
   "LRC_zone": {
     "in_zone": true,
