@@ -22,32 +22,24 @@ class EMAAnalyzer:
         self.ema_indicator = EMAIndicator()
 
     def load_coins(self):
-        cache_file = os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'cipherb_dataset.json')
-        
+        cache_file = os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'ema_dataset.json')
         try:
             with open(cache_file, 'r') as f:
                 data = json.load(f)
                 coins = data.get('coins', [])
-            
-            filtered = [
-                coin for coin in coins
-                if coin.get('market_cap', 0) >= 10_000_000      
-                and coin.get('total_volume', 0) >= 10_000_000  
-            ]
-            
-            print(f"📊 Loaded {len(filtered)} coins for EMA 4H analysis")
-            return filtered
-            
+                
+                print(f"📊 Loaded {len(coins)} coins for EMA 30M analysis")
+                return coins
+                
         except Exception as e:
             print(f"❌ Error loading coins: {e}")
             return []
 
     def analyze_coin(self, coin_data):
         symbol = coin_data['symbol']
-        
         try:
             ohlcv_data, exchange_used = self.exchange_manager.fetch_ohlcv_with_fallback(
-                symbol, '4h', limit=100
+                symbol, '30m', limit=200  # CHANGED: 30-minute timeframe
             )
             
             if not ohlcv_data:
@@ -55,15 +47,13 @@ class EMAAnalyzer:
             
             result = self.ema_indicator.analyze(ohlcv_data, symbol)
             
-            if not (result.get('crossover_alert', False) or result.get('zone_alert', False)):
+            if not result.get('crossover_alert', False):  # ONLY crossover alerts
                 return None
-
+            
             return {
                 'symbol': symbol,
                 'crossover_alert': result.get('crossover_alert', False),
                 'crossover_type': result.get('crossover_type'),
-                'zone_alert': result.get('zone_alert', False),
-                'zone_type': result.get('zone_type'),
                 'ema21': result.get('ema21'),
                 'ema50': result.get('ema50'),
                 'current_price': result.get('current_price'),
@@ -71,11 +61,12 @@ class EMAAnalyzer:
                 'exchange_used': exchange_used
             }
 
+
         except Exception as e:
             return None
 
     def run_analysis(self):
-        print("🟡 EMA 4H ANALYSIS - PRODUCTION")
+        print("🟡 EMA 30M ANALYSIS - PRODUCTION")  # Updated message
         print(f"⏰ Time: {datetime.now().strftime('%H:%M:%S IST')}")
         
         coins = self.load_coins()
@@ -104,11 +95,10 @@ class EMAAnalyzer:
                     continue
         
         if signals:
-            success = self.telegram_sender.send_ema_alerts(signals, timeframe_minutes=240)
-            crossover_count = len([s for s in signals if s.get('crossover_alert')])
-            zone_count = len([s for s in signals if s.get('zone_alert')])
+            success = self.telegram_sender.send_ema_alerts(signals, timeframe_minutes=30)  # 30 minutes
+            crossover_count = len(signals)  # All signals are crossovers now
             
-            print(f"📱 Results: {crossover_count} crossovers, {zone_count} zone touches")
+            print(f"📱 Results: {crossover_count} crossovers")
             print(f"📤 Telegram: {'✅ Sent' if success else '❌ Failed'}")
         else:
             print("📭 No EMA signals found")
