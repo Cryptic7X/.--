@@ -46,5 +46,13 @@
     "monitoring_direction": null,
     "last_2h_time": 1758881717.6362689,
     "last_8h_time": 0
+  },
+  "SSV": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1758889779.9698474,
+    "last_8h_time": 0
   }
 }
