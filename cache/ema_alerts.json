@@ -18,5 +18,9 @@
   "ADA_zone": {
     "in_zone": true,
     "entry_time": 1758853180.3049395
+  },
+  "SUI_zone": {
+    "in_zone": true,
+    "entry_time": 1758853181.8963473
   }
 }
