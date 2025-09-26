@@ -56,9 +56,10 @@
     "candle_count": 3
   },
   "CAKE_squeeze": {
-    "in_zone": false,
-    "entry_time": 0,
-    "reminder_sent": false
+    "in_zone": true,
+    "entry_time": 1758896285.8443742,
+    "reminder_sent": false,
+    "candle_count": 1
   },
   "AVNT_squeeze": {
     "in_zone": false,
