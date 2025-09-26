@@ -100,5 +100,11 @@
     "entry_time": 1758889236.5600033,
     "reminder_sent": false,
     "candle_count": 2
+  },
+  "LDO_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758896285.1821702,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
