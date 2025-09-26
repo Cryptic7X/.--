@@ -68,5 +68,10 @@
     "in_zone": true,
     "entry_time": 1758861046.817512,
     "reminder_sent": false
+  },
+  "ZEC_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758861048.2835379,
+    "reminder_sent": false
   }
 }
