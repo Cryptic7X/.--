@@ -12,8 +12,7 @@
     "in_zone": false
   },
   "ADA_zone": {
-    "in_zone": true,
-    "entry_time": 1758853180.3049395
+    "in_zone": false
   },
   "SUI_zone": {
     "in_zone": false
@@ -28,8 +27,7 @@
     "in_zone": false
   },
   "LTC_zone": {
-    "in_zone": true,
-    "entry_time": 1758853185.7553859
+    "in_zone": false
   },
   "TON_zone": {
     "in_zone": false
@@ -50,5 +48,9 @@
   },
   "LINK_zone": {
     "in_zone": false
+  },
+  "MNT_zone": {
+    "in_zone": true,
+    "entry_time": 1758858095.9957645
   }
 }
