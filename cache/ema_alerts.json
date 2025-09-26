@@ -71,8 +71,7 @@
     "entry_time": 1758860415.9440062
   },
   "W_zone": {
-    "in_zone": true,
-    "entry_time": 1758860800.09056
+    "in_zone": false
   },
   "JST_zone": {
     "in_zone": false
@@ -181,8 +180,7 @@
     "entry_time": 1758860410.6538901
   },
   "KAIA_zone": {
-    "in_zone": true,
-    "entry_time": 1758860412.5168405
+    "in_zone": false
   },
   "AB_zone": {
     "in_zone": true,
@@ -195,5 +193,9 @@
   "DOG_zone": {
     "in_zone": true,
     "entry_time": 1758860422.0143068
+  },
+  "ZORA_zone": {
+    "in_zone": true,
+    "entry_time": 1758861424.051243
   }
 }
