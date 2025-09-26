@@ -158,5 +158,9 @@
   "CKB_crossover": {
     "last_alert_time": 1758860092.5746481,
     "crossover_type": "death_cross"
+  },
+  "ZRX_zone": {
+    "in_zone": true,
+    "entry_time": 1758860092.5979788
   }
 }
