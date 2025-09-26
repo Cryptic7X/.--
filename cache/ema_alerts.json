@@ -187,5 +187,9 @@
   "KAIA_zone": {
     "in_zone": true,
     "entry_time": 1758860412.5168405
+  },
+  "AB_zone": {
+    "in_zone": true,
+    "entry_time": 1758860414.5951488
   }
 }
