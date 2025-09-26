@@ -130,7 +130,7 @@ def main():
     
     if all_coins:
         cipherb_coins, ema_coins = fetcher.filter_coins(all_coins)
-        fetcher.save_datasets(cipherb_coins, sma_coins)
+        fetcher.save_datasets(cipherb_coins, ema_coins)
         print("✅ Data collection complete")
     else:
         print("❌ No coins fetched")
