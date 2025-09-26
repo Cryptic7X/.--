@@ -2,7 +2,7 @@ name: BBW 2H Analysis
 
 on:
   schedule:
-    - cron: '5 */2 * * *'  # Every 2 hours
+    - cron: '2 */2 * * *'  # Every 2 hours
   workflow_dispatch:
 
 jobs:
