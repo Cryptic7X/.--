@@ -48,85 +48,66 @@ class EMATelegramSender:
                 'zone_range': f"[{self.format_price(ema21)} - {self.format_price(ema50)}]"
             }
 
-    def send_ema_alerts(self, signals: List[Dict], timeframe_minutes: int = 240) -> bool:
-        if not self.bot_token or not self.chat_id or not signals:
-            return False
+    def send_ema_alerts(self, signals: List[Dict], timeframe_minutes: int = 30) -> bool:
+    if not self.bot_token or not self.chat_id or not signals:
+        return False
+    
+    try:
+        current_time = datetime.now().strftime('%H:%M:%S IST')
+        total_alerts = len(signals)
+        tf_display = "30M Candles" if timeframe_minutes == 30 else f"{timeframe_minutes}M Candles"
+        
+        message = f"""🟡 **EMA 30M SIGNALS**
 
-        try:
-            current_time = datetime.now().strftime('%H:%M:%S IST')
-            total_alerts = len(signals)
-            tf_display = "4H Candles" if timeframe_minutes == 240 else f"{timeframe_minutes}M Candles"
+📊 **{total_alerts} CROSSOVER SIGNALS DETECTED**
 
-            message = f"""🟡 **EMA 4H SIGNALS**
-📊 **{total_alerts} EMA SIGNALS DETECTED**
 🕐 **{current_time}**
+
 ⏰ **Timeframe: {tf_display}**
 
 """
-
-            crossover_signals = [s for s in signals if s.get('crossover_alert')]
-            zone_signals = [s for s in signals if s.get('zone_alert')]
-
-            if crossover_signals:
-                message += "🔄 **CROSSOVER SIGNALS:**\n"
-                
-                for signal in crossover_signals:
-                    symbol = signal['symbol']
-                    coin_data = signal['coin_data']
-                    crossover_type = signal['crossover_type']
-                    
-                    price = self.format_price(coin_data['current_price'])
-                    change_24h = coin_data.get('price_change_percentage_24h', 0)
-                    market_cap = self.format_large_number(coin_data.get('market_cap', 0))
-                    volume = self.format_large_number(coin_data.get('total_volume', 0))
-                    
-                    signal_emoji = "🟡" if crossover_type == 'golden_cross' else "🔴"
-                    signal_name = "GOLDEN CROSS" if crossover_type == 'golden_cross' else "DEATH CROSS"
-                    
-                    tv_link, cg_link = self.create_chart_links(symbol, timeframe_minutes)
-                    
-                    message += f"""{signal_emoji} **{signal_name}: {symbol}**
-💰 {price} ({change_24h:+.1f}% 24h)
-Cap: {market_cap} | Vol: {volume}
-📊 21 EMA: {self.format_price(signal['ema21'])}
-📊 50 EMA: {self.format_price(signal['ema50'])}
-📈 [Chart →]({tv_link}) | 🔥 [Liq Heat →]({cg_link})
-
-"""
-
-            if zone_signals:
-                message += "🎯 **ZONE TOUCH SIGNALS:**\n"
-                
-                for signal in zone_signals:
-                    symbol = signal['symbol']
-                    coin_data = signal['coin_data']
-                    
-                    price = self.format_price(coin_data['current_price'])
-                    change_24h = coin_data.get('price_change_percentage_24h', 0)
-                    
-                    zone_info = self.determine_zone_info(signal['ema21'], signal['ema50'])
-                    signal_emoji = "🟢" if zone_info['zone_type'] == 'Support Zone' else "🔴"
-                    
-                    tv_link, cg_link = self.create_chart_links(symbol, timeframe_minutes)
-                    
-                    message += f"""{signal_emoji} **{zone_info['zone_type'].upper()}: {symbol}**
-💰 {price} ({change_24h:+.1f}% 24h)
-📊 {zone_info['setup_type']}: {zone_info['zone_range']}
-🎯 Price in {zone_info['zone_type']}
-📈 [Chart →]({tv_link}) | 🔥 [Liq Heat →]({cg_link})
-
-"""
-
-            golden_count = len([s for s in crossover_signals if s.get('crossover_type') == 'golden_cross'])
-            death_count = len([s for s in crossover_signals if s.get('crossover_type') == 'death_cross'])
-            support_count = len([s for s in zone_signals if self.determine_zone_info(s['ema21'], s['ema50'])['zone_type'] == 'Support Zone'])
-            resistance_count = len([s for s in zone_signals if self.determine_zone_info(s['ema21'], s['ema50'])['zone_type'] == 'Resistance Zone'])
+        
+        # ONLY CROSSOVER SIGNALS (zone logic completely removed)
+        message += "🔄 **CROSSOVER SIGNALS:**\n"
+        
+        for signal in signals:
+            symbol = signal['symbol']
+            coin_data = signal['coin_data']
+            crossover_type = signal['crossover_type']
+            price = self.format_price(coin_data['current_price'])
+            change_24h = coin_data.get('price_change_percentage_24h', 0)
+            market_cap = self.format_large_number(coin_data.get('market_cap', 0))
+            volume = self.format_large_number(coin_data.get('total_volume', 0))
             
-            message += f"""📊 **EMA SUMMARY**
-• Total Crossovers: {len(crossover_signals)} (🟡 {golden_count} Golden, 🔴 {death_count} Death)
-• Coins in Support Zone: {support_count}
-• Coins in Resistance Zone: {resistance_count}
-🎯 Manual direction analysis required"""
+            signal_emoji = "🟡" if crossover_type == 'golden_cross' else "🔴"
+            signal_name = "GOLDEN CROSS" if crossover_type == 'golden_cross' else "DEATH CROSS"
+            
+            tv_link, cg_link = self.create_chart_links(symbol, timeframe_minutes)
+            
+            message += f"""{signal_emoji} **{signal_name}: {symbol}**
+
+💰 {price} ({change_24h:+.1f}% 24h)
+
+Cap: {market_cap} | Vol: {volume}
+
+📊 21 EMA: {self.format_price(signal['ema21'])}
+
+📊 50 EMA: {self.format_price(signal['ema50'])}
+
+📈 [Chart →]({tv_link}) | 🔥 [Liq Heat →]({cg_link})
+
+"""
+        
+        golden_count = len([s for s in signals if s.get('crossover_type') == 'golden_cross'])
+        death_count = len([s for s in signals if s.get('crossover_type') == 'death_cross'])
+        
+        message += f"""📊 **EMA SUMMARY**
+
+• Total Crossovers: {len(signals)} (🟡 {golden_count} Golden, 🔴 {death_count} Death)
+
+🎯 Small-cap focus: $10M-$500M market cap
+
+⚡ 30-minute timeframe for responsive signals"""
 
             url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
             payload = {
