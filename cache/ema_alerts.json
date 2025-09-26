@@ -55,7 +55,8 @@
     "entry_time": 1758857312.4943101
   },
   "DOGE_zone": {
-    "in_zone": false
+    "in_zone": true,
+    "entry_time": 1758857313.2841237
   },
   "LINK_zone": {
     "in_zone": false
