@@ -137,5 +137,11 @@
     "entry_time": 1758911222.748905,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "BCH_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758918045.5432105,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
