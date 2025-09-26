@@ -131,5 +131,11 @@
     "entry_time": 1758911218.8350606,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "OP_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758911222.748905,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
