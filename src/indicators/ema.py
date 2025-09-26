@@ -1,6 +1,6 @@
 """
 EMA Indicator - 21/50 EMA Crossovers + Zone Touch
-4H Timeframe with Git-Persistent Cache
+Updated with better debugging for 15M testing
 """
 import json
 import os
@@ -20,8 +20,8 @@ class EMAIndicator:
         self._cache_lock = threading.Lock()
         self._cache = None
         
-        # Cooldown periods
-        self.crossover_cooldown_hours = 48  # 2 days
+        # Cooldown periods (can be overridden for testing)
+        self.crossover_cooldown_hours = 48  # Default 2 days
 
     def calculate_ema(self, data: List[float], period: int) -> List[float]:
         """Calculate EMA exactly like TradingView"""
@@ -54,13 +54,11 @@ class EMAIndicator:
                                   capture_output=True, text=True, check=False)
             
             if result.returncode == 0:
-                print(f"✅ EMA CACHE COMMITTED TO GIT")
+                print(f"✅ EMA CACHE COMMITTED")
                 subprocess.run(['git', 'push'], capture_output=True, text=True, check=False)
-            else:
-                print(f"📝 No EMA cache changes")
                 
         except Exception as e:
-            print(f"❌ EMA git commit error: {e}")
+            print(f"❌ EMA git error: {e}")
 
     def load_cache(self) -> Dict:
         """Load git-persistent cache"""
@@ -103,25 +101,32 @@ class EMAIndicator:
                 print(f"❌ EMA cache save error: {e}")
 
     def detect_crossover(self, ema21: List[float], ema50: List[float]) -> str:
-        """Detect crossover type"""
+        """Detect crossover type with debugging"""
         if len(ema21) < 2 or len(ema50) < 2:
             return None
         
         prev_21, curr_21 = ema21[-2], ema21[-1]
         prev_50, curr_50 = ema50[-2], ema50[-1]
         
+        print(f"   🔍 Crossover Check:")
+        print(f"      Previous: 21 EMA={prev_21:.2f}, 50 EMA={prev_50:.2f}")
+        print(f"      Current:  21 EMA={curr_21:.2f}, 50 EMA={curr_50:.2f}")
+        
         # Golden Cross: 21 EMA crosses above 50 EMA
         if prev_21 <= prev_50 and curr_21 > curr_50:
+            print(f"      🟡 GOLDEN CROSS detected!")
             return 'golden_cross'
         
         # Death Cross: 21 EMA crosses below 50 EMA
         if prev_21 >= prev_50 and curr_21 < curr_50:
+            print(f"      🔴 DEATH CROSS detected!")
             return 'death_cross'
         
+        print(f"      ➡️ No crossover")
         return None
 
     def check_zone_touch(self, closes: List[float], ema21: List[float], ema50: List[float]) -> bool:
-        """Check if price touches 21 EMA (zone entry)"""
+        """Check if price touches 21 EMA (zone entry) with debugging"""
         if len(closes) < 2 or len(ema21) < 2:
             return False
         
@@ -130,10 +135,18 @@ class EMAIndicator:
         
         # Price touches 21 EMA (within 0.5% tolerance)
         distance_percent = abs(current_price - current_ema21) / current_ema21 * 100
-        return distance_percent <= 0.5
+        is_touching = distance_percent <= 0.5
+        
+        print(f"   🎯 Zone Touch Check:")
+        print(f"      Price: ${current_price:.2f}")
+        print(f"      21 EMA: ${current_ema21:.2f}")
+        print(f"      Distance: {distance_percent:.2f}%")
+        print(f"      Touching: {is_touching}")
+        
+        return is_touching
 
     def check_crossover_alert(self, symbol: str, crossover_type: str) -> Dict:
-        """Check crossover with 2-day cooldown"""
+        """Check crossover with cooldown and debugging"""
         current_time = time.time()
         cache = self.load_cache()
         crossover_key = f"{symbol}_crossover"
@@ -144,6 +157,7 @@ class EMAIndicator:
         }
         
         if not crossover_type:
+            print(f"   ✅ No crossover for {symbol}")
             return result
         
         # Check cooldown
@@ -151,9 +165,14 @@ class EMAIndicator:
             last_crossover_time = cache[crossover_key].get('last_alert_time', 0)
             hours_since_last = (current_time - last_crossover_time) / 3600
             
+            print(f"   🕒 Last crossover: {hours_since_last:.1f} hours ago")
+            print(f"   🕒 Cooldown period: {self.crossover_cooldown_hours} hours")
+            
             if hours_since_last < self.crossover_cooldown_hours:
-                print(f"🕒 CROSSOVER COOLDOWN: {symbol} - {hours_since_last:.1f}h ago")
+                print(f"   ⛔ COOLDOWN ACTIVE - No alert")
                 return result
+        else:
+            print(f"   🆕 First crossover for {symbol}")
         
         # Send crossover alert
         result['send_alert'] = True
@@ -164,12 +183,12 @@ class EMAIndicator:
             'crossover_type': crossover_type
         }
         
-        print(f"📈 CROSSOVER ALERT: {symbol} - {crossover_type.upper()}")
+        print(f"   📈 CROSSOVER ALERT APPROVED: {crossover_type.upper()}")
         self.save_cache(cache)
         return result
 
     def check_zone_touch_alert(self, symbol: str, is_zone_touch: bool) -> Dict:
-        """Check zone touch with deduplication (like BBW)"""
+        """Check zone touch with deduplication and debugging"""
         current_time = time.time()
         cache = self.load_cache()
         zone_key = f"{symbol}_zone"
@@ -182,16 +201,27 @@ class EMAIndicator:
         if not is_zone_touch:
             # Not in zone - reset cache
             if zone_key in cache:
-                cache[zone_key] = {'in_zone': False}
-                self.save_cache(cache)
+                was_in_zone = cache[zone_key].get('in_zone', False)
+                if was_in_zone:
+                    print(f"   🚪 {symbol} exited zone - reset for new alerts")
+                    cache[zone_key] = {'in_zone': False}
+                    self.save_cache(cache)
+                else:
+                    print(f"   🌐 {symbol} still outside zone")
+            else:
+                print(f"   🌐 {symbol} outside zone (no cache)")
             return result
         
         # Check if already alerted for this zone entry
         if zone_key in cache:
             was_in_zone = cache[zone_key].get('in_zone', False)
             if was_in_zone:
-                print(f"📍 STAY IN ZONE: {symbol} - NO ALERT")
+                print(f"   📍 {symbol} already in zone - NO ALERT")
                 return result
+            else:
+                print(f"   🎯 {symbol} re-entering zone")
+        else:
+            print(f"   🎯 {symbol} first zone entry")
         
         # First zone touch - send alert
         result['send_alert'] = True
@@ -202,16 +232,17 @@ class EMAIndicator:
             'entry_time': current_time
         }
         
-        print(f"🎯 ZONE TOUCH: {symbol} - 21 EMA Touch")
+        print(f"   🎯 ZONE TOUCH ALERT APPROVED")
         self.save_cache(cache)
         return result
 
     def analyze(self, ohlcv_data: Dict, symbol: str) -> Dict:
-        """Main EMA analysis - Crossover first, then Zone"""
+        """Main EMA analysis with debugging"""
         try:
             closes = ohlcv_data['close']
             
             if len(closes) < max(self.ema_short, self.ema_long) + 2:
+                print(f"   ❌ Insufficient data for {symbol}: {len(closes)} candles")
                 return {'crossover_alert': False, 'zone_alert': False}
             
             # Calculate EMAs
