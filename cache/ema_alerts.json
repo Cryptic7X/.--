@@ -150,5 +150,9 @@
   "QTUM_zone": {
     "in_zone": true,
     "entry_time": 1758860091.6308312
+  },
+  "ZIL_zone": {
+    "in_zone": true,
+    "entry_time": 1758860092.1093721
   }
 }
