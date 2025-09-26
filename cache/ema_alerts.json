@@ -34,5 +34,9 @@
   "HBAR_zone": {
     "in_zone": true,
     "entry_time": 1758853184.1623816
+  },
+  "LTC_zone": {
+    "in_zone": true,
+    "entry_time": 1758853185.7553859
   }
 }
