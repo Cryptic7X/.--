@@ -123,8 +123,7 @@
     "crossover_type": "death_cross"
   },
   "INJ_zone": {
-    "in_zone": true,
-    "entry_time": 1758860084.976681
+    "in_zone": false
   },
   "S_zone": {
     "in_zone": true,
