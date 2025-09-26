@@ -9,7 +9,7 @@ bbw_config:
     min_market_cap: 100000000    # $100M
     min_volume_24h: 50000000     # $50M
 
-sma_config:
+ema_config:
   filters:
     min_market_cap: 10000000     # $10M
     min_volume_24h: 10000000     # $10M
