@@ -46,5 +46,9 @@
   "SHIB_zone": {
     "in_zone": true,
     "entry_time": 1758853187.2356582
+  },
+  "DOT_zone": {
+    "in_zone": true,
+    "entry_time": 1758853188.29541
   }
 }
