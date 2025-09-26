@@ -116,8 +116,7 @@
     "crossover_type": "death_cross"
   },
   "POL_zone": {
-    "in_zone": true,
-    "entry_time": 1758860082.4189026
+    "in_zone": false
   },
   "QNT_crossover": {
     "last_alert_time": 1758860084.4213386,
