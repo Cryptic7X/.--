@@ -90,7 +90,8 @@
     "in_zone": false
   },
   "MASK_zone": {
-    "in_zone": false
+    "in_zone": true,
+    "entry_time": 1758860424.3380651
   },
   "BNB_crossover": {
     "last_alert_time": 1758859734.6409943,
