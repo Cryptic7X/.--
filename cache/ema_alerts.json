@@ -78,5 +78,9 @@
   "JST_zone": {
     "in_zone": true,
     "entry_time": 1758858103.107809
+  },
+  "DRIFT_crossover": {
+    "last_alert_time": 1758858103.8969326,
+    "crossover_type": "death_cross"
   }
 }
