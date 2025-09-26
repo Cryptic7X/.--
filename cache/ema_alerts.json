@@ -74,5 +74,9 @@
   "W_zone": {
     "in_zone": true,
     "entry_time": 1758858102.1819723
+  },
+  "JST_zone": {
+    "in_zone": true,
+    "entry_time": 1758858103.107809
   }
 }
