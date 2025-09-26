@@ -162,5 +162,9 @@
   "ZRX_zone": {
     "in_zone": true,
     "entry_time": 1758860092.5979788
+  },
+  "ORDI_crossover": {
+    "last_alert_time": 1758860093.9997694,
+    "crossover_type": "death_cross"
   }
 }
