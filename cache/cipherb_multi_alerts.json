@@ -38,5 +38,13 @@
     "monitoring_direction": null,
     "last_2h_time": 1758878524.2672057,
     "last_8h_time": 0
+  },
+  "IP": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1758881717.6362689,
+    "last_8h_time": 0
   }
 }
