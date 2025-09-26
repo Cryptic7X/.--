@@ -177,5 +177,9 @@
   "VANA_zone": {
     "in_zone": true,
     "entry_time": 1758860096.9456503
+  },
+  "LRC_zone": {
+    "in_zone": true,
+    "entry_time": 1758860097.4428923
   }
 }
