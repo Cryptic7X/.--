@@ -1,20 +1,19 @@
 """
-EMA Telegram Alert System - DEBUG VERSION
-Simple and bulletproof with error catching
+BBW Telegram Alert System - Your Exact Format
 """
 import os
 import requests
 from datetime import datetime
 from typing import List, Dict
 
-class EMATelegramSender:
+class BBWTelegramSender:
     def __init__(self, config: Dict):
         self.config = config
         self.bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
-        self.chat_id = os.getenv('SMA_TELEGRAM_CHAT_ID')
+        self.chat_id = os.getenv('BBW_TELEGRAM_CHAT_ID')
 
     def format_price(self, price: float) -> str:
-        """Format price safely"""
+        """Format price display"""
         try:
             if price < 0.001:
                 return f"${price:.8f}"
@@ -25,145 +24,94 @@ class EMATelegramSender:
         except:
             return "$0.00"
 
-    def determine_zone_info(self, ema21: float, ema50: float, current_price: float) -> Dict:
-        """Simple zone logic"""
-        try:
-            if ema21 > ema50:
-                # Bullish setup
-                setup_type = "Bullish Setup"
-                zone_type = "Support Zone"
-                zone_range = f"[${ema50:.2f} - ${ema21:.2f}]"
-            else:
-                # Bearish setup  
-                setup_type = "Bearish Setup"
-                zone_type = "Resistance Zone" 
-                zone_range = f"[${ema21:.2f} - ${ema50:.2f}]"
+    def create_chart_links(self, symbol: str) -> tuple:
+        """Create chart links"""
+        clean_symbol = symbol.replace('USDT', '').replace('USD', '')
+        tv_link = f"https://www.tradingview.com/chart/?symbol={clean_symbol}USDT&interval=120"
+        cg_link = f"https://www.coinglass.com/pro/futures/LiquidationHeatMapNew?coin={clean_symbol}"
+        return tv_link, cg_link
 
-            return {
-                'setup_type': setup_type,
-                'zone_type': zone_type,
-                'zone_range': zone_range
-            }
-        except Exception as e:
-            print(f"❌ Zone calculation error: {e}")
-            return {
-                'setup_type': "Unknown Setup",
-                'zone_type': "Unknown Zone",
-                'zone_range': "[Error]"
-            }
-
-    def send_ema_alerts(self, signals: List[Dict], timeframe_minutes: int = 15) -> bool:
-        """Send EMA alerts with full error handling"""
-        print(f"🔍 DEBUG: Starting telegram send...")
-        print(f"   Bot token: {'✅ Set' if self.bot_token else '❌ Missing'}")
-        print(f"   Chat ID: {'✅ Set' if self.chat_id else '❌ Missing'}")
-        print(f"   Signals: {len(signals)} total")
-        
-        if not self.bot_token:
-            print("❌ TELEGRAM_BOT_TOKEN environment variable is missing!")
-            return False
-            
-        if not self.chat_id:
-            print("❌ SMA_TELEGRAM_CHAT_ID environment variable is missing!")
-            return False
-            
-        if not signals:
-            print("❌ No signals to send")
+    def send_bbw_alerts(self, signals: List[Dict]) -> bool:
+        """Send BBW alerts in YOUR EXACT FORMAT"""
+        if not self.bot_token or not self.chat_id or not signals:
             return False
 
         try:
+            # Separate signal types
+            first_entry_signals = [s for s in signals if s.get('alert_type') == 'FIRST ENTRY']
+            reminder_signals = [s for s in signals if s.get('alert_type') == 'EXTENDED SQUEEZE']
+            
             current_time = datetime.now().strftime('%H:%M:%S IST')
             
-            # Simple message format
-            message = f"""🟡 **EMA 15M TEST SIGNALS**
-🕐 **{current_time}**
-📊 **{len(signals)} SIGNALS DETECTED**
-
-"""
-
-            # Add signals one by one with error handling
-            for i, signal in enumerate(signals):
-                try:
-                    symbol = signal.get('symbol', 'UNKNOWN')
-                    coin_data = signal.get('coin_data', {})
-                    
-                    price = self.format_price(coin_data.get('current_price', 0))
-                    change_24h = coin_data.get('price_change_percentage_24h', 0)
-                    
-                    # Determine alert type
-                    if signal.get('crossover_alert'):
-                        crossover_type = signal.get('crossover_type', 'unknown')
-                        signal_emoji = "🟡" if crossover_type == 'golden_cross' else "🔴"
-                        signal_name = "GOLDEN CROSS" if crossover_type == 'golden_cross' else "DEATH CROSS"
-                        
-                        message += f"""{signal_emoji} **{signal_name}: {symbol}**
-💰 {price} ({change_24h:+.1f}% 24h)
-
-"""
-                    
-                    elif signal.get('zone_alert'):
-                        ema21 = signal.get('ema21', 0)
-                        ema50 = signal.get('ema50', 0)
-                        current_price = coin_data.get('current_price', 0)
-                        
-                        zone_info = self.determine_zone_info(ema21, ema50, current_price)
-                        signal_emoji = "🟢" if 'Support' in zone_info['zone_type'] else "🔴"
-                        
-                        message += f"""{signal_emoji} **{zone_info['zone_type'].upper()}: {symbol}**
-💰 {price} ({change_24h:+.1f}% 24h)
-📊 {zone_info['setup_type']}: {zone_info['zone_range']}
-
-"""
-                        
-                    print(f"   ✅ Added signal {i+1}: {symbol}")
-                    
-                except Exception as e:
-                    print(f"   ❌ Error processing signal {i+1}: {e}")
-                    continue
-
-            # Add simple summary
-            crossover_count = len([s for s in signals if s.get('crossover_alert')])
-            zone_count = len([s for s in signals if s.get('zone_alert')])
+            message = ""
             
-            message += f"""📊 **SUMMARY**
-• Crossovers: {crossover_count}
-• Zone Touches: {zone_count}
-🔧 Testing Mode"""
+            # First entry alerts in YOUR EXACT FORMAT
+            if first_entry_signals:
+                message = f"""📊 BBW 2H SQUEEZE SIGNALS DETECTED
+🕐 {current_time}
+⏰ Timeframe: 2H Candles
 
-            print(f"🔍 DEBUG: Message length: {len(message)} characters")
-            print(f"🔍 DEBUG: Message preview: {message[:100]}...")
+"""
+                
+                for i, signal in enumerate(first_entry_signals, 1):
+                    symbol = signal['symbol']
+                    coin_data = signal['coin_data']
+                    price = self.format_price(coin_data['current_price'])
+                    change_24h = coin_data['price_change_percentage_24h']
+                    
+                    bbw_value = signal['bbw_value']
+                    contraction_line = signal['lowest_contraction']
+                    range_top = signal['range_top']
+
+                    tv_link, cg_link = self.create_chart_links(symbol)
+
+                    # YOUR EXACT CONCISE FORMAT
+                    message += f"""{i}. {symbol} | {price} | ({change_24h:+.1f}% 24h)
+    📊 BBW: {bbw_value:.2f}
+    📉 Squeeze Range: {contraction_line:.2f} - {range_top:.2f}
+    🎯 Status: FIRST ENTRY 
+    📈 [Chart →]({tv_link}) | 🔥    [Liq Heat →]({cg_link})
+
+"""
+
+                # Summary in YOUR FORMAT
+                message += f"""📊 BBW SQUEEZE SUMMARY
+• Total Squeezes: {len(first_entry_signals)}
+• Squeeze Logic: BBW enters 100% above contraction
+
+"""
+
+            # Extended squeeze reminders
+            if reminder_signals:
+                if not first_entry_signals:
+                    message = f"🔔 BBW EXTENDED SQUEEZE REMINDERS - {current_time}\n\n"
+                else:
+                    message += "🔔 EXTENDED SQUEEZE REMINDERS\n\n"
+                
+                for signal in reminder_signals:
+                    symbol = signal['symbol']
+                    message += f"• {symbol} is still in a long squeeze (20+ hours)\n"
+                
+                message += "\n"
 
             # Send to Telegram
             url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
-            
             payload = {
                 'chat_id': self.chat_id,
-                'text': message,
-                'parse_mode': 'Markdown'
+                'text': message.strip(),
+                'parse_mode': 'Markdown',
+                'disable_web_page_preview': False
             }
-            
-            print(f"🔍 DEBUG: Sending to {url}")
-            print(f"🔍 DEBUG: Chat ID: {self.chat_id}")
-            
+
             response = requests.post(url, json=payload, timeout=30)
             
-            print(f"🔍 DEBUG: Response status: {response.status_code}")
-            print(f"🔍 DEBUG: Response text: {response.text[:200]}...")
-            
             if response.status_code == 200:
-                response_data = response.json()
-                if response_data.get('ok'):
-                    print(f"✅ Telegram message sent successfully!")
-                    return True
-                else:
-                    print(f"❌ Telegram API error: {response_data}")
-                    return False
+                print(f"📱 BBW alert sent successfully!")
+                return True
             else:
-                print(f"❌ HTTP error {response.status_code}: {response.text}")
+                print(f"❌ Telegram error {response.status_code}: {response.text}")
                 return False
 
         except Exception as e:
-            print(f"❌ EMA telegram error: {e}")
-            import traceback
-            traceback.print_exc()
+            print(f"❌ BBW telegram error: {e}")
             return False
