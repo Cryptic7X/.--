@@ -84,8 +84,7 @@
     "in_zone": false
   },
   "DORA_zone": {
-    "in_zone": true,
-    "entry_time": 1758858105.611798
+    "in_zone": false
   },
   "MERL_zone": {
     "in_zone": false
