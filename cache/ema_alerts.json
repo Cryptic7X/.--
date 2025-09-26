@@ -26,5 +26,9 @@
   "XLM_zone": {
     "in_zone": true,
     "entry_time": 1758853182.6116722
+  },
+  "BCH_zone": {
+    "in_zone": true,
+    "entry_time": 1758853183.3768451
   }
 }
