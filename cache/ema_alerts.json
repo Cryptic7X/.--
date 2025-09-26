@@ -72,8 +72,7 @@
     "entry_time": 1758858101.6897836
   },
   "W_zone": {
-    "in_zone": true,
-    "entry_time": 1758858102.1819723
+    "in_zone": false
   },
   "JST_zone": {
     "in_zone": true,
