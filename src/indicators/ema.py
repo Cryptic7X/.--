@@ -1,11 +1,10 @@
 """
-EMA Indicator - ULTRA SIMPLE ZONE BLOCKING
-Uses YOUR EXACT BBW cache logic only
+EMA Indicator - BULLETPROOF VERSION
+No git dependency, simple file-based cache
 """
 import json
 import os
 import time
-import subprocess
 from typing import Dict, List
 
 class EMAIndicator:
@@ -40,18 +39,14 @@ class EMAIndicator:
             pass
         return {}
 
-    def save_ema_cache(self, cache_data: Dict) -> bool:
+    def save_ema_cache(self, cache_data: Dict):
+        """Save cache - NO GIT REQUIRED"""
         try:
             os.makedirs(os.path.dirname(self.cache_file), exist_ok=True)
             with open(self.cache_file, 'w') as f:
                 json.dump(cache_data, f, indent=2)
-            
-            subprocess.run(['git', 'add', self.cache_file], check=False)
-            subprocess.run(['git', 'commit', '-m', 'Update EMA cache'], check=False)
-            subprocess.run(['git', 'push'], check=False)
-            return True
-        except:
-            return False
+        except Exception as e:
+            print(f"❌ Cache save error: {e}")
 
     def detect_crossover(self, ema21: List[float], ema50: List[float]) -> str:
         if len(ema21) < 2 or len(ema50) < 2:
@@ -67,8 +62,8 @@ class EMAIndicator:
         return None
 
     def is_touching_zone(self, current_price: float, ema21_value: float) -> bool:
-        """Simple zone touch check"""
-        return abs(current_price - ema21_value) / ema21_value <= 0.005  # 0.5% tolerance
+        """Zone touch check - 0.5% tolerance"""
+        return abs(current_price - ema21_value) / ema21_value <= 0.005
 
     def analyze(self, ohlcv_data: Dict, symbol: str) -> Dict:
         try:
@@ -81,6 +76,7 @@ class EMAIndicator:
             
             current_time = time.time()
             cache = self.load_ema_cache()
+            cache_updated = False
             
             # 1. CROSSOVER CHECK
             crossover_type = self.detect_crossover(ema21, ema50)
@@ -94,38 +90,51 @@ class EMAIndicator:
                     if hours_since >= self.crossover_cooldown_hours:
                         crossover_alert = True
                         cache[crossover_key] = {'last_alert_time': current_time}
-                        self.save_ema_cache(cache)
+                        cache_updated = True
                 else:
                     crossover_alert = True
                     cache[crossover_key] = {'last_alert_time': current_time}
-                    self.save_ema_cache(cache)
+                    cache_updated = True
             
-            # 2. ZONE TOUCH CHECK - SIMPLE
+            # 2. ZONE TOUCH CHECK - VERY SIMPLE
             current_price = closes[-1]
             ema21_value = ema21[-1]
             is_touching = self.is_touching_zone(current_price, ema21_value)
             zone_alert = False
             
+            zone_key = f"{symbol}_zone"
+            
             if is_touching:
-                zone_key = f"{symbol}_zone"
                 if zone_key not in cache:
-                    # First time - send alert
+                    # First touch - alert
                     zone_alert = True
                     cache[zone_key] = {
                         'last_alert_time': current_time,
-                        'last_price': current_price
+                        'last_price': current_price,
+                        'blocked': True
                     }
-                    self.save_ema_cache(cache)
+                    cache_updated = True
                 else:
-                    # Check if moved away enough
-                    last_price = cache[zone_key].get('last_price', 0)
-                    if abs(current_price - last_price) / last_price >= 0.05:  # 5% move
-                        zone_alert = True
-                        cache[zone_key] = {
-                            'last_alert_time': current_time,
-                            'last_price': current_price
-                        }
-                        self.save_ema_cache(cache)
+                    # Already touched - check if should unblock
+                    last_price = cache[zone_key].get('last_price', current_price)
+                    blocked = cache[zone_key].get('blocked', False)
+                    
+                    if blocked:
+                        # Check if moved away 3% to unblock
+                        if abs(current_price - last_price) / last_price >= 0.03:
+                            # Moved away enough - unblock for next touch
+                            cache[zone_key]['blocked'] = False
+                            cache[zone_key]['last_price'] = current_price
+                            cache_updated = True
+            else:
+                # Not touching - unblock for future touches
+                if zone_key in cache and cache[zone_key].get('blocked', False):
+                    cache[zone_key]['blocked'] = False
+                    cache_updated = True
+            
+            # Save cache if updated
+            if cache_updated:
+                self.save_ema_cache(cache)
             
             return {
                 'crossover_alert': crossover_alert,
@@ -138,4 +147,5 @@ class EMAIndicator:
             }
             
         except Exception as e:
+            print(f"❌ EMA analysis error for {symbol}: {e}")
             return {'crossover_alert': False, 'zone_alert': False}
