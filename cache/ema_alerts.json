@@ -154,5 +154,9 @@
   "ZIL_zone": {
     "in_zone": true,
     "entry_time": 1758860092.1093721
+  },
+  "CKB_crossover": {
+    "last_alert_time": 1758860092.5746481,
+    "crossover_type": "death_cross"
   }
 }
