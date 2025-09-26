@@ -127,5 +127,9 @@
   "INJ_zone": {
     "in_zone": true,
     "entry_time": 1758860084.976681
+  },
+  "S_zone": {
+    "in_zone": true,
+    "entry_time": 1758860085.9753304
   }
 }
