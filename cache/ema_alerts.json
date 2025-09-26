@@ -181,5 +181,9 @@
   "LRC_zone": {
     "in_zone": true,
     "entry_time": 1758860097.4428923
+  },
+  "KAS_zone": {
+    "in_zone": true,
+    "entry_time": 1758860410.6538901
   }
 }
