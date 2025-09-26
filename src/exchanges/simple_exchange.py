@@ -1,6 +1,6 @@
 """
 Simple Exchange Layer - BingX + Public API Fallbacks
-UPDATED VERSION - Added 15M and 4H timeframe support for EMA testing
+UPDATED VERSION - Added 15m, 4h, 8h timeframes. Removed 30m.
 """
 import os
 import json
@@ -45,19 +45,19 @@ class SimpleExchangeManager:
         return api_symbol, display_symbol
 
     def fetch_bingx_data(self, symbol: str, timeframe: str, limit: int = 200) -> Optional[Dict]:
-        """Fetch data from BingX (authenticated) - UPDATED with 15M + 4H"""
+        """Fetch data from BingX (authenticated) - UPDATED TIMEFRAMES"""
         api_key = os.getenv('BINGX_API_KEY')
         if not api_key:
             return None
 
         url = "https://open-api.bingx.com/openApi/swap/v2/quote/klines"
         
-        # UPDATED BingX interval mapping
+        # BingX interval mapping - UPDATED
         interval_map = {
-            '15m': '15m',    # Added for EMA testing
-            '30m': '30m',
+            '15m': '15m',
             '2h': '2h',
-            '4h': '4h'       # Added for EMA production
+            '4h': '4h',
+            '8h': '8h'
         }
 
         headers = {
@@ -79,33 +79,33 @@ class SimpleExchangeManager:
             if data.get('code') == 0 and data.get('data'):
                 return self.normalize_ohlcv_data(data['data'], 'bingx')
             return None
-
+            
         except Exception as e:
             print(f"⚠️ BingX failed for {symbol}: {str(e)[:50]}")
             return None
 
     def fetch_kucoin_data(self, symbol: str, timeframe: str, limit: int = 200) -> Optional[Dict]:
-        """Fetch data from KuCoin (public API) - UPDATED with 15M + 4H"""
+        """Fetch data from KuCoin (public API) - UPDATED TIMEFRAMES"""
         url = "https://api.kucoin.com/api/v1/market/candles"
         
-        # UPDATED KuCoin interval mapping
+        # KuCoin interval mapping - UPDATED
         interval_map = {
-            '15m': '15min',   # Added for EMA testing
-            '30m': '30min',
+            '15m': '15min',
             '2h': '2hour',
-            '4h': '4hour'     # Added for EMA production
+            '4h': '4hour',
+            '8h': '8hour'
         }
 
-        # Calculate time range based on timeframe
+        # Calculate time range - UPDATED
         end_time = int(time.time())
         timeframe_minutes = {
             '15m': 15,
-            '30m': 30,
             '2h': 120,
-            '4h': 240
+            '4h': 240,
+            '8h': 480
         }
         
-        minutes = timeframe_minutes.get(timeframe, 30)
+        minutes = timeframe_minutes.get(timeframe, 120)
         start_time = end_time - (limit * minutes * 60)
 
         params = {
@@ -123,21 +123,21 @@ class SimpleExchangeManager:
             if data.get('code') == '200000' and data.get('data'):
                 return self.normalize_ohlcv_data(data['data'], 'kucoin')
             return None
-
+            
         except Exception as e:
             print(f"⚠️ KuCoin failed for {symbol}: {str(e)[:50]}")
             return None
 
     def fetch_okx_data(self, symbol: str, timeframe: str, limit: int = 200) -> Optional[Dict]:
-        """Fetch data from OKX (public API) - UPDATED with 15M + 4H"""
+        """Fetch data from OKX (public API) - UPDATED TIMEFRAMES"""
         url = "https://www.okx.com/api/v5/market/candles"
         
-        # UPDATED OKX interval mapping
+        # OKX interval mapping - UPDATED
         interval_map = {
-            '15m': '15m',     # Added for EMA testing
-            '30m': '30m',
+            '15m': '15m',
             '2h': '2H',
-            '4h': '4H'        # Added for EMA production
+            '4h': '4H',
+            '8h': '8H'
         }
 
         params = {
@@ -154,13 +154,13 @@ class SimpleExchangeManager:
             if data.get('code') == '0' and data.get('data'):
                 return self.normalize_ohlcv_data(data['data'], 'okx')
             return None
-
+            
         except Exception as e:
             print(f"⚠️ OKX failed for {symbol}: {str(e)[:50]}")
             return None
 
     def normalize_ohlcv_data(self, raw_data: list, exchange: str) -> Optional[Dict]:
-        """FINAL FIXED VERSION - Handles all exchange formats correctly"""
+        """FIXED VERSION - Handles all exchange formats correctly"""
         if not raw_data or len(raw_data) == 0:
             return None
 
@@ -180,7 +180,7 @@ class SimpleExchangeManager:
 
                 try:
                     if exchange == 'bingx':
-                        # FIXED: BingX format is DICTIONARY, not list!
+                        # BingX format is DICTIONARY
                         if isinstance(candle, dict):
                             # BingX dictionary format
                             timestamp = int(float(candle.get('time', 0)))
@@ -189,7 +189,7 @@ class SimpleExchangeManager:
                             low_price = float(candle.get('low', 0))
                             close_price = float(candle.get('close', 0))
                             volume = float(candle.get('volume', 0))
-                        
+                            
                         elif isinstance(candle, (list, tuple)) and len(candle) >= 6:
                             # BingX list format (fallback)
                             timestamp = int(float(candle[0]))
@@ -205,7 +205,6 @@ class SimpleExchangeManager:
                         # KuCoin format: [timestamp, open, close, high, low, volume, turnover]
                         if not isinstance(candle, (list, tuple)) or len(candle) < 6:
                             continue
-                        
                         timestamp = int(float(candle[0]))
                         open_price = float(candle[1])
                         high_price = float(candle[3])
@@ -217,14 +216,13 @@ class SimpleExchangeManager:
                         # OKX format: [timestamp, open, high, low, close, volume, volumeCcy]
                         if not isinstance(candle, (list, tuple)) or len(candle) < 6:
                             continue
-                        
                         timestamp = int(float(candle[0]))
                         open_price = float(candle[1])
                         high_price = float(candle[2])
                         low_price = float(candle[3])
                         close_price = float(candle[4])
                         volume = float(candle[5])
-                    
+
                     else:
                         continue
 
@@ -249,16 +247,20 @@ class SimpleExchangeManager:
             print(f"⚠️ Data normalization failed for {exchange}: {str(e)}")
             return None
 
+    def get_supported_timeframes(self) -> list:
+        """Return list of supported timeframes"""
+        return ['15m', '2h', '4h', '8h']
+
     def fetch_ohlcv_with_fallback(self, symbol: str, timeframe: str, limit: int = 200) -> Tuple[Optional[Dict], Optional[str]]:
         """
         Fetch OHLCV data with fallback chain: BingX → KuCoin → OKX
-        NOW SUPPORTS: 15m, 30m, 2h, 4h
         Returns (data, exchange_used)
+        
+        SUPPORTED TIMEFRAMES: 15m, 2h, 4h, 8h (30m removed)
         """
-        # Validate supported timeframes
-        supported_timeframes = ['15m', '30m', '2h', '4h']
-        if timeframe not in supported_timeframes:
-            print(f"❌ Unsupported timeframe: {timeframe}. Supported: {supported_timeframes}")
+        # Validate timeframe
+        if timeframe not in self.get_supported_timeframes():
+            print(f"❌ Unsupported timeframe: {timeframe}. Supported: {self.get_supported_timeframes()}")
             return None, None
 
         # Apply symbol mapping
@@ -267,20 +269,17 @@ class SimpleExchangeManager:
         # Try BingX first (authenticated)
         data = self.fetch_bingx_data(api_symbol, timeframe, limit)
         if data and len(data.get('timestamp', [])) > 0:
-            print(f"✅ {symbol} {timeframe} data from BingX ({len(data['timestamp'])} candles)")
             return data, 'BingX'
 
         # Try KuCoin (public)
         data = self.fetch_kucoin_data(api_symbol, timeframe, limit)
         if data and len(data.get('timestamp', [])) > 0:
-            print(f"✅ {symbol} {timeframe} data from KuCoin ({len(data['timestamp'])} candles)")
             return data, 'KuCoin'
 
         # Try OKX (public)
         data = self.fetch_okx_data(api_symbol, timeframe, limit)
         if data and len(data.get('timestamp', [])) > 0:
-            print(f"✅ {symbol} {timeframe} data from OKX ({len(data['timestamp'])} candles)")
             return data, 'OKX'
 
-        print(f"❌ All exchanges failed for {symbol} ({api_symbol}) {timeframe}")
+        print(f"❌ All exchanges failed for {symbol} ({api_symbol}) on {timeframe}")
         return None, None
