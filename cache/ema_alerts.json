@@ -123,5 +123,9 @@
   "QNT_crossover": {
     "last_alert_time": 1758860084.4213386,
     "crossover_type": "death_cross"
+  },
+  "INJ_zone": {
+    "in_zone": true,
+    "entry_time": 1758860084.976681
   }
 }
