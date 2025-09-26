@@ -54,5 +54,9 @@
   "PYUSD_zone": {
     "in_zone": true,
     "entry_time": 1758858098.151593
+  },
+  "CAKE_crossover": {
+    "last_alert_time": 1758858098.8477154,
+    "crossover_type": "death_cross"
   }
 }
