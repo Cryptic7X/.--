@@ -166,5 +166,9 @@
   "ORDI_crossover": {
     "last_alert_time": 1758860093.9997694,
     "crossover_type": "death_cross"
+  },
+  "USELESS_crossover": {
+    "last_alert_time": 1758860094.9633875,
+    "crossover_type": "death_cross"
   }
 }
