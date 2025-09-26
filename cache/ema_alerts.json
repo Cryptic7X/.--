@@ -4,8 +4,7 @@
     "entry_time": 1758853175.5578523
   },
   "XRP_zone": {
-    "in_zone": true,
-    "entry_time": 1758853176.6510217
+    "in_zone": false
   },
   "BNB_zone": {
     "in_zone": false
