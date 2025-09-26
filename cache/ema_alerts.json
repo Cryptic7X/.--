@@ -146,5 +146,9 @@
   "SFP_crossover": {
     "last_alert_time": 1758860090.7315617,
     "crossover_type": "death_cross"
+  },
+  "QTUM_zone": {
+    "in_zone": true,
+    "entry_time": 1758860091.6308312
   }
 }
