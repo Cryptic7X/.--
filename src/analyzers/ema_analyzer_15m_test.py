@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-EMA 15M TEST ANALYZER - For Logic Validation
-Temporarily using 15M timeframe to test crossovers and zone touch
+EMA 15M TEST ANALYZER - Fixed Format
 """
 import os
 import json
@@ -22,7 +21,7 @@ class EMAAnalyzer15MTest:
         self.telegram_sender = EMATelegramSender(config)
         self.ema_indicator = EMAIndicator()
         
-        # OVERRIDE FOR TESTING: Reduce cooldown to 2 hours instead of 48 hours
+        # TESTING: Reduce cooldown to 2 hours instead of 48 hours
         self.ema_indicator.crossover_cooldown_hours = 2
 
     def load_coins(self):
@@ -48,7 +47,7 @@ class EMAAnalyzer15MTest:
             return []
 
     def analyze_coin(self, coin_data):
-        """Analyze single coin with VERBOSE debugging"""
+        """Analyze single coin with verbose debugging"""
         symbol = coin_data['symbol']
         
         try:
@@ -61,32 +60,37 @@ class EMAAnalyzer15MTest:
                 print(f"❌ No data for {symbol}")
                 return None
             
+            print(f"✅ {symbol} 15m data from {exchange_used} ({len(ohlcv_data['close'])} candles)")
             print(f"🔍 ANALYZING {symbol}:")
             
             # Run EMA analysis with debugging
             result = self.ema_indicator.analyze(ohlcv_data, symbol)
             
-            # Show EMA values and logic
+            # Show EMA values and zone logic
             if 'ema21' in result and 'ema50' in result:
-                print(f"   📊 21 EMA: ${result['ema21']:.2f}")
-                print(f"   📊 50 EMA: ${result['ema50']:.2f}")
-                print(f"   💰 Price: ${result['current_price']:.2f}")
+                ema21 = result['ema21']
+                ema50 = result['ema50']
+                current_price = result['current_price']
                 
-                # Check crossover position
-                if result['ema21'] > result['ema50']:
-                    print(f"   📈 21 EMA ABOVE 50 EMA (Bullish)")
+                print(f"   📊 21 EMA: ${ema21:.2f}")
+                print(f"   📊 50 EMA: ${ema50:.2f}")
+                print(f"   💰 Price: ${current_price:.2f}")
+                
+                # Show zone setup
+                if ema21 > ema50:
+                    print(f"   📈 BULLISH SETUP - Support Zone: [${ema50:.2f} - ${ema21:.2f}]")
                 else:
-                    print(f"   📉 21 EMA BELOW 50 EMA (Bearish)")
+                    print(f"   📉 BEARISH SETUP - Resistance Zone: [${ema21:.2f} - ${ema50:.2f}]")
                 
                 # Check zone touch
-                distance = abs(result['current_price'] - result['ema21']) / result['ema21'] * 100
+                distance = abs(current_price - ema21) / ema21 * 100
                 print(f"   🎯 Distance from 21 EMA: {distance:.2f}%")
                 
                 if result.get('crossover_alert'):
                     print(f"   🚨 CROSSOVER ALERT: {result['crossover_type'].upper()}")
                 
                 if result.get('zone_alert'):
-                    print(f"   🎯 ZONE TOUCH ALERT: Price near 21 EMA")
+                    print(f"   🎯 ZONE TOUCH ALERT")
             
             if not (result.get('crossover_alert', False) or result.get('zone_alert', False)):
                 print(f"   ✅ No alerts for {symbol}")
@@ -110,7 +114,7 @@ class EMAAnalyzer15MTest:
             return None
 
     def run_analysis(self):
-        """Main EMA 15M testing runner with verbose output"""
+        """Main EMA 15M testing runner"""
         print("🟡 EMA 15M TEST ANALYSIS - CROSSOVERS + ZONE TOUCH")
         print(f"⏰ Time: {datetime.now().strftime('%H:%M:%S IST')}")
         print("🔧 Testing Mode: 15M timeframe, 2H cooldown, Top 20 coins")
@@ -145,7 +149,9 @@ class EMAAnalyzer15MTest:
         # Send alerts if any
         if signals:
             print(f"📱 SENDING TELEGRAM ALERTS...")
-            success = self.telegram_sender.send_ema_alerts(signals)
+            # Pass timeframe_minutes for proper chart links and display
+            success = self.telegram_sender.send_ema_alerts(signals, timeframe_minutes=15)
+            
             crossover_count = len([s for s in signals if s.get('crossover_alert')])
             zone_count = len([s for s in signals if s.get('zone_alert')])
             
@@ -154,21 +160,9 @@ class EMAAnalyzer15MTest:
         else:
             print("📭 No EMA signals found")
         
-        # Print final cache status with details
+        # Print final cache status
         cache = self.ema_indicator.load_cache()
-        if cache:
-            print(f"📁 Final EMA cache: {len(cache)} tracked symbols")
-            for key, value in cache.items():
-                if '_crossover' in key:
-                    symbol = key.replace('_crossover', '')
-                    last_type = value.get('crossover_type', 'unknown')
-                    print(f"   🔄 {symbol}: Last crossover = {last_type}")
-                elif '_zone' in key:
-                    symbol = key.replace('_zone', '')
-                    in_zone = value.get('in_zone', False)
-                    print(f"   🎯 {symbol}: In zone = {in_zone}")
-        else:
-            print("📁 Cache is empty")
+        print(f"📁 Final EMA cache: {len(cache)} tracked symbols")
 
 def main():
     import yaml
