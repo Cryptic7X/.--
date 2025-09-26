@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-EMA 4H ANALYZER - PRODUCTION VERSION
-21/50 EMA Crossovers + Zone Touch Analysis
+EMA 4H Analyzer - OPTIMIZED PRODUCTION
 """
 import os
 import json
@@ -21,12 +20,9 @@ class EMAAnalyzer:
         self.exchange_manager = SimpleExchangeManager()
         self.telegram_sender = EMATelegramSender(config)
         self.ema_indicator = EMAIndicator()
-        
-        # PRODUCTION: Full 48-hour cooldown (2 days)
-        self.ema_indicator.crossover_cooldown_hours = 48
 
     def load_coins(self):
-        """Load coins with SMA filtering (≥$10M cap, ≥$10M volume)"""
+        """Load coins with SMA filtering"""
         cache_file = os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'cipherb_dataset.json')
         
         try:
@@ -34,11 +30,10 @@ class EMAAnalyzer:
                 data = json.load(f)
                 coins = data.get('coins', [])
             
-            # SMA filtering criteria from config
             filtered = [
                 coin for coin in coins
-                if coin.get('market_cap', 0) >= 10_000_000      # ≥$10M
-                and coin.get('total_volume', 0) >= 10_000_000  # ≥$10M
+                if coin.get('market_cap', 0) >= 10_000_000      
+                and coin.get('total_volume', 0) >= 10_000_000  
             ]
             
             print(f"📊 Loaded {len(filtered)} coins for EMA 4H analysis")
@@ -49,11 +44,10 @@ class EMAAnalyzer:
             return []
 
     def analyze_coin(self, coin_data):
-        """Analyze single coin for EMA signals"""
+        """Analyze single coin"""
         symbol = coin_data['symbol']
         
         try:
-            # Get 4H OHLCV data
             ohlcv_data, exchange_used = self.exchange_manager.fetch_ohlcv_with_fallback(
                 symbol, '4h', limit=100
             )
@@ -61,7 +55,6 @@ class EMAAnalyzer:
             if not ohlcv_data:
                 return None
             
-            # Run EMA analysis (no verbose debugging in production)
             result = self.ema_indicator.analyze(ohlcv_data, symbol)
             
             if not (result.get('crossover_alert', False) or result.get('zone_alert', False)):
@@ -81,20 +74,17 @@ class EMAAnalyzer:
             }
 
         except Exception as e:
-            print(f"❌ Error analyzing {symbol}: {e}")
             return None
 
     def run_analysis(self):
-        """Main EMA 4H production analysis"""
+        """Main analysis runner"""
         print("🟡 EMA 4H ANALYSIS - PRODUCTION")
         print(f"⏰ Time: {datetime.now().strftime('%H:%M:%S IST')}")
         
         coins = self.load_coins()
         if not coins:
-            print("❌ No coins to analyze")
             return
         
-        # Process coins in parallel (production mode)
         signals = []
         with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
             futures = {executor.submit(self.analyze_coin, coin): coin for coin in coins}
@@ -113,13 +103,11 @@ class EMAAnalyzer:
                         
                         print(f"✅ ALERT: {result['symbol']} ({', '.join(alert_types)})")
                         
-                except Exception as e:
-                    print(f"❌ Future error: {e}")
+                except:
                     continue
         
-        # Send alerts if any
         if signals:
-            success = self.telegram_sender.send_ema_alerts(signals, timeframe_minutes=240)  # 4H = 240 minutes
+            success = self.telegram_sender.send_ema_alerts(signals, timeframe_minutes=240)
             crossover_count = len([s for s in signals if s.get('crossover_alert')])
             zone_count = len([s for s in signals if s.get('zone_alert')])
             
@@ -128,7 +116,6 @@ class EMAAnalyzer:
         else:
             print("📭 No EMA signals found")
         
-        # Print final cache status
         cache = self.ema_indicator.load_cache()
         print(f"📁 Final EMA cache: {len(cache)} tracked symbols")
 
