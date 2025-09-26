@@ -86,5 +86,9 @@
   "DASH_zone": {
     "in_zone": true,
     "entry_time": 1758858104.3729498
+  },
+  "DORA_zone": {
+    "in_zone": true,
+    "entry_time": 1758858105.611798
   }
 }
