@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
+
 """
+
 BBW 2H Analyzer - Thread-Safe Version
+
 """
+
 import os
 import json
 import sys
@@ -19,9 +23,10 @@ class BBWAnalyzer:
         self.config = config
         self.exchange_manager = SimpleExchangeManager()
         self.telegram_sender = BBWTelegramSender(config)
+        
         # IMPORTANT: Create ONE shared instance for thread safety
         self.bbw_indicator = BBWIndicator()
-
+    
     def load_coins(self):
         """Load coins for analysis"""
         cache_file = os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'cipherb_dataset.json')
@@ -33,7 +38,7 @@ class BBWAnalyzer:
             
             # Filter: Market cap ≥ $100M, Volume ≥ $50M
             filtered = [
-                coin for coin in coins
+                coin for coin in coins 
                 if coin.get('market_cap', 0) >= 100_000_000 
                 and coin.get('total_volume', 0) >= 50_000_000
             ]
@@ -44,7 +49,7 @@ class BBWAnalyzer:
         except Exception as e:
             print(f"❌ Error loading coins: {e}")
             return []
-
+    
     def analyze_coin(self, coin_data):
         """Analyze single coin - uses shared thread-safe BBW indicator"""
         symbol = coin_data['symbol']
@@ -63,7 +68,7 @@ class BBWAnalyzer:
             
             if not result.get('send_alert', False):
                 return None
-
+            
             return {
                 'symbol': symbol,
                 'alert_type': result.get('alert_type'),
@@ -73,11 +78,11 @@ class BBWAnalyzer:
                 'coin_data': coin_data,
                 'exchange_used': exchange_used
             }
-
+            
         except Exception as e:
             print(f"❌ Error analyzing {symbol}: {e}")
             return None
-
+    
     def run_analysis(self):
         """Main analysis runner"""
         print("🔵 BBW 2H ANALYSIS - THREAD-SAFE VERSION")
@@ -90,7 +95,7 @@ class BBWAnalyzer:
         
         # Process coins in parallel with thread-safe cache
         signals = []
-        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:  # Reduced workers to prevent race conditions
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor: # Reduced workers to prevent race conditions
             futures = {executor.submit(self.analyze_coin, coin): coin for coin in coins}
             
             for future in concurrent.futures.as_completed(futures):
@@ -106,6 +111,7 @@ class BBWAnalyzer:
         # Send alerts if any
         if signals:
             success = self.telegram_sender.send_bbw_alerts(signals)
+            
             first_entry = len([s for s in signals if s.get('alert_type') == 'FIRST ENTRY'])
             reminders = len([s for s in signals if s.get('alert_type') == 'EXTENDED SQUEEZE'])
             
