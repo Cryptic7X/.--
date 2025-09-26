@@ -70,5 +70,13 @@
     "monitoring_direction": null,
     "last_2h_time": 1758903503.7075653,
     "last_8h_time": 0
+  },
+  "ZRO": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1758910750.9366457,
+    "last_8h_time": 0
   }
 }
