@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EMA 4H Analyzer - OPTIMIZED PRODUCTION
+EMA 4H Analyzer - FIXED VERSION
 """
 import os
 import json
@@ -22,7 +22,6 @@ class EMAAnalyzer:
         self.ema_indicator = EMAIndicator()
 
     def load_coins(self):
-        """Load coins with SMA filtering"""
         cache_file = os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'cipherb_dataset.json')
         
         try:
@@ -44,7 +43,6 @@ class EMAAnalyzer:
             return []
 
     def analyze_coin(self, coin_data):
-        """Analyze single coin"""
         symbol = coin_data['symbol']
         
         try:
@@ -77,7 +75,6 @@ class EMAAnalyzer:
             return None
 
     def run_analysis(self):
-        """Main analysis runner"""
         print("🟡 EMA 4H ANALYSIS - PRODUCTION")
         print(f"⏰ Time: {datetime.now().strftime('%H:%M:%S IST')}")
         
@@ -116,7 +113,8 @@ class EMAAnalyzer:
         else:
             print("📭 No EMA signals found")
         
-        cache = self.ema_indicator.load_cache()
+        # FIXED: Call load_ema_cache instead of load_cache
+        cache = self.ema_indicator.load_ema_cache()
         print(f"📁 Final EMA cache: {len(cache)} tracked symbols")
 
 def main():
