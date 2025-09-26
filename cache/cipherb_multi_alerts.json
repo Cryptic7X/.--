@@ -25,10 +25,10 @@
   },
   "SUN": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1758878524.2668831,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1758903503.7071655,
     "last_8h_time": 0
   },
   "FORM": {
@@ -53,6 +53,22 @@
     "monitoring_8h": false,
     "monitoring_direction": null,
     "last_2h_time": 1758889779.9698474,
+    "last_8h_time": 0
+  },
+  "CAKE": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1758903503.7068481,
+    "last_8h_time": 0
+  },
+  "TOSHI": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1758903503.7075653,
     "last_8h_time": 0
   }
 }
