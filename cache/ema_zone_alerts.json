@@ -1,1 +1,59 @@
-{}
+{
+  "BNB_crossover": {
+    "last_alert_time": 1758863253.143216
+  },
+  "MNT_zone": {
+    "last_alert_time": 1758863253.6883006,
+    "last_price": 1.6841,
+    "blocked": true
+  },
+  "PYUSD_zone": {
+    "last_alert_time": 1758863255.6929996,
+    "last_price": 0.9997,
+    "blocked": true
+  },
+  "KAIA_zone": {
+    "last_alert_time": 1758863255.9576256,
+    "last_price": 0.1515,
+    "blocked": true
+  },
+  "AB_zone": {
+    "last_alert_time": 1758863257.0326169,
+    "last_price": 0.00845,
+    "blocked": true
+  },
+  "NFT_zone": {
+    "last_alert_time": 1758863257.7576694,
+    "last_price": 4.447e-07,
+    "blocked": true
+  },
+  "CVX_crossover": {
+    "last_alert_time": 1758863258.8012478
+  },
+  "FTT_zone": {
+    "last_alert_time": 1758863258.8456132,
+    "last_price": 0.8063,
+    "blocked": true
+  },
+  "TOSHI_crossover": {
+    "last_alert_time": 1758863259.2181478
+  },
+  "ZORA_zone": {
+    "last_alert_time": 1758863259.6245244,
+    "last_price": 0.06117,
+    "blocked": true
+  },
+  "DOG_zone": {
+    "last_alert_time": 1758863260.9107544,
+    "last_price": 0.002601,
+    "blocked": true
+  },
+  "MASK_zone": {
+    "last_alert_time": 1758863262.189448,
+    "last_price": 1.2104,
+    "blocked": true
+  },
+  "ME_crossover": {
+    "last_alert_time": 1758863262.6130328
+  }
+}
