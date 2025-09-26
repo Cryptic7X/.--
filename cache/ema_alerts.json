@@ -6,5 +6,9 @@
   "XRP_zone": {
     "in_zone": true,
     "entry_time": 1758853176.6510217
+  },
+  "BNB_zone": {
+    "in_zone": true,
+    "entry_time": 1758853177.4270093
   }
 }
