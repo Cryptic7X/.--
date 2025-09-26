@@ -8,7 +8,8 @@
     "entry_time": 1758853176.6510217
   },
   "BNB_zone": {
-    "in_zone": false
+    "in_zone": true,
+    "entry_time": 1758856664.3150024
   },
   "TRX_zone": {
     "in_zone": true,
