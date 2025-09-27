@@ -3,7 +3,7 @@
     "in_zone": true,
     "entry_time": 1758875691.8587863,
     "reminder_sent": true,
-    "candle_count": 19
+    "candle_count": 20
   },
   "TON_squeeze": {
     "in_zone": false,
@@ -269,7 +269,7 @@
     "in_zone": true,
     "entry_time": 1758997497.0742152,
     "reminder_sent": false,
-    "candle_count": 2
+    "candle_count": 3
   },
   "ATH_squeeze": {
     "in_zone": true,
