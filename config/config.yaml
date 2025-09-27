@@ -1,19 +1,39 @@
+# Enhanced Config - Configuration-Driven Filters
 # Simple Config - Just the essentials
+
+# NEW: Market Data Collection Filters - Configuration-Driven
+market_filters:
+  cipherb_bbw:
+    min_market_cap: 200000000      # $200M (extracted from data_fetcher.py line 82)
+    min_volume_24h: 20000000       # $20M (extracted from data_fetcher.py line 82)
+  
+  ema:
+    min_market_cap: 10000000       # $10M (extracted from data_fetcher.py line 87)
+    max_market_cap: 200000000      # $200M (extracted from data_fetcher.py line 87)
+    min_volume_24h: 10000000       # $10M (extracted from data_fetcher.py line 87)
+
+# Cache Configuration - Market Data Storage
+cache_config:
+  market_data:
+    cipherb_dataset: "cache/cipherb_dataset.json"
+    ema_dataset: "cache/ema_dataset.json"
+
+# EXISTING: Keep all original configs for backward compatibility
 cipherb_config:
   filters:
-    min_market_cap: 100000000    # $100M
-    min_volume_24h: 10000000     # $10M
+    min_market_cap: 100000000 # $100M
+    min_volume_24h: 10000000 # $10M
 
 bbw_config:
   filters:
-    min_market_cap: 10000000    # $10M
-    min_volume_24h: 50000000     # $50M
+    min_market_cap: 10000000 # $10M
+    min_volume_24h: 50000000 # $50M
 
 ema_analysis:
   market_cap:
-    min: 10000000    # $10M
-    max: 200000000   # $200M  
+    min: 10000000 # $10M
+    max: 200000000 # $200M
   volume:
-    min: 10000000    # $10M
+    min: 10000000 # $10M
   timeframe: "1h"
   cooldown_hours: 24
