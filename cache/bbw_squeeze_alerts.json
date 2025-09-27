@@ -179,5 +179,11 @@
     "entry_time": 1758954365.8587284,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "LTC_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758961365.4089184,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
