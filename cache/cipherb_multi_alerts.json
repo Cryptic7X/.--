@@ -110,5 +110,13 @@
     "monitoring_direction": null,
     "last_2h_time": 1758975947.223253,
     "last_8h_time": 0
+  },
+  "KAITO": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1758989756.6207411,
+    "last_8h_time": 0
   }
 }
