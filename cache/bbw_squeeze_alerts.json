@@ -270,5 +270,11 @@
     "entry_time": 1758997497.0742152,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "ATH_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758997507.309125,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
