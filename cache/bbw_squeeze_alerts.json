@@ -300,5 +300,11 @@
     "entry_time": 1759004393.8845043,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "CRV_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759004394.9715168,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
