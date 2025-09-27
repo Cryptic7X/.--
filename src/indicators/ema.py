@@ -1,6 +1,6 @@
 """
-EMA Indicator - 12/21 EMA CROSSOVER VERSION
-Updated from 21/50 to 12/21 EMA crossover logic
+EMA Indicator - 21/50 EMA CROSSOVER VERSION
+Updated for 1H timeframe with 24-hour cooldown
 """
 
 import json
@@ -52,14 +52,14 @@ class EMAIndicator:
         except Exception as e:
             print(f"❌ Cache save error: {e}")
 
-    def detect_crossover(self, ema12: List[float], ema21: List[float]) -> str:
-        """UPDATED: 21 EMA crossover with 50 EMA"""
-        if len(ema12) < 2 or len(ema21) < 2:
+    def detect_crossover(self, ema21: List[float], ema50: List[float]) -> str:
+        """FIXED: 21 EMA crossover with 50 EMA"""
+        if len(ema21) < 2 or len(ema50) < 2:
             return None
         
-        # Get previous and current values
-        prev_12, curr_12 = ema12[-2], ema12[-1]
+        # Get previous and current values - FIXED variable names
         prev_21, curr_21 = ema21[-2], ema21[-1]
+        prev_50, curr_50 = ema50[-2], ema50[-1]
         
         # Golden Cross: 21 EMA crosses above 50 EMA
         if prev_21 <= prev_50 and curr_21 > curr_50:
@@ -71,60 +71,57 @@ class EMAIndicator:
         
         return None
 
-
     def analyze(self, ohlcv_data: Dict, symbol: str) -> Dict:
-            try:
-                closes = ohlcv_data['close']
+        try:
+            closes = ohlcv_data['close']
+            
+            # Require more data for 1H accuracy
+            if len(closes) < 100:
+                return {'crossover_alert': False}
+            
+            ema21 = self.calculate_ema(closes, self.ema_short)
+            ema50 = self.calculate_ema(closes, self.ema_long)
+            
+            current_time = time.time()
+            cache = self.load_ema_cache()
+            cache_updated = False
+            
+            # CROSSOVER CHECK - ONLY LOGIC NEEDED
+            crossover_type = self.detect_crossover(ema21, ema50)
+            crossover_alert = False
+            
+            if crossover_type:
+                # Cache key is just symbol (blocks all crossover types)
+                crossover_key = f"{symbol}"
                 
-                # CHANGED: Require more data for 1H accuracy
-                if len(closes) < 100:
-                    return {'crossover_alert': False}
-                
-                ema21 = self.calculate_ema(closes, self.ema_short)
-                ema50 = self.calculate_ema(closes, self.ema_long)
-                
-                current_time = time.time()
-                cache = self.load_ema_cache()
-                cache_updated = False
-                
-                # CROSSOVER CHECK - ONLY LOGIC NEEDED
-                crossover_type = self.detect_crossover(ema21, ema50)
-                crossover_alert = False
-                
-                if crossover_type:
-                    # CHANGED: Cache key is just symbol (blocks all crossover types)
-                    crossover_key = f"{symbol}"  # SIMPLIFIED: No "_crossover" suffix
+                if crossover_key in cache:
+                    last_time = cache[crossover_key].get('last_alert_time', 0)
+                    hours_since = (current_time - last_time) / 3600
                     
-                    if crossover_key in cache:
-                        last_time = cache[crossover_key].get('last_alert_time', 0)
-                        hours_since = (current_time - last_time) / 3600
-                        
-                        # 24-hour cooldown check
-                        if hours_since >= self.crossover_cooldown_hours:
-                            crossover_alert = True
-                            cache[crossover_key] = {'last_alert_time': current_time}
-                            cache_updated = True
-                    else:
-                        # First crossover for this symbol
+                    # 24-hour cooldown check
+                    if hours_since >= self.crossover_cooldown_hours:
                         crossover_alert = True
                         cache[crossover_key] = {'last_alert_time': current_time}
                         cache_updated = True
-                
-                # REMOVED: All zone logic completely
-                
-                # Save cache if updated
-                if cache_updated:
-                    self.save_ema_cache(cache)
-                
-                # SIMPLIFIED: Only return crossover data
-                return {
-                    'crossover_alert': crossover_alert,
-                    'crossover_type': crossover_type if crossover_alert else None,
-                    'ema21': ema21[-1],
-                    'ema50': ema50[-1],
-                    'current_price': closes[-1]
-                }
-                
-            except Exception as e:
-                print(f"❌ EMA analysis error for {symbol}: {e}")
-                return {'crossover_alert': False}
+                else:
+                    # First crossover for this symbol
+                    crossover_alert = True
+                    cache[crossover_key] = {'last_alert_time': current_time}
+                    cache_updated = True
+            
+            # Save cache if updated
+            if cache_updated:
+                self.save_ema_cache(cache)
+            
+            # Return crossover data
+            return {
+                'crossover_alert': crossover_alert,
+                'crossover_type': crossover_type if crossover_alert else None,
+                'ema21': ema21[-1],
+                'ema50': ema50[-1],
+                'current_price': closes[-1]
+            }
+            
+        except Exception as e:
+            print(f"❌ EMA analysis error for {symbol}: {e}")
+            return {'crossover_alert': False}
