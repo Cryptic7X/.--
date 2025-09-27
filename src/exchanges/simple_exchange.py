@@ -55,9 +55,8 @@ class SimpleExchangeManager:
         # Updated interval mapping for all timeframes
         interval_map = {
             '15m': '15m',
-            '30m': '30m', 
+            '1h': '1h', 
             '2h': '2h',
-            '4h': '4h',
             '8h': '8h'
         }
 
@@ -96,9 +95,8 @@ class SimpleExchangeManager:
         # BingX Spot interval mapping
         interval_map = {
             '15m': '15m',
-            '30m': '30m', 
+            '1h': '1h', 
             '2h': '2h',
-            '4h': '4h',
             '8h': '8h'
         }
 
@@ -132,9 +130,8 @@ class SimpleExchangeManager:
         # Updated KuCoin interval mapping
         interval_map = {
             '15m': '15min',
-            '30m': '30min', 
+            '1h': '1hour', 
             '2h': '2hour',
-            '4h': '4hour',
             '8h': '8hour'
         }
 
@@ -142,9 +139,8 @@ class SimpleExchangeManager:
         end_time = int(time.time())
         timeframe_minutes = {
             '15m': 15,
-            '30m': 30, 
+            '1h': 60, 
             '2h': 120,
-            '4h': 240,
             '8h': 480
         }
         
@@ -177,9 +173,8 @@ class SimpleExchangeManager:
         # Updated OKX interval mapping
         interval_map = {
             '15m': '15m',
-            '30m': '30m', 
+            '1h': '1H', 
             '2h': '2H',
-            '4h': '4H',
             '8h': '8H'
         }
 
@@ -290,7 +285,7 @@ class SimpleExchangeManager:
 
     def get_supported_timeframes(self) -> list:
         """Return list of supported timeframes"""
-        return ['15m', '30m', '2h', '4h', '8h']
+        return ['15m', '1h', '2h', '8h']
 
     def fetch_ohlcv_with_fallback(self, symbol: str, timeframe: str, limit: int = 200) -> Tuple[Optional[Dict], Optional[str]]:
         """
