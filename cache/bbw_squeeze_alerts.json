@@ -264,5 +264,11 @@
     "entry_time": 1758982560.2172253,
     "reminder_sent": false,
     "candle_count": 2
+  },
+  "DOGE_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758997497.0742152,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
