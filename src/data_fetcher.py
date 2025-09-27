@@ -85,13 +85,13 @@ class SimpleDataFetcher:
         # CipherB/BBW coins (unchanged)
         cipherb_coins = [
             coin for coin in all_coins
-            if coin['market_cap'] >= 100_000_000 and coin['total_volume'] >= 10_000_000
+            if coin['market_cap'] >= 200_000_000 and coin['total_volume'] >= 20_000_000
         ]
         
-        # EMA coins - UPDATED FILTER: $10M - $100M market cap, ≥$10M volume
+        # EMA coins - UPDATED FILTER: $10M - $200M market cap, ≥$10M volume
         ema_coins = [
             coin for coin in all_coins
-            if 10_000_000 <= coin['market_cap'] <= 100_000_000 and coin['total_volume'] >= 10_000_000
+            if 10_000_000 <= coin['market_cap'] <= 200_000_000 and coin['total_volume'] >= 10_000_000
         ]
         
         print(f"CipherB/BBW coins: {len(cipherb_coins)}")
