@@ -43,5 +43,17 @@
   },
   "XUSD": {
     "last_alert_time": 1758985873.8025846
+  },
+  "ILV": {
+    "last_alert_time": 1758989674.609992
+  },
+  "LISTA": {
+    "last_alert_time": 1758989675.1753805
+  },
+  "AVA": {
+    "last_alert_time": 1758989677.5618713
+  },
+  "IN": {
+    "last_alert_time": 1758989679.0837657
   }
 }
