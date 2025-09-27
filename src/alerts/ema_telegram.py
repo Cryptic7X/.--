@@ -1,5 +1,5 @@
 """
-EMA Telegram Alert System - UPDATED FOR 12/21 EMA
+EMA Telegram Alert System - WORKING VERSION FOR 12/21 EMA
 """
 
 import os
@@ -74,8 +74,7 @@ class EMATelegramSender:
             zone_signals = [s for s in signals if s.get('zone_alert')]
             
             if crossover_signals:
-                message += "🔄 **CROSSOVER SIGNALS:**
-"
+                message += "🔄 **CROSSOVER SIGNALS:**\n"
                 
                 for signal in crossover_signals:
                     symbol = signal['symbol']
@@ -106,8 +105,7 @@ Cap: {market_cap} | Vol: {volume}
 """
             
             if zone_signals:
-                message += "🎯 **ZONE TOUCH SIGNALS:**
-"
+                message += "🎯 **ZONE TOUCH SIGNALS:**\n"
                 
                 for signal in zone_signals:
                     symbol = signal['symbol']
