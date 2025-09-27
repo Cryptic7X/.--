@@ -60,7 +60,7 @@
     "in_zone": true,
     "entry_time": 1758896285.8443742,
     "reminder_sent": true,
-    "candle_count": 12
+    "candle_count": 13
   },
   "AVNT_squeeze": {
     "in_zone": false,
@@ -83,7 +83,7 @@
     "in_zone": true,
     "entry_time": 1758861048.2835379,
     "reminder_sent": true,
-    "candle_count": 10
+    "candle_count": 11
   },
   "PEPE_squeeze": {
     "in_zone": true,
