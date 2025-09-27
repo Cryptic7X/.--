@@ -40,7 +40,7 @@ class BBWAnalyzer:
             filtered = [
                 coin for coin in coins 
                 if coin.get('market_cap', 0) >= 100_000_000 
-                and coin.get('total_volume', 0) >= 30_000_000
+                and coin.get('total_volume', 0) >= 50_000_000
             ]
             
             print(f"📊 Loaded {len(filtered)} coins for BBW analysis")
