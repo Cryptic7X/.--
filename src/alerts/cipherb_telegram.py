@@ -58,8 +58,8 @@ class CipherBTelegramSender:
             repeated_2h = [a for a in alerts if a['message_type'] == '2H_REPEATED']
             confirmed_2h8h = [a for a in alerts if a['message_type'] == '2H_8H_CONFIRMED']
             
-            message = f"""🔵 **CIPHERB MULTI-TIMEFRAME SIGNALS**
-📊 **{total_alerts} CIPHERB SIGNALS DETECTED**
+            message = f"""🔵 **Cipher-b Multi-Timeframe Signal**
+📊 **{total_alerts} Cipher-b Signal Detected**
 🕐 **{current_time}**
 ⏰ **2H Primary + 8H Confirmation**
 
@@ -119,7 +119,7 @@ Cap: {market_cap} | Vol: {volume}
 
             # 3. 8H confirmed signals
             if confirmed_2h8h:
-                message += f"✅ **2H+8H CONFIRMED SIGNALS ({len(confirmed_2h8h)}):**\n"
+                message += f"✅ **8H CONFIRMED SIGNALS ({len(confirmed_2h8h)}):**\n"
                 
                 for alert in confirmed_2h8h:
                     symbol = alert['symbol']
@@ -135,7 +135,7 @@ Cap: {market_cap} | Vol: {volume}
                     
                     tv_link, cg_link = self.create_chart_links(symbol)
                     
-                    message += f"""{signal_emoji} **2H+8H CONFIRMED: {symbol} {signal_type}**
+                    message += f"""{signal_emoji} **8H CONFIRMED: {symbol} {signal_type}**
 💰 {price} ({change_24h:+.1f}% 24h)
 📊 2H WT1: {signal_2h_data['wt1']} | WT2: {signal_2h_data['wt2']}
 📊 8H WT1: {signal_8h_data['wt1']} | WT2: {signal_8h_data['wt2']}
@@ -147,7 +147,7 @@ Cap: {market_cap} | Vol: {volume}
             buy_signals = len([a for a in alerts if a['alert_type'] == 'BUY'])
             sell_signals = len([a for a in alerts if a['alert_type'] == 'SELL'])
             
-            message += f"""📊 **CIPHERB SUMMARY**
+            message += f"""📊 **CipherB Summary**
 • Total Alerts: {total_alerts}
 • Buy Signals: {buy_signals} | Sell Signals: {sell_signals}
 • 2H New: {len(signal_2h)} | 2H Repeated: {len(repeated_2h)} | 2H+8H: {len(confirmed_2h8h)}
