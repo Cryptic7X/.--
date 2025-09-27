@@ -81,10 +81,18 @@
   },
   "TWT": {
     "last_signal": "sell",
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1758953936.2595134,
+    "last_8h_time": 0
+  },
+  "TRX": {
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1758946631.1663897,
+    "last_2h_time": 1758953936.2591798,
     "last_8h_time": 0
   }
 }
