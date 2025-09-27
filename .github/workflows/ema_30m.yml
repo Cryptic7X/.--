@@ -2,7 +2,7 @@ name: EMA 30m Analysis
 
 on:
   schedule:
-    - cron: '30 * * * *'  # Every 30 minutes
+    - cron: '2 * * * *'  # Every 30 minutes
   workflow_dispatch:
 
 jobs:
