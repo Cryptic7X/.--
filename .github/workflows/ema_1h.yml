@@ -1,4 +1,4 @@
-name: EMA 30m Analysis
+name: EMA 1h Analysis
 
 on:
   schedule:
