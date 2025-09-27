@@ -36,11 +36,11 @@ class BBWAnalyzer:
                 data = json.load(f)
                 coins = data.get('coins', [])
             
-            # Filter: Market cap ≥ $100M, Volume ≥ $50M
+            # Filter: Market cap ≥ $100M, Volume ≥ $30M
             filtered = [
                 coin for coin in coins 
                 if coin.get('market_cap', 0) >= 100_000_000 
-                and coin.get('total_volume', 0) >= 10_000_000
+                and coin.get('total_volume', 0) >= 30_000_000
             ]
             
             print(f"📊 Loaded {len(filtered)} coins for BBW analysis")
