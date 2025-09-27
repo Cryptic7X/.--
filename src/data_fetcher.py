@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Simple Data Fetcher"""
+"""
+Enhanced Data Fetcher - Configuration-Driven Filters
+OPTIMIZED: Uses config.yaml for filter values instead of hard-coding
+"""
+
 import os
 import json
 import requests
@@ -13,13 +17,42 @@ class SimpleDataFetcher:
             print("❌ COINMARKETCAP_API_KEY not set")
             exit(1)
         
+        # ENHANCED: Load configuration from config.yaml
+        self.config = self._load_config()
+        
         self.blocked_coins = self._load_blocked_coins()
         print(f"Blocked coins: {len(self.blocked_coins)}")
-
+        
+        # Display filter settings
+        print(f"📊 CipherB/BBW Filter: Market Cap ≥ ${self.config['market_filters']['cipherb_bbw']['min_market_cap']:,}, Volume ≥ ${self.config['market_filters']['cipherb_bbw']['min_volume_24h']:,}")
+        print(f"📊 EMA Filter: Market Cap ${self.config['market_filters']['ema']['min_market_cap']:,} - ${self.config['market_filters']['ema']['max_market_cap']:,}, Volume ≥ ${self.config['market_filters']['ema']['min_volume_24h']:,}")
+    
+    def _load_config(self):
+        """Load configuration from config.yaml"""
+        config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'config.yaml')
+        try:
+            with open(config_path, 'r') as f:
+                return yaml.safe_load(f)
+        except Exception as e:
+            print(f"❌ Error loading config: {e}")
+            # Fallback to hard-coded values if config fails
+            return {
+                'market_filters': {
+                    'cipherb_bbw': {
+                        'min_market_cap': 200000000,
+                        'min_volume_24h': 20000000
+                    },
+                    'ema': {
+                        'min_market_cap': 10000000,
+                        'max_market_cap': 200000000,
+                        'min_volume_24h': 10000000
+                    }
+                }
+            }
+    
     def _load_blocked_coins(self):
         blocked_file = os.path.join(os.path.dirname(__file__), '..', 'config', 'blocked_coins.txt')
         blocked = set()
-        
         try:
             with open(blocked_file, 'r') as f:
                 for line in f:
@@ -28,20 +61,21 @@ class SimpleDataFetcher:
                         blocked.add(coin)
         except:
             pass
-            
         return blocked
 
     def fetch_coins(self):
         print("Fetching coins from CoinMarketCap...")
-        
         url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
         headers = {'X-CMC_PRO_API_KEY': self.api_key}
-        
         all_coins = []
+        
         for start in [1, 5001]:
             try:
-                params = {'start': start, 'limit': 5000, 'sort': 'market_cap'}
-                
+                params = {
+                    'start': start,
+                    'limit': 5000,
+                    'sort': 'market_cap'
+                }
                 response = requests.get(url, headers=headers, params=params, timeout=30)
                 data = response.json()
                 
@@ -50,7 +84,6 @@ class SimpleDataFetcher:
                     
                 for coin in data['data']:
                     symbol = coin.get('symbol', '').upper()
-                    
                     if symbol in self.blocked_coins:
                         continue
                     
@@ -75,33 +108,43 @@ class SimpleDataFetcher:
                     break
                     
             except Exception as e:
-                print(f"Error fetching batch: {e}")
+                print(f"❌ Error fetching batch: {e}")
                 break
         
-        print(f"Total coins fetched: {len(all_coins)}")
+        print(f"📊 Total coins fetched: {len(all_coins)}")
         return all_coins
-
+    
     def filter_coins(self, all_coins):
-        # CipherB/BBW coins (unchanged)
+        """ENHANCED: Configuration-driven filtering instead of hard-coded values"""
+        
+        # Get filter values from config
+        cipherb_bbw_filters = self.config['market_filters']['cipherb_bbw']
+        ema_filters = self.config['market_filters']['ema']
+        
+        # CipherB/BBW coins - using config values
         cipherb_coins = [
             coin for coin in all_coins
-            if coin['market_cap'] >= 200_000_000 and coin['total_volume'] >= 20_000_000
+            if coin['market_cap'] >= cipherb_bbw_filters['min_market_cap'] 
+            and coin['total_volume'] >= cipherb_bbw_filters['min_volume_24h']
         ]
         
-        # EMA coins - UPDATED FILTER: $10M - $200M market cap, ≥$10M volume
+        # EMA coins - using config values  
         ema_coins = [
             coin for coin in all_coins
-            if 10_000_000 <= coin['market_cap'] <= 200_000_000 and coin['total_volume'] >= 10_000_000
+            if ema_filters['min_market_cap'] <= coin['market_cap'] <= ema_filters['max_market_cap']
+            and coin['total_volume'] >= ema_filters['min_volume_24h']
         ]
         
-        print(f"CipherB/BBW coins: {len(cipherb_coins)}")
-        print(f"EMA coins: {len(ema_coins)}")
+        print(f"📊 CipherB/BBW coins: {len(cipherb_coins)}")
+        print(f"📊 EMA coins: {len(ema_coins)}")
         
         return cipherb_coins, ema_coins
-
+    
     def save_datasets(self, cipherb_coins, ema_coins):
+        # ENHANCED: Cache configuration support
         os.makedirs('cache', exist_ok=True)
         
+        # CipherB dataset
         cipherb_data = {
             'timestamp': datetime.utcnow().isoformat(),
             'total_coins': len(cipherb_coins),
@@ -111,29 +154,29 @@ class SimpleDataFetcher:
         with open('cache/cipherb_dataset.json', 'w') as f:
             json.dump(cipherb_data, f)
         
+        # EMA dataset
         ema_data = {
-        'timestamp': datetime.utcnow().isoformat(),
-        'total_coins': len(ema_coins),
-        'coins': ema_coins
+            'timestamp': datetime.utcnow().isoformat(),
+            'total_coins': len(ema_coins),
+            'coins': ema_coins
         }
         
         with open('cache/ema_dataset.json', 'w') as f:
             json.dump(ema_data, f)
-            
-        print("Datasets saved to cache/")
+        
+        print("✅ Datasets saved to cache/")
 
 def main():
-    print("Starting daily data collection...")
-    
+    print("🚀 Starting daily data collection...")
     fetcher = SimpleDataFetcher()
-    all_coins = fetcher.fetch_coins()
     
+    all_coins = fetcher.fetch_coins()
     if all_coins:
         cipherb_coins, ema_coins = fetcher.filter_coins(all_coins)
         fetcher.save_datasets(cipherb_coins, ema_coins)
-        print("✅ Data collection complete")
+        print("✅ Data collection complete!")
     else:
         print("❌ No coins fetched")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
