@@ -23,21 +23,14 @@ class EMAAnalyzer:
 
     # MODIFY the load_coins method:
     def load_coins(self):
-        cache_file = os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'ema_dataset.json')
+        cache_file = os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'ema_dataset.json')  # Use eMA dataset
         try:
             with open(cache_file, 'r') as f:
                 data = json.load(f)
             coins = data.get('coins', [])
             
-            # UPDATED FILTER: Market cap $10M-$100M (inclusive), Volume >= $10M
-            filtered = [
-                coin for coin in coins
-                if 10_000_000 <= coin.get('market_cap', 0) <= 100_000_000  # CHANGED: Upper bound added
-                and coin.get('total_volume', 0) >= 10_000_000
-            ]
-            
-            print(f"📊 Loaded {len(filtered)} coins for EMA 1H analysis")  # CHANGED: 4H -> 1H
-            return filtered
+            print(f"📊 Loaded {len(coins)} filtered coins for EMA 1H analysis")
+            return coins
         except Exception as e:
             print(f"❌ Error loading coins: {e}")
             return []
@@ -79,7 +72,7 @@ class EMAAnalyzer:
     
     # MODIFY the run_analysis method:
     def run_analysis(self):
-        print("🟡 EMA 1H ANALYSIS - PRODUCTION")  # CHANGED: 4H -> 1H
+        print("🟡 EMA 1H ANALYSIS")  
         print(f"⏰ Time: {datetime.now().strftime('%H:%M:%S IST')}")
         
         coins = self.load_coins()
