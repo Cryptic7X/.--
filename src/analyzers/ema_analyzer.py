@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EMA 4H Analyzer - FIXED VERSION
+EMA 1H Analyzer 
 """
 import os
 import json
