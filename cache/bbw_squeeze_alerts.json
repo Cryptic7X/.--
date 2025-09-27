@@ -204,5 +204,11 @@
     "entry_time": 1758961372.677161,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "KAS_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758968285.1997898,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
