@@ -19,7 +19,7 @@
     "in_zone": true,
     "entry_time": 1758806748.2497296,
     "reminder_sent": true,
-    "candle_count": 15
+    "candle_count": 16
   },
   "OKB_squeeze": {
     "in_zone": true,
@@ -226,6 +226,12 @@
   "DOT_squeeze": {
     "in_zone": true,
     "entry_time": 1758982550.4472709,
+    "reminder_sent": false,
+    "candle_count": 1
+  },
+  "ENA_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758982551.3862288,
     "reminder_sent": false,
     "candle_count": 1
   }
