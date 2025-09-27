@@ -143,7 +143,7 @@
     "in_zone": true,
     "entry_time": 1758918045.5432105,
     "reminder_sent": true,
-    "candle_count": 14
+    "candle_count": 15
   },
   "JUP_squeeze": {
     "in_zone": true,
@@ -304,6 +304,12 @@
   "CRV_squeeze": {
     "in_zone": true,
     "entry_time": 1759004394.9715168,
+    "reminder_sent": false,
+    "candle_count": 1
+  },
+  "XLM_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759011425.690618,
     "reminder_sent": false,
     "candle_count": 1
   }
