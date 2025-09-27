@@ -128,7 +128,7 @@
   "KAITO_zone": {
     "last_alert_time": 1758955821.6782527,
     "last_price": 1.0448,
-    "blocked": true
+    "blocked": false
   },
   "KSM_zone": {
     "last_alert_time": 1758955821.7209558,
@@ -256,7 +256,7 @@
   "ORDI_zone": {
     "last_alert_time": 1758955823.103462,
     "last_price": 8.392,
-    "blocked": true
+    "blocked": false
   },
   "ZETA_zone": {
     "last_alert_time": 1758955823.107002,
@@ -321,7 +321,7 @@
   "BABY_zone": {
     "last_alert_time": 1758955823.6629558,
     "last_price": 0.04928,
-    "blocked": true
+    "blocked": false
   },
   "MASK_zone": {
     "last_alert_time": 1758955823.7187529,
@@ -381,7 +381,7 @@
   "ZKC_zone": {
     "last_alert_time": 1758955824.5233366,
     "last_price": 0.5494,
-    "blocked": true
+    "blocked": false
   },
   "SSV_zone": {
     "last_alert_time": 1758955824.6391582,
@@ -399,7 +399,7 @@
   "AI16Z_zone": {
     "last_alert_time": 1758955824.7836714,
     "last_price": 0.0888,
-    "blocked": true
+    "blocked": false
   },
   "SXT_zone": {
     "last_alert_time": 1758955824.8133752,
@@ -414,7 +414,7 @@
   "AIXBT_zone": {
     "last_alert_time": 1758955825.0117977,
     "last_price": 0.09275,
-    "blocked": true
+    "blocked": false
   },
   "AEVO_zone": {
     "last_alert_time": 1758955825.0377405,
@@ -469,7 +469,7 @@
   "HOME_zone": {
     "last_alert_time": 1758955825.3135095,
     "last_price": 0.029798,
-    "blocked": true
+    "blocked": false
   },
   "CARV_zone": {
     "last_alert_time": 1758955825.4103098,
@@ -484,7 +484,7 @@
   "CYBER_zone": {
     "last_alert_time": 1758955825.4754875,
     "last_price": 1.5404,
-    "blocked": true
+    "blocked": false
   },
   "ANIME_zone": {
     "last_alert_time": 1758955825.4969263,
@@ -524,7 +524,7 @@
   "LISTA_zone": {
     "last_alert_time": 1758955825.9510553,
     "last_price": 0.277,
-    "blocked": true
+    "blocked": false
   },
   "LAUNCHCOIN_zone": {
     "last_alert_time": 1758955825.9543457,
@@ -547,7 +547,7 @@
   "COOKIE_zone": {
     "last_alert_time": 1758955826.1557558,
     "last_price": 0.1056,
-    "blocked": true
+    "blocked": false
   },
   "DOGS_zone": {
     "last_alert_time": 1758955826.197436,
@@ -587,7 +587,7 @@
   "SCR_zone": {
     "last_alert_time": 1758955826.5874293,
     "last_price": 0.2737,
-    "blocked": true
+    "blocked": false
   },
   "INIT_zone": {
     "last_alert_time": 1758955826.6507087,
@@ -665,7 +665,7 @@
   "B2_zone": {
     "last_alert_time": 1758955827.8422499,
     "last_price": 0.7622,
-    "blocked": true
+    "blocked": false
   },
   "MET_zone": {
     "last_alert_time": 1758955827.8586025,
@@ -675,7 +675,7 @@
   "AVA_zone": {
     "last_alert_time": 1758955827.9249387,
     "last_price": 0.5001,
-    "blocked": true
+    "blocked": false
   },
   "ACE_zone": {
     "last_alert_time": 1758955827.9292722,
@@ -730,7 +730,7 @@
   "ASP_zone": {
     "last_alert_time": 1758955828.4738922,
     "last_price": 0.1319,
-    "blocked": true
+    "blocked": false
   },
   "IDOL_zone": {
     "last_alert_time": 1758955828.6754045,
@@ -845,6 +845,52 @@
   "VRA_zone": {
     "last_alert_time": 1758955830.8752003,
     "last_price": 0.0012,
+    "blocked": true
+  },
+  "SYRUP_zone": {
+    "last_alert_time": 1758956352.0310833,
+    "last_price": 0.38414,
+    "blocked": true
+  },
+  "SUN_zone": {
+    "last_alert_time": 1758956352.046946,
+    "last_price": 0.02403,
+    "blocked": true
+  },
+  "BIO_zone": {
+    "last_alert_time": 1758956353.91791,
+    "last_price": 0.13371,
+    "blocked": true
+  },
+  "GMX_zone": {
+    "last_alert_time": 1758956355.039538,
+    "last_price": 16.494,
+    "blocked": true
+  },
+  "USELESS_zone": {
+    "last_alert_time": 1758956355.2122068,
+    "last_price": 0.1582,
+    "blocked": true
+  },
+  "CELO_crossover": {
+    "last_alert_time": 1758956355.4919395
+  },
+  "SOMI_zone": {
+    "last_alert_time": 1758956355.558111,
+    "last_price": 0.8707,
+    "blocked": true
+  },
+  "B2_crossover": {
+    "last_alert_time": 1758956360.576507
+  },
+  "HAEDAL_zone": {
+    "last_alert_time": 1758956361.312292,
+    "last_price": 0.129338,
+    "blocked": true
+  },
+  "XPIN_zone": {
+    "last_alert_time": 1758956362.845211,
+    "last_price": 0.0008529,
     "blocked": true
   }
 }
