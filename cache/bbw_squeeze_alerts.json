@@ -218,10 +218,10 @@
     "candle_count": 4
   },
   "SHIB_squeeze": {
-    "in_zone": false,
-    "entry_time": 0,
+    "in_zone": true,
+    "entry_time": 1759004387.9467485,
     "reminder_sent": false,
-    "candle_count": 0
+    "candle_count": 1
   },
   "DOT_squeeze": {
     "in_zone": true,
