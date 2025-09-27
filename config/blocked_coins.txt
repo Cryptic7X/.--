@@ -27,8 +27,12 @@ CBETH
 
 # Bridge tokens
 ANYETH
+WMNT
+ETHDYDX
 ANYUSDC
 CEUSDC
+BOOST
+GOATED
 HBTC
 
 # Problematic/Low Volume
@@ -43,6 +47,7 @@ LUNA
 LUNC
 USTC
 UST
+EURCV
 
 # Additional blocked coins
 USDE
