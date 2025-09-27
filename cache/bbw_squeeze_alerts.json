@@ -230,10 +230,10 @@
     "candle_count": 3
   },
   "ENA_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758982551.3862288,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 2
+    "candle_count": 0
   },
   "PENDLE_squeeze": {
     "in_zone": true,
