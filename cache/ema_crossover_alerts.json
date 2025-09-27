@@ -28,5 +28,14 @@
   },
   "STAR": {
     "last_alert_time": 1758979037.1568174
+  },
+  "OPEN": {
+    "last_alert_time": 1758982263.3578017
+  },
+  "CGPT": {
+    "last_alert_time": 1758982265.055277
+  },
+  "HOOK": {
+    "last_alert_time": 1758982268.1067696
   }
 }
