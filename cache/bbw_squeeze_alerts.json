@@ -52,8 +52,8 @@
   "IMX_squeeze": {
     "in_zone": true,
     "entry_time": 1758806753.912496,
-    "reminder_sent": false,
-    "candle_count": 9
+    "reminder_sent": true,
+    "candle_count": 10
   },
   "CAKE_squeeze": {
     "in_zone": true,
@@ -148,7 +148,7 @@
     "in_zone": true,
     "entry_time": 1758936220.053187,
     "reminder_sent": false,
-    "candle_count": 2
+    "candle_count": 3
   },
   "FARTCOIN_squeeze": {
     "in_zone": true,
