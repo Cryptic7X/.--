@@ -42,3 +42,11 @@ jobs:
         git add cache/ema_crossover_alerts.json || true
         git commit -m "Update EMA cache for crossover-only analysis" || true
         git push origin main || true
+
+    - name: Clean up
+      if: always()
+      run: |
+        echo "🧹 Cleaning up temporary files..."
+        find . -name "*.pyc" -delete || true
+        find . -name "__pycache__" -type d -exec rm -rf {} + || true
+        echo "✅ Cleanup complete"
