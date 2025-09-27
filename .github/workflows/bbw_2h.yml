@@ -22,3 +22,11 @@ jobs:
       run: |
         echo "🔵 BBW 2H Analysis..."
         python src/analyzers/bbw_analyzer.py
+    
+    - name: Clean up
+      if: always()
+      run: |
+        echo "🧹 Cleaning up temporary files..."
+        find . -name "*.pyc" -delete || true
+        find . -name "__pycache__" -type d -exec rm -rf {} + || true
+        echo "✅ Cleanup complete"
