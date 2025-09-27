@@ -234,5 +234,11 @@
     "entry_time": 1758982551.3862288,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "PENDLE_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758982557.336962,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
