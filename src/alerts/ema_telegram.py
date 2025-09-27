@@ -1,5 +1,5 @@
 """
-EMA Telegram Alert System - YOUR EXACT FORMAT WITH 12/21 EMA
+EMA Telegram Alert System - 21/50 EMA CROSSOVER ANALYSIS
 """
 
 import os
@@ -41,26 +41,26 @@ class EMATelegramSender:
             return {
                 'setup_type': "Bullish Setup",
                 'zone_type': "Support Zone", 
-                'zone_range': f"[{self.format_price(ema21)} - {self.format_price(ema12)}]"
+                'zone_range': f"[{self.format_price(ema50)} - {self.format_price(ema21)}]"
             }
         else:
             return {
                 'setup_type': "Bearish Setup",
                 'zone_type': "Resistance Zone",
-                'zone_range': f"[{self.format_price(ema12)} - {self.format_price(ema21)}]"
+                'zone_range': f"[{self.format_price(ema21)} - {self.format_price(ema50)}]"
             }
     
     def send_ema_alerts(self, signals: List[Dict], timeframe_minutes: int = 60) -> bool:
-        """YOUR EXACT FORMAT WITH 12/21 EMA UPDATES"""
+        """21/50 EMA CROSSOVER ALERTS - EXACT FORMAT"""
         if not self.bot_token or not self.chat_id or not signals:
             return False
         
         try:
             current_time = datetime.now().strftime('%H:%M:%S IST')
             
-            message = f"""📊 EMA 1h SIGNALS DETECTED
+            message = f"""📊 EMA 1H SIGNALS DETECTED
 🕐 {current_time}
-⏰ Timeframe: 1h Candles
+⏰ Timeframe: 1H Candles
 
 🔄 CROSSOVER SIGNALS:"""
             
@@ -114,8 +114,8 @@ class EMATelegramSender:
 
 📊 EMA SUMMARY
 • Total Crossovers: {total_crossovers} (🟡 {golden_count} Golden, 🔴 {death_count} Death)
-🎯 Small-cap focus: $10M-$500M market cap
-⚡ 1h timeframe for responsive signals"""
+🎯 Mid-cap focus: $10M-$200M market cap
+⚡ 1H timeframe for precise signals"""
             
             url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
             payload = {
