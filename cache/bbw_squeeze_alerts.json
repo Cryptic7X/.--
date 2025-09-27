@@ -197,5 +197,11 @@
     "entry_time": 1758961371.2777288,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "WIF_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758961372.677161,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
