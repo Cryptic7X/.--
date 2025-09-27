@@ -23,7 +23,7 @@ class EMAAnalyzer:
 
     # MODIFY the load_coins method:
     def load_coins(self):
-        cache_file = os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'cipherb_dataset.json')
+        cache_file = os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'ema_dataset.json')
         try:
             with open(cache_file, 'r') as f:
                 data = json.load(f)
