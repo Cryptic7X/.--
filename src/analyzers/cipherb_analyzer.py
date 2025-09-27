@@ -165,7 +165,7 @@ class CipherBMultiAnalyzer:
         if not coins:
             return
         
-        print(f"📊 Analyzing {len(coins)} CipherB coins (≥100M cap, ≥10M vol)")
+        print(f"📊 Analyzing {len(coins)} CipherB coins (≥500M cap, ≥10M vol)")
         print("🎯 2H + 8H Multi-Timeframe Analysis")
         
         # Step 2: Get 2H signals
