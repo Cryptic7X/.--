@@ -54,8 +54,8 @@ class EMAAnalyzer:
                 'symbol': symbol,
                 'crossover_alert': result.get('crossover_alert', False),
                 'crossover_type': result.get('crossover_type'),
+                'ema12': result.get('ema12'),
                 'ema21': result.get('ema21'),
-                'ema50': result.get('ema50'),
                 'current_price': result.get('current_price'),
                 'coin_data': coin_data,
                 'exchange_used': exchange_used
