@@ -109,10 +109,10 @@
     "candle_count": 0
   },
   "PYTH_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758896287.24354,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 5
+    "candle_count": 0
   },
   "MERL_squeeze": {
     "in_zone": true,
