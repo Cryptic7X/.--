@@ -127,10 +127,10 @@
     "candle_count": 2
   },
   "WLD_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758911218.8350606,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 4
+    "candle_count": 0
   },
   "OP_squeeze": {
     "in_zone": true,
