@@ -185,7 +185,7 @@
     "in_zone": true,
     "entry_time": 1758961365.4089184,
     "reminder_sent": false,
-    "candle_count": 4
+    "candle_count": 5
   },
   "TAO_squeeze": {
     "in_zone": true,
@@ -214,6 +214,12 @@
   "HBAR_squeeze": {
     "in_zone": true,
     "entry_time": 1758982549.611469,
+    "reminder_sent": false,
+    "candle_count": 1
+  },
+  "SHIB_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758982549.6264107,
     "reminder_sent": false,
     "candle_count": 1
   }
