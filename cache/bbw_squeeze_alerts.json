@@ -155,5 +155,11 @@
     "entry_time": 0,
     "reminder_sent": false,
     "candle_count": 0
+  },
+  "BTC_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758954356.7782292,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
