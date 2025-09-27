@@ -92,10 +92,10 @@
     "candle_count": 13
   },
   "LINEA_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758889234.9329016,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 4
+    "candle_count": 0
   },
   "BB_squeeze": {
     "in_zone": true,
