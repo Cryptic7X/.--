@@ -29,15 +29,15 @@ class EMATelegramSender:
         else:
             return f"${num/1_000:.0f}K"
     
-    def create_chart_links(self, symbol: str, timeframe_minutes: int = 30) -> tuple:
+    def create_chart_links(self, symbol: str, timeframe_minutes: int = 60) -> tuple:
         clean_symbol = symbol.replace('USDT', '').replace('USD', '')
         tv_link = f"https://www.tradingview.com/chart/?symbol={clean_symbol}USDT&interval={timeframe_minutes}"
         cg_link = f"https://www.coinglass.com/pro/futures/LiquidationHeatMapNew?coin={clean_symbol}"
         return tv_link, cg_link
     
-    def determine_zone_info(self, ema12: float, ema21: float) -> Dict:
+    def determine_zone_info(self, ema21: float, ema50: float) -> Dict:
         """KEPT FOR BACKWARD COMPATIBILITY - but not used in crossover-only mode"""
-        if ema12 > ema21:
+        if ema21 > ema50:
             return {
                 'setup_type': "Bullish Setup",
                 'zone_type': "Support Zone", 
@@ -50,7 +50,7 @@ class EMATelegramSender:
                 'zone_range': f"[{self.format_price(ema12)} - {self.format_price(ema21)}]"
             }
     
-    def send_ema_alerts(self, signals: List[Dict], timeframe_minutes: int = 30) -> bool:
+    def send_ema_alerts(self, signals: List[Dict], timeframe_minutes: int = 60) -> bool:
         """YOUR EXACT FORMAT WITH 12/21 EMA UPDATES"""
         if not self.bot_token or not self.chat_id or not signals:
             return False
@@ -58,9 +58,9 @@ class EMATelegramSender:
         try:
             current_time = datetime.now().strftime('%H:%M:%S IST')
             
-            message = f"""📊 EMA 30M SIGNALS DETECTED
+            message = f"""📊 EMA 1h SIGNALS DETECTED
 🕐 {current_time}
-⏰ Timeframe: 30M Candles
+⏰ Timeframe: 1h Candles
 
 🔄 CROSSOVER SIGNALS:"""
             
@@ -82,7 +82,7 @@ class EMATelegramSender:
                     tv_link, cg_link = self.create_chart_links(symbol, timeframe_minutes)
                     
                     message += f"""
-{i}. {symbol} | 💰 {price} | ({change_24h:+.1f}% 24h)
+{i}. {symbol} | 💰 {price} | ({change_24h:+.1f}%)
    Cap: {market_cap} | Vol: {volume}
   📈[Chart →]({tv_link}) |🔥 [Liq Heat →]({cg_link})"""
             
@@ -100,7 +100,7 @@ class EMATelegramSender:
                     tv_link, cg_link = self.create_chart_links(symbol, timeframe_minutes)
                     
                     message += f"""
-{i}. {symbol} | 💰 {price} | ({change_24h:+.1f}% 24h)
+{i}. {symbol} | 💰 {price} | ({change_24h:+.1f}%)
    Cap: {market_cap} | Vol: {volume}
   📈[Chart →]({tv_link}) |🔥 [Liq Heat →]({cg_link})"""
             
@@ -115,7 +115,7 @@ class EMATelegramSender:
 📊 EMA SUMMARY
 • Total Crossovers: {total_crossovers} (🟡 {golden_count} Golden, 🔴 {death_count} Death)
 🎯 Small-cap focus: $10M-$500M market cap
-⚡ 30-minute timeframe for responsive signals"""
+⚡ 1h timeframe for responsive signals"""
             
             url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
             payload = {
