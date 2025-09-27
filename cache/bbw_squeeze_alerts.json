@@ -82,8 +82,8 @@
   "ZEC_squeeze": {
     "in_zone": true,
     "entry_time": 1758861048.2835379,
-    "reminder_sent": false,
-    "candle_count": 9
+    "reminder_sent": true,
+    "candle_count": 10
   },
   "PEPE_squeeze": {
     "in_zone": true,
