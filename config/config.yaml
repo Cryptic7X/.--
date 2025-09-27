@@ -1,12 +1,12 @@
 # Simple Config - Just the essentials
 cipherb_config:
   filters:
-    min_market_cap: 100000000    # $100M
+    min_market_cap: 500000000    # $500M
     min_volume_24h: 10000000     # $10M
 
 bbw_config:
   filters:
-    min_market_cap: 100000000    # $100M
+    min_market_cap: 500000000    # $500M
     min_volume_24h: 50000000     # $50M
 
 ema_config:
