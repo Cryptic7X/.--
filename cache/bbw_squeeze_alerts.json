@@ -75,8 +75,8 @@
   "TRUMP_squeeze": {
     "in_zone": true,
     "entry_time": 1758861046.817512,
-    "reminder_sent": false,
-    "candle_count": 9
+    "reminder_sent": true,
+    "candle_count": 10
   },
   "ZEC_squeeze": {
     "in_zone": true,
