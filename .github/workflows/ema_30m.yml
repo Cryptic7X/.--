@@ -39,6 +39,6 @@ jobs:
 
     - name: Commit EMA Cache
       run: |
-        git add cache/ema_zone_alerts.json || true
-        git commit -m "Update EMA cache - $(date '+%Y-%m-%d %H:%M:%S')" || true
-        git push || true
+        git add cache/ema_crossover_alerts.json || true
+        git commit -m "Update EMA cache for crossover-only analysis" || true
+        git push origin main || true
