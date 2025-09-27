@@ -60,7 +60,7 @@
   "BEAM_zone": {
     "last_alert_time": 1758955820.5395808,
     "last_price": 0.007592,
-    "blocked": true
+    "blocked": false
   },
   "AXS_zone": {
     "last_alert_time": 1758955820.5424795,
@@ -108,7 +108,7 @@
   "PLUME_zone": {
     "last_alert_time": 1758955821.3433125,
     "last_price": 0.09912,
-    "blocked": true
+    "blocked": false
   },
   "CTC_zone": {
     "last_alert_time": 1758955821.38814,
@@ -118,7 +118,7 @@
   "CVX_zone": {
     "last_alert_time": 1758955821.3997004,
     "last_price": 3.372,
-    "blocked": true
+    "blocked": false
   },
   "1INCH_zone": {
     "last_alert_time": 1758955821.4641747,
@@ -241,7 +241,7 @@
   "OM_zone": {
     "last_alert_time": 1758955822.9562755,
     "last_price": 0.16506,
-    "blocked": true
+    "blocked": false
   },
   "YFI_zone": {
     "last_alert_time": 1758955822.9933965,
@@ -291,7 +291,7 @@
   "MOODENG_zone": {
     "last_alert_time": 1758955823.3728995,
     "last_price": 0.14942,
-    "blocked": true
+    "blocked": false
   },
   "ANKR_zone": {
     "last_alert_time": 1758955823.387035,
@@ -311,12 +311,12 @@
   "STG_zone": {
     "last_alert_time": 1758955823.5976303,
     "last_price": 0.2033,
-    "blocked": true
+    "blocked": false
   },
   "MEME_zone": {
     "last_alert_time": 1758955823.6477492,
     "last_price": 0.002358,
-    "blocked": true
+    "blocked": false
   },
   "BABY_zone": {
     "last_alert_time": 1758955823.6629558,
@@ -326,7 +326,7 @@
   "MASK_zone": {
     "last_alert_time": 1758955823.7187529,
     "last_price": 1.2417,
-    "blocked": true
+    "blocked": false
   },
   "XYO_zone": {
     "last_alert_time": 1758955823.9132454,
@@ -361,12 +361,12 @@
   "BOME_zone": {
     "last_alert_time": 1758955824.4125512,
     "last_price": 0.001643,
-    "blocked": true
+    "blocked": false
   },
   "OPEN_zone": {
     "last_alert_time": 1758955824.4191165,
     "last_price": 0.7315,
-    "blocked": true
+    "blocked": false
   },
   "IO_zone": {
     "last_alert_time": 1758955824.5000668,
@@ -376,7 +376,7 @@
   "WAVES_zone": {
     "last_alert_time": 1758955824.504642,
     "last_price": 1.006,
-    "blocked": true
+    "blocked": false
   },
   "ZKC_zone": {
     "last_alert_time": 1758955824.5233366,
@@ -419,7 +419,7 @@
   "AEVO_zone": {
     "last_alert_time": 1758955825.0377405,
     "last_price": 0.09755,
-    "blocked": true
+    "blocked": false
   },
   "IOST_zone": {
     "last_alert_time": 1758955825.0597396,
@@ -439,7 +439,7 @@
   "ILV_zone": {
     "last_alert_time": 1758955825.1956124,
     "last_price": 12.793,
-    "blocked": true
+    "blocked": false
   },
   "PEOPLE_zone": {
     "last_alert_time": 1758955825.2162113,
@@ -459,7 +459,7 @@
   "REAL_zone": {
     "last_alert_time": 1758955825.3009355,
     "last_price": 0.05964,
-    "blocked": true
+    "blocked": false
   },
   "ERA_zone": {
     "last_alert_time": 1758955825.3044188,
@@ -489,7 +489,7 @@
   "ANIME_zone": {
     "last_alert_time": 1758955825.4969263,
     "last_price": 0.01414,
-    "blocked": true
+    "blocked": false
   },
   "OG_zone": {
     "last_alert_time": 1758955825.5561244,
@@ -529,7 +529,7 @@
   "LAUNCHCOIN_zone": {
     "last_alert_time": 1758955825.9543457,
     "last_price": 0.0678,
-    "blocked": true
+    "blocked": false
   },
   "API3_zone": {
     "last_alert_time": 1758955825.9620755,
@@ -630,7 +630,7 @@
   "DOLO_zone": {
     "last_alert_time": 1758955827.0864553,
     "last_price": 0.10814,
-    "blocked": true
+    "blocked": false
   },
   "REZ_zone": {
     "last_alert_time": 1758955827.322122,
@@ -705,12 +705,12 @@
   "ICE_zone": {
     "last_alert_time": 1758955828.1935446,
     "last_price": 0.004938,
-    "blocked": true
+    "blocked": false
   },
   "PUFFER_zone": {
     "last_alert_time": 1758955828.2351267,
     "last_price": 0.1764,
-    "blocked": true
+    "blocked": false
   },
   "EGL1_zone": {
     "last_alert_time": 1758955828.349496,
@@ -725,7 +725,7 @@
   "SUNDOG_zone": {
     "last_alert_time": 1758955828.4607298,
     "last_price": 0.03347,
-    "blocked": true
+    "blocked": false
   },
   "ASP_zone": {
     "last_alert_time": 1758955828.4738922,
@@ -745,7 +745,7 @@
   "ALICE_zone": {
     "last_alert_time": 1758955828.7306209,
     "last_price": 0.319,
-    "blocked": true
+    "blocked": false
   },
   "C_zone": {
     "last_alert_time": 1758955828.7545202,
@@ -780,12 +780,12 @@
   "BLUE_zone": {
     "last_alert_time": 1758955829.1570177,
     "last_price": 0.10379,
-    "blocked": true
+    "blocked": false
   },
   "ROAM_zone": {
     "last_alert_time": 1758955829.4447386,
     "last_price": 0.110104,
-    "blocked": true
+    "blocked": false
   },
   "STO_zone": {
     "last_alert_time": 1758955829.4955802,
@@ -795,7 +795,7 @@
   "ALCX_zone": {
     "last_alert_time": 1758955829.6473844,
     "last_price": 8.45,
-    "blocked": true
+    "blocked": false
   },
   "ES_zone": {
     "last_alert_time": 1758955829.6732855,
@@ -805,7 +805,7 @@
   "PUMP_zone": {
     "last_alert_time": 1758955829.814909,
     "last_price": 0.005126,
-    "blocked": true
+    "blocked": false
   },
   "TPTU_zone": {
     "last_alert_time": 1758955830.0039728,
@@ -820,12 +820,12 @@
   "SLAY_zone": {
     "last_alert_time": 1758955830.3794937,
     "last_price": 0.02995,
-    "blocked": true
+    "blocked": false
   },
   "JUV_zone": {
     "last_alert_time": 1758955830.6364388,
     "last_price": 1.018,
-    "blocked": true
+    "blocked": false
   },
   "GAIA_zone": {
     "last_alert_time": 1758955830.655408,
@@ -845,7 +845,7 @@
   "VRA_zone": {
     "last_alert_time": 1758955830.8752003,
     "last_price": 0.0012,
-    "blocked": true
+    "blocked": false
   },
   "SYRUP_zone": {
     "last_alert_time": 1758956352.0310833,
@@ -855,12 +855,12 @@
   "SUN_zone": {
     "last_alert_time": 1758956352.046946,
     "last_price": 0.02403,
-    "blocked": true
+    "blocked": false
   },
   "BIO_zone": {
     "last_alert_time": 1758956353.91791,
     "last_price": 0.13371,
-    "blocked": true
+    "blocked": false
   },
   "GMX_zone": {
     "last_alert_time": 1758956355.039538,
@@ -878,7 +878,7 @@
   "SOMI_zone": {
     "last_alert_time": 1758956355.558111,
     "last_price": 0.8707,
-    "blocked": true
+    "blocked": false
   },
   "B2_crossover": {
     "last_alert_time": 1758956360.576507
@@ -892,5 +892,121 @@
     "last_alert_time": 1758956362.845211,
     "last_price": 0.0008529,
     "blocked": true
+  },
+  "W_zone": {
+    "last_alert_time": 1758958581.3551183,
+    "last_price": 0.10874,
+    "blocked": true
+  },
+  "DYDX_zone": {
+    "last_alert_time": 1758958581.3660471,
+    "last_price": 0.5891,
+    "blocked": true
+  },
+  "TOSHI_zone": {
+    "last_alert_time": 1758958582.5914989,
+    "last_price": 0.0007276,
+    "blocked": true
+  },
+  "CVX_crossover": {
+    "last_alert_time": 1758958582.7607484
+  },
+  "BARD_crossover": {
+    "last_alert_time": 1758958582.9365013
+  },
+  "MOG_zone": {
+    "last_alert_time": 1758958583.312287,
+    "last_price": 6.774e-07,
+    "blocked": true
+  },
+  "STBL_crossover": {
+    "last_alert_time": 1758958583.7782607
+  },
+  "BB_crossover": {
+    "last_alert_time": 1758958584.5650527
+  },
+  "VANA_zone": {
+    "last_alert_time": 1758958585.2468817,
+    "last_price": 4.188,
+    "blocked": true
+  },
+  "ARKM_zone": {
+    "last_alert_time": 1758958585.548994,
+    "last_price": 0.5258,
+    "blocked": true
+  },
+  "BOME_crossover": {
+    "last_alert_time": 1758958585.8663151
+  },
+  "SIGN_zone": {
+    "last_alert_time": 1758958586.1184158,
+    "last_price": 0.07669,
+    "blocked": true
+  },
+  "IKA_zone": {
+    "last_alert_time": 1758958586.9214916,
+    "last_price": 0.03167,
+    "blocked": true
+  },
+  "FLOCK_crossover": {
+    "last_alert_time": 1758958587.5728226
+  },
+  "SERAPH_zone": {
+    "last_alert_time": 1758958587.6147854,
+    "last_price": 0.24582,
+    "blocked": true
+  },
+  "BLESS_zone": {
+    "last_alert_time": 1758958587.8689938,
+    "last_price": 0.03444,
+    "blocked": true
+  },
+  "CETUS_zone": {
+    "last_alert_time": 1758958587.9105308,
+    "last_price": 0.0754,
+    "blocked": true
+  },
+  "MAGIC_crossover": {
+    "last_alert_time": 1758958588.1896634
+  },
+  "UCN_crossover": {
+    "last_alert_time": 1758958588.572075
+  },
+  "AITECH_zone": {
+    "last_alert_time": 1758958588.6341045,
+    "last_price": 0.03167,
+    "blocked": true
+  },
+  "HFT_zone": {
+    "last_alert_time": 1758958589.2125032,
+    "last_price": 0.07554,
+    "blocked": true
+  },
+  "RIVER_crossover": {
+    "last_alert_time": 1758958589.3756957
+  },
+  "MORI_zone": {
+    "last_alert_time": 1758958590.322572,
+    "last_price": 0.03894,
+    "blocked": true
+  },
+  "APEPE_crossover": {
+    "last_alert_time": 1758958590.6858506
+  },
+  "RAD_zone": {
+    "last_alert_time": 1758958590.8790162,
+    "last_price": 0.617,
+    "blocked": true
+  },
+  "TAKE_zone": {
+    "last_alert_time": 1758958591.506637,
+    "last_price": 0.17817,
+    "blocked": true
+  },
+  "GAIA_crossover": {
+    "last_alert_time": 1758958592.5784423
+  },
+  "VRA_crossover": {
+    "last_alert_time": 1758958593.174862
   }
 }
