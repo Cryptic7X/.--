@@ -60,7 +60,7 @@
     "in_zone": true,
     "entry_time": 1758896285.8443742,
     "reminder_sent": true,
-    "candle_count": 16
+    "candle_count": 17
   },
   "AVNT_squeeze": {
     "in_zone": false,
@@ -292,6 +292,12 @@
   "ALGO_squeeze": {
     "in_zone": true,
     "entry_time": 1759004392.131154,
+    "reminder_sent": false,
+    "candle_count": 1
+  },
+  "INJ_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759004393.8845043,
     "reminder_sent": false,
     "candle_count": 1
   }
