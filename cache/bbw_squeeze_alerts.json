@@ -27,10 +27,10 @@
     "reminder_sent": false
   },
   "MYX_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758806751.6062725,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 9
+    "candle_count": 0
   },
   "PYUSD_squeeze": {
     "in_zone": true,
