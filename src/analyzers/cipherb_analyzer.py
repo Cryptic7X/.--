@@ -2,6 +2,7 @@
 """
 CipherB Multi-Timeframe Analyzer (2H + 8H)
 STRICT Pine Script Match with Multi-Timeframe Logic
+FIXED: No alerts for new coins without 200 candles
 """
 import os
 import json
@@ -45,7 +46,10 @@ class CipherBMultiAnalyzer:
                 symbol, '2h', limit=200
             )
             
-            if not ohlcv_data or len(ohlcv_data.get('timestamp', [])) < 25:
+            # FIXED: Strict check for new coins - must have close to 200 candles
+            if not ohlcv_data or len(ohlcv_data.get('timestamp', [])) < 180:  # CHANGED: 25 → 180
+                if ohlcv_data and len(ohlcv_data.get('timestamp', [])) < 180:
+                    print(f"🚫 {symbol}: Only {len(ohlcv_data.get('timestamp', []))} candles - skipping (new coin)")
                 return None
             
             # Create DataFrame for your indicator
@@ -62,7 +66,9 @@ class CipherBMultiAnalyzer:
             df.set_index('timestamp', inplace=True)
             df = df.astype(float).ffill().bfill()
             
-            if len(df) < 25:
+            # FIXED: Double-check after DataFrame creation
+            if len(df) < 180:  # CHANGED: 25 → 180
+                print(f"🚫 {symbol}: DataFrame only has {len(df)} candles - skipping (new coin)")
                 return None
             
             # Analyze 2H timeframe
@@ -71,6 +77,7 @@ class CipherBMultiAnalyzer:
             if result_2h:
                 result_2h['coin_data'] = coin_data
                 result_2h['exchange_used'] = exchange_used
+                result_2h['candle_count'] = len(df)  # Add candle count for debugging
                 
             return result_2h
             
@@ -86,7 +93,10 @@ class CipherBMultiAnalyzer:
                 symbol, '8h', limit=100
             )
             
-            if not ohlcv_data or len(ohlcv_data.get('timestamp', [])) < 25:
+            # FIXED: Strict check for 8H data too - need at least 75 8H candles (600H = 25 days)
+            if not ohlcv_data or len(ohlcv_data.get('timestamp', [])) < 75:  # CHANGED: 25 → 75
+                if ohlcv_data and len(ohlcv_data.get('timestamp', [])) < 75:
+                    print(f"🚫 {symbol}: Only {len(ohlcv_data.get('timestamp', []))} 8H candles - skipping")
                 return None
             
             # Create DataFrame for your indicator
@@ -103,7 +113,9 @@ class CipherBMultiAnalyzer:
             df.set_index('timestamp', inplace=True)
             df = df.astype(float).ffill().bfill()
             
-            if len(df) < 25:
+            # FIXED: Double-check after DataFrame creation
+            if len(df) < 75:  # CHANGED: 25 → 75
+                print(f"🚫 {symbol}: 8H DataFrame only has {len(df)} candles - skipping")
                 return None
             
             # Analyze 8H timeframe
@@ -143,7 +155,7 @@ class CipherBMultiAnalyzer:
                     result = future.result(timeout=30)
                     if result:
                         signals_2h.append(result)
-                        print(f"📊 2H {result['signal_type']}: {result['symbol']}")
+                        print(f"📊 2H {result['signal_type']}: {result['symbol']} ({result['candle_count']} candles)")  # Show candle count
                         
                     if processed % 50 == 0:
                         print(f"📈 Progress: {processed}/{len(coins)} coins processed")
@@ -167,6 +179,7 @@ class CipherBMultiAnalyzer:
         
         print(f"📊 Analyzing {len(coins)} CipherB coins (≥500M cap, ≥10M vol)")
         print("🎯 2H + 8H Multi-Timeframe Analysis")
+        print("🚫 Filtering: Minimum 180 2H candles (~15 days history)")  # ADDED
         
         # Step 2: Get 2H signals
         signals_2h = self.process_coins_parallel(coins)
