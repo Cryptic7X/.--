@@ -86,10 +86,10 @@
     "candle_count": 11
   },
   "PEPE_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758875694.0500746,
-    "reminder_sent": true,
-    "candle_count": 16
+    "in_zone": false,
+    "entry_time": 0,
+    "reminder_sent": false,
+    "candle_count": 0
   },
   "LINEA_squeeze": {
     "in_zone": false,
@@ -173,7 +173,7 @@
     "in_zone": true,
     "entry_time": 1758954360.0611196,
     "reminder_sent": false,
-    "candle_count": 6
+    "candle_count": 7
   },
   "GALA_squeeze": {
     "in_zone": true,
@@ -191,7 +191,7 @@
     "in_zone": true,
     "entry_time": 1758961367.0935748,
     "reminder_sent": false,
-    "candle_count": 5
+    "candle_count": 6
   },
   "TIA_squeeze": {
     "in_zone": true,
