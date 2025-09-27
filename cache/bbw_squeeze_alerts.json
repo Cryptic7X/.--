@@ -276,5 +276,11 @@
     "entry_time": 1758997507.309125,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "ZRO_squeeze": {
+    "in_zone": true,
+    "entry_time": 1758997507.7998624,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
