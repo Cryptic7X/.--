@@ -26,3 +26,11 @@ jobs:
         git pull origin main
         git add cache/*.json
         git diff --staged --quiet || (git commit -m "📊 Daily data update $(date '+%Y-%m-%d %H:%M')" && git push origin main)
+
+    - name: Clean up
+      if: always()
+      run: |
+        echo "🧹 Cleaning up temporary files..."
+        find . -name "*.pyc" -delete || true
+        find . -name "__pycache__" -type d -exec rm -rf {} + || true
+        echo "✅ Cleanup complete"
