@@ -55,5 +55,11 @@
   },
   "IN": {
     "last_alert_time": 1758989679.0837657
+  },
+  "MOODENG": {
+    "last_alert_time": 1758993009.3782814
+  },
+  "USELESS": {
+    "last_alert_time": 1758993009.3800113
   }
 }
