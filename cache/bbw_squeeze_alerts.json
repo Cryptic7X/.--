@@ -77,7 +77,7 @@
     "in_zone": true,
     "entry_time": 1758861046.817512,
     "reminder_sent": true,
-    "candle_count": 12
+    "candle_count": 13
   },
   "ZEC_squeeze": {
     "in_zone": true,
@@ -149,7 +149,7 @@
     "in_zone": true,
     "entry_time": 1758936220.053187,
     "reminder_sent": false,
-    "candle_count": 5
+    "candle_count": 6
   },
   "FARTCOIN_squeeze": {
     "in_zone": false,
