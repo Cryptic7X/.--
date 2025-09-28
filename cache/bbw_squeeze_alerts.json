@@ -397,5 +397,11 @@
     "entry_time": 1759028932.1897268,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "SEI_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759028933.4371986,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
