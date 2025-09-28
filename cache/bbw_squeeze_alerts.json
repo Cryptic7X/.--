@@ -27,7 +27,7 @@
     "in_zone": true,
     "entry_time": 1758968282.4762766,
     "reminder_sent": true,
-    "candle_count": 19
+    "candle_count": 20
   },
   "MYX_squeeze": {
     "in_zone": false,
@@ -232,10 +232,10 @@
     "candle_count": 0
   },
   "ENA_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759076476.6351829,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 3
+    "candle_count": 0
   },
   "PENDLE_squeeze": {
     "in_zone": true,
