@@ -424,10 +424,10 @@
     "candle_count": 0
   },
   "SOL_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759040875.5151155,
-    "reminder_sent": true,
-    "candle_count": 11
+    "in_zone": false,
+    "entry_time": 0,
+    "reminder_sent": false,
+    "candle_count": 0
   },
   "MNT_squeeze": {
     "in_zone": true,
