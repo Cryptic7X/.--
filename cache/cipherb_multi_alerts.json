@@ -113,10 +113,10 @@
   },
   "KAITO": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1758989756.6207411,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759047432.9052997,
     "last_8h_time": 0
   },
   "MYX": {
@@ -165,6 +165,22 @@
     "monitoring_8h": false,
     "monitoring_direction": null,
     "last_2h_time": 1759021994.814752,
+    "last_8h_time": 0
+  },
+  "RENDER": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759047432.9042568,
+    "last_8h_time": 0
+  },
+  "RUNE": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759047432.9047158,
     "last_8h_time": 0
   }
 }
