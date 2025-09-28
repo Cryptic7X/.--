@@ -142,10 +142,10 @@
     "candle_count": 26
   },
   "BCH_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758918045.5432105,
-    "reminder_sent": true,
-    "candle_count": 25
+    "in_zone": false,
+    "entry_time": 0,
+    "reminder_sent": false,
+    "candle_count": 0
   },
   "JUP_squeeze": {
     "in_zone": true,
