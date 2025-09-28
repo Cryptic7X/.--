@@ -32,11 +32,11 @@
     "last_8h_time": 0
   },
   "FORM": {
-    "last_signal": "buy",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "buy",
-    "last_2h_time": 1759011152.2637281,
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759083484.193093,
     "last_8h_time": 0
   },
   "IP": {
