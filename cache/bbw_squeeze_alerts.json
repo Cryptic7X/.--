@@ -403,5 +403,11 @@
     "entry_time": 1759028933.4371986,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "VIRTUAL_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759028938.1876974,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
