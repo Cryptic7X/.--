@@ -324,8 +324,8 @@
   "ATOM_squeeze": {
     "in_zone": true,
     "entry_time": 1759023752.694293,
-    "reminder_sent": false,
-    "candle_count": 9
+    "reminder_sent": true,
+    "candle_count": 10
   },
   "PENGU_squeeze": {
     "in_zone": true,
