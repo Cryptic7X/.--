@@ -137,5 +137,4 @@ if __name__ == "__main__":
 else:
     print("❌ No coins fetched")
 
-if __name__ == "__main__":
-    main()
+
