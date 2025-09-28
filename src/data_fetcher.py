@@ -72,9 +72,12 @@ class SimpleDataFetcher:
         for start in [1, 5001]:
             try:
                 params = {
-                    'start': start,
-                    'limit': 5000,
-                    'sort': 'market_cap'
+                    'start': 1,
+                    'limit': 2000,                       # smaller page; adjust if needed
+                    'sort' : 'market_cap',
+                    'market_cap_min' : self.config['market_filters']['ema']['min_market_cap'],
+                    'volume_24h_min': self.config['market_filters']['ema']['min_volume_24h'],
+                    'convert':'USD'
                 }
                 response = requests.get(url, headers=headers, params=params, timeout=30)
                 data = response.json()
