@@ -311,8 +311,8 @@
   "XLM_squeeze": {
     "in_zone": true,
     "entry_time": 1759011425.690618,
-    "reminder_sent": false,
-    "candle_count": 9
+    "reminder_sent": true,
+    "candle_count": 10
   },
   "UNI_squeeze": {
     "in_zone": true,
@@ -366,13 +366,13 @@
     "in_zone": true,
     "entry_time": 1759028922.3117185,
     "reminder_sent": false,
-    "candle_count": 7
+    "candle_count": 8
   },
   "AVAX_squeeze": {
     "in_zone": true,
     "entry_time": 1759028922.3369715,
     "reminder_sent": false,
-    "candle_count": 7
+    "candle_count": 8
   },
   "SUI_squeeze": {
     "in_zone": false,
