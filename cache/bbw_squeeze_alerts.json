@@ -155,8 +155,8 @@
   "FARTCOIN_squeeze": {
     "in_zone": true,
     "entry_time": 1759004397.693552,
-    "reminder_sent": false,
-    "candle_count": 9
+    "reminder_sent": true,
+    "candle_count": 10
   },
   "BTC_squeeze": {
     "in_zone": true,
