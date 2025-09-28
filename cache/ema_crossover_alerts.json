@@ -163,5 +163,14 @@
   },
   "STO": {
     "last_alert_time": 1759054352.966587
+  },
+  "MEME": {
+    "last_alert_time": 1759062198.7111597
+  },
+  "REX": {
+    "last_alert_time": 1759062200.4641316
+  },
+  "TUT": {
+    "last_alert_time": 1759062200.635898
   }
 }
