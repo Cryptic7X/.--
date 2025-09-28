@@ -25,8 +25,8 @@
   "OKB_squeeze": {
     "in_zone": true,
     "entry_time": 1758968282.4762766,
-    "reminder_sent": false,
-    "candle_count": 9
+    "reminder_sent": true,
+    "candle_count": 10
   },
   "MYX_squeeze": {
     "in_zone": false,
@@ -377,6 +377,12 @@
   "SUI_squeeze": {
     "in_zone": true,
     "entry_time": 1759028923.6291263,
+    "reminder_sent": false,
+    "candle_count": 1
+  },
+  "AAVE_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759028927.5991488,
     "reminder_sent": false,
     "candle_count": 1
   }
