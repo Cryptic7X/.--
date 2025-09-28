@@ -203,8 +203,8 @@
   "WIF_squeeze": {
     "in_zone": true,
     "entry_time": 1758961372.677161,
-    "reminder_sent": false,
-    "candle_count": 9
+    "reminder_sent": true,
+    "candle_count": 10
   },
   "KAS_squeeze": {
     "in_zone": true,
@@ -252,7 +252,7 @@
     "in_zone": true,
     "entry_time": 1758982558.3352408,
     "reminder_sent": false,
-    "candle_count": 5
+    "candle_count": 6
   },
   "W_squeeze": {
     "in_zone": true,
