@@ -91,5 +91,14 @@
   },
   "MORI": {
     "last_alert_time": 1759014693.43509
+  },
+  "ORDI": {
+    "last_alert_time": 1759028627.173459
+  },
+  "IO": {
+    "last_alert_time": 1759028628.61827
+  },
+  "MAMO": {
+    "last_alert_time": 1759028632.311469
   }
 }
