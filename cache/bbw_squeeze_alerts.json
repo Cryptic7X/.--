@@ -360,8 +360,8 @@
   "HYPE_squeeze": {
     "in_zone": true,
     "entry_time": 1759028921.6339462,
-    "reminder_sent": false,
-    "candle_count": 9
+    "reminder_sent": true,
+    "candle_count": 10
   },
   "LINK_squeeze": {
     "in_zone": false,
@@ -372,8 +372,8 @@
   "AVAX_squeeze": {
     "in_zone": true,
     "entry_time": 1759028922.3369715,
-    "reminder_sent": false,
-    "candle_count": 9
+    "reminder_sent": true,
+    "candle_count": 10
   },
   "SUI_squeeze": {
     "in_zone": false,
