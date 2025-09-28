@@ -121,5 +121,11 @@
   },
   "POP": {
     "last_alert_time": 1759032940.7580528
+  },
+  "DOGS": {
+    "last_alert_time": 1759036355.8801432
+  },
+  "SKATE": {
+    "last_alert_time": 1759036359.724936
   }
 }
