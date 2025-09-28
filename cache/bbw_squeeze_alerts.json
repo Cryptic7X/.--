@@ -312,7 +312,7 @@
     "in_zone": true,
     "entry_time": 1759011425.690618,
     "reminder_sent": false,
-    "candle_count": 5
+    "candle_count": 6
   },
   "UNI_squeeze": {
     "in_zone": true,
@@ -375,10 +375,10 @@
     "candle_count": 4
   },
   "SUI_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759028923.6291263,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 3
+    "candle_count": 0
   },
   "AAVE_squeeze": {
     "in_zone": true,
