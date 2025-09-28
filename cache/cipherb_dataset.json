@@ -1,1 +1,1156 @@
-{"timestamp": "2025-09-28T11:37:16.754260", "total_coins": 115, "coins": [{"id": 1, "symbol": "BTC", "name": "Bitcoin", "market_cap": 2179350702035.0752, "current_price": 109364.92348773881, "total_volume": 23261214557.81844, "price_change_percentage_24h": -0.0203385, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 1027, "symbol": "ETH", "name": "Ethereum", "market_cap": 481813252374.9058, "current_price": 3991.7155360305237, "total_volume": 18483936381.51335, "price_change_percentage_24h": -0.48524252, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 52, "symbol": "XRP", "name": "XRP", "market_cap": 166103099008.3929, "current_price": 2.776413241539302, "total_volume": 2907195683.009267, "price_change_percentage_24h": -0.24373278, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 1839, "symbol": "BNB", "name": "BNB", "market_cap": 135016947281.37799, "current_price": 970.0492577721143, "total_volume": 2609429969.5785775, "price_change_percentage_24h": -0.27451526, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 5426, "symbol": "SOL", "name": "Solana", "market_cap": 108811758833.79172, "current_price": 200.156488584788, "total_volume": 3355257413.221952, "price_change_percentage_24h": -0.92129418, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 74, "symbol": "DOGE", "name": "Dogecoin", "market_cap": 34185431758.78521, "current_price": 0.22620268415054756, "total_volume": 1225050178.4000785, "price_change_percentage_24h": -1.84626914, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 1958, "symbol": "TRX", "name": "TRON", "market_cap": 31822885102.592014, "current_price": 0.336153028844504, "total_volume": 359181644.33741397, "price_change_percentage_24h": -0.23708804, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 2010, "symbol": "ADA", "name": "Cardano", "market_cap": 27491413014.059902, "current_price": 0.7676220197745093, "total_volume": 542165446.0492219, "price_change_percentage_24h": -2.20477102, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 32196, "symbol": "HYPE", "name": "Hyperliquid", "market_cap": 14655366903.043009, "current_price": 43.528394108215984, "total_volume": 252787288.33129644, "price_change_percentage_24h": -1.1453496, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 1975, "symbol": "LINK", "name": "Chainlink", "market_cap": 13944121774.3139, "current_price": 20.563519218271985, "total_volume": 304554858.2915356, "price_change_percentage_24h": -2.26220309, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 5805, "symbol": "AVAX", "name": "Avalanche", "market_cap": 11897866393.118591, "current_price": 28.175616243645855, "total_volume": 576445955.1029618, "price_change_percentage_24h": -0.91191176, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 512, "symbol": "XLM", "name": "Stellar", "market_cap": 11285038562.101137, "current_price": 0.3538705154879287, "total_volume": 111752059.02479136, "price_change_percentage_24h": -2.24708022, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 20947, "symbol": "SUI", "name": "Sui", "market_cap": 11119186303.295671, "current_price": 3.1156358682659278, "total_volume": 504543773.199952, "price_change_percentage_24h": -3.07544768, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 1831, "symbol": "BCH", "name": "Bitcoin Cash", "market_cap": 10727531786.18819, "current_price": 538.216448600422, "total_volume": 264262999.31612137, "price_change_percentage_24h": -1.35825831, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 4642, "symbol": "HBAR", "name": "Hedera", "market_cap": 8840180804.73538, "current_price": 0.20852961863497674, "total_volume": 106757179.52266295, "price_change_percentage_24h": -2.27143346, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 2, "symbol": "LTC", "name": "Litecoin", "market_cap": 7889396513.451201, "current_price": 103.33512197311768, "total_volume": 279063333.8653303, "price_change_percentage_24h": -0.811322, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 5994, "symbol": "SHIB", "name": "Shiba Inu", "market_cap": 6863075688.576089, "current_price": 1.164721889116398e-05, "total_volume": 108505950.21660444, "price_change_percentage_24h": -1.34694809, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 11419, "symbol": "TON", "name": "Toncoin", "market_cap": 6790580155.276891, "current_price": 2.667817784144496, "total_volume": 98744021.57779108, "price_change_percentage_24h": -1.58897826, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 3635, "symbol": "CRO", "name": "Cronos", "market_cap": 6400694746.050188, "current_price": 0.18374059304416893, "total_volume": 37997077.26175585, "price_change_percentage_24h": -1.42425881, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 6636, "symbol": "DOT", "name": "Polkadot", "market_cap": 6181122394.093474, "current_price": 3.811794953323501, "total_volume": 144713001.6836791, "price_change_percentage_24h": -1.82087225, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 27075, "symbol": "MNT", "name": "Mantle", "market_cap": 5546713506.173886, "current_price": 1.7051364582774764, "total_volume": 349354844.75581545, "price_change_percentage_24h": -5.71480144, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 328, "symbol": "XMR", "name": "Monero", "market_cap": 5272260157.82308, "current_price": 285.8097958510276, "total_volume": 68520867.027032, "price_change_percentage_24h": -2.39412974, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 33251, "symbol": "WLFI", "name": "World Liberty Financial", "market_cap": 5237415059.786736, "current_price": 0.2128415343835444, "total_volume": 352908843.4914057, "price_change_percentage_24h": 3.9739371, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 7083, "symbol": "UNI", "name": "Uniswap", "market_cap": 4722812728.975846, "current_price": 7.492597171414009, "total_volume": 164288753.2785112, "price_change_percentage_24h": -1.10112366, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 3897, "symbol": "OKB", "name": "OKB", "market_cap": 4010258465.052205, "current_price": 190.96468881200977, "total_volume": 85553780.75247006, "price_change_percentage_24h": 0.636417, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 7278, "symbol": "AAVE", "name": "Aave", "market_cap": 3991686451.9260716, "current_price": 261.83918816321346, "total_volume": 221252295.24714574, "price_change_percentage_24h": -2.64095501, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 30171, "symbol": "ENA", "name": "Ethena", "market_cap": 3881729972.719948, "current_price": 0.5634627313542224, "total_volume": 124544405.01918507, "price_change_percentage_24h": -2.84340842, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 24478, "symbol": "PEPE", "name": "Pepe", "market_cap": 3833904561.42142, "current_price": 9.113374399002228e-06, "total_volume": 255642148.55909857, "price_change_percentage_24h": -2.17621513, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 6535, "symbol": "NEAR", "name": "NEAR Protocol", "market_cap": 3337793097.508251, "current_price": 2.6705827390875077, "total_volume": 121353917.4160849, "price_change_percentage_24h": -1.37070961, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 36341, "symbol": "ASTER", "name": "Aster", "market_cap": 2951445005.001738, "current_price": 1.780445801412643, "total_volume": 1473901234.82948, "price_change_percentage_24h": -9.91641591, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 22974, "symbol": "TAO", "name": "Bittensor", "market_cap": 2926592199.840241, "current_price": 293.49351903518516, "total_volume": 74235954.1689109, "price_change_percentage_24h": -2.14481182, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 21794, "symbol": "APT", "name": "Aptos", "market_cap": 2870159557.249191, "current_price": 4.0830808742475435, "total_volume": 282865963.9036706, "price_change_percentage_24h": -0.34153466, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 36410, "symbol": "MYX", "name": "MYX Finance", "market_cap": 2808500906.8312926, "current_price": 14.248272348483644, "total_volume": 378492734.18977934, "price_change_percentage_24h": 20.00275026, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 1321, "symbol": "ETC", "name": "Ethereum Classic", "market_cap": 2760932511.4079075, "current_price": 17.963510759930447, "total_volume": 73528900.96741097, "price_change_percentage_24h": -1.41653818, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 21159, "symbol": "ONDO", "name": "Ondo", "market_cap": 2751844706.24384, "current_price": 0.8710829501631188, "total_volume": 79763277.83333734, "price_change_percentage_24h": -1.86287033, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 35626, "symbol": "IP", "name": "Story", "market_cap": 2681707907.2737303, "current_price": 8.563150819931424, "total_volume": 167741878.9092203, "price_change_percentage_24h": 3.05883314, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 13502, "symbol": "WLD", "name": "Worldcoin", "market_cap": 2634076470.9741335, "current_price": 1.2502941627768778, "total_volume": 139508413.35920033, "price_change_percentage_24h": -3.93235589, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 36645, "symbol": "XPL", "name": "Plasma", "market_cap": 2561068118.96387, "current_price": 1.4228156216465944, "total_volume": 2623692238.74236, "price_change_percentage_24h": -5.03022079, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 28321, "symbol": "POL", "name": "Polygon (prev. MATIC)", "market_cap": 2333182811.0559754, "current_price": 0.22209263608345797, "total_volume": 109260309.68084048, "price_change_percentage_24h": -0.28051243, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 27772, "symbol": "PYUSD", "name": "PayPal USD", "market_cap": 2319797871.285785, "current_price": 0.9998440906745343, "total_volume": 113782744.63327608, "price_change_percentage_24h": 0.01412308, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 8916, "symbol": "ICP", "name": "Internet Computer", "market_cap": 2228929227.4027667, "current_price": 4.141400124874311, "total_volume": 51592326.58773868, "price_change_percentage_24h": -1.25251692, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 11841, "symbol": "ARB", "name": "Arbitrum", "market_cap": 2228697925.6693344, "current_price": 0.4124445371890028, "total_volume": 114669544.95035, "price_change_percentage_24h": -2.59196729, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 35697, "symbol": "PI", "name": "Pi", "market_cap": 2155212055.506159, "current_price": 0.2616662186025146, "total_volume": 22440770.48301212, "price_change_percentage_24h": -1.98246657, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 20396, "symbol": "KAS", "name": "Kaspa", "market_cap": 2004340995.6746747, "current_price": 0.07493083459253926, "total_volume": 34363091.63657414, "price_change_percentage_24h": -2.74487117, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 3794, "symbol": "ATOM", "name": "Cosmos", "market_cap": 1898409496.2908509, "current_price": 4.041921947885892, "total_volume": 83744161.175153, "price_change_percentage_24h": -1.26131574, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 3077, "symbol": "VET", "name": "VeChain", "market_cap": 1844080238.8419354, "current_price": 0.021446523879030316, "total_volume": 28977239.4886483, "price_change_percentage_24h": -2.42012462, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 36507, "symbol": "PUMP", "name": "Pump.fun", "market_cap": 1781824820.1578197, "current_price": 0.005033403446773502, "total_volume": 262939358.7700842, "price_change_percentage_24h": -0.15431354, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 4030, "symbol": "ALGO", "name": "Algorand", "market_cap": 1768250962.307602, "current_price": 0.2012400473825926, "total_volume": 44318936.65890817, "price_change_percentage_24h": -2.78335515, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 5690, "symbol": "RENDER", "name": "Render", "market_cap": 1717221759.82377, "current_price": 3.3113627097654996, "total_volume": 34556027.47571712, "price_change_percentage_24h": -2.71803589, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 34466, "symbol": "PENGU", "name": "Pudgy Penguins", "market_cap": 1711976989.153227, "current_price": 0.027234588001975438, "total_volume": 119799120.22571966, "price_change_percentage_24h": -3.20007525, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 23149, "symbol": "SEI", "name": "Sei", "market_cap": 1658381515.5064094, "current_price": 0.27063342958208736, "total_volume": 72855932.2895373, "price_change_percentage_24h": -2.82498167, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 23095, "symbol": "BONK", "name": "Bonk", "market_cap": 1518067596.0198634, "current_price": 1.8670501368520254e-05, "total_volume": 139078677.3621722, "price_change_percentage_24h": -3.26390812, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 35336, "symbol": "TRUMP", "name": "OFFICIAL TRUMP", "market_cap": 1503061537.1406837, "current_price": 7.515335383559641, "total_volume": 159430275.1558749, "price_change_percentage_24h": -0.24949876, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 2280, "symbol": "FIL", "name": "Filecoin", "market_cap": 1480221615.7581136, "current_price": 2.139337932415081, "total_volume": 98086530.69585831, "price_change_percentage_24h": -2.36356623, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 10603, "symbol": "IMX", "name": "Immutable", "market_cap": 1460761933.2458117, "current_price": 0.7529940983592337, "total_volume": 116239968.99717228, "price_change_percentage_24h": -0.4243417, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 3773, "symbol": "FET", "name": "Artificial Superintelligence Alliance", "market_cap": 1334798843.647869, "current_price": 0.5625252832711998, "total_volume": 49073507.55239867, "price_change_percentage_24h": -2.25774138, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 29210, "symbol": "JUP", "name": "Jupiter", "market_cap": 1331146986.5784428, "current_price": 0.4277815901512941, "total_volume": 29023141.31338007, "price_change_percentage_24h": -2.83385141, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 2634, "symbol": "XDC", "name": "XDC Network", "market_cap": 1281084158.4841712, "current_price": 0.07218588192748776, "total_volume": 23926524.01678623, "price_change_percentage_24h": -0.8659396, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 11840, "symbol": "OP", "name": "Optimism", "market_cap": 1167553939.124753, "current_price": 0.6564327923091339, "total_volume": 93866441.21926129, "price_change_percentage_24h": -2.87283827, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 3155, "symbol": "QNT", "name": "Quant", "market_cap": 1160266670.76623, "current_price": 96.10634064668926, "total_volume": 33125169.55989638, "price_change_percentage_24h": 1.59809156, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 7226, "symbol": "INJ", "name": "Injective", "market_cap": 1157137430.7358565, "current_price": 11.574738457634849, "total_volume": 50189044.93934549, "price_change_percentage_24h": -1.77416277, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 22861, "symbol": "TIA", "name": "Celestia", "market_cap": 1100177154.76599, "current_price": 1.3810772916398764, "total_volume": 65571900.78040633, "price_change_percentage_24h": -1.32611572, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 8000, "symbol": "LDO", "name": "Lido DAO", "market_cap": 955087551.3672839, "current_price": 1.0661820728361442, "total_volume": 39788847.16946367, "price_change_percentage_24h": -2.22073435, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 7186, "symbol": "CAKE", "name": "PancakeSwap", "market_cap": 923227673.2243398, "current_price": 2.551440337618468, "total_volume": 57598187.74993589, "price_change_percentage_24h": -2.77279779, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 6538, "symbol": "CRV", "name": "Curve DAO Token", "market_cap": 911755506.4968873, "current_price": 0.6539752707314712, "total_volume": 117371809.13145599, "price_change_percentage_24h": -1.09620833, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 29270, "symbol": "AERO", "name": "Aerodrome Finance", "market_cap": 905236733.6405163, "current_price": 1.0059661308655603, "total_volume": 31816073.10124027, "price_change_percentage_24h": -1.21277702, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 1437, "symbol": "ZEC", "name": "Zcash", "market_cap": 898713812.2063287, "current_price": 55.3509211079583, "total_volume": 104344883.01342411, "price_change_percentage_24h": -0.6271946, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 6719, "symbol": "GRT", "name": "The Graph", "market_cap": 836716431.3920058, "current_price": 0.07958430738791965, "total_volume": 24179069.36851219, "price_change_percentage_24h": -2.67986642, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 28177, "symbol": "PYTH", "name": "Pyth Network", "market_cap": 820237940.6888305, "current_price": 0.14265048904955507, "total_volume": 32099611.61316373, "price_change_percentage_24h": -3.81185822, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 29814, "symbol": "ETHFI", "name": "ether.fi", "market_cap": 803662633.2130632, "current_price": 1.5585797858807493, "total_volume": 91774372.25127162, "price_change_percentage_24h": -0.29985832, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 9481, "symbol": "PENDLE", "name": "Pendle", "market_cap": 771147222.9417596, "current_price": 4.547459979933641, "total_volume": 43842702.95207353, "price_change_percentage_24h": -2.16454629, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 10804, "symbol": "FLOKI", "name": "FLOKI", "market_cap": 760817581.6339662, "current_price": 7.975808694301888e-05, "total_volume": 38581728.02116096, "price_change_percentage_24h": -2.80611087, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 38337, "symbol": "0G", "name": "0G", "market_cap": 753989337.1042894, "current_price": 3.5358056694486164, "total_volume": 318264288.75122035, "price_change_percentage_24h": 0.03309216, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 30083, "symbol": "ATH", "name": "Aethir", "market_cap": 739432350.3679022, "current_price": 0.06055877453757731, "total_volume": 32629143.24273225, "price_change_percentage_24h": 0.07118102, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 13855, "symbol": "ENS", "name": "Ethereum Name Service", "market_cap": 723053858.290957, "current_price": 19.54170457798186, "total_volume": 34343883.45078745, "price_change_percentage_24h": -2.55225453, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 7334, "symbol": "CFX", "name": "Conflux", "market_cap": 720459615.7049106, "current_price": 0.14017665819465952, "total_volume": 26923406.40936059, "price_change_percentage_24h": -3.39155752, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 28752, "symbol": "WIF", "name": "dogwifhat", "market_cap": 717512374.5481114, "current_price": 0.7183456974985352, "total_volume": 89859528.92849657, "price_change_percentage_24h": -3.29117481, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 8526, "symbol": "RAY", "name": "Raydium", "market_cap": 683188727.0169203, "current_price": 2.5480033643183453, "total_volume": 23275380.45912089, "price_change_percentage_24h": -2.48524896, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 6210, "symbol": "SAND", "name": "The Sandbox", "market_cap": 676123623.7759721, "current_price": 0.25872514446085576, "total_volume": 30855345.04663297, "price_change_percentage_24h": -2.10570443, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 32684, "symbol": "S", "name": "Sonic", "market_cap": 668261442.8115972, "current_price": 0.23203522319847128, "total_volume": 42562515.06344103, "price_change_percentage_24h": -2.18872301, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 3871, "symbol": "AB", "name": "AB", "market_cap": 660633959.6213802, "current_price": 0.008315180311137137, "total_volume": 25841216.69586694, "price_change_percentage_24h": -0.09199332, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 29420, "symbol": "VIRTUAL", "name": "Virtuals Protocol", "market_cap": 656838700.7670388, "current_price": 1.0018600370932784, "total_volume": 46470312.06841673, "price_change_percentage_24h": -2.93898359, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 7080, "symbol": "GALA", "name": "Gala", "market_cap": 654940444.7910451, "current_price": 0.01420485170596156, "total_volume": 44207057.22687236, "price_change_percentage_24h": -2.1057474, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 36462, "symbol": "A", "name": "Vaulta", "market_cap": 639472844.7759603, "current_price": 0.4012575392508078, "total_volume": 26285763.1295689, "price_change_percentage_24h": -1.03599375, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 30494, "symbol": "EIGEN", "name": "EigenLayer", "market_cap": 626294690.9067206, "current_price": 1.8448063373986043, "total_volume": 171526970.1454184, "price_change_percentage_24h": 6.23912974, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 26997, "symbol": "ZRO", "name": "LayerZero", "market_cap": 590941686.2374629, "current_price": 2.302399930008414, "total_volume": 77220572.69976518, "price_change_percentage_24h": -1.52464089, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 33597, "symbol": "FARTCOIN", "name": "Fartcoin", "market_cap": 574744699.8581309, "current_price": 0.5747457022146356, "total_volume": 65420651.30261687, "price_change_percentage_24h": -3.38298885, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 5964, "symbol": "TWT", "name": "Trust Wallet Token", "market_cap": 548237170.7792869, "current_price": 1.2753838770062662, "total_volume": 47030639.9075129, "price_change_percentage_24h": 0.1569161, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 10529, "symbol": "SUN", "name": "Sun [New]", "market_cap": 496882329.4946834, "current_price": 0.025921250259209147, "total_volume": 97914090.25935604, "price_change_percentage_24h": 0.96620775, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 22691, "symbol": "STRK", "name": "Starknet", "market_cap": 485940173.26845753, "current_price": 0.11918682212777897, "total_volume": 26772319.7987554, "price_change_percentage_24h": -0.76332746, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 29587, "symbol": "W", "name": "Wormhole", "market_cap": 475913062.33356553, "current_price": 0.10152714478408507, "total_volume": 64640437.3012922, "price_change_percentage_24h": -5.26576688, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 23635, "symbol": "FORM", "name": "Four", "market_cap": 433888052.4432955, "current_price": 1.1362274366233014, "total_volume": 81083443.82182975, "price_change_percentage_24h": 17.69056966, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 27657, "symbol": "LINEA", "name": "Linea", "market_cap": 422635773.1987798, "current_price": 0.027298264897966325, "total_volume": 193963770.49280572, "price_change_percentage_24h": -5.81086437, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 4157, "symbol": "RUNE", "name": "THORChain", "market_cap": 391746983.5052509, "current_price": 1.1151675789393665, "total_volume": 36634215.35373704, "price_change_percentage_24h": -1.59592615, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 18876, "symbol": "APE", "name": "ApeCoin", "market_cap": 384317262.56009144, "current_price": 0.5106178023970249, "total_volume": 23081623.10416396, "price_change_percentage_24h": -1.67940237, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 29743, "symbol": "BRETT", "name": "Brett (Based)", "market_cap": 380821362.4900398, "current_price": 0.03842707149570874, "total_volume": 21053575.31478437, "price_change_percentage_24h": -2.48798146, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 2586, "symbol": "SNX", "name": "Synthetix", "market_cap": 368093060.8720698, "current_price": 1.0717009203667502, "total_volume": 133258429.66792676, "price_change_percentage_24h": -12.03460349, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 5632, "symbol": "AR", "name": "Arweave", "market_cap": 365657875.5569391, "current_price": 5.5695984908920115, "total_volume": 30569822.48739408, "price_change_percentage_24h": -2.39282661, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 35763, "symbol": "KAITO", "name": "KAITO", "market_cap": 360222978.4908149, "current_price": 1.492293120794035, "total_volume": 757360448.398245, "price_change_percentage_24h": 37.67872931, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 38299, "symbol": "AVNT", "name": "Avantis", "market_cap": 354909190.92457384, "current_price": 1.3745200500817376, "total_volume": 717973388.3846794, "price_change_percentage_24h": -10.75321242, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 24647, "symbol": "BERA", "name": "Berachain", "market_cap": 324779239.69851404, "current_price": 2.555966966556264, "total_volume": 39291511.17173763, "price_change_percentage_24h": -2.41015379, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 27750, "symbol": "TOSHI", "name": "Toshi", "market_cap": 301040269.2675139, "current_price": 0.0007156064640323867, "total_volume": 28160727.35506121, "price_change_percentage_24h": -1.42392752, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 35364, "symbol": "PLUME", "name": "Plume", "market_cap": 298213041.6256295, "current_price": 0.09827181650906709, "total_volume": 27154786.71754381, "price_change_percentage_24h": -3.24146521, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 32452, "symbol": "MOVE", "name": "Movement", "market_cap": 292646840.335936, "current_price": 0.10641703284943128, "total_volume": 21352669.14512832, "price_change_percentage_24h": -2.66879734, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 36532, "symbol": "B", "name": "BUILDon", "market_cap": 282965465.4979143, "current_price": 0.2829654654979143, "total_volume": 23706968.48832348, "price_change_percentage_24h": -21.54953885, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 30712, "symbol": "MERL", "name": "Merlin Chain", "market_cap": 281047522.1397647, "current_price": 0.2870882147414884, "total_volume": 29775605.78924159, "price_change_percentage_24h": -3.10488882, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 31278, "symbol": "DRIFT", "name": "Drift", "market_cap": 274897967.33523417, "current_price": 0.7467867839156064, "total_volume": 90984227.67264608, "price_change_percentage_24h": -4.95302171, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 131, "symbol": "DASH", "name": "Dash", "market_cap": 257282576.0338044, "current_price": 20.700378524840698, "total_volume": 23102172.75453973, "price_change_percentage_24h": -1.03975086, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 38408, "symbol": "BARD", "name": "Lombard", "market_cap": 231885488.47594145, "current_price": 1.0306021710041842, "total_volume": 341682702.3889312, "price_change_percentage_24h": -5.46318655, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 1684, "symbol": "QTUM", "name": "Qtum", "market_cap": 223247178.0639021, "current_price": 2.10954022274477, "total_volume": 41806389.99064685, "price_change_percentage_24h": -1.81286248, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 34812, "symbol": "BIO", "name": "Bio Protocol", "market_cap": 213238812.10977563, "current_price": 0.12755128157825757, "total_volume": 40355545.8948274, "price_change_percentage_24h": -3.51855841, "last_updated": "2025-09-28T11:35:00.000Z"}, {"id": 38495, "symbol": "MIRA", "name": "Mira", "market_cap": 210675822.871813, "current_price": 1.1016037864747563, "total_volume": 515216498.4494322, "price_change_percentage_24h": -21.30862131, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 32956, "symbol": "GRASS", "name": "Grass", "market_cap": 202727891.63190508, "current_price": 0.8311753182384581, "total_volume": 30424394.09089029, "price_change_percentage_24h": -10.67842724, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 10508, "symbol": "FLUID", "name": "Fluid", "market_cap": 446999811.30839956, "current_price": 5.823851935799658, "total_volume": 24376963.43044608, "price_change_percentage_24h": -2.93242721, "last_updated": "2025-09-28T11:36:00.000Z"}, {"id": 19843, "symbol": "APEX", "name": "ApeX Protocol", "market_cap": 256675397.60524532, "current_price": 1.9028589374674951, "total_volume": 305957211.9723464, "price_change_percentage_24h": -7.27401437, "last_updated": "2025-09-28T11:35:00.000Z"}]}
+{
+  "timestamp": "2025-09-28T11:52:41.969964",
+  "total_coins": 115,
+  "coins": [
+    {
+      "id": 1,
+      "symbol": "BTC",
+      "name": "Bitcoin",
+      "market_cap": 2178452592333.3413,
+      "current_price": 109319.75549244447,
+      "total_volume": 23346547908.66555,
+      "price_change_percentage_24h": -0.02342388,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 1027,
+      "symbol": "ETH",
+      "name": "Ethereum",
+      "market_cap": 481607255008.2277,
+      "current_price": 3990.0088937061437,
+      "total_volume": 18539840346.108963,
+      "price_change_percentage_24h": -0.37193917,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 52,
+      "symbol": "XRP",
+      "name": "XRP",
+      "market_cap": 166010883781.54767,
+      "current_price": 2.774871864054998,
+      "total_volume": 2914178942.835626,
+      "price_change_percentage_24h": -0.11971177,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 1839,
+      "symbol": "BNB",
+      "name": "BNB",
+      "market_cap": 134924548377.76918,
+      "current_price": 969.3854188576111,
+      "total_volume": 2615184405.4516377,
+      "price_change_percentage_24h": -0.21158142,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 5426,
+      "symbol": "SOL",
+      "name": "Solana",
+      "market_cap": 108440444528.50212,
+      "current_price": 199.47349038456295,
+      "total_volume": 3372504753.479887,
+      "price_change_percentage_24h": -1.06520532,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 74,
+      "symbol": "DOGE",
+      "name": "Dogecoin",
+      "market_cap": 34153691888.822403,
+      "current_price": 0.22599175140601088,
+      "total_volume": 1232219269.0406687,
+      "price_change_percentage_24h": -1.80962187,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 1958,
+      "symbol": "TRX",
+      "name": "TRON",
+      "market_cap": 31800962010.11157,
+      "current_price": 0.33592144978072075,
+      "total_volume": 359026391.29854304,
+      "price_change_percentage_24h": -0.2499117,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 2010,
+      "symbol": "ADA",
+      "name": "Cardano",
+      "market_cap": 27482930620.702404,
+      "current_price": 0.7673851722935059,
+      "total_volume": 546555310.8219854,
+      "price_change_percentage_24h": -2.06511141,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 32196,
+      "symbol": "HYPE",
+      "name": "Hyperliquid",
+      "market_cap": 14633586869.678581,
+      "current_price": 43.46370450458825,
+      "total_volume": 253298681.56293187,
+      "price_change_percentage_24h": -1.14739555,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 1975,
+      "symbol": "LINK",
+      "name": "Chainlink",
+      "market_cap": 13923295453.968794,
+      "current_price": 20.532806460194145,
+      "total_volume": 303778639.27556545,
+      "price_change_percentage_24h": -2.25244063,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 5805,
+      "symbol": "AVAX",
+      "name": "Avalanche",
+      "market_cap": 11870791436.421907,
+      "current_price": 28.111499404164423,
+      "total_volume": 580430501.0043763,
+      "price_change_percentage_24h": -0.84533444,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 512,
+      "symbol": "XLM",
+      "name": "Stellar",
+      "market_cap": 11277305358.767412,
+      "current_price": 0.35362802718223657,
+      "total_volume": 113074497.84097482,
+      "price_change_percentage_24h": -2.02199002,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 20947,
+      "symbol": "SUI",
+      "name": "Sui",
+      "market_cap": 11107359469.318558,
+      "current_price": 3.112321946982299,
+      "total_volume": 506373703.0480716,
+      "price_change_percentage_24h": -2.98265746,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 1831,
+      "symbol": "BCH",
+      "name": "Bitcoin Cash",
+      "market_cap": 10710637135.676743,
+      "current_price": 537.3683972452347,
+      "total_volume": 263643272.9724851,
+      "price_change_percentage_24h": -1.45121507,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 4642,
+      "symbol": "HBAR",
+      "name": "Hedera",
+      "market_cap": 8828612019.939217,
+      "current_price": 0.20825672441087173,
+      "total_volume": 106776077.81441219,
+      "price_change_percentage_24h": -2.27090086,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 2,
+      "symbol": "LTC",
+      "name": "Litecoin",
+      "market_cap": 7882935770.7782135,
+      "current_price": 103.25030492091422,
+      "total_volume": 280885177.2438379,
+      "price_change_percentage_24h": -0.86765001,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 5994,
+      "symbol": "SHIB",
+      "name": "Shiba Inu",
+      "market_cap": 6859220107.138295,
+      "current_price": 1.1640675643938331e-05,
+      "total_volume": 109369874.13097945,
+      "price_change_percentage_24h": -1.32096126,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 11419,
+      "symbol": "TON",
+      "name": "Toncoin",
+      "market_cap": 6782922225.653125,
+      "current_price": 2.6648055112703846,
+      "total_volume": 99043776.54412782,
+      "price_change_percentage_24h": -1.58593468,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 3635,
+      "symbol": "CRO",
+      "name": "Cronos",
+      "market_cap": 6396274141.013291,
+      "current_price": 0.18361369360226154,
+      "total_volume": 37635528.15334456,
+      "price_change_percentage_24h": -1.77208037,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 6636,
+      "symbol": "DOT",
+      "name": "Polkadot",
+      "market_cap": 6174503929.403104,
+      "current_price": 3.8077033339343522,
+      "total_volume": 145578601.06296515,
+      "price_change_percentage_24h": -1.83878832,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 27075,
+      "symbol": "MNT",
+      "name": "Mantle",
+      "market_cap": 5556235820.475807,
+      "current_price": 1.7080637494139863,
+      "total_volume": 347395669.52451485,
+      "price_change_percentage_24h": -5.53449975,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 328,
+      "symbol": "XMR",
+      "name": "Monero",
+      "market_cap": 5284643750.732145,
+      "current_price": 286.48111176778684,
+      "total_volume": 69001757.30313912,
+      "price_change_percentage_24h": -2.16287528,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 33251,
+      "symbol": "WLFI",
+      "name": "World Liberty Financial",
+      "market_cap": 5260267886.201064,
+      "current_price": 0.21377005222827009,
+      "total_volume": 358112573.5316076,
+      "price_change_percentage_24h": 4.40088356,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 7083,
+      "symbol": "UNI",
+      "name": "Uniswap",
+      "market_cap": 4709365889.112259,
+      "current_price": 7.471264173451116,
+      "total_volume": 162362424.9173189,
+      "price_change_percentage_24h": -1.19507968,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 3897,
+      "symbol": "OKB",
+      "name": "OKB",
+      "market_cap": 4002890416.398608,
+      "current_price": 190.61382935231467,
+      "total_volume": 86021704.06934564,
+      "price_change_percentage_24h": 0.3429218,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 7278,
+      "symbol": "AAVE",
+      "name": "Aave",
+      "market_cap": 3996529035.5040193,
+      "current_price": 262.156759253778,
+      "total_volume": 225218977.86737695,
+      "price_change_percentage_24h": -2.37256807,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 30171,
+      "symbol": "ENA",
+      "name": "Ethena",
+      "market_cap": 3874890872.6928315,
+      "current_price": 0.5624699837884809,
+      "total_volume": 124931275.20068377,
+      "price_change_percentage_24h": -2.84003376,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 24478,
+      "symbol": "PEPE",
+      "name": "Pepe",
+      "market_cap": 3830238248.138655,
+      "current_price": 9.104659397083275e-06,
+      "total_volume": 255993101.73460013,
+      "price_change_percentage_24h": -2.17923585,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 6535,
+      "symbol": "NEAR",
+      "name": "NEAR Protocol",
+      "market_cap": 3333582252.1449766,
+      "current_price": 2.6672136234426453,
+      "total_volume": 121697010.58253509,
+      "price_change_percentage_24h": -1.45402107,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 36341,
+      "symbol": "ASTER",
+      "name": "Aster",
+      "market_cap": 2945428072.4621935,
+      "current_price": 1.776816114171559,
+      "total_volume": 1480513188.0061526,
+      "price_change_percentage_24h": -9.53777042,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 22974,
+      "symbol": "TAO",
+      "name": "Bittensor",
+      "market_cap": 2925829071.4644213,
+      "current_price": 293.4169886485781,
+      "total_volume": 74457237.91212401,
+      "price_change_percentage_24h": -2.15490037,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 21794,
+      "symbol": "APT",
+      "name": "Aptos",
+      "market_cap": 2867172598.9904146,
+      "current_price": 4.0788318215293105,
+      "total_volume": 284085851.30287987,
+      "price_change_percentage_24h": -0.40238044,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 36410,
+      "symbol": "MYX",
+      "name": "MYX Finance",
+      "market_cap": 2820522656.1018863,
+      "current_price": 14.309261881118639,
+      "total_volume": 382155271.5308663,
+      "price_change_percentage_24h": 21.39163518,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 1321,
+      "symbol": "ETC",
+      "name": "Ethereum Classic",
+      "market_cap": 2757222403.5773478,
+      "current_price": 17.939302184443452,
+      "total_volume": 73371490.28491913,
+      "price_change_percentage_24h": -1.51036865,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 21159,
+      "symbol": "ONDO",
+      "name": "Ondo",
+      "market_cap": 2747890315.84239,
+      "current_price": 0.8698312072689154,
+      "total_volume": 80911562.31234929,
+      "price_change_percentage_24h": -1.92840711,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 35626,
+      "symbol": "IP",
+      "name": "Story",
+      "market_cap": 2695862192.128324,
+      "current_price": 8.608347866048716,
+      "total_volume": 168432997.4297815,
+      "price_change_percentage_24h": 3.39109128,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 13502,
+      "symbol": "WLD",
+      "name": "Worldcoin",
+      "market_cap": 2629594659.8456006,
+      "current_price": 1.2481668204789524,
+      "total_volume": 139590158.42878473,
+      "price_change_percentage_24h": -4.06640404,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 36645,
+      "symbol": "XPL",
+      "name": "Plasma",
+      "market_cap": 2556140237.7082286,
+      "current_price": 1.4200779098379048,
+      "total_volume": 2631759025.2713304,
+      "price_change_percentage_24h": -4.03624147,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 28321,
+      "symbol": "POL",
+      "name": "Polygon (prev. MATIC)",
+      "market_cap": 2330313829.850861,
+      "current_price": 0.22181954149537061,
+      "total_volume": 109798972.54817612,
+      "price_change_percentage_24h": -0.25177377,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 27772,
+      "symbol": "PYUSD",
+      "name": "PayPal USD",
+      "market_cap": 2319267808.0207834,
+      "current_price": 0.9996156308463071,
+      "total_volume": 113181296.32887568,
+      "price_change_percentage_24h": -0.00855641,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 11841,
+      "symbol": "ARB",
+      "name": "Arbitrum",
+      "market_cap": 2225457412.848682,
+      "current_price": 0.41184484541598354,
+      "total_volume": 115976629.58426818,
+      "price_change_percentage_24h": -2.60636099,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 8916,
+      "symbol": "ICP",
+      "name": "Internet Computer",
+      "market_cap": 2222942368.008934,
+      "current_price": 4.1302707665028215,
+      "total_volume": 51749772.55721008,
+      "price_change_percentage_24h": -1.42154152,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 35697,
+      "symbol": "PI",
+      "name": "Pi",
+      "market_cap": 2149277452.308559,
+      "current_price": 0.26091899309621036,
+      "total_volume": 22615589.14848391,
+      "price_change_percentage_24h": -2.25652576,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 20396,
+      "symbol": "KAS",
+      "name": "Kaspa",
+      "market_cap": 2003085896.1883912,
+      "current_price": 0.07488391360843184,
+      "total_volume": 34552144.56948098,
+      "price_change_percentage_24h": -2.64837569,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 3794,
+      "symbol": "ATOM",
+      "name": "Cosmos",
+      "market_cap": 1895286107.7049563,
+      "current_price": 4.035271911156846,
+      "total_volume": 84621995.42778395,
+      "price_change_percentage_24h": -1.37256584,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 3077,
+      "symbol": "VET",
+      "name": "VeChain",
+      "market_cap": 1842433558.5430639,
+      "current_price": 0.021427373102612335,
+      "total_volume": 29081276.28200725,
+      "price_change_percentage_24h": -2.33361068,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 36507,
+      "symbol": "PUMP",
+      "name": "Pump.fun",
+      "market_cap": 1778569437.4059482,
+      "current_price": 0.0050242074502992885,
+      "total_volume": 264860257.37645912,
+      "price_change_percentage_24h": 0.09934542,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 4030,
+      "symbol": "ALGO",
+      "name": "Algorand",
+      "market_cap": 1765093328.2918088,
+      "current_price": 0.2008804664635808,
+      "total_volume": 44593416.50705058,
+      "price_change_percentage_24h": -2.79049863,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 34466,
+      "symbol": "PENGU",
+      "name": "Pudgy Penguins",
+      "market_cap": 1710301947.1549113,
+      "current_price": 0.02720794098569007,
+      "total_volume": 119793231.54256423,
+      "price_change_percentage_24h": -3.27109504,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 5690,
+      "symbol": "RENDER",
+      "name": "Render",
+      "market_cap": 1698761874.5806344,
+      "current_price": 3.275766040161835,
+      "total_volume": 36468202.60482448,
+      "price_change_percentage_24h": -3.61743273,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 23149,
+      "symbol": "SEI",
+      "name": "Sei",
+      "market_cap": 1656192892.2710607,
+      "current_price": 0.27027626531879384,
+      "total_volume": 73119525.56833793,
+      "price_change_percentage_24h": -2.84253989,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 23095,
+      "symbol": "BONK",
+      "name": "Bonk",
+      "market_cap": 1515001766.6470504,
+      "current_price": 1.8632795162261082e-05,
+      "total_volume": 139795364.65300784,
+      "price_change_percentage_24h": -3.31140706,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 35336,
+      "symbol": "TRUMP",
+      "name": "OFFICIAL TRUMP",
+      "market_cap": 1500208987.6362817,
+      "current_price": 7.501072583471916,
+      "total_volume": 160045077.823604,
+      "price_change_percentage_24h": -0.39523443,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 2280,
+      "symbol": "FIL",
+      "name": "Filecoin",
+      "market_cap": 1477228433.2499948,
+      "current_price": 2.1350081189737673,
+      "total_volume": 98420267.652172,
+      "price_change_percentage_24h": -2.48569833,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 10603,
+      "symbol": "IMX",
+      "name": "Immutable",
+      "market_cap": 1459960961.6037953,
+      "current_price": 0.7525812132027515,
+      "total_volume": 115529167.60793263,
+      "price_change_percentage_24h": -0.28814833,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 3773,
+      "symbol": "FET",
+      "name": "Artificial Superintelligence Alliance",
+      "market_cap": 1332784716.1719718,
+      "current_price": 0.5616764680101474,
+      "total_volume": 48849794.83445144,
+      "price_change_percentage_24h": -2.41834559,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 29210,
+      "symbol": "JUP",
+      "name": "Jupiter",
+      "market_cap": 1328591409.9610186,
+      "current_price": 0.4269603219967042,
+      "total_volume": 29142072.63872933,
+      "price_change_percentage_24h": -2.86050946,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 2634,
+      "symbol": "XDC",
+      "name": "XDC Network",
+      "market_cap": 1279693389.868825,
+      "current_price": 0.0721074758906137,
+      "total_volume": 23980091.09157848,
+      "price_change_percentage_24h": -0.92293844,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 11840,
+      "symbol": "OP",
+      "name": "Optimism",
+      "market_cap": 1165928390.143649,
+      "current_price": 0.6555188613797404,
+      "total_volume": 94266471.32347593,
+      "price_change_percentage_24h": -2.91846851,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 3155,
+      "symbol": "QNT",
+      "name": "Quant",
+      "market_cap": 1159648850.5296204,
+      "current_price": 96.05516582316459,
+      "total_volume": 33067356.72850312,
+      "price_change_percentage_24h": 1.19189658,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 7226,
+      "symbol": "INJ",
+      "name": "Injective",
+      "market_cap": 1154312934.4325662,
+      "current_price": 11.546485282932556,
+      "total_volume": 50306072.95168369,
+      "price_change_percentage_24h": -1.92787424,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 22861,
+      "symbol": "TIA",
+      "name": "Celestia",
+      "market_cap": 1098819405.7159326,
+      "current_price": 1.3793728785163564,
+      "total_volume": 65612784.47614238,
+      "price_change_percentage_24h": -1.27842387,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 8000,
+      "symbol": "LDO",
+      "name": "Lido DAO",
+      "market_cap": 953189445.9774157,
+      "current_price": 1.0640631823363842,
+      "total_volume": 40188059.48530803,
+      "price_change_percentage_24h": -2.30084458,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 1437,
+      "symbol": "ZEC",
+      "name": "Zcash",
+      "market_cap": 939452287.2273291,
+      "current_price": 57.85978828902229,
+      "total_volume": 103230523.68853354,
+      "price_change_percentage_24h": 4.07552827,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 7186,
+      "symbol": "CAKE",
+      "name": "PancakeSwap",
+      "market_cap": 921515427.0252687,
+      "current_price": 2.54670835855529,
+      "total_volume": 54349529.16865608,
+      "price_change_percentage_24h": -1.72977388,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 6538,
+      "symbol": "CRV",
+      "name": "Curve DAO Token",
+      "market_cap": 908821346.2103289,
+      "current_price": 0.6518692852924098,
+      "total_volume": 118203420.76609191,
+      "price_change_percentage_24h": -1.19466272,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 29270,
+      "symbol": "AERO",
+      "name": "Aerodrome Finance",
+      "market_cap": 904370736.8346156,
+      "current_price": 1.0050040412784018,
+      "total_volume": 31599846.81818433,
+      "price_change_percentage_24h": -0.78341396,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 6719,
+      "symbol": "GRT",
+      "name": "The Graph",
+      "market_cap": 835023460.2904963,
+      "current_price": 0.07942328054409359,
+      "total_volume": 24191271.53993433,
+      "price_change_percentage_24h": -2.92133813,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 28177,
+      "symbol": "PYTH",
+      "name": "Pyth Network",
+      "market_cap": 818908037.0524774,
+      "current_price": 0.142419200830037,
+      "total_volume": 32114125.93920812,
+      "price_change_percentage_24h": -3.86257064,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 29814,
+      "symbol": "ETHFI",
+      "name": "ether.fi",
+      "market_cap": 801028059.1288668,
+      "current_price": 1.5534704355858162,
+      "total_volume": 92082873.72884469,
+      "price_change_percentage_24h": -0.36413408,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 9481,
+      "symbol": "PENDLE",
+      "name": "Pendle",
+      "market_cap": 768821973.0288401,
+      "current_price": 4.533754045040203,
+      "total_volume": 44458219.03650726,
+      "price_change_percentage_24h": -2.18582647,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 10804,
+      "symbol": "FLOKI",
+      "name": "FLOKI",
+      "market_cap": 759250287.7093344,
+      "current_price": 7.95937842663673e-05,
+      "total_volume": 38635040.5963624,
+      "price_change_percentage_24h": -2.9770786,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 38337,
+      "symbol": "0G",
+      "name": "0G",
+      "market_cap": 758379457.0011625,
+      "current_price": 3.556392977593501,
+      "total_volume": 322725286.78704315,
+      "price_change_percentage_24h": 1.38857245,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 30083,
+      "symbol": "ATH",
+      "name": "Aethir",
+      "market_cap": 733141682.3501419,
+      "current_price": 0.06004357507952175,
+      "total_volume": 33543757.439163,
+      "price_change_percentage_24h": -0.77212098,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 13855,
+      "symbol": "ENS",
+      "name": "Ethereum Name Service",
+      "market_cap": 720504540.0019492,
+      "current_price": 19.4728051117695,
+      "total_volume": 35538550.54526765,
+      "price_change_percentage_24h": -2.73230501,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 7334,
+      "symbol": "CFX",
+      "name": "Conflux",
+      "market_cap": 719826115.9487743,
+      "current_price": 0.1400527661107192,
+      "total_volume": 27053790.67980579,
+      "price_change_percentage_24h": -3.53513245,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 28752,
+      "symbol": "WIF",
+      "name": "dogwifhat",
+      "market_cap": 716348696.3389132,
+      "current_price": 0.717180667787568,
+      "total_volume": 90626739.47180307,
+      "price_change_percentage_24h": -3.41853443,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 8526,
+      "symbol": "RAY",
+      "name": "Raydium",
+      "market_cap": 681839936.520734,
+      "current_price": 2.542972949462044,
+      "total_volume": 23373536.59813571,
+      "price_change_percentage_24h": -2.4258267,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 6210,
+      "symbol": "SAND",
+      "name": "The Sandbox",
+      "market_cap": 675030281.1370009,
+      "current_price": 0.2583067664863764,
+      "total_volume": 31058935.14083993,
+      "price_change_percentage_24h": -2.11327327,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 32684,
+      "symbol": "S",
+      "name": "Sonic",
+      "market_cap": 666460077.0316025,
+      "current_price": 0.2314097489693064,
+      "total_volume": 42730907.89235125,
+      "price_change_percentage_24h": -2.26643929,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 3871,
+      "symbol": "AB",
+      "name": "AB",
+      "market_cap": 660155093.7613688,
+      "current_price": 0.00830915298554654,
+      "total_volume": 25705601.22144942,
+      "price_change_percentage_24h": -0.23217591,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 29420,
+      "symbol": "VIRTUAL",
+      "name": "Virtuals Protocol",
+      "market_cap": 655112970.4125799,
+      "current_price": 0.9992278227080538,
+      "total_volume": 46374166.80490325,
+      "price_change_percentage_24h": -3.28089384,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 7080,
+      "symbol": "GALA",
+      "name": "Gala",
+      "market_cap": 652842498.9719371,
+      "current_price": 0.014159349927634608,
+      "total_volume": 44412713.22557464,
+      "price_change_percentage_24h": -2.2981834,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 36462,
+      "symbol": "A",
+      "name": "Vaulta",
+      "market_cap": 637719542.5780426,
+      "current_price": 0.4001573741206591,
+      "total_volume": 26414384.43787406,
+      "price_change_percentage_24h": -1.29465341,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 30494,
+      "symbol": "EIGEN",
+      "name": "EigenLayer",
+      "market_cap": 624129064.7177343,
+      "current_price": 1.838427294152853,
+      "total_volume": 172525753.96943766,
+      "price_change_percentage_24h": 6.60499171,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 26997,
+      "symbol": "ZRO",
+      "name": "LayerZero",
+      "market_cap": 591292617.842935,
+      "current_price": 2.3037672136553358,
+      "total_volume": 77413163.98879193,
+      "price_change_percentage_24h": -1.46881373,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 33597,
+      "symbol": "FARTCOIN",
+      "name": "Fartcoin",
+      "market_cap": 574254805.0099977,
+      "current_price": 0.5742558065121243,
+      "total_volume": 65728901.53277748,
+      "price_change_percentage_24h": -3.23868347,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 5964,
+      "symbol": "TWT",
+      "name": "Trust Wallet Token",
+      "market_cap": 549605964.5762893,
+      "current_price": 1.2785681513179874,
+      "total_volume": 47551056.52237484,
+      "price_change_percentage_24h": 0.64331169,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 10529,
+      "symbol": "SUN",
+      "name": "Sun [New]",
+      "market_cap": 500472607.84934586,
+      "current_price": 0.026108547126509847,
+      "total_volume": 99677004.53100163,
+      "price_change_percentage_24h": 2.276495,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 22691,
+      "symbol": "STRK",
+      "name": "Starknet",
+      "market_cap": 485385827.1361,
+      "current_price": 0.11905085733723669,
+      "total_volume": 26876236.02142752,
+      "price_change_percentage_24h": -0.87471942,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 29587,
+      "symbol": "W",
+      "name": "Wormhole",
+      "market_cap": 475584715.9408361,
+      "current_price": 0.10145709822644171,
+      "total_volume": 64502537.25227289,
+      "price_change_percentage_24h": -4.93082173,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 23635,
+      "symbol": "FORM",
+      "name": "Four",
+      "market_cap": 434613637.5647715,
+      "current_price": 1.1381275343973336,
+      "total_volume": 83174324.32744396,
+      "price_change_percentage_24h": 18.30218704,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 27657,
+      "symbol": "LINEA",
+      "name": "Linea",
+      "market_cap": 423971253.09911346,
+      "current_price": 0.02738452424087356,
+      "total_volume": 192895872.21029457,
+      "price_change_percentage_24h": -4.95678145,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 4157,
+      "symbol": "RUNE",
+      "name": "THORChain",
+      "market_cap": 391440505.88522226,
+      "current_price": 1.1142952324341222,
+      "total_volume": 35322424.32380737,
+      "price_change_percentage_24h": -1.5499707,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 18876,
+      "symbol": "APE",
+      "name": "ApeCoin",
+      "market_cap": 383296443.3814545,
+      "current_price": 0.5092615051488397,
+      "total_volume": 23169468.27652798,
+      "price_change_percentage_24h": -1.98342034,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 29743,
+      "symbol": "BRETT",
+      "name": "Brett (Based)",
+      "market_cap": 380247856.2363998,
+      "current_price": 0.038369201407571454,
+      "total_volume": 20884855.42012803,
+      "price_change_percentage_24h": -2.52794985,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 2586,
+      "symbol": "SNX",
+      "name": "Synthetix",
+      "market_cap": 369964064.60266846,
+      "current_price": 1.077148337428462,
+      "total_volume": 129614617.61611807,
+      "price_change_percentage_24h": -10.55432917,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 5632,
+      "symbol": "AR",
+      "name": "Arweave",
+      "market_cap": 365356632.0842505,
+      "current_price": 5.5650100345697675,
+      "total_volume": 30523382.23177261,
+      "price_change_percentage_24h": -2.32365588,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 35763,
+      "symbol": "KAITO",
+      "name": "KAITO",
+      "market_cap": 361444930.7752997,
+      "current_price": 1.4973552936618377,
+      "total_volume": 753797235.5633377,
+      "price_change_percentage_24h": 30.85233079,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 38299,
+      "symbol": "AVNT",
+      "name": "Avantis",
+      "market_cap": 355071605.68299866,
+      "current_price": 1.3751490626505656,
+      "total_volume": 717139484.8892022,
+      "price_change_percentage_24h": -9.88339686,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 24647,
+      "symbol": "BERA",
+      "name": "Berachain",
+      "market_cap": 325387365.6962344,
+      "current_price": 2.5607528326821907,
+      "total_volume": 39298098.76807951,
+      "price_change_percentage_24h": -2.67688879,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 27750,
+      "symbol": "TOSHI",
+      "name": "Toshi",
+      "market_cap": 301510001.6092069,
+      "current_price": 0.0007167230715217897,
+      "total_volume": 28172176.86313526,
+      "price_change_percentage_24h": -1.25816371,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 35364,
+      "symbol": "PLUME",
+      "name": "Plume",
+      "market_cap": 297716040.1179964,
+      "current_price": 0.09810803681419995,
+      "total_volume": 27057442.7237107,
+      "price_change_percentage_24h": -3.03040368,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 32452,
+      "symbol": "MOVE",
+      "name": "Movement",
+      "market_cap": 291844745.61067766,
+      "current_price": 0.10612536204024643,
+      "total_volume": 21449707.38876203,
+      "price_change_percentage_24h": -2.85299628,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 36532,
+      "symbol": "B",
+      "name": "BUILDon",
+      "market_cap": 284982079.843715,
+      "current_price": 0.284982079843715,
+      "total_volume": 23052018.44436214,
+      "price_change_percentage_24h": -24.48931564,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 30712,
+      "symbol": "MERL",
+      "name": "Merlin Chain",
+      "market_cap": 280152449.57373905,
+      "current_price": 0.2861739039406388,
+      "total_volume": 29696348.33243085,
+      "price_change_percentage_24h": -3.74297591,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 31278,
+      "symbol": "DRIFT",
+      "name": "Drift",
+      "market_cap": 274114150.4828639,
+      "current_price": 0.7446574700031225,
+      "total_volume": 90566769.9738633,
+      "price_change_percentage_24h": -4.32761,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 131,
+      "symbol": "DASH",
+      "name": "Dash",
+      "market_cap": 257126427.86744335,
+      "current_price": 20.68776013074099,
+      "total_volume": 23009324.2892466,
+      "price_change_percentage_24h": -1.00827507,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 38408,
+      "symbol": "BARD",
+      "name": "Lombard",
+      "market_cap": 228901216.9271208,
+      "current_price": 1.0173387418983146,
+      "total_volume": 347609998.6247153,
+      "price_change_percentage_24h": -6.94693491,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 1684,
+      "symbol": "QTUM",
+      "name": "Qtum",
+      "market_cap": 222925763.167019,
+      "current_price": 2.1065019369713345,
+      "total_volume": 41701189.49223471,
+      "price_change_percentage_24h": -1.95244872,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 34812,
+      "symbol": "BIO",
+      "name": "Bio Protocol",
+      "market_cap": 212476494.61215037,
+      "current_price": 0.12709529247932386,
+      "total_volume": 40495668.2145952,
+      "price_change_percentage_24h": -3.90270013,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 38495,
+      "symbol": "MIRA",
+      "name": "Mira",
+      "market_cap": 210474564.92482886,
+      "current_price": 1.1005514278631525,
+      "total_volume": 514543186.62087446,
+      "price_change_percentage_24h": -20.79150692,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 32956,
+      "symbol": "GRASS",
+      "name": "Grass",
+      "market_cap": 202508342.6064411,
+      "current_price": 0.8302751770213813,
+      "total_volume": 29928305.47727887,
+      "price_change_percentage_24h": -10.51135814,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    },
+    {
+      "id": 10508,
+      "symbol": "FLUID",
+      "name": "Fluid",
+      "market_cap": 447911677.2164813,
+      "current_price": 5.8357324151636805,
+      "total_volume": 24569702.37595743,
+      "price_change_percentage_24h": -2.40429106,
+      "last_updated": "2025-09-28T11:52:00.000Z"
+    },
+    {
+      "id": 19843,
+      "symbol": "APEX",
+      "name": "ApeX Protocol",
+      "market_cap": 252503733.81738895,
+      "current_price": 1.8719323749808154,
+      "total_volume": 304896933.12322944,
+      "price_change_percentage_24h": -12.56265264,
+      "last_updated": "2025-09-28T11:51:00.000Z"
+    }
+  ]
+}
