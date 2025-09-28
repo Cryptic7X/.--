@@ -227,8 +227,8 @@
   "DOT_squeeze": {
     "in_zone": true,
     "entry_time": 1758982550.4472709,
-    "reminder_sent": false,
-    "candle_count": 9
+    "reminder_sent": true,
+    "candle_count": 10
   },
   "ENA_squeeze": {
     "in_zone": false,
