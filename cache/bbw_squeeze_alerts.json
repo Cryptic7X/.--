@@ -351,10 +351,10 @@
     "candle_count": 3
   },
   "ADA_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759028921.6568122,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 2
+    "candle_count": 0
   },
   "HYPE_squeeze": {
     "in_zone": true,
