@@ -182,5 +182,13 @@
     "monitoring_direction": null,
     "last_2h_time": 1759047432.9047158,
     "last_8h_time": 0
+  },
+  "AVNT": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759054426.8360906,
+    "last_8h_time": 0
   }
 }
