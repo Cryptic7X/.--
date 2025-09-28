@@ -133,5 +133,17 @@
   },
   "CYBER": {
     "last_alert_time": 1759040303.3236501
+  },
+  "GMX": {
+    "last_alert_time": 1759043480.4816158
+  },
+  "ALT": {
+    "last_alert_time": 1759043481.0354714
+  },
+  "JOE": {
+    "last_alert_time": 1759043483.5359583
+  },
+  "HFT": {
+    "last_alert_time": 1759043484.830864
   }
 }
