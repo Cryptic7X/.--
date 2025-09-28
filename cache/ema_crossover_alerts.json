@@ -190,5 +190,14 @@
   },
   "C98": {
     "last_alert_time": 1759076040.1858928
+  },
+  "PROMPT": {
+    "last_alert_time": 1759079409.9030674
+  },
+  "LIGHT": {
+    "last_alert_time": 1759079410.8571842
+  },
+  "PUMP": {
+    "last_alert_time": 1759079412.0537407
   }
 }
