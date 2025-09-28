@@ -298,10 +298,10 @@
     "candle_count": 3
   },
   "INJ_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759004393.8845043,
-    "reminder_sent": true,
-    "candle_count": 13
+    "in_zone": false,
+    "entry_time": 0,
+    "reminder_sent": false,
+    "candle_count": 0
   },
   "CRV_squeeze": {
     "in_zone": true,
