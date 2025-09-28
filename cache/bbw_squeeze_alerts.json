@@ -415,5 +415,11 @@
     "entry_time": 1759033402.5178273,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "ETH_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759040875.473,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
