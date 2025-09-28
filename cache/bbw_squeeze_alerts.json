@@ -349,5 +349,23 @@
     "entry_time": 1759028920.088591,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "ADA_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759028921.6568122,
+    "reminder_sent": false,
+    "candle_count": 1
+  },
+  "HYPE_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759028921.6339462,
+    "reminder_sent": false,
+    "candle_count": 1
+  },
+  "LINK_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759028922.3117185,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
