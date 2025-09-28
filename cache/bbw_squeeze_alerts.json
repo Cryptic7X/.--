@@ -319,5 +319,11 @@
     "entry_time": 1759023749.812878,
     "reminder_sent": false,
     "candle_count": 1
+  },
+  "ATOM_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759023752.694293,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
