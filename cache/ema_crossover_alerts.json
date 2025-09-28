@@ -3,7 +3,7 @@
     "last_alert_time": 1758971383.1671855
   },
   "USUAL": {
-    "last_alert_time": 1758971383.6517305
+    "last_alert_time": 1759101090.5949676
   },
   "THE": {
     "last_alert_time": 1758971384.5112386
@@ -33,7 +33,7 @@
     "last_alert_time": 1758982263.3578017
   },
   "CGPT": {
-    "last_alert_time": 1758982265.055277
+    "last_alert_time": 1759101090.483835
   },
   "HOOK": {
     "last_alert_time": 1758982268.1067696
@@ -223,5 +223,35 @@
   },
   "ACT": {
     "last_alert_time": 1759097496.0757494
+  },
+  "SUSHI": {
+    "last_alert_time": 1759101087.758693
+  },
+  "BB": {
+    "last_alert_time": 1759101088.1979363
+  },
+  "BLUR": {
+    "last_alert_time": 1759101088.20108
+  },
+  "ARKM": {
+    "last_alert_time": 1759101088.9386806
+  },
+  "BOME": {
+    "last_alert_time": 1759101089.153001
+  },
+  "AIXBT": {
+    "last_alert_time": 1759101089.6472843
+  },
+  "HOME": {
+    "last_alert_time": 1759101089.7719789
+  },
+  "ANIME": {
+    "last_alert_time": 1759101090.1682918
+  },
+  "VINE": {
+    "last_alert_time": 1759101090.9975886
+  },
+  "SUP": {
+    "last_alert_time": 1759101094.083206
   }
 }
