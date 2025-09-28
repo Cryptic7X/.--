@@ -100,5 +100,26 @@
   },
   "MAMO": {
     "last_alert_time": 1759028632.311469
+  },
+  "ZRX": {
+    "last_alert_time": 1759032933.3515575
+  },
+  "OMNI": {
+    "last_alert_time": 1759032934.761901
+  },
+  "SQD": {
+    "last_alert_time": 1759032935.015468
+  },
+  "PEOPLE": {
+    "last_alert_time": 1759032935.5260398
+  },
+  "CLANKER": {
+    "last_alert_time": 1759032938.9274213
+  },
+  "TPTU": {
+    "last_alert_time": 1759032940.2217176
+  },
+  "POP": {
+    "last_alert_time": 1759032940.7580528
   }
 }
