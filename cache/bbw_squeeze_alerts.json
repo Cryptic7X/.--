@@ -393,10 +393,10 @@
     "candle_count": 0
   },
   "ARB_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759028932.1897268,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 5
+    "candle_count": 0
   },
   "SEI_squeeze": {
     "in_zone": false,
