@@ -12,7 +12,7 @@
     "last_alert_time": 1759083403.4250531
   },
   "XPIN": {
-    "last_alert_time": 1758971387.004699
+    "last_alert_time": 1759086590.3980894
   },
   "YGG": {
     "last_alert_time": 1758975774.2922752
@@ -205,5 +205,11 @@
   },
   "EGL1": {
     "last_alert_time": 1759083403.4355114
+  },
+  "TAKE": {
+    "last_alert_time": 1759086589.956108
+  },
+  "KILO": {
+    "last_alert_time": 1759086591.018698
   }
 }
