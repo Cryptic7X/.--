@@ -144,7 +144,7 @@
     "in_zone": true,
     "entry_time": 1758918045.5432105,
     "reminder_sent": true,
-    "candle_count": 20
+    "candle_count": 21
   },
   "JUP_squeeze": {
     "in_zone": true,
@@ -216,7 +216,7 @@
     "in_zone": true,
     "entry_time": 1758982549.611469,
     "reminder_sent": true,
-    "candle_count": 10
+    "candle_count": 11
   },
   "SHIB_squeeze": {
     "in_zone": true,
