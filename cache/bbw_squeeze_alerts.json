@@ -435,10 +435,10 @@
     "candle_count": 6
   },
   "IP_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759063016.5214217,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 2
+    "candle_count": 0
   },
   "ETC_squeeze": {
     "in_zone": true,
