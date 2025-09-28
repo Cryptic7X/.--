@@ -1,183 +1,139 @@
 #!/usr/bin/env python3
 """
-Enhanced Data Fetcher - Configuration-Driven Filters
-OPTIMIZED: Uses config.yaml for filter values instead of hard-coding
+SimpleDataFetcher 2.1
+• Reads thresholds from config/config.yaml
+• Uses server-side volume filter (≥ $10 M) to cut credits
+• Pages in blocks of 2 000 to avoid incomplete results
+• Keeps client-side market-cap filtering for accuracy
 """
 
-import os
-import json
-import requests
-import yaml
+import os, json, requests, yaml
 from datetime import datetime
+from typing import List, Tuple
+
+CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "config", "config.yaml")
+CACHE_DIR   = "cache"
+CMC_URL     = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
+PAGE_LIMIT  = 2_000                    # reliable page size
+VOLUME_MIN  = 10_000_000               # $10 M server-side filter
+TIMEOUT     = 30                       # seconds
 
 class SimpleDataFetcher:
-    def __init__(self):
-        self.api_key = os.getenv('COINMARKETCAP_API_KEY')
+    def __init__(self) -> None:
+        self.api_key = os.getenv("COINMARKETCAP_API_KEY")
         if not self.api_key:
-            print("❌ COINMARKETCAP_API_KEY not set")
-            exit(1)
-        
-        # ENHANCED: Load configuration from config.yaml
-        self.config = self._load_config()
-        
+            raise SystemExit("❌ COINMARKETCAP_API_KEY not set")
+        self.config        = self._load_config()
         self.blocked_coins = self._load_blocked_coins()
-        print(f"Blocked coins: {len(self.blocked_coins)}")
-        
-        # Display filter settings
-        print(f"📊 CipherB/BBW Filter: Market Cap ≥ ${self.config['market_filters']['cipherb_bbw']['min_market_cap']:,}, Volume ≥ ${self.config['market_filters']['cipherb_bbw']['min_volume_24h']:,}")
-        print(f"📊 EMA Filter: Market Cap ${self.config['market_filters']['ema']['min_market_cap']:,} - ${self.config['market_filters']['ema']['max_market_cap']:,}, Volume ≥ ${self.config['market_filters']['ema']['min_volume_24h']:,}")
-    
-    def _load_config(self):
-        """Load configuration from config.yaml"""
-        config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'config.yaml')
-        try:
-            with open(config_path, 'r') as f:
-                return yaml.safe_load(f)
-        except Exception as e:
-            print(f"❌ Error loading config: {e}")
-            # Fallback to hard-coded values if config fails
-            return {
-                'market_filters': {
-                    'cipherb_bbw': {
-                        'min_market_cap': 200000000,
-                        'min_volume_24h': 20000000
-                    },
-                    'ema': {
-                        'min_market_cap': 10000000,
-                        'max_market_cap': 200000000,
-                        'min_volume_24h': 10000000
-                    }
-                }
-            }
-    
-    def _load_blocked_coins(self):
-        blocked_file = os.path.join(os.path.dirname(__file__), '..', 'config', 'blocked_coins.txt')
+        print(f"🛑 Blocked coins loaded: {len(self.blocked_coins)}")
+
+    # ---------- helpers ---------------------------------------------------
+    @staticmethod
+    def _load_config() -> dict:
+        with open(CONFIG_PATH, "r") as f:
+            return yaml.safe_load(f)
+
+    @staticmethod
+    def _load_blocked_coins() -> set:
+        path = os.path.join(os.path.dirname(__file__), "..", "config", "blocked_coins.txt")
         blocked = set()
-        try:
-            with open(blocked_file, 'r') as f:
-                for line in f:
-                    coin = line.strip().upper()
-                    if coin and not coin.startswith('#'):
-                        blocked.add(coin)
-        except:
-            pass
+        with open(path, "r") as f:
+            for line in f:
+                coin = line.strip().upper()
+                if coin and not coin.startswith("#"):
+                    blocked.add(coin)
         return blocked
 
-    def fetch_coins(self):
-        print("Fetching coins from CoinMarketCap...")
-        url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
-        headers = {'X-CMC_PRO_API_KEY': self.api_key}
-        all_coins = []
-        
-        for start in [1, 5001]:
-            try:
-                params = {
-                    'start': 1,
-                    'limit': 2000,                       # smaller page; adjust if needed
-                    'sort' : 'market_cap',
-                    'market_cap_min' : self.config['market_filters']['ema']['min_market_cap'],
-                    'volume_24h_min': self.config['market_filters']['ema']['min_volume_24h'],
-                    'convert':'USD'
-                }
-                response = requests.get(url, headers=headers, params=params, timeout=30)
-                data = response.json()
-                
-                if 'data' not in data or not data['data']:
-                    break
-                    
-                for coin in data['data']:
-                    symbol = coin.get('symbol', '').upper()
-                    if symbol in self.blocked_coins:
-                        continue
-                    
-                    quote = coin.get('quote', {}).get('USD', {})
-                    market_cap = quote.get('market_cap', 0)
-                    volume = quote.get('volume_24h', 0)
-                    price = quote.get('price', 0)
-                    
-                    if market_cap and volume and price:
-                        all_coins.append({
-                            'id': coin.get('id'),
-                            'symbol': symbol,
-                            'name': coin.get('name'),
-                            'market_cap': market_cap,
-                            'current_price': price,
-                            'total_volume': volume,
-                            'price_change_percentage_24h': quote.get('percent_change_24h', 0),
-                            'last_updated': coin.get('last_updated')
-                        })
-                
-                if len(data['data']) < 5000:
-                    break
-                    
-            except Exception as e:
-                print(f"❌ Error fetching batch: {e}")
+    # ---------- core ------------------------------------------------------
+    def fetch_all_pages(self) -> List[dict]:
+        headers = {"X-CMC_PRO_API_KEY": self.api_key}
+        all_coins, start = [], 1
+
+        print("🚀 Fetching coins from CoinMarketCap …")
+        while True:
+            params = {
+                "start"          : start,
+                "limit"          : PAGE_LIMIT,
+                "sort"           : "market_cap",
+                "convert"        : "USD",
+                "volume_24h_min" : VOLUME_MIN      # ← server-side filter
+            }
+            r = requests.get(CMC_URL, headers=headers, params=params, timeout=TIMEOUT)
+            r.raise_for_status()
+            data = r.json().get("data", [])
+            if not data:
                 break
-        
+
+            all_coins.extend(data)
+            if len(data) < PAGE_LIMIT:
+                break                              # last page received
+            start += PAGE_LIMIT                   # next page
+
         print(f"📊 Total coins fetched: {len(all_coins)}")
         return all_coins
-    
-    def filter_coins(self, all_coins):
-        """ENHANCED: Configuration-driven filtering instead of hard-coded values"""
-        
-        # Get filter values from config
-        cipherb_bbw_filters = self.config['market_filters']['cipherb_bbw']
-        ema_filters = self.config['market_filters']['ema']
-        
-        # CipherB/BBW coins - using config values
-        cipherb_coins = [
-            coin for coin in all_coins
-            if coin['market_cap'] >= cipherb_bbw_filters['min_market_cap'] 
-            and coin['total_volume'] >= cipherb_bbw_filters['min_volume_24h']
-        ]
-        
-        # EMA coins - using config values  
-        ema_coins = [
-            coin for coin in all_coins
-            if ema_filters['min_market_cap'] <= coin['market_cap'] <= ema_filters['max_market_cap']
-            and coin['total_volume'] >= ema_filters['min_volume_24h']
-        ]
-        
-        print(f"📊 CipherB/BBW coins: {len(cipherb_coins)}")
-        print(f"📊 EMA coins: {len(ema_coins)}")
-        
-        return cipherb_coins, ema_coins
-    
-    def save_datasets(self, cipherb_coins, ema_coins):
-        # ENHANCED: Cache configuration support
-        os.makedirs('cache', exist_ok=True)
-        
-        # CipherB dataset
-        cipherb_data = {
-            'timestamp': datetime.utcnow().isoformat(),
-            'total_coins': len(cipherb_coins),
-            'coins': cipherb_coins
-        }
-        
-        with open('cache/cipherb_dataset.json', 'w') as f:
-            json.dump(cipherb_data, f)
-        
-        # EMA dataset
-        ema_data = {
-            'timestamp': datetime.utcnow().isoformat(),
-            'total_coins': len(ema_coins),
-            'coins': ema_coins
-        }
-        
-        with open('cache/ema_dataset.json', 'w') as f:
-            json.dump(ema_data, f)
-        
-        print("✅ Datasets saved to cache/")
 
-def main():
-    print("🚀 Starting daily data collection...")
-    fetcher = SimpleDataFetcher()
-    
-    all_coins = fetcher.fetch_coins()
-    if all_coins:
-        cipherb_coins, ema_coins = fetcher.filter_coins(all_coins)
-        fetcher.save_datasets(cipherb_coins, ema_coins)
-        print("✅ Data collection complete!")
+    # ---------- client-side filters ---------------------------------------
+    def partition(self, coins: List[dict]) -> Tuple[List[dict], List[dict]]:
+        f_cfg   = self.config["market_filters"]
+        bbw_cfg = f_cfg["cipherb_bbw"]
+        ema_cfg = f_cfg["ema"]
+
+        cipherb_coins = []
+        ema_coins     = []
+
+        for coin in coins:
+            sym   = coin["symbol"].upper()
+            if sym in self.blocked_coins:
+                continue
+
+            quote       = coin["quote"]["USD"]
+            mcap        = quote["market_cap"]     or 0
+            volume      = quote["volume_24h"]     or 0
+
+            # CipherB / BBW
+            if mcap >= bbw_cfg["min_market_cap"] and volume >= bbw_cfg["min_volume_24h"]:
+                cipherb_coins.append(self._shrink(coin))
+
+            # EMA
+            if (ema_cfg["min_market_cap"] <= mcap <= ema_cfg["max_market_cap"]
+                    and volume >= ema_cfg["min_volume_24h"]):
+                ema_coins.append(self._shrink(coin))
+
+        print(f"📊 CipherB/BBW coins: {len(cipherb_coins)}")
+        print(f"📊 EMA coins       : {len(ema_coins)}")
+        return cipherb_coins, ema_coins
+
+    @staticmethod
+    def _shrink(c: dict) -> dict:
+        """Keep only the fields the analyzers need."""
+        q = c["quote"]["USD"]
+        return {
+            "symbol"        : c["symbol"],
+            "name"          : c["name"],
+            "market_cap"    : q["market_cap"],
+            "current_price" : q["price"],
+            "total_volume"  : q["volume_24h"],
+            "last_updated"  : c["last_updated"]
+        }
+
+    # ---------- cache ------------------------------------------------------
+    def save(self, cipherb: List[dict], ema: List[dict]) -> None:
+        os.makedirs(CACHE_DIR, exist_ok=True)
+        now = datetime.utcnow().isoformat()
+
+        json.dump({"timestamp": now, "total": len(cipherb), "coins": cipherb},
+                  open(os.path.join(CACHE_DIR, "cipherb_dataset.json"), "w"))
+        json.dump({"timestamp": now, "total": len(ema), "coins": ema},
+                  open(os.path.join(CACHE_DIR, "ema_dataset.json"), "w"))
+        print("💾 Datasets saved to cache/")
+
+# -------------------------------------------------------------------------
+if __name__ == "__main__":
+    fetcher            = SimpleDataFetcher()
+    raw_coins          = fetcher.fetch_all_pages()
+    cipherb, ema       = fetcher.partition(raw_coins)
+    fetcher.save(cipherb, ema)
+    print("✅ Daily data collection complete")
     else:
         print("❌ No coins fetched")
 
