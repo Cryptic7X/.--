@@ -172,5 +172,14 @@
   },
   "TUT": {
     "last_alert_time": 1759062200.635898
+  },
+  "EDU": {
+    "last_alert_time": 1759065458.6537275
+  },
+  "AA": {
+    "last_alert_time": 1759065462.5684426
+  },
+  "AOP": {
+    "last_alert_time": 1759065462.6510248
   }
 }
