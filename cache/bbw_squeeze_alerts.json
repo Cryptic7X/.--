@@ -11,10 +11,10 @@
     "reminder_sent": false
   },
   "WLFI_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759023749.8317037,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 8
+    "candle_count": 0
   },
   "XMR_squeeze": {
     "in_zone": false,
