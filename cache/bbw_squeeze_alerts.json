@@ -346,10 +346,10 @@
     "candle_count": 6
   },
   "XRP_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759028920.088591,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 9
+    "candle_count": 0
   },
   "ADA_squeeze": {
     "in_zone": false,
@@ -427,7 +427,7 @@
     "in_zone": true,
     "entry_time": 1759040875.5151155,
     "reminder_sent": true,
-    "candle_count": 10
+    "candle_count": 11
   },
   "MNT_squeeze": {
     "in_zone": true,
