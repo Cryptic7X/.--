@@ -198,5 +198,21 @@
     "monitoring_direction": null,
     "last_2h_time": 1759062378.8247693,
     "last_8h_time": 0
+  },
+  "TAO": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759068665.9442885,
+    "last_8h_time": 0
+  },
+  "WIF": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759068665.9448225,
+    "last_8h_time": 0
   }
 }
