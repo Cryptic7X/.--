@@ -159,10 +159,10 @@
     "candle_count": 10
   },
   "BTC_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758954356.7782292,
-    "reminder_sent": true,
-    "candle_count": 18
+    "in_zone": false,
+    "entry_time": 0,
+    "reminder_sent": false,
+    "candle_count": 0
   },
   "BNB_squeeze": {
     "in_zone": true,
