@@ -162,7 +162,7 @@
     "in_zone": true,
     "entry_time": 1758954356.7782292,
     "reminder_sent": true,
-    "candle_count": 15
+    "candle_count": 16
   },
   "BNB_squeeze": {
     "in_zone": true,
@@ -348,7 +348,7 @@
     "in_zone": true,
     "entry_time": 1759028920.088591,
     "reminder_sent": false,
-    "candle_count": 4
+    "candle_count": 5
   },
   "ADA_squeeze": {
     "in_zone": false,
@@ -420,13 +420,13 @@
     "in_zone": true,
     "entry_time": 1759040875.473,
     "reminder_sent": false,
-    "candle_count": 2
+    "candle_count": 3
   },
   "SOL_squeeze": {
     "in_zone": true,
     "entry_time": 1759040875.5151155,
     "reminder_sent": false,
-    "candle_count": 4
+    "candle_count": 5
   },
   "MNT_squeeze": {
     "in_zone": true,
