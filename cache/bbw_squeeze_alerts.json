@@ -35,10 +35,10 @@
     "candle_count": 0
   },
   "PYUSD_squeeze": {
-    "in_zone": false,
-    "entry_time": 0,
+    "in_zone": true,
+    "entry_time": 1759023752.9143019,
     "reminder_sent": false,
-    "candle_count": 0
+    "candle_count": 1
   },
   "FLR_squeeze": {
     "in_zone": true,
