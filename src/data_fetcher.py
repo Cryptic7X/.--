@@ -134,8 +134,8 @@ if __name__ == "__main__":
     cipherb, ema       = fetcher.partition(raw_coins)
     fetcher.save(cipherb, ema)
     print("✅ Daily data collection complete")
-    else:
-        print("❌ No coins fetched")
+else:
+    print("❌ No coins fetched")
 
 if __name__ == "__main__":
     main()
