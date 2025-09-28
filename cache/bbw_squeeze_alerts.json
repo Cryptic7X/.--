@@ -165,10 +165,10 @@
     "candle_count": 12
   },
   "BNB_squeeze": {
-    "in_zone": false,
-    "entry_time": 0,
+    "in_zone": true,
+    "entry_time": 1759028920.0934224,
     "reminder_sent": false,
-    "candle_count": 0
+    "candle_count": 1
   },
   "NEAR_squeeze": {
     "in_zone": true,
@@ -341,6 +341,12 @@
   "TWT_squeeze": {
     "in_zone": true,
     "entry_time": 1759023759.566837,
+    "reminder_sent": false,
+    "candle_count": 1
+  },
+  "XRP_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759028920.088591,
     "reminder_sent": false,
     "candle_count": 1
   }
