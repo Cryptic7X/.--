@@ -126,5 +126,45 @@
     "monitoring_direction": null,
     "last_2h_time": 1758997104.252858,
     "last_8h_time": 0
+  },
+  "APT": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759021994.8126068,
+    "last_8h_time": 0
+  },
+  "XPL": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759021994.8130136,
+    "last_8h_time": 0
+  },
+  "IMX": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759021994.8136601,
+    "last_8h_time": 0
+  },
+  "QNT": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759021994.8143086,
+    "last_8h_time": 0
+  },
+  "EIGEN": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759021994.814752,
+    "last_8h_time": 0
   }
 }
