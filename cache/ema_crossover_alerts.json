@@ -21,10 +21,10 @@
     "last_alert_time": 1758975776.264799
   },
   "AI16Z": {
-    "last_alert_time": 1758979031.6444635
+    "last_alert_time": 1759097492.4286993
   },
   "COOKIE": {
-    "last_alert_time": 1758979033.410169
+    "last_alert_time": 1759097493.798466
   },
   "STAR": {
     "last_alert_time": 1758979037.1568174
@@ -60,7 +60,7 @@
     "last_alert_time": 1758993009.3782814
   },
   "USELESS": {
-    "last_alert_time": 1758993009.3800113
+    "last_alert_time": 1759097490.7994359
   },
   "PROVE": {
     "last_alert_time": 1758996980.469291
@@ -69,7 +69,7 @@
     "last_alert_time": 1758996980.5749693
   },
   "TRB": {
-    "last_alert_time": 1758996982.6032922
+    "last_alert_time": 1759097492.8251832
   },
   "SERAPH": {
     "last_alert_time": 1758996983.3844721
@@ -214,5 +214,14 @@
   },
   "FLOCK": {
     "last_alert_time": 1759093860.8110034
+  },
+  "ZORA": {
+    "last_alert_time": 1759097490.1980848
+  },
+  "GMT": {
+    "last_alert_time": 1759097491.5153296
+  },
+  "ACT": {
+    "last_alert_time": 1759097496.0757494
   }
 }
