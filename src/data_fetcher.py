@@ -198,7 +198,6 @@ def main():
         cipherb_coins, ema_coins = fetcher.filter_coins(all_coins)
         fetcher.save_datasets(cipherb_coins, ema_coins)
         print("✅ Data collection complete!")
-        print(f"💰 Credits saved: ~48% reduction (23 → 12 credits)")
     else:
         print("❌ No coins fetched")
 
