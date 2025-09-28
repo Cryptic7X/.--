@@ -26,7 +26,7 @@
     "in_zone": true,
     "entry_time": 1758968282.4762766,
     "reminder_sent": true,
-    "candle_count": 10
+    "candle_count": 11
   },
   "MYX_squeeze": {
     "in_zone": false,
@@ -384,7 +384,7 @@
     "in_zone": true,
     "entry_time": 1759028927.5991488,
     "reminder_sent": false,
-    "candle_count": 1
+    "candle_count": 2
   },
   "ONDO_squeeze": {
     "in_zone": true,
