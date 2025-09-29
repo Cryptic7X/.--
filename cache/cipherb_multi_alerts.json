@@ -214,5 +214,29 @@
     "monitoring_direction": null,
     "last_2h_time": 1759068665.9448225,
     "last_8h_time": 0
+  },
+  "BTC": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759114859.1135824,
+    "last_8h_time": 0
+  },
+  "WLFI": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759114859.114087,
+    "last_8h_time": 0
+  },
+  "AWE": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759114859.1146832,
+    "last_8h_time": 0
   }
 }
