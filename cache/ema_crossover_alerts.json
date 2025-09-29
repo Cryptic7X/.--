@@ -48,7 +48,7 @@
     "last_alert_time": 1758989674.609992
   },
   "LISTA": {
-    "last_alert_time": 1758989675.1753805
+    "last_alert_time": 1759116834.577111
   },
   "AVA": {
     "last_alert_time": 1758989677.5618713
@@ -274,5 +274,17 @@
   },
   "SSV": {
     "last_alert_time": 1759113465.5599554
+  },
+  "STG": {
+    "last_alert_time": 1759116832.5043356
+  },
+  "NXPC": {
+    "last_alert_time": 1759116832.8492653
+  },
+  "RIVER": {
+    "last_alert_time": 1759116835.4176924
+  },
+  "ES": {
+    "last_alert_time": 1759116837.6119652
   }
 }
