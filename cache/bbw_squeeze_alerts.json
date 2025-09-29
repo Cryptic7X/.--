@@ -334,10 +334,10 @@
     "candle_count": 24
   },
   "FIL_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759023754.7287946,
-    "reminder_sent": true,
-    "candle_count": 23
+    "in_zone": false,
+    "entry_time": 0,
+    "reminder_sent": false,
+    "candle_count": 0
   },
   "TWT_squeeze": {
     "in_zone": true,
