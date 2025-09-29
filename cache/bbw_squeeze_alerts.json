@@ -464,5 +464,11 @@
     "entry_time": 1759127539.1443813,
     "reminder_sent": false,
     "candle_count": 5
+  },
+  "RENDER_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759162839.0024045,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
