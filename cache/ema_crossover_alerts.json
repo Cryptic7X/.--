@@ -177,7 +177,7 @@
     "last_alert_time": 1759065458.6537275
   },
   "AA": {
-    "last_alert_time": 1759065462.5684426
+    "last_alert_time": 1759158832.9211268
   },
   "AOP": {
     "last_alert_time": 1759065462.6510248
@@ -337,5 +337,11 @@
   },
   "GUN": {
     "last_alert_time": 1759148860.1257298
+  },
+  "NEWT": {
+    "last_alert_time": 1759158830.6161513
+  },
+  "ASP": {
+    "last_alert_time": 1759158832.0603416
   }
 }
