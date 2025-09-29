@@ -214,10 +214,10 @@
     "candle_count": 2
   },
   "HBAR_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758982549.611469,
-    "reminder_sent": true,
-    "candle_count": 25
+    "in_zone": false,
+    "entry_time": 0,
+    "reminder_sent": false,
+    "candle_count": 0
   },
   "SHIB_squeeze": {
     "in_zone": false,
