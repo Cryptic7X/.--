@@ -322,10 +322,10 @@
     "candle_count": 0
   },
   "ATOM_squeeze": {
-    "in_zone": false,
-    "entry_time": 0,
+    "in_zone": true,
+    "entry_time": 1759184193.1543434,
     "reminder_sent": false,
-    "candle_count": 0
+    "candle_count": 1
   },
   "PENGU_squeeze": {
     "in_zone": true,
