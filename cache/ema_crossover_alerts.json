@@ -78,7 +78,7 @@
     "last_alert_time": 1758996986.744347
   },
   "PTB": {
-    "last_alert_time": 1759004008.6014352
+    "last_alert_time": 1759165960.4762065
   },
   "ACE": {
     "last_alert_time": 1759004010.836182
@@ -346,5 +346,8 @@
   },
   "TA": {
     "last_alert_time": 1759162447.1786354
+  },
+  "AEVO": {
+    "last_alert_time": 1759165959.797573
   }
 }
