@@ -325,5 +325,17 @@
   },
   "COAI": {
     "last_alert_time": 1759144318.2983837
+  },
+  "PIXEL": {
+    "last_alert_time": 1759148857.4445066
+  },
+  "UCN": {
+    "last_alert_time": 1759148858.4647124
+  },
+  "BLUE": {
+    "last_alert_time": 1759148859.9287438
+  },
+  "GUN": {
+    "last_alert_time": 1759148860.1257298
   }
 }
