@@ -59,10 +59,10 @@
     "candle_count": 5
   },
   "CAKE_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758896285.8443742,
-    "reminder_sent": true,
-    "candle_count": 30
+    "in_zone": false,
+    "entry_time": 0,
+    "reminder_sent": false,
+    "candle_count": 0
   },
   "AVNT_squeeze": {
     "in_zone": false,
@@ -304,10 +304,10 @@
     "candle_count": 0
   },
   "CRV_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759004394.9715168,
-    "reminder_sent": true,
-    "candle_count": 14
+    "in_zone": false,
+    "entry_time": 0,
+    "reminder_sent": false,
+    "candle_count": 0
   },
   "XLM_squeeze": {
     "in_zone": false,
