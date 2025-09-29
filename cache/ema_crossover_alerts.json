@@ -243,7 +243,7 @@
     "last_alert_time": 1759101089.6472843
   },
   "HOME": {
-    "last_alert_time": 1759101089.7719789
+    "last_alert_time": 1759187538.6385353
   },
   "ANIME": {
     "last_alert_time": 1759101090.1682918
@@ -352,5 +352,8 @@
   },
   "API3": {
     "last_alert_time": 1759170007.4533918
+  },
+  "HIFI": {
+    "last_alert_time": 1759187542.6821156
   }
 }
