@@ -238,5 +238,53 @@
     "monitoring_direction": null,
     "last_2h_time": 1759114859.1146832,
     "last_8h_time": 0
+  },
+  "XRP": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759119515.88113,
+    "last_8h_time": 0
+  },
+  "ETH": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759119515.881707,
+    "last_8h_time": 0
+  },
+  "POL": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759119515.882434,
+    "last_8h_time": 0
+  },
+  "CRV": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759119515.883057,
+    "last_8h_time": 0
+  },
+  "AERO": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759119515.883745,
+    "last_8h_time": 0
+  },
+  "MORPHO": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759119515.884417,
+    "last_8h_time": 0
   }
 }
