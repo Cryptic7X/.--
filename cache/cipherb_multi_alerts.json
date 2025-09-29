@@ -160,11 +160,11 @@
     "last_8h_time": 0
   },
   "EIGEN": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759021994.814752,
+    "last_2h_time": 1759183982.3269799,
     "last_8h_time": 0
   },
   "RENDER": {
@@ -301,6 +301,14 @@
     "monitoring_8h": false,
     "monitoring_direction": null,
     "last_2h_time": 1759176920.6237104,
+    "last_8h_time": 0
+  },
+  "AVAX": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759183982.3263326,
     "last_8h_time": 0
   }
 }
