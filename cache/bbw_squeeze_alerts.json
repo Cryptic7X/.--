@@ -154,10 +154,10 @@
     "candle_count": 7
   },
   "FARTCOIN_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759004397.693552,
-    "reminder_sent": true,
-    "candle_count": 14
+    "in_zone": false,
+    "entry_time": 0,
+    "reminder_sent": false,
+    "candle_count": 0
   },
   "BTC_squeeze": {
     "in_zone": false,
@@ -452,5 +452,11 @@
     "entry_time": 1759068922.1933842,
     "reminder_sent": false,
     "candle_count": 5
+  },
+  "EIGEN_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759109861.8997152,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
