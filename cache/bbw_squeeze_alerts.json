@@ -139,7 +139,7 @@
     "in_zone": true,
     "entry_time": 1758911222.748905,
     "reminder_sent": true,
-    "candle_count": 31
+    "candle_count": 32
   },
   "BCH_squeeze": {
     "in_zone": false,
@@ -199,7 +199,7 @@
     "in_zone": true,
     "entry_time": 1758961371.2777288,
     "reminder_sent": true,
-    "candle_count": 24
+    "candle_count": 25
   },
   "WIF_squeeze": {
     "in_zone": false,
@@ -458,5 +458,11 @@
     "entry_time": 1759109861.8997152,
     "reminder_sent": false,
     "candle_count": 3
+  },
+  "FET_squeeze": {
+    "in_zone": true,
+    "entry_time": 1759127539.1443813,
+    "reminder_sent": false,
+    "candle_count": 1
   }
 }
