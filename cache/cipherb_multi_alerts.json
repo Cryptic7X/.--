@@ -9,10 +9,10 @@
   },
   "OKB": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1758878524.2662258,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759127025.0449097,
     "last_8h_time": 0
   },
   "NEAR": {
@@ -257,10 +257,10 @@
   },
   "POL": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759119515.882434,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759127025.0455785,
     "last_8h_time": 0
   },
   "CRV": {
@@ -285,6 +285,14 @@
     "monitoring_8h": false,
     "monitoring_direction": null,
     "last_2h_time": 1759119515.884417,
+    "last_8h_time": 0
+  },
+  "BNB": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759127025.044288,
     "last_8h_time": 0
   }
 }
