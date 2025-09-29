@@ -292,10 +292,10 @@
     "candle_count": 0
   },
   "ALGO_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759004392.131154,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 3
+    "candle_count": 0
   },
   "INJ_squeeze": {
     "in_zone": false,
