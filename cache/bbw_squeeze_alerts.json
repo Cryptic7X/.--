@@ -412,10 +412,10 @@
     "candle_count": 0
   },
   "ETHFI_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759033402.5178273,
-    "reminder_sent": true,
-    "candle_count": 19
+    "in_zone": false,
+    "entry_time": 0,
+    "reminder_sent": false,
+    "candle_count": 0
   },
   "ETH_squeeze": {
     "in_zone": false,
