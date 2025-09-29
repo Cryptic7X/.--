@@ -139,7 +139,7 @@
     "in_zone": true,
     "entry_time": 1758911222.748905,
     "reminder_sent": true,
-    "candle_count": 37
+    "candle_count": 38
   },
   "BCH_squeeze": {
     "in_zone": false,
@@ -337,7 +337,7 @@
     "in_zone": true,
     "entry_time": 1759023754.7287946,
     "reminder_sent": true,
-    "candle_count": 21
+    "candle_count": 22
   },
   "TWT_squeeze": {
     "in_zone": true,
