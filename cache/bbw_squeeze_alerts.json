@@ -178,10 +178,10 @@
     "candle_count": 0
   },
   "GALA_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758954365.8587284,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 5
+    "candle_count": 0
   },
   "LTC_squeeze": {
     "in_zone": false,
@@ -250,10 +250,10 @@
     "candle_count": 7
   },
   "S_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758982558.3352408,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 6
+    "candle_count": 0
   },
   "W_squeeze": {
     "in_zone": true,
