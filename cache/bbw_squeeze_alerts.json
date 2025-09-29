@@ -190,10 +190,10 @@
     "candle_count": 0
   },
   "TAO_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758961367.0935748,
-    "reminder_sent": true,
-    "candle_count": 21
+    "in_zone": false,
+    "entry_time": 0,
+    "reminder_sent": false,
+    "candle_count": 0
   },
   "TIA_squeeze": {
     "in_zone": true,
