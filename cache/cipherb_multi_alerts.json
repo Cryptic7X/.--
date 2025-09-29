@@ -97,10 +97,10 @@
   },
   "MNT": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1758975947.2228777,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759170096.7397356,
     "last_8h_time": 0
   },
   "GRASS": {
@@ -153,10 +153,10 @@
   },
   "QNT": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759021994.8143086,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759170096.7404606,
     "last_8h_time": 0
   },
   "EIGEN": {
@@ -217,10 +217,10 @@
   },
   "BTC": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759114859.1135824,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759170096.7390997,
     "last_8h_time": 0
   },
   "WLFI": {
