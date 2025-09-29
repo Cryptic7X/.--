@@ -136,11 +136,11 @@
     "last_8h_time": 0
   },
   "XPL": {
-    "last_signal": "sell",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "sell",
-    "last_2h_time": 1759028689.9555671,
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759176920.6230867,
     "last_8h_time": 0
   },
   "IMX": {
@@ -185,10 +185,10 @@
   },
   "AVNT": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759054426.8360906,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1759176920.6242878,
     "last_8h_time": 0
   },
   "GALA": {
@@ -293,6 +293,14 @@
     "monitoring_8h": true,
     "monitoring_direction": "sell",
     "last_2h_time": 1759134113.4183922,
+    "last_8h_time": 0
+  },
+  "ETHFI": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759176920.6237104,
     "last_8h_time": 0
   }
 }
