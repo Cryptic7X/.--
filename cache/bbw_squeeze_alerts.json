@@ -47,10 +47,10 @@
     "reminder_sent": false
   },
   "BONK_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759149768.766613,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 1
+    "candle_count": 0
   },
   "IMX_squeeze": {
     "in_zone": true,
