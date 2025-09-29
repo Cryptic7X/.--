@@ -147,7 +147,7 @@
     "last_alert_time": 1759043484.830864
   },
   "APEPE": {
-    "last_alert_time": 1759047342.1837502
+    "last_alert_time": 1759162445.755254
   },
   "ACH": {
     "last_alert_time": 1759050741.5989459
@@ -343,5 +343,8 @@
   },
   "ASP": {
     "last_alert_time": 1759158832.0603416
+  },
+  "TA": {
+    "last_alert_time": 1759162447.1786354
   }
 }
