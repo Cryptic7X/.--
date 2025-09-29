@@ -259,7 +259,7 @@
     "in_zone": true,
     "entry_time": 1758982559.345066,
     "reminder_sent": true,
-    "candle_count": 27
+    "candle_count": 28
   },
   "RUNE_squeeze": {
     "in_zone": true,
@@ -343,7 +343,7 @@
     "in_zone": true,
     "entry_time": 1759023759.566837,
     "reminder_sent": true,
-    "candle_count": 15
+    "candle_count": 16
   },
   "XRP_squeeze": {
     "in_zone": false,
