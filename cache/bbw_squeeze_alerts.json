@@ -358,10 +358,10 @@
     "candle_count": 0
   },
   "HYPE_squeeze": {
-    "in_zone": false,
-    "entry_time": 0,
+    "in_zone": true,
+    "entry_time": 1759206237.7492938,
     "reminder_sent": false,
-    "candle_count": 0
+    "candle_count": 1
   },
   "LINK_squeeze": {
     "in_zone": false,
