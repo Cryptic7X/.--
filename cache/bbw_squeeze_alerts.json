@@ -442,10 +442,10 @@
     "candle_count": 0
   },
   "ETC_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759220896.1336455,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 1
+    "candle_count": 0
   },
   "DRIFT_squeeze": {
     "in_zone": true,
