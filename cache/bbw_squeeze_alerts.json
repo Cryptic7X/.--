@@ -30,10 +30,10 @@
     "candle_count": 33
   },
   "MYX_squeeze": {
-    "in_zone": false,
-    "entry_time": 0,
+    "in_zone": true,
+    "entry_time": 1759195604.080807,
     "reminder_sent": false,
-    "candle_count": 0
+    "candle_count": 1
   },
   "PYUSD_squeeze": {
     "in_zone": false,
@@ -172,10 +172,10 @@
     "candle_count": 0
   },
   "NEAR_squeeze": {
-    "in_zone": false,
-    "entry_time": 0,
+    "in_zone": true,
+    "entry_time": 1759195604.0980694,
     "reminder_sent": false,
-    "candle_count": 0
+    "candle_count": 1
   },
   "GALA_squeeze": {
     "in_zone": false,
