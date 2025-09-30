@@ -165,7 +165,7 @@
     "last_alert_time": 1759155240.3741074
   },
   "MEME": {
-    "last_alert_time": 1759223711.0986018
+    "last_alert_time": 1759263264.263312
   },
   "REX": {
     "last_alert_time": 1759062200.4641316
@@ -306,7 +306,7 @@
     "last_alert_time": 1759256279.7139564
   },
   "UB": {
-    "last_alert_time": 1759235282.6036165
+    "last_alert_time": 1759263266.8977869
   },
   "MITO": {
     "last_alert_time": 1759137378.1271474
@@ -406,5 +406,11 @@
   },
   "FIR": {
     "last_alert_time": 1759256281.1358845
+  },
+  "B2": {
+    "last_alert_time": 1759263268.5798018
+  },
+  "SLAY": {
+    "last_alert_time": 1759263271.500691
   }
 }
