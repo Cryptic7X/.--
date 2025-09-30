@@ -388,10 +388,10 @@
     "candle_count": 0
   },
   "ONDO_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759242004.9914815,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 1
+    "candle_count": 0
   },
   "ARB_squeeze": {
     "in_zone": false,
