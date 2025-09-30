@@ -183,7 +183,7 @@
     "last_alert_time": 1759176836.4756484
   },
   "LQTY": {
-    "last_alert_time": 1759068631.4130101
+    "last_alert_time": 1759220362.3034642
   },
   "SANTOS": {
     "last_alert_time": 1759068634.120512
@@ -364,5 +364,11 @@
   },
   "REAL": {
     "last_alert_time": 1759213257.438061
+  },
+  "WOO": {
+    "last_alert_time": 1759220360.11122
+  },
+  "MBG": {
+    "last_alert_time": 1759220361.62064
   }
 }
