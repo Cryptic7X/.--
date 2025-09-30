@@ -24,10 +24,10 @@
     "candle_count": 0
   },
   "OKB_squeeze": {
-    "in_zone": true,
-    "entry_time": 1758968282.4762766,
-    "reminder_sent": true,
-    "candle_count": 37
+    "in_zone": false,
+    "entry_time": 0,
+    "reminder_sent": false,
+    "candle_count": 0
   },
   "MYX_squeeze": {
     "in_zone": true,
