@@ -137,10 +137,10 @@
   },
   "XPL": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759176920.6230867,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1759235456.1762073,
     "last_8h_time": 0
   },
   "IMX": {
@@ -349,6 +349,14 @@
     "monitoring_8h": false,
     "monitoring_direction": null,
     "last_2h_time": 1759227368.430587,
+    "last_8h_time": 0
+  },
+  "ENA": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759235456.175451,
     "last_8h_time": 0
   }
 }
