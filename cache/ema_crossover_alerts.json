@@ -69,7 +69,7 @@
     "last_alert_time": 1758996980.5749693
   },
   "TRB": {
-    "last_alert_time": 1759097492.8251832
+    "last_alert_time": 1759223712.287955
   },
   "SERAPH": {
     "last_alert_time": 1758996983.3844721
@@ -165,7 +165,7 @@
     "last_alert_time": 1759155240.3741074
   },
   "MEME": {
-    "last_alert_time": 1759062198.7111597
+    "last_alert_time": 1759223711.0986018
   },
   "REX": {
     "last_alert_time": 1759062200.4641316
@@ -198,7 +198,7 @@
     "last_alert_time": 1759079410.8571842
   },
   "PUMP": {
-    "last_alert_time": 1759079412.0537407
+    "last_alert_time": 1759223715.9219036
   },
   "INIT": {
     "last_alert_time": 1759209238.9766612
@@ -231,7 +231,7 @@
     "last_alert_time": 1759101088.1979363
   },
   "BLUR": {
-    "last_alert_time": 1759101088.20108
+    "last_alert_time": 1759223710.6762416
   },
   "ARKM": {
     "last_alert_time": 1759101088.9386806
@@ -370,5 +370,14 @@
   },
   "MBG": {
     "last_alert_time": 1759220361.62064
+  },
+  "RVN": {
+    "last_alert_time": 1759223710.6467452
+  },
+  "FIDA": {
+    "last_alert_time": 1759223712.6636996
+  },
+  "REZ": {
+    "last_alert_time": 1759223713.8299613
   }
 }
