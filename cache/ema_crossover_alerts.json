@@ -114,7 +114,7 @@
     "last_alert_time": 1759194079.4452057
   },
   "CLANKER": {
-    "last_alert_time": 1759126912.0922978
+    "last_alert_time": 1759256279.8916218
   },
   "TPTU": {
     "last_alert_time": 1759183924.829998
@@ -159,7 +159,7 @@
     "last_alert_time": 1759050747.2271268
   },
   "ASR": {
-    "last_alert_time": 1759050748.3025982
+    "last_alert_time": 1759256280.5784237
   },
   "STO": {
     "last_alert_time": 1759155240.3741074
@@ -249,7 +249,7 @@
     "last_alert_time": 1759101090.1682918
   },
   "VINE": {
-    "last_alert_time": 1759216447.0552204
+    "last_alert_time": 1759256277.687541
   },
   "SUP": {
     "last_alert_time": 1759230731.9462612
@@ -303,7 +303,7 @@
     "last_alert_time": 1759134028.080213
   },
   "TST": {
-    "last_alert_time": 1759134028.2095263
+    "last_alert_time": 1759256279.7139564
   },
   "UB": {
     "last_alert_time": 1759235282.6036165
@@ -403,5 +403,8 @@
   },
   "LRC": {
     "last_alert_time": 1759241667.7798629
+  },
+  "FIR": {
+    "last_alert_time": 1759256281.1358845
   }
 }
