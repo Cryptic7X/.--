@@ -1,8 +1,7 @@
 """
-EMA Indicator - 21/50 EMA CROSSOVER VERSION
-Updated for 1H timeframe with 24-hour cooldown
+EMA Indicator - 12/21 EMA CROSSOVER VERSION
+2H timeframe with 24-hour cooldown - SIMPLE CROSSOVER ONLY
 """
-
 import json
 import os
 import time
@@ -10,8 +9,8 @@ from typing import Dict, List
 
 class EMAIndicator:
     def __init__(self):
-        self.ema_short = 21  
-        self.ema_long = 50   
+        self.ema_short = 12  # CHANGED: 21 -> 12
+        self.ema_long = 21   # CHANGED: 50 -> 21
         self.cache_file = "cache/ema_crossover_alerts.json"
         self.crossover_cooldown_hours = 24
 
@@ -31,7 +30,6 @@ class EMAIndicator:
         for i in range(period, len(data)):
             ema = (data[i] * multiplier) + (ema_values[i-1] * (1 - multiplier))
             ema_values.append(ema)
-        
         return ema_values
 
     def load_ema_cache(self) -> Dict:
@@ -52,21 +50,21 @@ class EMAIndicator:
         except Exception as e:
             print(f"❌ Cache save error: {e}")
 
-    def detect_crossover(self, ema21: List[float], ema50: List[float]) -> str:
-        """FIXED: 21 EMA crossover with 50 EMA"""
-        if len(ema21) < 2 or len(ema50) < 2:
+    def detect_crossover(self, ema12: List[float], ema21: List[float]) -> str:
+        """12 EMA crossover with 21 EMA"""
+        if len(ema12) < 2 or len(ema21) < 2:
             return None
         
-        # Get previous and current values - FIXED variable names
+        # Get previous and current values
+        prev_12, curr_12 = ema12[-2], ema12[-1]
         prev_21, curr_21 = ema21[-2], ema21[-1]
-        prev_50, curr_50 = ema50[-2], ema50[-1]
         
-        # Golden Cross: 21 EMA crosses above 50 EMA
-        if prev_21 <= prev_50 and curr_21 > curr_50:
+        # Golden Cross: 12 EMA crosses above 21 EMA
+        if prev_12 <= prev_21 and curr_12 > curr_21:
             return 'golden_cross'
         
-        # Death Cross: 21 EMA crosses below 50 EMA
-        if prev_21 >= prev_50 and curr_21 < curr_50:
+        # Death Cross: 12 EMA crosses below 21 EMA
+        if prev_12 >= prev_21 and curr_12 < curr_21:
             return 'death_cross'
         
         return None
@@ -75,19 +73,19 @@ class EMAIndicator:
         try:
             closes = ohlcv_data['close']
             
-            # Require more data for 1H accuracy
-            if len(closes) < 100:
+            # Require sufficient data for 2H accuracy
+            if len(closes) < 50:  # CHANGED: Less data needed for 2H
                 return {'crossover_alert': False}
             
-            ema21 = self.calculate_ema(closes, self.ema_short)
-            ema50 = self.calculate_ema(closes, self.ema_long)
+            ema12 = self.calculate_ema(closes, self.ema_short)
+            ema21 = self.calculate_ema(closes, self.ema_long)
             
             current_time = time.time()
             cache = self.load_ema_cache()
             cache_updated = False
             
             # CROSSOVER CHECK - ONLY LOGIC NEEDED
-            crossover_type = self.detect_crossover(ema21, ema50)
+            crossover_type = self.detect_crossover(ema12, ema21)
             crossover_alert = False
             
             if crossover_type:
@@ -117,8 +115,8 @@ class EMAIndicator:
             return {
                 'crossover_alert': crossover_alert,
                 'crossover_type': crossover_type if crossover_alert else None,
-                'ema21': ema21[-1],
-                'ema50': ema50[-1],
+                'ema12': ema12[-1],  # CHANGED: ema21 -> ema12
+                'ema21': ema21[-1],  # CHANGED: ema50 -> ema21
                 'current_price': closes[-1]
             }
             
