@@ -268,10 +268,10 @@
     "candle_count": 6
   },
   "DOGE_squeeze": {
-    "in_zone": false,
-    "entry_time": 0,
+    "in_zone": true,
+    "entry_time": 1759201106.8683114,
     "reminder_sent": false,
-    "candle_count": 0
+    "candle_count": 1
   },
   "ATH_squeeze": {
     "in_zone": false,
