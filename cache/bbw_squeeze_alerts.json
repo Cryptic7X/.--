@@ -3,7 +3,7 @@
     "in_zone": true,
     "entry_time": 1758875691.8587863,
     "reminder_sent": true,
-    "candle_count": 48
+    "candle_count": 49
   },
   "TON_squeeze": {
     "in_zone": true,
@@ -355,19 +355,19 @@
     "in_zone": true,
     "entry_time": 1759213866.0568287,
     "reminder_sent": false,
-    "candle_count": 1
+    "candle_count": 2
   },
   "HYPE_squeeze": {
     "in_zone": true,
     "entry_time": 1759206237.7492938,
     "reminder_sent": false,
-    "candle_count": 2
+    "candle_count": 3
   },
   "LINK_squeeze": {
-    "in_zone": false,
-    "entry_time": 0,
+    "in_zone": true,
+    "entry_time": 1759220890.3685517,
     "reminder_sent": false,
-    "candle_count": 0
+    "candle_count": 1
   },
   "AVAX_squeeze": {
     "in_zone": false,
