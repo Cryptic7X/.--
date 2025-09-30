@@ -325,13 +325,13 @@
     "in_zone": true,
     "entry_time": 1759184193.1543434,
     "reminder_sent": false,
-    "candle_count": 3
+    "candle_count": 4
   },
   "PENGU_squeeze": {
     "in_zone": true,
     "entry_time": 1759023754.3007975,
     "reminder_sent": true,
-    "candle_count": 26
+    "candle_count": 27
   },
   "FIL_squeeze": {
     "in_zone": true,
