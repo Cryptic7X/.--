@@ -53,10 +53,10 @@
     "candle_count": 0
   },
   "IMX_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759076481.4512084,
-    "reminder_sent": true,
-    "candle_count": 19
+    "in_zone": false,
+    "entry_time": 0,
+    "reminder_sent": false,
+    "candle_count": 0
   },
   "CAKE_squeeze": {
     "in_zone": false,
