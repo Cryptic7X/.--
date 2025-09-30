@@ -331,7 +331,7 @@
     "in_zone": true,
     "entry_time": 1759023754.3007975,
     "reminder_sent": true,
-    "candle_count": 32
+    "candle_count": 33
   },
   "FIL_squeeze": {
     "in_zone": true,
@@ -481,7 +481,7 @@
     "in_zone": true,
     "entry_time": 1759201113.2067451,
     "reminder_sent": false,
-    "candle_count": 7
+    "candle_count": 8
   },
   "APT_squeeze": {
     "in_zone": true,
