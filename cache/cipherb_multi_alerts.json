@@ -249,10 +249,10 @@
   },
   "ETH": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759119515.881707,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759194460.6694303,
     "last_8h_time": 0
   },
   "POL": {
@@ -309,6 +309,30 @@
     "monitoring_8h": false,
     "monitoring_direction": null,
     "last_2h_time": 1759183982.3263326,
+    "last_8h_time": 0
+  },
+  "LINK": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759194460.6701531,
+    "last_8h_time": 0
+  },
+  "SOL": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759194460.6707747,
+    "last_8h_time": 0
+  },
+  "STRK": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759194460.6713572,
     "last_8h_time": 0
   }
 }
