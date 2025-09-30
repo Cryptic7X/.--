@@ -490,9 +490,9 @@
     "candle_count": 2
   },
   "BERA_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759213883.948358,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 1
+    "candle_count": 0
   }
 }
