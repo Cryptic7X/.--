@@ -400,10 +400,10 @@
     "candle_count": 0
   },
   "SEI_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759195606.4076421,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 6
+    "candle_count": 0
   },
   "VIRTUAL_squeeze": {
     "in_zone": false,
