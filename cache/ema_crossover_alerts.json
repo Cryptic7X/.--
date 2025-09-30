@@ -24,10 +24,10 @@
     "last_alert_time": 1759097492.4286993
   },
   "COOKIE": {
-    "last_alert_time": 1759097493.798466
+    "last_alert_time": 1759205785.3664913
   },
   "STAR": {
-    "last_alert_time": 1758979037.1568174
+    "last_alert_time": 1759205788.3749435
   },
   "OPEN": {
     "last_alert_time": 1758982263.3578017
@@ -358,5 +358,8 @@
   },
   "ORCA": {
     "last_alert_time": 1759198909.3391237
+  },
+  "PUNDIX": {
+    "last_alert_time": 1759205784.5537856
   }
 }
