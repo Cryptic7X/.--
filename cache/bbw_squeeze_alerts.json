@@ -382,10 +382,10 @@
     "candle_count": 0
   },
   "AAVE_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759220894.2590702,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 4
+    "candle_count": 0
   },
   "ONDO_squeeze": {
     "in_zone": true,
