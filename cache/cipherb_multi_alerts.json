@@ -104,11 +104,11 @@
     "last_8h_time": 0
   },
   "GRASS": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1758975947.223253,
+    "last_2h_time": 1759263367.3208208,
     "last_8h_time": 0
   },
   "KAITO": {
@@ -437,6 +437,38 @@
     "monitoring_8h": false,
     "monitoring_direction": null,
     "last_2h_time": 1759256407.9725826,
+    "last_8h_time": 0
+  },
+  "FET": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759263367.3186102,
+    "last_8h_time": 0
+  },
+  "KAIA": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759263367.3193905,
+    "last_8h_time": 0
+  },
+  "PENDLE": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759263367.320145,
+    "last_8h_time": 0
+  },
+  "ZORA": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759263367.3215137,
     "last_8h_time": 0
   }
 }
