@@ -1,12 +1,12 @@
 {
   "HUMA": {
-    "last_alert_time": 1758971383.1671855
+    "last_alert_time": 1759227283.85718
   },
   "USUAL": {
     "last_alert_time": 1759101090.5949676
   },
   "THE": {
-    "last_alert_time": 1758971384.5112386
+    "last_alert_time": 1759227285.3410597
   },
   "ICE": {
     "last_alert_time": 1759083403.4250531
@@ -207,7 +207,7 @@
     "last_alert_time": 1759083403.4355114
   },
   "TAKE": {
-    "last_alert_time": 1759086589.956108
+    "last_alert_time": 1759227287.6304736
   },
   "KILO": {
     "last_alert_time": 1759086591.018698
@@ -291,7 +291,7 @@
     "last_alert_time": 1759119400.6227162
   },
   "KMNO": {
-    "last_alert_time": 1759122860.2738109
+    "last_alert_time": 1759227281.3658457
   },
   "VOXEL": {
     "last_alert_time": 1759122867.261208
@@ -315,7 +315,7 @@
     "last_alert_time": 1759140923.4277787
   },
   "IDOL": {
-    "last_alert_time": 1759140926.383544
+    "last_alert_time": 1759227286.9905112
   },
   "OM": {
     "last_alert_time": 1759144314.0342207
@@ -342,7 +342,7 @@
     "last_alert_time": 1759158830.6161513
   },
   "ASP": {
-    "last_alert_time": 1759158832.0603416
+    "last_alert_time": 1759227287.3377666
   },
   "TA": {
     "last_alert_time": 1759162447.1786354
@@ -379,5 +379,8 @@
   },
   "REZ": {
     "last_alert_time": 1759223713.8299613
+  },
+  "NMR": {
+    "last_alert_time": 1759227281.993088
   }
 }
