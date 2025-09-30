@@ -286,10 +286,10 @@
     "candle_count": 4
   },
   "ICP_squeeze": {
-    "in_zone": false,
-    "entry_time": 0,
+    "in_zone": true,
+    "entry_time": 1759201112.7811062,
     "reminder_sent": false,
-    "candle_count": 0
+    "candle_count": 1
   },
   "ALGO_squeeze": {
     "in_zone": false,
