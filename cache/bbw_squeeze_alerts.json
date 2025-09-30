@@ -56,7 +56,7 @@
     "in_zone": true,
     "entry_time": 1759076481.4512084,
     "reminder_sent": true,
-    "candle_count": 18
+    "candle_count": 19
   },
   "CAKE_squeeze": {
     "in_zone": false,
@@ -301,7 +301,7 @@
     "in_zone": true,
     "entry_time": 1759201115.5133104,
     "reminder_sent": false,
-    "candle_count": 1
+    "candle_count": 2
   },
   "CRV_squeeze": {
     "in_zone": false,
@@ -463,7 +463,7 @@
     "in_zone": true,
     "entry_time": 1759195608.199398,
     "reminder_sent": false,
-    "candle_count": 2
+    "candle_count": 3
   },
   "RENDER_squeeze": {
     "in_zone": true,
