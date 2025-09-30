@@ -271,7 +271,7 @@
     "in_zone": true,
     "entry_time": 1759201106.8683114,
     "reminder_sent": false,
-    "candle_count": 6
+    "candle_count": 7
   },
   "ATH_squeeze": {
     "in_zone": false,
@@ -355,7 +355,7 @@
     "in_zone": true,
     "entry_time": 1759213866.0568287,
     "reminder_sent": false,
-    "candle_count": 4
+    "candle_count": 5
   },
   "HYPE_squeeze": {
     "in_zone": false,
