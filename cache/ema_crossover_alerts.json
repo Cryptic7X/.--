@@ -54,7 +54,7 @@
     "last_alert_time": 1758989677.5618713
   },
   "IN": {
-    "last_alert_time": 1758989679.0837657
+    "last_alert_time": 1759241673.3041646
   },
   "MOODENG": {
     "last_alert_time": 1759194077.5431714
@@ -225,7 +225,7 @@
     "last_alert_time": 1759097496.0757494
   },
   "SUSHI": {
-    "last_alert_time": 1759101087.758693
+    "last_alert_time": 1759241666.3984492
   },
   "BB": {
     "last_alert_time": 1759101088.1979363
@@ -391,5 +391,17 @@
   },
   "PSTAKE": {
     "last_alert_time": 1759235288.287886
+  },
+  "SAHARA": {
+    "last_alert_time": 1759241666.6480134
+  },
+  "H": {
+    "last_alert_time": 1759241666.798604
+  },
+  "MASK": {
+    "last_alert_time": 1759241667.1983984
+  },
+  "LRC": {
+    "last_alert_time": 1759241667.7798629
   }
 }
