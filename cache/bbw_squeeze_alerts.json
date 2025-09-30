@@ -172,10 +172,10 @@
     "candle_count": 0
   },
   "NEAR_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759195604.0980694,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 5
+    "candle_count": 0
   },
   "GALA_squeeze": {
     "in_zone": true,
@@ -385,7 +385,7 @@
     "in_zone": true,
     "entry_time": 1759220894.2590702,
     "reminder_sent": false,
-    "candle_count": 1
+    "candle_count": 2
   },
   "ONDO_squeeze": {
     "in_zone": true,
