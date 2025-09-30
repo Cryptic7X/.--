@@ -329,10 +329,10 @@
   },
   "STRK": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759194460.6713572,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759227368.4313629,
     "last_8h_time": 0
   },
   "LDO": {
@@ -341,6 +341,14 @@
     "monitoring_8h": false,
     "monitoring_direction": null,
     "last_2h_time": 1759205877.166319,
+    "last_8h_time": 0
+  },
+  "S": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759227368.430587,
     "last_8h_time": 0
   }
 }
