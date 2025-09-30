@@ -12,7 +12,7 @@ class EMAIndicator:
         self.ema_short = 12  # CHANGED: 21 -> 12
         self.ema_long = 21   # CHANGED: 50 -> 21
         self.cache_file = "cache/ema_crossover_alerts.json"
-        self.crossover_cooldown_hours = 24
+        self.crossover_cooldown_hours = 6
 
     def calculate_ema(self, data: List[float], period: int) -> List[float]:
         if len(data) < period:
@@ -74,7 +74,7 @@ class EMAIndicator:
             closes = ohlcv_data['close']
             
             # Require sufficient data for 2H accuracy
-            if len(closes) < 50:  # CHANGED: Less data needed for 2H
+            if len(closes) < 200:  # CHANGED: Less data needed for 2H
                 return {'crossover_alert': False}
             
             ema12 = self.calculate_ema(closes, self.ema_short)
