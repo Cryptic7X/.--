@@ -355,13 +355,13 @@
     "in_zone": true,
     "entry_time": 1759213866.0568287,
     "reminder_sent": false,
-    "candle_count": 2
+    "candle_count": 3
   },
   "HYPE_squeeze": {
-    "in_zone": true,
-    "entry_time": 1759206237.7492938,
+    "in_zone": false,
+    "entry_time": 0,
     "reminder_sent": false,
-    "candle_count": 3
+    "candle_count": 0
   },
   "LINK_squeeze": {
     "in_zone": true,
