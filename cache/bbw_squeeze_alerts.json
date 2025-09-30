@@ -474,8 +474,8 @@
   "POL_squeeze": {
     "in_zone": true,
     "entry_time": 1759170558.6688488,
-    "reminder_sent": false,
-    "candle_count": 9
+    "reminder_sent": true,
+    "candle_count": 10
   },
   "PUMP_squeeze": {
     "in_zone": true,
