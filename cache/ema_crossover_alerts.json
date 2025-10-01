@@ -21,10 +21,10 @@
     "last_alert_time": 1758975776.264799
   },
   "AI16Z": {
-    "last_alert_time": 1759097492.4286993
+    "last_alert_time": 1759310105.9448848
   },
   "COOKIE": {
-    "last_alert_time": 1759205785.3664913
+    "last_alert_time": 1759310107.6312728
   },
   "STAR": {
     "last_alert_time": 1759205788.3749435
@@ -33,7 +33,7 @@
     "last_alert_time": 1758982263.3578017
   },
   "CGPT": {
-    "last_alert_time": 1759194080.3327062
+    "last_alert_time": 1759310107.2361112
   },
   "HOOK": {
     "last_alert_time": 1758982268.1067696
@@ -57,7 +57,7 @@
     "last_alert_time": 1759280859.001
   },
   "MOODENG": {
-    "last_alert_time": 1759194077.5431714
+    "last_alert_time": 1759310104.582475
   },
   "USELESS": {
     "last_alert_time": 1759097490.7994359
@@ -96,7 +96,7 @@
     "last_alert_time": 1759028627.173459
   },
   "IO": {
-    "last_alert_time": 1759194078.583097
+    "last_alert_time": 1759310105.4004219
   },
   "MAMO": {
     "last_alert_time": 1759028632.311469
@@ -132,7 +132,7 @@
     "last_alert_time": 1759040300.8358846
   },
   "CYBER": {
-    "last_alert_time": 1759152320.329472
+    "last_alert_time": 1759310106.922245
   },
   "GMX": {
     "last_alert_time": 1759180302.4337358
@@ -150,7 +150,7 @@
     "last_alert_time": 1759162445.755254
   },
   "ACH": {
-    "last_alert_time": 1759270357.5627382
+    "last_alert_time": 1759310104.1874375
   },
   "ORDER": {
     "last_alert_time": 1759050743.887889
@@ -207,7 +207,7 @@
     "last_alert_time": 1759083403.4355114
   },
   "TAKE": {
-    "last_alert_time": 1759227287.6304736
+    "last_alert_time": 1759310110.301624
   },
   "KILO": {
     "last_alert_time": 1759086591.018698
@@ -237,10 +237,10 @@
     "last_alert_time": 1759101088.9386806
   },
   "BOME": {
-    "last_alert_time": 1759101089.153001
+    "last_alert_time": 1759310105.4369776
   },
   "AIXBT": {
-    "last_alert_time": 1759101089.6472843
+    "last_alert_time": 1759310106.1128738
   },
   "HOME": {
     "last_alert_time": 1759187538.6385353
@@ -318,7 +318,7 @@
     "last_alert_time": 1759227286.9905112
   },
   "OM": {
-    "last_alert_time": 1759144314.0342207
+    "last_alert_time": 1759310104.2043927
   },
   "LAYER": {
     "last_alert_time": 1759144314.7505434
@@ -327,7 +327,7 @@
     "last_alert_time": 1759144318.2983837
   },
   "PIXEL": {
-    "last_alert_time": 1759148857.4445066
+    "last_alert_time": 1759310106.640632
   },
   "UCN": {
     "last_alert_time": 1759148858.4647124
@@ -351,7 +351,7 @@
     "last_alert_time": 1759165959.797573
   },
   "API3": {
-    "last_alert_time": 1759170007.4533918
+    "last_alert_time": 1759310107.459654
   },
   "HIFI": {
     "last_alert_time": 1759187542.6821156
@@ -372,7 +372,7 @@
     "last_alert_time": 1759220361.62064
   },
   "RVN": {
-    "last_alert_time": 1759223710.6467452
+    "last_alert_time": 1759310104.1384683
   },
   "FIDA": {
     "last_alert_time": 1759288005.543401
@@ -417,7 +417,7 @@
     "last_alert_time": 1759270362.5694168
   },
   "DOLO": {
-    "last_alert_time": 1759280857.1604362
+    "last_alert_time": 1759310108.6359847
   },
   "LA": {
     "last_alert_time": 1759292162.632561
@@ -436,5 +436,20 @@
   },
   "BTR": {
     "last_alert_time": 1759306707.345126
+  },
+  "NOT": {
+    "last_alert_time": 1759310104.5691996
+  },
+  "RLC": {
+    "last_alert_time": 1759310105.9671636
+  },
+  "MAGIC": {
+    "last_alert_time": 1759310107.798346
+  },
+  "TOWNS": {
+    "last_alert_time": 1759310108.9592516
+  },
+  "SHELL": {
+    "last_alert_time": 1759310109.3176665
   }
 }
