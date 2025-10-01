@@ -129,10 +129,10 @@
   },
   "APT": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759021994.8126068,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759299742.3733716,
     "last_8h_time": 0
   },
   "XPL": {
@@ -441,10 +441,10 @@
   },
   "FET": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759263367.3186102,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1759299742.3742514,
     "last_8h_time": 0
   },
   "KAIA": {
