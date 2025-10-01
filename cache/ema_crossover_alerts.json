@@ -15,7 +15,7 @@
     "last_alert_time": 1759086590.3980894
   },
   "YGG": {
-    "last_alert_time": 1759249014.0545456
+    "last_alert_time": 1759299615.104711
   },
   "SCR": {
     "last_alert_time": 1758975776.264799
@@ -270,7 +270,7 @@
     "last_alert_time": 1759107737.223956
   },
   "ROAM": {
-    "last_alert_time": 1759107737.9865677
+    "last_alert_time": 1759299618.3731668
   },
   "SSV": {
     "last_alert_time": 1759280854.4544532
@@ -300,7 +300,7 @@
     "last_alert_time": 1759122867.3504536
   },
   "AIN": {
-    "last_alert_time": 1759134028.080213
+    "last_alert_time": 1759299617.817341
   },
   "TST": {
     "last_alert_time": 1759256279.7139564
@@ -427,5 +427,8 @@
   },
   "SOMI": {
     "last_alert_time": 1759295634.6193912
+  },
+  "UMA": {
+    "last_alert_time": 1759299614.6797295
   }
 }
