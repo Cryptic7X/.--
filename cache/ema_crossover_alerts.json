@@ -348,7 +348,7 @@
     "last_alert_time": 1759162447.1786354
   },
   "AEVO": {
-    "last_alert_time": 1759165959.797573
+    "last_alert_time": 1759335427.4854982
   },
   "API3": {
     "last_alert_time": 1759310107.459654
@@ -466,5 +466,14 @@
   },
   "KERNEL": {
     "last_alert_time": 1759328049.4962277
+  },
+  "SATS": {
+    "last_alert_time": 1759335428.8225355
+  },
+  "ZENT": {
+    "last_alert_time": 1759335429.7976024
+  },
+  "WOD": {
+    "last_alert_time": 1759335432.1589792
   }
 }
