@@ -176,11 +176,11 @@
     "last_8h_time": 0
   },
   "RUNE": {
-    "last_signal": "buy",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "buy",
-    "last_2h_time": 1759062378.825253,
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759342892.4535155,
     "last_8h_time": 0
   },
   "AVNT": {
@@ -220,7 +220,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759170096.7390997,
+    "last_2h_time": 1759342892.444245,
     "last_8h_time": 0
   },
   "WLFI": {
@@ -321,10 +321,10 @@
   },
   "SOL": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759194460.6707747,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759342892.443349,
     "last_8h_time": 0
   },
   "STRK": {
@@ -384,19 +384,19 @@
     "last_8h_time": 0
   },
   "PENGU": {
-    "last_signal": "buy",
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759256407.96549,
+    "last_2h_time": 1759342892.4475687,
     "last_8h_time": 0
   },
   "JUP": {
-    "last_signal": "buy",
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759256407.966249,
+    "last_2h_time": 1759342892.449242,
     "last_8h_time": 0
   },
   "ATH": {
@@ -509,6 +509,102 @@
     "monitoring_8h": false,
     "monitoring_direction": null,
     "last_2h_time": 1759335523.8980837,
+    "last_8h_time": 0
+  },
+  "DOGE": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759342892.4424124,
+    "last_8h_time": 0
+  },
+  "ADA": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759342892.4451208,
+    "last_8h_time": 0
+  },
+  "LTC": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759342892.4459186,
+    "last_8h_time": 0
+  },
+  "ONDO": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759342892.4467835,
+    "last_8h_time": 0
+  },
+  "ALGO": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759342892.448427,
+    "last_8h_time": 0
+  },
+  "INJ": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759342892.4501193,
+    "last_8h_time": 0
+  },
+  "GRT": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759342892.4509642,
+    "last_8h_time": 0
+  },
+  "RAY": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759342892.4518275,
+    "last_8h_time": 0
+  },
+  "MANA": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759342892.4526708,
+    "last_8h_time": 0
+  },
+  "MEW": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759342892.4543595,
+    "last_8h_time": 0
+  },
+  "POPCAT": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759342892.4552457,
+    "last_8h_time": 0
+  },
+  "PNUT": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759342892.4561253,
     "last_8h_time": 0
   }
 }
