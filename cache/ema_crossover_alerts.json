@@ -3,7 +3,7 @@
     "last_alert_time": 1759227283.85718
   },
   "USUAL": {
-    "last_alert_time": 1759101090.5949676
+    "last_alert_time": 1759313679.4801145
   },
   "THE": {
     "last_alert_time": 1759227285.3410597
@@ -63,7 +63,7 @@
     "last_alert_time": 1759097490.7994359
   },
   "PROVE": {
-    "last_alert_time": 1758996980.469291
+    "last_alert_time": 1759313676.637295
   },
   "ONE": {
     "last_alert_time": 1758996980.5749693
@@ -78,13 +78,13 @@
     "last_alert_time": 1758996986.744347
   },
   "PTB": {
-    "last_alert_time": 1759165960.4762065
+    "last_alert_time": 1759313678.417175
   },
   "ACE": {
     "last_alert_time": 1759004010.836182
   },
   "SPK": {
-    "last_alert_time": 1759014689.9127128
+    "last_alert_time": 1759313678.1817157
   },
   "OG": {
     "last_alert_time": 1759014690.4944718
@@ -93,7 +93,7 @@
     "last_alert_time": 1759270361.7817075
   },
   "ORDI": {
-    "last_alert_time": 1759028627.173459
+    "last_alert_time": 1759313676.3219786
   },
   "IO": {
     "last_alert_time": 1759310105.4004219
@@ -162,7 +162,7 @@
     "last_alert_time": 1759306707.6463645
   },
   "STO": {
-    "last_alert_time": 1759155240.3741074
+    "last_alert_time": 1759313682.3326485
   },
   "MEME": {
     "last_alert_time": 1759263264.263312
@@ -222,7 +222,7 @@
     "last_alert_time": 1759270358.1915638
   },
   "ACT": {
-    "last_alert_time": 1759097496.0757494
+    "last_alert_time": 1759313681.5630991
   },
   "SUSHI": {
     "last_alert_time": 1759270357.4189703
@@ -243,10 +243,10 @@
     "last_alert_time": 1759310106.1128738
   },
   "HOME": {
-    "last_alert_time": 1759187538.6385353
+    "last_alert_time": 1759313678.3781903
   },
   "ANIME": {
-    "last_alert_time": 1759101090.1682918
+    "last_alert_time": 1759313678.8742
   },
   "VINE": {
     "last_alert_time": 1759256277.687541
@@ -261,13 +261,13 @@
     "last_alert_time": 1759107734.6759286
   },
   "SONIC": {
-    "last_alert_time": 1759107735.046526
+    "last_alert_time": 1759313679.2500896
   },
   "WCT": {
     "last_alert_time": 1759107736.1031616
   },
   "ARPA": {
-    "last_alert_time": 1759107737.223956
+    "last_alert_time": 1759313681.381138
   },
   "ROAM": {
     "last_alert_time": 1759299618.3731668
@@ -360,10 +360,10 @@
     "last_alert_time": 1759288004.3801591
   },
   "PUNDIX": {
-    "last_alert_time": 1759205784.5537856
+    "last_alert_time": 1759313678.6399035
   },
   "REAL": {
-    "last_alert_time": 1759213257.438061
+    "last_alert_time": 1759313678.9628875
   },
   "WOO": {
     "last_alert_time": 1759220360.11122
@@ -381,7 +381,7 @@
     "last_alert_time": 1759223713.8299613
   },
   "NMR": {
-    "last_alert_time": 1759227281.993088
+    "last_alert_time": 1759313676.9104474
   },
   "ALEO": {
     "last_alert_time": 1759235280.3689494
@@ -399,7 +399,7 @@
     "last_alert_time": 1759288003.6827188
   },
   "MASK": {
-    "last_alert_time": 1759241667.1983984
+    "last_alert_time": 1759313676.9570847
   },
   "LRC": {
     "last_alert_time": 1759241667.7798629
@@ -451,5 +451,8 @@
   },
   "SHELL": {
     "last_alert_time": 1759310109.3176665
+  },
+  "MUBARAK": {
+    "last_alert_time": 1759313681.6882043
   }
 }
