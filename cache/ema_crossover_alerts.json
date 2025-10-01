@@ -42,7 +42,7 @@
     "last_alert_time": 1759328045.3262863
   },
   "XUSD": {
-    "last_alert_time": 1759321720.0585852
+    "last_alert_time": 1759356749.553679
   },
   "ILV": {
     "last_alert_time": 1758989674.609992
@@ -99,7 +99,7 @@
     "last_alert_time": 1759310105.4004219
   },
   "MAMO": {
-    "last_alert_time": 1759028632.311469
+    "last_alert_time": 1759356751.4447978
   },
   "ZRX": {
     "last_alert_time": 1759032933.3515575
@@ -303,7 +303,7 @@
     "last_alert_time": 1759299617.817341
   },
   "TST": {
-    "last_alert_time": 1759331627.912541
+    "last_alert_time": 1759356751.2405918
   },
   "UB": {
     "last_alert_time": 1759263266.8977869
@@ -511,5 +511,11 @@
   },
   "BAR": {
     "last_alert_time": 1759349689.486004
+  },
+  "WAVES": {
+    "last_alert_time": 1759356747.614033
+  },
+  "JUV": {
+    "last_alert_time": 1759356752.797605
   }
 }
