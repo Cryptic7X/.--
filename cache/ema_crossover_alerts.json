@@ -42,7 +42,7 @@
     "last_alert_time": 1758985870.0691862
   },
   "XUSD": {
-    "last_alert_time": 1758985873.8025846
+    "last_alert_time": 1759321720.0585852
   },
   "ILV": {
     "last_alert_time": 1758989674.609992
@@ -183,7 +183,7 @@
     "last_alert_time": 1759176836.4756484
   },
   "LQTY": {
-    "last_alert_time": 1759220362.3034642
+    "last_alert_time": 1759321719.4487536
   },
   "SANTOS": {
     "last_alert_time": 1759068634.120512
@@ -234,7 +234,7 @@
     "last_alert_time": 1759266699.230792
   },
   "ARKM": {
-    "last_alert_time": 1759101088.9386806
+    "last_alert_time": 1759321717.8684301
   },
   "BOME": {
     "last_alert_time": 1759310105.4369776
@@ -285,7 +285,7 @@
     "last_alert_time": 1759116835.4176924
   },
   "ES": {
-    "last_alert_time": 1759245181.8091102
+    "last_alert_time": 1759321722.1899133
   },
   "ZKC": {
     "last_alert_time": 1759119400.6227162
@@ -321,7 +321,7 @@
     "last_alert_time": 1759310104.2043927
   },
   "LAYER": {
-    "last_alert_time": 1759144314.7505434
+    "last_alert_time": 1759321717.85284
   },
   "COAI": {
     "last_alert_time": 1759144318.2983837
@@ -423,7 +423,7 @@
     "last_alert_time": 1759292162.632561
   },
   "ALCH": {
-    "last_alert_time": 1759292164.730067
+    "last_alert_time": 1759321720.912127
   },
   "SOMI": {
     "last_alert_time": 1759295634.6193912
@@ -454,5 +454,14 @@
   },
   "MUBARAK": {
     "last_alert_time": 1759313681.6882043
+  },
+  "ERA": {
+    "last_alert_time": 1759321719.1650114
+  },
+  "TREE": {
+    "last_alert_time": 1759321720.7969701
+  },
+  "U": {
+    "last_alert_time": 1759321722.2726128
   }
 }
