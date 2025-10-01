@@ -78,7 +78,7 @@
     "last_alert_time": 1758996986.744347
   },
   "PTB": {
-    "last_alert_time": 1759313678.417175
+    "last_alert_time": 1759349684.1592867
   },
   "ACE": {
     "last_alert_time": 1759004010.836182
@@ -189,7 +189,7 @@
     "last_alert_time": 1759068634.120512
   },
   "C98": {
-    "last_alert_time": 1759076040.1858928
+    "last_alert_time": 1759349686.6057558
   },
   "PROMPT": {
     "last_alert_time": 1759302826.2390761
@@ -213,7 +213,7 @@
     "last_alert_time": 1759086591.018698
   },
   "FLOCK": {
-    "last_alert_time": 1759093860.8110034
+    "last_alert_time": 1759349685.0905163
   },
   "ZORA": {
     "last_alert_time": 1759097490.1980848
@@ -435,7 +435,7 @@
     "last_alert_time": 1759306705.020829
   },
   "BTR": {
-    "last_alert_time": 1759306707.345126
+    "last_alert_time": 1759349688.454252
   },
   "NOT": {
     "last_alert_time": 1759310104.5691996
@@ -499,5 +499,17 @@
   },
   "LAZIO": {
     "last_alert_time": 1759342755.9089437
+  },
+  "CTSI": {
+    "last_alert_time": 1759349685.6709945
+  },
+  "GAME": {
+    "last_alert_time": 1759349686.054214
+  },
+  "ALICE": {
+    "last_alert_time": 1759349687.957471
+  },
+  "BAR": {
+    "last_alert_time": 1759349689.486004
   }
 }
