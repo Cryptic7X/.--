@@ -54,7 +54,7 @@
     "last_alert_time": 1758989677.5618713
   },
   "IN": {
-    "last_alert_time": 1759241673.3041646
+    "last_alert_time": 1759280859.001
   },
   "MOODENG": {
     "last_alert_time": 1759194077.5431714
@@ -192,7 +192,7 @@
     "last_alert_time": 1759076040.1858928
   },
   "PROMPT": {
-    "last_alert_time": 1759180306.3639426
+    "last_alert_time": 1759280856.9620419
   },
   "LIGHT": {
     "last_alert_time": 1759079410.8571842
@@ -273,7 +273,7 @@
     "last_alert_time": 1759107737.9865677
   },
   "SSV": {
-    "last_alert_time": 1759113465.5599554
+    "last_alert_time": 1759280854.4544532
   },
   "STG": {
     "last_alert_time": 1759116832.5043356
@@ -415,5 +415,8 @@
   },
   "YALA": {
     "last_alert_time": 1759270362.5694168
+  },
+  "DOLO": {
+    "last_alert_time": 1759280857.1604362
   }
 }
