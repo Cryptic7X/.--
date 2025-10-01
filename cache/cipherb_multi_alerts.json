@@ -132,7 +132,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759299742.3733716,
+    "last_2h_time": 1759328136.5193284,
     "last_8h_time": 0
   },
   "XPL": {
@@ -345,10 +345,10 @@
   },
   "S": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759227368.430587,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759328136.5201702,
     "last_8h_time": 0
   },
   "ENA": {
@@ -477,6 +477,22 @@
     "monitoring_8h": false,
     "monitoring_direction": null,
     "last_2h_time": 1759321905.1799793,
+    "last_8h_time": 0
+  },
+  "BCH": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759328136.5184226,
+    "last_8h_time": 0
+  },
+  "CHZ": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759328136.521003,
     "last_8h_time": 0
   }
 }
