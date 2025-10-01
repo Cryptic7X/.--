@@ -48,7 +48,7 @@
     "last_alert_time": 1758989674.609992
   },
   "LISTA": {
-    "last_alert_time": 1759116834.577111
+    "last_alert_time": 1759292162.4142118
   },
   "AVA": {
     "last_alert_time": 1758989677.5618713
@@ -418,5 +418,11 @@
   },
   "DOLO": {
     "last_alert_time": 1759280857.1604362
+  },
+  "LA": {
+    "last_alert_time": 1759292162.632561
+  },
+  "ALCH": {
+    "last_alert_time": 1759292164.730067
   }
 }
