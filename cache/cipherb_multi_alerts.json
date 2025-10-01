@@ -132,7 +132,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759328136.5193284,
+    "last_2h_time": 1759335523.895605,
     "last_8h_time": 0
   },
   "XPL": {
@@ -281,10 +281,10 @@
   },
   "MORPHO": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759119515.884417,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759335523.8972912,
     "last_8h_time": 0
   },
   "BNB": {
@@ -493,6 +493,22 @@
     "monitoring_8h": false,
     "monitoring_direction": null,
     "last_2h_time": 1759328136.521003,
+    "last_8h_time": 0
+  },
+  "SKY": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759335523.8964956,
+    "last_8h_time": 0
+  },
+  "APE": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759335523.8980837,
     "last_8h_time": 0
   }
 }
