@@ -475,5 +475,29 @@
   },
   "WOD": {
     "last_alert_time": 1759335432.1589792
+  },
+  "ZEN": {
+    "last_alert_time": 1759342750.7142928
+  },
+  "UXLINK": {
+    "last_alert_time": 1759342751.753016
+  },
+  "HYPER": {
+    "last_alert_time": 1759342753.1494904
+  },
+  "PARTI": {
+    "last_alert_time": 1759342753.689501
+  },
+  "IDEX": {
+    "last_alert_time": 1759342754.6628509
+  },
+  "ALCX": {
+    "last_alert_time": 1759342754.953963
+  },
+  "VRA": {
+    "last_alert_time": 1759342755.8680155
+  },
+  "LAZIO": {
+    "last_alert_time": 1759342755.9089437
   }
 }
