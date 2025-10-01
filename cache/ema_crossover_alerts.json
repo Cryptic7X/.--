@@ -159,7 +159,7 @@
     "last_alert_time": 1759050747.2271268
   },
   "ASR": {
-    "last_alert_time": 1759256280.5784237
+    "last_alert_time": 1759306707.6463645
   },
   "STO": {
     "last_alert_time": 1759155240.3741074
@@ -430,5 +430,11 @@
   },
   "UMA": {
     "last_alert_time": 1759299614.6797295
+  },
+  "AITECH": {
+    "last_alert_time": 1759306705.020829
+  },
+  "BTR": {
+    "last_alert_time": 1759306707.345126
   }
 }
