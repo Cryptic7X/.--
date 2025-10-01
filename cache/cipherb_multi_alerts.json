@@ -140,7 +140,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1759235456.1762073,
+    "last_2h_time": 1759306803.8895593,
     "last_8h_time": 0
   },
   "IMX": {
@@ -332,7 +332,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759249118.4053926,
+    "last_2h_time": 1759306803.890406,
     "last_8h_time": 0
   },
   "LDO": {
