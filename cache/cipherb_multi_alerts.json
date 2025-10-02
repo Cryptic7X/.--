@@ -24,11 +24,11 @@
     "last_8h_time": 0
   },
   "SUN": {
-    "last_signal": "buy",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "buy",
-    "last_2h_time": 1758903503.7071655,
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759400079.9507997,
     "last_8h_time": 0
   },
   "FORM": {
@@ -156,15 +156,15 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759170096.7404606,
+    "last_2h_time": 1759400079.9484298,
     "last_8h_time": 0
   },
   "EIGEN": {
-    "last_signal": "buy",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "buy",
-    "last_2h_time": 1759256407.9689932,
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759400079.9496732,
     "last_8h_time": 0
   },
   "RENDER": {
@@ -516,7 +516,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759386116.0132332,
+    "last_2h_time": 1759400079.9471867,
     "last_8h_time": 0
   },
   "ADA": {
