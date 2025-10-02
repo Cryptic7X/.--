@@ -798,5 +798,21 @@
     "monitoring_direction": null,
     "last_2h_time": 1759393182.787454,
     "last_8h_time": 0
+  },
+  "CRO": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759408117.6274323,
+    "last_8h_time": 0
+  },
+  "FARTCOIN": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759408117.628812,
+    "last_8h_time": 0
   }
 }
