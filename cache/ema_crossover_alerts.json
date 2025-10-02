@@ -30,7 +30,7 @@
     "last_alert_time": 1759328051.564709
   },
   "OPEN": {
-    "last_alert_time": 1758982263.3578017
+    "last_alert_time": 1759378520.3735304
   },
   "CGPT": {
     "last_alert_time": 1759310107.2361112
@@ -195,7 +195,7 @@
     "last_alert_time": 1759302826.2390761
   },
   "LIGHT": {
-    "last_alert_time": 1759079410.8571842
+    "last_alert_time": 1759378523.6160402
   },
   "PUMP": {
     "last_alert_time": 1759223715.9219036
@@ -309,7 +309,7 @@
     "last_alert_time": 1759263266.8977869
   },
   "MITO": {
-    "last_alert_time": 1759137378.1271474
+    "last_alert_time": 1759378524.64094
   },
   "BLESS": {
     "last_alert_time": 1759140923.4277787
@@ -342,7 +342,7 @@
     "last_alert_time": 1759328049.5260057
   },
   "ASP": {
-    "last_alert_time": 1759227287.3377666
+    "last_alert_time": 1759378524.5677817
   },
   "TA": {
     "last_alert_time": 1759162447.1786354
@@ -390,7 +390,7 @@
     "last_alert_time": 1759288010.6648374
   },
   "PSTAKE": {
-    "last_alert_time": 1759235288.287886
+    "last_alert_time": 1759378526.486897
   },
   "SAHARA": {
     "last_alert_time": 1759241666.6480134
@@ -535,5 +535,11 @@
   },
   "F": {
     "last_alert_time": 1759375530.1027305
+  },
+  "SIGN": {
+    "last_alert_time": 1759378520.671471
+  },
+  "FIS": {
+    "last_alert_time": 1759378526.7401168
   }
 }
