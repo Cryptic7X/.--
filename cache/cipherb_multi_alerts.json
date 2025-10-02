@@ -120,11 +120,11 @@
     "last_8h_time": 0
   },
   "MYX": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1758997104.252858,
+    "last_2h_time": 1759443233.2224078,
     "last_8h_time": 0
   },
   "APT": {
@@ -132,7 +132,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759414472.43581,
+    "last_2h_time": 1759443233.2235272,
     "last_8h_time": 0
   },
   "XPL": {
@@ -220,7 +220,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759373640.3818543,
+    "last_2h_time": 1759443233.2201293,
     "last_8h_time": 0
   },
   "WLFI": {
@@ -241,10 +241,10 @@
   },
   "XRP": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759119515.88113,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759443233.2189887,
     "last_8h_time": 0
   },
   "ETH": {
@@ -252,7 +252,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759378619.5380206,
+    "last_2h_time": 1759443233.2212582,
     "last_8h_time": 0
   },
   "POL": {
@@ -276,7 +276,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759393182.7810295,
+    "last_2h_time": 1759443233.2246304,
     "last_8h_time": 0
   },
   "MORPHO": {
@@ -284,7 +284,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759356826.9607475,
+    "last_2h_time": 1759443233.2257335,
     "last_8h_time": 0
   },
   "BNB": {
@@ -572,7 +572,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759414472.4381437,
+    "last_2h_time": 1759443233.226884,
     "last_8h_time": 0
   },
   "MANA": {
@@ -769,10 +769,10 @@
   },
   "HYPE": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759393182.7766078,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759443233.2176719,
     "last_8h_time": 0
   },
   "A": {
@@ -796,7 +796,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759414472.4392705,
+    "last_2h_time": 1759443233.2279873,
     "last_8h_time": 0
   },
   "CRO": {
