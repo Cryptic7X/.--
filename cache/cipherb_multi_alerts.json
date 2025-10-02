@@ -57,10 +57,10 @@
   },
   "CAKE": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759393182.7831373,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759414472.4369829,
     "last_8h_time": 0
   },
   "TOSHI": {
@@ -100,7 +100,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759170096.7397356,
+    "last_2h_time": 1759414472.4345984,
     "last_8h_time": 0
   },
   "GRASS": {
@@ -132,7 +132,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759367105.960314,
+    "last_2h_time": 1759414472.43581,
     "last_8h_time": 0
   },
   "XPL": {
@@ -572,7 +572,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759386116.0187056,
+    "last_2h_time": 1759414472.4381437,
     "last_8h_time": 0
   },
   "MANA": {
@@ -652,7 +652,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759393182.7789156,
+    "last_2h_time": 1759414472.4333177,
     "last_8h_time": 0
   },
   "ETC": {
@@ -697,10 +697,10 @@
   },
   "ZRX": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759356826.963863,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759414472.4404707,
     "last_8h_time": 0
   },
   "FIL": {
@@ -793,10 +793,10 @@
   },
   "BRETT": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759393182.787454,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759414472.4392705,
     "last_8h_time": 0
   },
   "CRO": {
