@@ -114,7 +114,7 @@
     "last_alert_time": 1759288005.4507306
   },
   "CLANKER": {
-    "last_alert_time": 1759256279.8916218
+    "last_alert_time": 1759371573.7292535
   },
   "TPTU": {
     "last_alert_time": 1759183924.829998
@@ -135,7 +135,7 @@
     "last_alert_time": 1759310106.922245
   },
   "GMX": {
-    "last_alert_time": 1759180302.4337358
+    "last_alert_time": 1759371567.6324937
   },
   "ALT": {
     "last_alert_time": 1759328045.8891418
@@ -279,7 +279,7 @@
     "last_alert_time": 1759366760.5282302
   },
   "NXPC": {
-    "last_alert_time": 1759116832.8492653
+    "last_alert_time": 1759371568.5102787
   },
   "RIVER": {
     "last_alert_time": 1759116835.4176924
@@ -435,7 +435,7 @@
     "last_alert_time": 1759306705.020829
   },
   "BTR": {
-    "last_alert_time": 1759349688.454252
+    "last_alert_time": 1759371574.0884702
   },
   "NOT": {
     "last_alert_time": 1759310104.5691996
@@ -526,5 +526,11 @@
   },
   "MET": {
     "last_alert_time": 1759366764.7915518
+  },
+  "HEMI": {
+    "last_alert_time": 1759371569.3370667
+  },
+  "XTER": {
+    "last_alert_time": 1759371574.9650335
   }
 }
