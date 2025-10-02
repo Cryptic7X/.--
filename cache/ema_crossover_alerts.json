@@ -186,7 +186,7 @@
     "last_alert_time": 1759321719.4487536
   },
   "SANTOS": {
-    "last_alert_time": 1759068634.120512
+    "last_alert_time": 1759366765.8196065
   },
   "C98": {
     "last_alert_time": 1759349686.6057558
@@ -270,13 +270,13 @@
     "last_alert_time": 1759313681.381138
   },
   "ROAM": {
-    "last_alert_time": 1759299618.3731668
+    "last_alert_time": 1759366766.0044363
   },
   "SSV": {
     "last_alert_time": 1759280854.4544532
   },
   "STG": {
-    "last_alert_time": 1759116832.5043356
+    "last_alert_time": 1759366760.5282302
   },
   "NXPC": {
     "last_alert_time": 1759116832.8492653
@@ -330,7 +330,7 @@
     "last_alert_time": 1759310106.640632
   },
   "UCN": {
-    "last_alert_time": 1759148858.4647124
+    "last_alert_time": 1759366763.3191993
   },
   "BLUE": {
     "last_alert_time": 1759148859.9287438
@@ -366,7 +366,7 @@
     "last_alert_time": 1759313678.9628875
   },
   "WOO": {
-    "last_alert_time": 1759220360.11122
+    "last_alert_time": 1759366759.7692323
   },
   "MBG": {
     "last_alert_time": 1759220361.62064
@@ -517,5 +517,14 @@
   },
   "JUV": {
     "last_alert_time": 1759356752.797605
+  },
+  "ME": {
+    "last_alert_time": 1759366761.0049832
+  },
+  "NEIRO": {
+    "last_alert_time": 1759366761.3281238
+  },
+  "MET": {
+    "last_alert_time": 1759366764.7915518
   }
 }
