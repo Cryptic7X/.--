@@ -12,7 +12,7 @@
     "last_alert_time": 1759083403.4250531
   },
   "XPIN": {
-    "last_alert_time": 1759086590.3980894
+    "last_alert_time": 1759400008.1353812
   },
   "YGG": {
     "last_alert_time": 1759299615.104711
@@ -516,7 +516,7 @@
     "last_alert_time": 1759356747.614033
   },
   "JUV": {
-    "last_alert_time": 1759356752.797605
+    "last_alert_time": 1759400008.8134139
   },
   "ME": {
     "last_alert_time": 1759366761.0049832
@@ -547,5 +547,8 @@
   },
   "CUDIS": {
     "last_alert_time": 1759396453.129671
+  },
+  "Q": {
+    "last_alert_time": 1759400005.5052342
   }
 }
