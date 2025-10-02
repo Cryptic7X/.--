@@ -352,11 +352,11 @@
     "last_8h_time": 0
   },
   "ENA": {
-    "last_signal": "buy",
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759235456.175451,
+    "last_2h_time": 1759421872.7076957,
     "last_8h_time": 0
   },
   "PLUME": {
