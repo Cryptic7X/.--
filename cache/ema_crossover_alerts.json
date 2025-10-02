@@ -99,7 +99,7 @@
     "last_alert_time": 1759310105.4004219
   },
   "MAMO": {
-    "last_alert_time": 1759356751.4447978
+    "last_alert_time": 1759385995.3175144
   },
   "ZRX": {
     "last_alert_time": 1759032933.3515575
@@ -541,5 +541,8 @@
   },
   "FIS": {
     "last_alert_time": 1759378526.7401168
+  },
+  "AVL": {
+    "last_alert_time": 1759385995.6872752
   }
 }
