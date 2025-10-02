@@ -544,5 +544,8 @@
   },
   "AVL": {
     "last_alert_time": 1759385995.6872752
+  },
+  "CUDIS": {
+    "last_alert_time": 1759396453.129671
   }
 }
