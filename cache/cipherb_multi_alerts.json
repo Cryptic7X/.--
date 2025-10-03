@@ -44,7 +44,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759494551.0197601,
+    "last_2h_time": 1759529600.3076854,
     "last_8h_time": 0
   },
   "SSV": {
@@ -220,7 +220,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759443233.2201293,
+    "last_2h_time": 1759529600.3065174,
     "last_8h_time": 0
   },
   "WLFI": {
@@ -292,7 +292,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759515626.0532627,
+    "last_2h_time": 1759529600.3052108,
     "last_8h_time": 0
   },
   "ETHFI": {
@@ -692,8 +692,8 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759386116.026714,
-    "last_8h_time": 0
+    "last_2h_time": 1759529600.3088584,
+    "last_8h_time": 1759529600.3088584
   },
   "ZRX": {
     "last_signal": "sell",
