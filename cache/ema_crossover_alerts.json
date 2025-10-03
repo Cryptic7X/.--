@@ -39,7 +39,7 @@
     "last_alert_time": 1759328051.1050165
   },
   "SKL": {
-    "last_alert_time": 1759328045.3262863
+    "last_alert_time": 1759494353.4736912
   },
   "XUSD": {
     "last_alert_time": 1759407923.446823
@@ -72,7 +72,7 @@
     "last_alert_time": 1759270359.2106667
   },
   "SERAPH": {
-    "last_alert_time": 1758996983.3844721
+    "last_alert_time": 1759494356.885103
   },
   "PORT3": {
     "last_alert_time": 1758996986.744347
@@ -258,7 +258,7 @@
     "last_alert_time": 1759107732.3989255
   },
   "SOLV": {
-    "last_alert_time": 1759107734.6759286
+    "last_alert_time": 1759494356.5764635
   },
   "SONIC": {
     "last_alert_time": 1759313679.2500896
@@ -345,7 +345,7 @@
     "last_alert_time": 1759457937.757247
   },
   "TA": {
-    "last_alert_time": 1759443154.5956445
+    "last_alert_time": 1759494360.349076
   },
   "AEVO": {
     "last_alert_time": 1759457933.237318
@@ -402,7 +402,7 @@
     "last_alert_time": 1759313676.9570847
   },
   "LRC": {
-    "last_alert_time": 1759241667.7798629
+    "last_alert_time": 1759494354.745334
   },
   "FIR": {
     "last_alert_time": 1759256281.1358845
@@ -525,7 +525,7 @@
     "last_alert_time": 1759414411.4212508
   },
   "MET": {
-    "last_alert_time": 1759366764.7915518
+    "last_alert_time": 1759494358.2821019
   },
   "HEMI": {
     "last_alert_time": 1759421769.858002
@@ -553,5 +553,8 @@
   },
   "COW": {
     "last_alert_time": 1759457931.6746001
+  },
+  "BABY": {
+    "last_alert_time": 1759494354.4958882
   }
 }
