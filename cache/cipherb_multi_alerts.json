@@ -72,11 +72,11 @@
     "last_8h_time": 0
   },
   "ZRO": {
-    "last_signal": "buy",
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759256407.9704535,
+    "last_2h_time": 1759522548.6927872,
     "last_8h_time": 0
   },
   "TWT": {
@@ -84,7 +84,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759108096.5133054,
+    "last_2h_time": 1759522548.6939843,
     "last_8h_time": 0
   },
   "TRX": {
@@ -140,7 +140,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1759306803.8895593,
+    "last_2h_time": 1759522548.6901865,
     "last_8h_time": 0
   },
   "IMX": {
@@ -268,7 +268,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759373640.3864965,
+    "last_2h_time": 1759522548.691582,
     "last_8h_time": 0
   },
   "AERO": {
