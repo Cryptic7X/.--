@@ -60,7 +60,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759453516.7016764,
+    "last_2h_time": 1759472483.723648,
     "last_8h_time": 0
   },
   "TOSHI": {
@@ -580,7 +580,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759465051.5354874,
+    "last_2h_time": 1759472483.7249224,
     "last_8h_time": 0
   },
   "MEW": {
@@ -829,6 +829,14 @@
     "monitoring_8h": false,
     "monitoring_direction": null,
     "last_2h_time": 1759453516.7063496,
+    "last_8h_time": 0
+  },
+  "STBL": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759472483.7262397,
     "last_8h_time": 0
   }
 }
