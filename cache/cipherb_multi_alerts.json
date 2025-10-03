@@ -132,7 +132,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759443233.2235272,
+    "last_2h_time": 1759515626.054638,
     "last_8h_time": 0
   },
   "XPL": {
@@ -292,7 +292,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759453516.6949596,
+    "last_2h_time": 1759515626.0532627,
     "last_8h_time": 0
   },
   "ETHFI": {
@@ -845,6 +845,14 @@
     "monitoring_8h": true,
     "monitoring_direction": "buy",
     "last_2h_time": 1759500844.1770353,
+    "last_8h_time": 0
+  },
+  "0G": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759515626.056671,
     "last_8h_time": 0
   }
 }
