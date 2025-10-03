@@ -484,8 +484,8 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759373640.3830612,
-    "last_8h_time": 0
+    "last_2h_time": 1759486545.0175765,
+    "last_8h_time": 1759486545.0175765
   },
   "CHZ": {
     "last_signal": "sell",
