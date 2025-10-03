@@ -556,5 +556,11 @@
   },
   "BABY": {
     "last_alert_time": 1759494354.4958882
+  },
+  "LAUNCHCOIN": {
+    "last_alert_time": 1759497667.463897
+  },
+  "ICNT": {
+    "last_alert_time": 1759497669.4165897
   }
 }
