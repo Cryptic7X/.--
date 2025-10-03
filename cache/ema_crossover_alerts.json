@@ -27,10 +27,10 @@
     "last_alert_time": 1759310107.6312728
   },
   "STAR": {
-    "last_alert_time": 1759436065.8397648
+    "last_alert_time": 1759457938.0226393
   },
   "OPEN": {
-    "last_alert_time": 1759403458.6415896
+    "last_alert_time": 1759457933.5373213
   },
   "CGPT": {
     "last_alert_time": 1759310107.2361112
@@ -342,13 +342,13 @@
     "last_alert_time": 1759328049.5260057
   },
   "ASP": {
-    "last_alert_time": 1759414415.623329
+    "last_alert_time": 1759457937.757247
   },
   "TA": {
     "last_alert_time": 1759443154.5956445
   },
   "AEVO": {
-    "last_alert_time": 1759335427.4854982
+    "last_alert_time": 1759457933.237318
   },
   "API3": {
     "last_alert_time": 1759310107.459654
@@ -550,5 +550,8 @@
   },
   "Q": {
     "last_alert_time": 1759400005.5052342
+  },
+  "COW": {
+    "last_alert_time": 1759457931.6746001
   }
 }
