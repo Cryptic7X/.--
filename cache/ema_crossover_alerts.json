@@ -78,7 +78,7 @@
     "last_alert_time": 1758996986.744347
   },
   "PTB": {
-    "last_alert_time": 1759349684.1592867
+    "last_alert_time": 1759522432.9455993
   },
   "ACE": {
     "last_alert_time": 1759004010.836182
@@ -195,7 +195,7 @@
     "last_alert_time": 1759302826.2390761
   },
   "LIGHT": {
-    "last_alert_time": 1759464935.5072331
+    "last_alert_time": 1759522435.6013947
   },
   "PUMP": {
     "last_alert_time": 1759223715.9219036
@@ -561,9 +561,12 @@
     "last_alert_time": 1759497667.463897
   },
   "ICNT": {
-    "last_alert_time": 1759497669.4165897
+    "last_alert_time": 1759522435.5462642
   },
   "DOOD": {
     "last_alert_time": 1759500787.9164002
+  },
+  "IKA": {
+    "last_alert_time": 1759522433.0156229
   }
 }
