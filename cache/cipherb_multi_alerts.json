@@ -838,5 +838,13 @@
     "monitoring_direction": null,
     "last_2h_time": 1759472483.7262397,
     "last_8h_time": 0
+  },
+  "PI": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759479534.2110562,
+    "last_8h_time": 0
   }
 }
