@@ -377,10 +377,10 @@
   },
   "WLD": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759256407.9647462,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1759601907.6812365,
     "last_8h_time": 0
   },
   "PENGU": {
@@ -449,18 +449,18 @@
   },
   "KAIA": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759263367.3193905,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1759601907.683837,
     "last_8h_time": 0
   },
   "PENDLE": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759263367.320145,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1759601907.6862457,
     "last_8h_time": 0
   },
   "ZORA": {
@@ -496,11 +496,11 @@
     "last_8h_time": 0
   },
   "SKY": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759335523.8964956,
+    "last_2h_time": 1759601907.6825755,
     "last_8h_time": 0
   },
   "APE": {
@@ -537,10 +537,10 @@
   },
   "ONDO": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759587150.732139,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1759601907.6799183,
     "last_8h_time": 0
   },
   "ALGO": {
@@ -560,19 +560,19 @@
     "last_8h_time": 0
   },
   "GRT": {
-    "last_signal": "sell",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "sell",
-    "last_2h_time": 1759453516.7028477,
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759601907.6850436,
     "last_8h_time": 0
   },
   "RAY": {
-    "last_signal": "sell",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "sell",
-    "last_2h_time": 1759453516.7051833,
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759601907.687423,
     "last_8h_time": 0
   },
   "MANA": {
@@ -785,10 +785,10 @@
   },
   "JTO": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759587150.7334564,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1759601907.6899421,
     "last_8h_time": 0
   },
   "BRETT": {
@@ -808,11 +808,11 @@
     "last_8h_time": 0
   },
   "FARTCOIN": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759408117.628812,
+    "last_2h_time": 1759601907.6886082,
     "last_8h_time": 0
   },
   "ARB": {
