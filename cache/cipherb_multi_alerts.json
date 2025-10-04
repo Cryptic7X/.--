@@ -24,11 +24,11 @@
     "last_8h_time": 0
   },
   "SUN": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759400079.9507997,
+    "last_2h_time": 1759615954.1783552,
     "last_8h_time": 0
   },
   "FORM": {
