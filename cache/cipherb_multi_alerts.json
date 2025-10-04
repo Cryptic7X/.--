@@ -870,5 +870,13 @@
     "monitoring_direction": null,
     "last_2h_time": 1759545939.7485473,
     "last_8h_time": 0
+  },
+  "FLOKI": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759565835.4751399,
+    "last_8h_time": 0
   }
 }
