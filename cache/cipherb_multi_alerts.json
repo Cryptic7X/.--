@@ -16,11 +16,11 @@
     "last_8h_time": 0
   },
   "NEAR": {
-    "last_signal": "buy",
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1758878524.2664886,
+    "last_2h_time": 1759539763.779496,
     "last_8h_time": 0
   },
   "SUN": {
@@ -145,10 +145,10 @@
   },
   "IMX": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759021994.8136601,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759539763.7809086,
     "last_8h_time": 0
   },
   "QNT": {
@@ -268,7 +268,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759522548.691582,
+    "last_2h_time": 1759539763.7832632,
     "last_8h_time": 0
   },
   "AERO": {
@@ -292,7 +292,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759529600.3052108,
+    "last_2h_time": 1759539763.7782178,
     "last_8h_time": 0
   },
   "ETHFI": {
@@ -556,7 +556,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759378619.5489519,
+    "last_2h_time": 1759539763.7820888,
     "last_8h_time": 0
   },
   "GRT": {
@@ -849,10 +849,18 @@
   },
   "0G": {
     "last_signal": "sell",
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759539763.784433,
+    "last_8h_time": 0
+  },
+  "THETA": {
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759515626.056671,
+    "last_2h_time": 1759539763.7855911,
     "last_8h_time": 0
   }
 }
