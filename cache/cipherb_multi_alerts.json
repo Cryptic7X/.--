@@ -8,11 +8,11 @@
     "last_8h_time": 0
   },
   "OKB": {
-    "last_signal": "buy",
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759256407.9639683,
+    "last_2h_time": 1759558767.0860305,
     "last_8h_time": 0
   },
   "NEAR": {
