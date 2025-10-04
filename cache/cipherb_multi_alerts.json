@@ -536,11 +536,11 @@
     "last_8h_time": 0
   },
   "ONDO": {
-    "last_signal": "sell",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "sell",
-    "last_2h_time": 1759378619.5433347,
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759587150.732139,
     "last_8h_time": 0
   },
   "ALGO": {
@@ -640,11 +640,11 @@
     "last_8h_time": 0
   },
   "UNI": {
-    "last_signal": "sell",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "sell",
-    "last_2h_time": 1759378619.5412214,
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759587150.730806,
     "last_8h_time": 0
   },
   "DOT": {
@@ -784,11 +784,11 @@
     "last_8h_time": 0
   },
   "JTO": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759393182.7853103,
+    "last_2h_time": 1759587150.7334564,
     "last_8h_time": 0
   },
   "BRETT": {
