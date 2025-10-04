@@ -164,7 +164,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759453516.707617,
+    "last_2h_time": 1759545939.7499633,
     "last_8h_time": 0
   },
   "RENDER": {
@@ -833,10 +833,10 @@
   },
   "STBL": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759472483.7262397,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1759545939.7511477,
     "last_8h_time": 0
   },
   "PI": {
@@ -861,6 +861,14 @@
     "monitoring_8h": false,
     "monitoring_direction": null,
     "last_2h_time": 1759539763.7855911,
+    "last_8h_time": 0
+  },
+  "ASTER": {
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759545939.7485473,
     "last_8h_time": 0
   }
 }
