@@ -1,6 +1,6 @@
 {
   "HUMA": {
-    "last_alert_time": 1759677064.7810075
+    "last_alert_time": 1759702292.5859227
   },
   "USUAL": {
     "last_alert_time": 1759645063.061365
@@ -213,7 +213,7 @@
     "last_alert_time": 1759086591.018698
   },
   "FLOCK": {
-    "last_alert_time": 1759349685.0905163
+    "last_alert_time": 1759702293.2470715
   },
   "ZORA": {
     "last_alert_time": 1759097490.1980848
@@ -249,7 +249,7 @@
     "last_alert_time": 1759645062.3857336
   },
   "VINE": {
-    "last_alert_time": 1759256277.687541
+    "last_alert_time": 1759702293.6305828
   },
   "SUP": {
     "last_alert_time": 1759659149.5293527
@@ -285,7 +285,7 @@
     "last_alert_time": 1759116835.4176924
   },
   "ES": {
-    "last_alert_time": 1759637698.3704607
+    "last_alert_time": 1759702296.650725
   },
   "ZKC": {
     "last_alert_time": 1759119400.6227162
@@ -342,7 +342,7 @@
     "last_alert_time": 1759652139.7907019
   },
   "ASP": {
-    "last_alert_time": 1759558668.5866923
+    "last_alert_time": 1759702296.0046535
   },
   "TA": {
     "last_alert_time": 1759645066.4348338
@@ -465,7 +465,7 @@
     "last_alert_time": 1759558669.1586869
   },
   "KERNEL": {
-    "last_alert_time": 1759673449.8857756
+    "last_alert_time": 1759702294.5042412
   },
   "SATS": {
     "last_alert_time": 1759551321.526047
