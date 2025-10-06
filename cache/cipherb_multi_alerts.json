@@ -65,10 +65,10 @@
   },
   "TOSHI": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759393182.7886322,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759774938.2430997,
     "last_8h_time": 0
   },
   "ZRO": {
@@ -84,7 +84,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759637800.380393,
+    "last_2h_time": 1759774938.2416592,
     "last_8h_time": 0
   },
   "TRX": {
@@ -100,7 +100,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759745792.5878034,
+    "last_2h_time": 1759774938.2400064,
     "last_8h_time": 0
   },
   "GRASS": {
