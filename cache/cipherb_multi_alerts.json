@@ -910,5 +910,13 @@
     "monitoring_direction": null,
     "last_2h_time": 1759712849.4324248,
     "last_8h_time": 0
+  },
+  "BARD": {
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759724276.4224865,
+    "last_8h_time": 0
   }
 }
