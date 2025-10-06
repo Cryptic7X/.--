@@ -57,7 +57,7 @@
     "last_alert_time": 1759280859.001
   },
   "MOODENG": {
-    "last_alert_time": 1759712478.8586035
+    "last_alert_time": 1759734864.5174625
   },
   "USELESS": {
     "last_alert_time": 1759691378.7849276
@@ -69,7 +69,7 @@
     "last_alert_time": 1758996980.5749693
   },
   "TRB": {
-    "last_alert_time": 1759691380.1330843
+    "last_alert_time": 1759734865.9220455
   },
   "SERAPH": {
     "last_alert_time": 1759494356.885103
@@ -171,10 +171,10 @@
     "last_alert_time": 1759691380.7619767
   },
   "TUT": {
-    "last_alert_time": 1759590653.26035
+    "last_alert_time": 1759734866.5728142
   },
   "EDU": {
-    "last_alert_time": 1759698641.3744602
+    "last_alert_time": 1759734866.4340887
   },
   "AA": {
     "last_alert_time": 1759587060.7830243
@@ -438,7 +438,7 @@
     "last_alert_time": 1759724179.8694518
   },
   "NOT": {
-    "last_alert_time": 1759695188.8624094
+    "last_alert_time": 1759734864.3843646
   },
   "RLC": {
     "last_alert_time": 1759717479.0243008
@@ -453,7 +453,7 @@
     "last_alert_time": 1759576172.5023985
   },
   "MUBARAK": {
-    "last_alert_time": 1759688209.633693
+    "last_alert_time": 1759734868.814525
   },
   "ERA": {
     "last_alert_time": 1759677064.7773218
@@ -558,7 +558,7 @@
     "last_alert_time": 1759688204.4243968
   },
   "LAUNCHCOIN": {
-    "last_alert_time": 1759645062.610404
+    "last_alert_time": 1759734866.5596383
   },
   "ICNT": {
     "last_alert_time": 1759576172.3435385
@@ -571,5 +571,8 @@
   },
   "VANA": {
     "last_alert_time": 1759677063.4812963
+  },
+  "ALPINE": {
+    "last_alert_time": 1759734865.5230093
   }
 }
