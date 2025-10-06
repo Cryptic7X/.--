@@ -68,7 +68,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759774938.2430997,
+    "last_2h_time": 1759781802.8597193,
     "last_8h_time": 0
   },
   "ZRO": {
@@ -89,10 +89,10 @@
   },
   "TRX": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759367105.9568694,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759781802.8558383,
     "last_8h_time": 0
   },
   "MNT": {
@@ -220,7 +220,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759529600.3065174,
+    "last_2h_time": 1759781802.8543427,
     "last_8h_time": 0
   },
   "WLFI": {
@@ -332,7 +332,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759373640.3877246,
+    "last_2h_time": 1759781802.8584118,
     "last_8h_time": 0
   },
   "LDO": {
@@ -360,11 +360,11 @@
     "last_8h_time": 0
   },
   "PLUME": {
-    "last_signal": "buy",
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759249118.4061127,
+    "last_2h_time": 1759781802.8610163,
     "last_8h_time": 0
   },
   "TON": {
@@ -745,10 +745,10 @@
   },
   "PYTH": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759386116.0153952,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1759781802.8571303,
     "last_8h_time": 0
   },
   "ENS": {
