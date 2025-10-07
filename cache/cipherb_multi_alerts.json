@@ -224,11 +224,11 @@
     "last_8h_time": 0
   },
   "WLFI": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759114859.114087,
+    "last_2h_time": 1759861302.5582225,
     "last_8h_time": 0
   },
   "AWE": {
@@ -769,10 +769,10 @@
   },
   "HYPE": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759840260.5459423,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1759861302.5567799,
     "last_8h_time": 0
   },
   "A": {
