@@ -316,7 +316,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759378619.5357957,
+    "last_2h_time": 1759805691.6242235,
     "last_8h_time": 0
   },
   "SOL": {
@@ -808,11 +808,11 @@
     "last_8h_time": 0
   },
   "FARTCOIN": {
-    "last_signal": "buy",
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759601907.6886082,
+    "last_2h_time": 1759805691.6256633,
     "last_8h_time": 0
   },
   "ARB": {
