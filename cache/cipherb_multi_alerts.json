@@ -24,11 +24,11 @@
     "last_8h_time": 0
   },
   "SUN": {
-    "last_signal": "buy",
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759615954.1783552,
+    "last_2h_time": 1759846568.3331845,
     "last_8h_time": 0
   },
   "FORM": {
@@ -292,7 +292,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759760118.4980927,
+    "last_2h_time": 1759846568.3304255,
     "last_8h_time": 0
   },
   "ETHFI": {
@@ -348,7 +348,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759832151.3379264,
+    "last_2h_time": 1759846568.3318884,
     "last_8h_time": 0
   },
   "ENA": {
@@ -464,11 +464,11 @@
     "last_8h_time": 0
   },
   "ZORA": {
-    "last_signal": "buy",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "buy",
-    "last_2h_time": 1759695285.0727196,
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759846568.3345346,
     "last_8h_time": 0
   },
   "PUMP": {
