@@ -420,7 +420,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759378619.5534613,
+    "last_2h_time": 1759799170.1311512,
     "last_8h_time": 0
   },
   "MOVE": {
@@ -456,11 +456,11 @@
     "last_8h_time": 0
   },
   "PENDLE": {
-    "last_signal": "buy",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "buy",
-    "last_2h_time": 1759601907.6862457,
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759799170.129812,
     "last_8h_time": 0
   },
   "ZORA": {
@@ -888,11 +888,11 @@
     "last_8h_time": 0
   },
   "HBAR": {
-    "last_signal": "buy",
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759608879.980941,
+    "last_2h_time": 1759799170.1283784,
     "last_8h_time": 0
   },
   "MERL": {
