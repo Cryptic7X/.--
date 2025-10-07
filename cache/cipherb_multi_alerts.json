@@ -136,11 +136,11 @@
     "last_8h_time": 0
   },
   "XPL": {
-    "last_signal": "buy",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "buy",
-    "last_2h_time": 1759522548.6901865,
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759810698.4122674,
     "last_8h_time": 0
   },
   "IMX": {
@@ -436,7 +436,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759788816.0270178,
+    "last_2h_time": 1759810698.4137027,
     "last_8h_time": 0
   },
   "FET": {
