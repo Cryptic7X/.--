@@ -496,11 +496,11 @@
     "last_8h_time": 0
   },
   "SKY": {
-    "last_signal": "buy",
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759601907.6825755,
+    "last_2h_time": 1759818144.8194234,
     "last_8h_time": 0
   },
   "APE": {
@@ -676,7 +676,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1759378619.5501866,
+    "last_2h_time": 1759818144.820954,
     "last_8h_time": 0
   },
   "SAND": {
@@ -905,10 +905,10 @@
   },
   "BIO": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759712849.4324248,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1759818144.8222163,
     "last_8h_time": 0
   },
   "BARD": {
