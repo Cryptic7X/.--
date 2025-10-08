@@ -144,11 +144,11 @@
     "last_8h_time": 0
   },
   "IMX": {
-    "last_signal": "sell",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "sell",
-    "last_2h_time": 1759539763.7809086,
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759911643.0607314,
     "last_8h_time": 0
   },
   "QNT": {
@@ -264,11 +264,11 @@
     "last_8h_time": 0
   },
   "CRV": {
-    "last_signal": "sell",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "sell",
-    "last_2h_time": 1759539763.7832632,
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759911643.0621016,
     "last_8h_time": 0
   },
   "AERO": {
@@ -617,10 +617,10 @@
   },
   "SEI": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759608879.9889097,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1759911643.0594049,
     "last_8h_time": 0
   },
   "XLM": {
@@ -628,7 +628,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1759885549.3569715,
+    "last_2h_time": 1759911643.0579543,
     "last_8h_time": 0
   },
   "SUI": {
