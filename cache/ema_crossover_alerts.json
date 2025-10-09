@@ -150,7 +150,7 @@
     "last_alert_time": 1760012844.1211426
   },
   "ACH": {
-    "last_alert_time": 1759961558.513009
+    "last_alert_time": 1760019233.969695
   },
   "ORDER": {
     "last_alert_time": 1759825128.3760154
@@ -402,7 +402,7 @@
     "last_alert_time": 1759997888.4927485
   },
   "LRC": {
-    "last_alert_time": 1759943522.5939333
+    "last_alert_time": 1760019234.885705
   },
   "FIR": {
     "last_alert_time": 1759256281.1358845
@@ -411,7 +411,7 @@
     "last_alert_time": 1759637697.0042458
   },
   "SLAY": {
-    "last_alert_time": 1759608786.670027
+    "last_alert_time": 1760019241.7099915
   },
   "YALA": {
     "last_alert_time": 1760012844.8856454
@@ -450,7 +450,7 @@
     "last_alert_time": 1759997892.596096
   },
   "SHELL": {
-    "last_alert_time": 1759921883.8085601
+    "last_alert_time": 1760019238.987885
   },
   "MUBARAK": {
     "last_alert_time": 1760004919.2715218
@@ -577,5 +577,8 @@
   },
   "AIA": {
     "last_alert_time": 1759986839.1180084
+  },
+  "NUMI": {
+    "last_alert_time": 1760019241.6993937
   }
 }
