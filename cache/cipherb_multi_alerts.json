@@ -128,11 +128,11 @@
     "last_8h_time": 0
   },
   "APT": {
-    "last_signal": "sell",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "sell",
-    "last_2h_time": 1759515626.054638,
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1759998005.8086429,
     "last_8h_time": 0
   },
   "XPL": {
@@ -400,11 +400,11 @@
     "last_8h_time": 0
   },
   "ATH": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1759659236.0307739,
+    "last_2h_time": 1759998005.8101666,
     "last_8h_time": 0
   },
   "W": {
