@@ -444,7 +444,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1759885549.3609939,
+    "last_2h_time": 1760041020.080811,
     "last_8h_time": 0
   },
   "KAIA": {
@@ -540,7 +540,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1759601907.6799183,
+    "last_2h_time": 1760041020.079472,
     "last_8h_time": 0
   },
   "ALGO": {
@@ -740,7 +740,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1759904560.647322,
+    "last_2h_time": 1760041020.0781097,
     "last_8h_time": 0
   },
   "PYTH": {
@@ -772,15 +772,15 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1759868160.3622537,
+    "last_2h_time": 1760041020.076576,
     "last_8h_time": 0
   },
   "A": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759608880.0002148,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1760041020.0821705,
     "last_8h_time": 0
   },
   "JTO": {
