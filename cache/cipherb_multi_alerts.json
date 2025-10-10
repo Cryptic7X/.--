@@ -44,7 +44,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1760091391.8157763,
+    "last_2h_time": 1760099435.042402,
     "last_8h_time": 0
   },
   "SSV": {
@@ -836,7 +836,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1760026777.4831793,
+    "last_2h_time": 1760099435.043869,
     "last_8h_time": 0
   },
   "PI": {
