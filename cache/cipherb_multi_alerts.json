@@ -265,10 +265,10 @@
   },
   "CRV": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759911643.0621016,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1760156219.2283633,
     "last_8h_time": 0
   },
   "AERO": {
@@ -432,11 +432,11 @@
     "last_8h_time": 0
   },
   "KSM": {
-    "last_signal": "sell",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "sell",
-    "last_2h_time": 1759810698.4137027,
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1760156219.2309883,
     "last_8h_time": 0
   },
   "FET": {
@@ -504,11 +504,11 @@
     "last_8h_time": 0
   },
   "APE": {
-    "last_signal": "sell",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "sell",
-    "last_2h_time": 1759373640.3887794,
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1760156219.2296863,
     "last_8h_time": 0
   },
   "DOGE": {
@@ -644,7 +644,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1759875253.9169872,
+    "last_2h_time": 1760156219.2239842,
     "last_8h_time": 0
   },
   "DOT": {
@@ -664,11 +664,11 @@
     "last_8h_time": 0
   },
   "OP": {
-    "last_signal": "sell",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "sell",
-    "last_2h_time": 1759453516.6973484,
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1760156219.226826,
     "last_8h_time": 0
   },
   "STX": {
@@ -844,7 +844,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1759904560.6508195,
+    "last_2h_time": 1760156219.2254832,
     "last_8h_time": 0
   },
   "0G": {
