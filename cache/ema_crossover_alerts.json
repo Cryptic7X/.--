@@ -54,7 +54,7 @@
     "last_alert_time": 1758989677.5618713
   },
   "IN": {
-    "last_alert_time": 1760077232.6119351
+    "last_alert_time": 1760231008.2945485
   },
   "MOODENG": {
     "last_alert_time": 1759850078.5517104
@@ -492,7 +492,7 @@
     "last_alert_time": 1760191834.006946
   },
   "ALCX": {
-    "last_alert_time": 1760033964.6473558
+    "last_alert_time": 1760231008.6220102
   },
   "VRA": {
     "last_alert_time": 1760199237.8404574
@@ -580,5 +580,8 @@
   },
   "NUMI": {
     "last_alert_time": 1760040900.2080388
+  },
+  "MDT": {
+    "last_alert_time": 1760231009.2770677
   }
 }
