@@ -481,10 +481,10 @@
   },
   "BCH": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759868160.3637714,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1760231418.4917188,
     "last_8h_time": 0
   },
   "CHZ": {
