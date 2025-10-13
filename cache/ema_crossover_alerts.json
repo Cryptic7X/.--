@@ -99,7 +99,7 @@
     "last_alert_time": 1760105618.4675477
   },
   "MAMO": {
-    "last_alert_time": 1760148947.414085
+    "last_alert_time": 1760386525.758
   },
   "ZRX": {
     "last_alert_time": 1759032933.3515575
@@ -147,7 +147,7 @@
     "last_alert_time": 1759043484.830864
   },
   "APEPE": {
-    "last_alert_time": 1760237894.841002
+    "last_alert_time": 1760386524.3996081
   },
   "ACH": {
     "last_alert_time": 1760339692.0581217
@@ -324,7 +324,7 @@
     "last_alert_time": 1759825126.4702594
   },
   "COAI": {
-    "last_alert_time": 1759144318.2983837
+    "last_alert_time": 1760386524.096591
   },
   "PIXEL": {
     "last_alert_time": 1760343612.2693896
@@ -423,7 +423,7 @@
     "last_alert_time": 1760358454.4066155
   },
   "ALCH": {
-    "last_alert_time": 1760358456.164389
+    "last_alert_time": 1760386523.8140066
   },
   "SOMI": {
     "last_alert_time": 1760329005.418063
@@ -432,7 +432,7 @@
     "last_alert_time": 1760300016.9664319
   },
   "AITECH": {
-    "last_alert_time": 1760177543.3848443
+    "last_alert_time": 1760386522.7849765
   },
   "BTR": {
     "last_alert_time": 1760358457.4106874
@@ -447,7 +447,7 @@
     "last_alert_time": 1760347044.0039575
   },
   "TOWNS": {
-    "last_alert_time": 1759997892.596096
+    "last_alert_time": 1760386524.623015
   },
   "SHELL": {
     "last_alert_time": 1760343614.3434598
@@ -537,7 +537,7 @@
     "last_alert_time": 1760307098.1862743
   },
   "SIGN": {
-    "last_alert_time": 1759850079.7503994
+    "last_alert_time": 1760386520.704627
   },
   "FIS": {
     "last_alert_time": 1760293027.825606
@@ -582,6 +582,6 @@
     "last_alert_time": 1760364843.8613966
   },
   "MDT": {
-    "last_alert_time": 1760317496.8799407
+    "last_alert_time": 1760386526.463175
   }
 }
