@@ -672,11 +672,11 @@
     "last_8h_time": 0
   },
   "STX": {
-    "last_signal": "buy",
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1760144656.1539552,
+    "last_2h_time": 1760393641.867734,
     "last_8h_time": 0
   },
   "SAND": {
@@ -744,11 +744,11 @@
     "last_8h_time": 0
   },
   "PYTH": {
-    "last_signal": "buy",
+    "last_signal": "sell",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1760151053.2824006,
+    "last_2h_time": 1760393641.870271,
     "last_8h_time": 0
   },
   "ENS": {
@@ -760,11 +760,11 @@
     "last_8h_time": 0
   },
   "CFX": {
-    "last_signal": "buy",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "buy",
-    "last_2h_time": 1760151053.2864246,
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1760393641.8715627,
     "last_8h_time": 0
   },
   "HYPE": {
