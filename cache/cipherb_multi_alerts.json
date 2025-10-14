@@ -65,10 +65,10 @@
   },
   "TOSHI": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1760144656.180189,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1760445130.1980863,
     "last_8h_time": 0
   },
   "ZRO": {
@@ -444,7 +444,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1760144656.152589,
+    "last_2h_time": 1760445130.1966133,
     "last_8h_time": 0
   },
   "KAIA": {
