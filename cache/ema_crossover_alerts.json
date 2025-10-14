@@ -3,7 +3,7 @@
     "last_alert_time": 1760317492.1508467
   },
   "USUAL": {
-    "last_alert_time": 1760379532.3129714
+    "last_alert_time": 1760426051.148677
   },
   "THE": {
     "last_alert_time": 1760339695.6544538
@@ -54,7 +54,7 @@
     "last_alert_time": 1758989677.5618713
   },
   "IN": {
-    "last_alert_time": 1760317495.8837209
+    "last_alert_time": 1760426053.564022
   },
   "MOODENG": {
     "last_alert_time": 1760300015.635081
@@ -165,7 +165,7 @@
     "last_alert_time": 1760156108.0951445
   },
   "MEME": {
-    "last_alert_time": 1760339692.5148957
+    "last_alert_time": 1760426049.0865712
   },
   "REX": {
     "last_alert_time": 1759818000.5065818
@@ -486,7 +486,7 @@
     "last_alert_time": 1760084291.0024407
   },
   "PARTI": {
-    "last_alert_time": 1760004918.458456
+    "last_alert_time": 1760426052.5414345
   },
   "IDEX": {
     "last_alert_time": 1760191834.006946
@@ -586,5 +586,8 @@
   },
   "BSU": {
     "last_alert_time": 1760415362.6002672
+  },
+  "AKE": {
+    "last_alert_time": 1760426052.3235664
   }
 }
