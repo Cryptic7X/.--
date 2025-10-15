@@ -896,11 +896,11 @@
     "last_8h_time": 0
   },
   "MERL": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1760144656.1789594,
+    "last_2h_time": 1760497299.7766,
     "last_8h_time": 0
   },
   "BIO": {
