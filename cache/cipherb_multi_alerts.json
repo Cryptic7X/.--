@@ -232,11 +232,11 @@
     "last_8h_time": 0
   },
   "AWE": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1760410691.7332697,
+    "last_2h_time": 1760566378.5811806,
     "last_8h_time": 0
   },
   "XRP": {
@@ -404,7 +404,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1760552531.507663,
+    "last_2h_time": 1760566378.5784483,
     "last_8h_time": 0
   },
   "W": {
@@ -692,7 +692,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1760144656.175157,
+    "last_2h_time": 1760566378.5797768,
     "last_8h_time": 0
   },
   "ZRX": {
@@ -720,11 +720,11 @@
     "last_8h_time": 0
   },
   "ICP": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1760403993.3580983,
+    "last_2h_time": 1760566378.5769315,
     "last_8h_time": 0
   },
   "SNX": {
