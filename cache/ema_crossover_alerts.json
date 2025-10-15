@@ -108,7 +108,7 @@
     "last_alert_time": 1759216444.9586892
   },
   "SQD": {
-    "last_alert_time": 1760156104.444982
+    "last_alert_time": 1760559343.861239
   },
   "PEOPLE": {
     "last_alert_time": 1760537661.8380103
@@ -300,13 +300,13 @@
     "last_alert_time": 1760451278.5781898
   },
   "AIN": {
-    "last_alert_time": 1760317494.9971628
+    "last_alert_time": 1760559346.4945529
   },
   "TST": {
     "last_alert_time": 1760516361.0400784
   },
   "UB": {
-    "last_alert_time": 1760364840.2233233
+    "last_alert_time": 1760559344.822301
   },
   "MITO": {
     "last_alert_time": 1760415363.838696
@@ -330,7 +330,7 @@
     "last_alert_time": 1760544876.0575562
   },
   "UCN": {
-    "last_alert_time": 1760495926.501141
+    "last_alert_time": 1760559345.2320533
   },
   "BLUE": {
     "last_alert_time": 1760148946.9397902
@@ -339,7 +339,7 @@
     "last_alert_time": 1760531334.6219773
   },
   "NEWT": {
-    "last_alert_time": 1760444918.5845702
+    "last_alert_time": 1760559345.837102
   },
   "ASP": {
     "last_alert_time": 1760375515.3767185
@@ -396,7 +396,7 @@
     "last_alert_time": 1760541233.8883834
   },
   "H": {
-    "last_alert_time": 1760156103.012424
+    "last_alert_time": 1760559342.5478103
   },
   "MASK": {
     "last_alert_time": 1760531329.634181
@@ -483,13 +483,13 @@
     "last_alert_time": 1760040895.3912792
   },
   "HYPER": {
-    "last_alert_time": 1760084291.0024407
+    "last_alert_time": 1760559345.7972798
   },
   "PARTI": {
     "last_alert_time": 1760541238.8834918
   },
   "IDEX": {
-    "last_alert_time": 1760466013.3106177
+    "last_alert_time": 1760559347.1650558
   },
   "ALCX": {
     "last_alert_time": 1760552415.9418254
@@ -501,7 +501,7 @@
     "last_alert_time": 1760552418.0104878
   },
   "CTSI": {
-    "last_alert_time": 1760501764.0426512
+    "last_alert_time": 1760559345.07373
   },
   "GAME": {
     "last_alert_time": 1760249869.0397527
@@ -516,7 +516,7 @@
     "last_alert_time": 1760552411.3076572
   },
   "JUV": {
-    "last_alert_time": 1760537667.2167318
+    "last_alert_time": 1760559348.470294
   },
   "ME": {
     "last_alert_time": 1760534849.247514
