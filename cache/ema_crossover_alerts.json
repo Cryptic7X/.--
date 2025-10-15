@@ -243,7 +243,7 @@
     "last_alert_time": 1760516358.1993744
   },
   "HOME": {
-    "last_alert_time": 1760501762.6554127
+    "last_alert_time": 1760526708.4238193
   },
   "ANIME": {
     "last_alert_time": 1760343612.499393
@@ -414,7 +414,7 @@
     "last_alert_time": 1760134337.9039817
   },
   "YALA": {
-    "last_alert_time": 1760495928.5166855
+    "last_alert_time": 1760526712.3974607
   },
   "DOLO": {
     "last_alert_time": 1760324708.675712
@@ -570,7 +570,7 @@
     "last_alert_time": 1760415360.5251243
   },
   "VANA": {
-    "last_alert_time": 1760451273.3074923
+    "last_alert_time": 1760526707.0537748
   },
   "ALPINE": {
     "last_alert_time": 1760393543.6128273
@@ -589,5 +589,8 @@
   },
   "AKE": {
     "last_alert_time": 1760426052.3235664
+  },
+  "HANA": {
+    "last_alert_time": 1760526713.019466
   }
 }
