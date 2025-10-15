@@ -401,10 +401,10 @@
   },
   "ATH": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1759998005.8101666,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1760523425.8143682,
     "last_8h_time": 0
   },
   "W": {
