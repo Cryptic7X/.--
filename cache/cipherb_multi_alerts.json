@@ -9,10 +9,10 @@
   },
   "OKB": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1760144656.1447344,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1760652710.6262827,
     "last_8h_time": 0
   },
   "NEAR": {
@@ -40,11 +40,11 @@
     "last_8h_time": 0
   },
   "IP": {
-    "last_signal": "sell",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "sell",
-    "last_2h_time": 1760386632.654651,
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1760652710.6275837,
     "last_8h_time": 0
   },
   "SSV": {
@@ -220,7 +220,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1760144656.1318805,
+    "last_2h_time": 1760652710.624782,
     "last_8h_time": 0
   },
   "WLFI": {
@@ -344,11 +344,11 @@
     "last_8h_time": 0
   },
   "S": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1760403993.375042,
+    "last_2h_time": 1760652710.6315122,
     "last_8h_time": 0
   },
   "ENA": {
@@ -404,7 +404,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1760645817.5677476,
+    "last_2h_time": 1760652710.6302044,
     "last_8h_time": 0
   },
   "W": {
@@ -444,7 +444,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1760576882.0622275,
+    "last_2h_time": 1760652710.6288917,
     "last_8h_time": 1760576882.0622275
   },
   "KAIA": {
@@ -880,11 +880,11 @@
     "last_8h_time": 0
   },
   "LINEA": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1760410691.7306476,
+    "last_2h_time": 1760652710.6328166,
     "last_8h_time": 0
   },
   "HBAR": {
