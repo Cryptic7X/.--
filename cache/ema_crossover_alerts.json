@@ -207,7 +207,7 @@
     "last_alert_time": 1760581585.8653529
   },
   "TAKE": {
-    "last_alert_time": 1760099263.0476851
+    "last_alert_time": 1760685222.5074646
   },
   "KILO": {
     "last_alert_time": 1760627681.6269963
@@ -285,7 +285,7 @@
     "last_alert_time": 1760343613.6077144
   },
   "ES": {
-    "last_alert_time": 1760609738.3383806
+    "last_alert_time": 1760685222.8062925
   },
   "ZKC": {
     "last_alert_time": 1760621191.1076922
@@ -594,6 +594,6 @@
     "last_alert_time": 1760526713.019466
   },
   "TRADOOR": {
-    "last_alert_time": 1760645718.7844205
+    "last_alert_time": 1760685221.634177
   }
 }
