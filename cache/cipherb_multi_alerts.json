@@ -153,10 +153,10 @@
   },
   "QNT": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1760151053.2757576,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1760674706.905174,
     "last_8h_time": 0
   },
   "EIGEN": {
@@ -200,11 +200,11 @@
     "last_8h_time": 0
   },
   "TAO": {
-    "last_signal": "sell",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "sell",
-    "last_2h_time": 1760403993.352784,
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1760674706.9038243,
     "last_8h_time": 0
   },
   "WIF": {
@@ -233,10 +233,10 @@
   },
   "AWE": {
     "last_signal": "buy",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1760566378.5811806,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "buy",
+    "last_2h_time": 1760674706.906506,
     "last_8h_time": 0
   },
   "XRP": {
@@ -928,11 +928,11 @@
     "last_8h_time": 0
   },
   "AAVE": {
-    "last_signal": "sell",
+    "last_signal": "buy",
     "signal_count": 1,
     "monitoring_8h": false,
     "monitoring_direction": null,
-    "last_2h_time": 1760403993.351496,
+    "last_2h_time": 1760674706.9022856,
     "last_8h_time": 0
   },
   "AR": {
