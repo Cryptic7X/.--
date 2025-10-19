@@ -856,11 +856,11 @@
     "last_8h_time": 1760861856.552502
   },
   "THETA": {
-    "last_signal": "buy",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "buy",
-    "last_2h_time": 1760704232.9551816,
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1760890591.4868684,
     "last_8h_time": 0
   },
   "ASTER": {
