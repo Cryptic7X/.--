@@ -17,10 +17,10 @@
   },
   "NEAR": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1760897964.0617492,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1760948453.904681,
     "last_8h_time": 0
   },
   "SUN": {
@@ -249,10 +249,10 @@
   },
   "ETH": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1760904939.2331736,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1760948453.9031565,
     "last_8h_time": 0
   },
   "POL": {
@@ -273,10 +273,10 @@
   },
   "AERO": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1760904939.2466168,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1760948453.9074583,
     "last_8h_time": 0
   },
   "MORPHO": {
@@ -569,10 +569,10 @@
   },
   "RAY": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1760897964.0683312,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1760948453.9088442,
     "last_8h_time": 0
   },
   "MANA": {
@@ -665,10 +665,10 @@
   },
   "OP": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1760897964.0643005,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1760948453.9060655,
     "last_8h_time": 0
   },
   "STX": {
@@ -729,10 +729,10 @@
   },
   "SNX": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1760912034.1500723,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1760948453.9116187,
     "last_8h_time": 0
   },
   "SHIB": {
@@ -924,7 +924,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "sell",
-    "last_2h_time": 1760929927.2986763,
+    "last_2h_time": 1760948453.9102302,
     "last_8h_time": 0
   },
   "AAVE": {
