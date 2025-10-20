@@ -313,10 +313,10 @@
   },
   "LINK": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1760904939.2299888,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1760969692.9057817,
     "last_8h_time": 0
   },
   "SOL": {
@@ -448,11 +448,11 @@
     "last_8h_time": 0
   },
   "KAIA": {
-    "last_signal": "buy",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "buy",
-    "last_2h_time": 1760704232.9404497,
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1760969692.9091156,
     "last_8h_time": 0
   },
   "PENDLE": {
@@ -705,10 +705,10 @@
   },
   "FIL": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1760912034.141338,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1760969692.9075472,
     "last_8h_time": 0
   },
   "KAS": {
@@ -792,11 +792,11 @@
     "last_8h_time": 0
   },
   "BRETT": {
-    "last_signal": "buy",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "buy",
-    "last_2h_time": 1760704232.9686522,
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1760969692.9125125,
     "last_8h_time": 0
   },
   "CRO": {
