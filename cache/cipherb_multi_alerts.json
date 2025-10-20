@@ -360,11 +360,11 @@
     "last_8h_time": 0
   },
   "PLUME": {
-    "last_signal": "buy",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "buy",
-    "last_2h_time": 1760669927.9687006,
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1760977130.048146,
     "last_8h_time": 0
   },
   "TON": {
@@ -872,11 +872,11 @@
     "last_8h_time": 0
   },
   "FLOKI": {
-    "last_signal": "buy",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "buy",
-    "last_2h_time": 1760704232.9484646,
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1760977130.0466516,
     "last_8h_time": 0
   },
   "LINEA": {
