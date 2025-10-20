@@ -241,10 +241,10 @@
   },
   "XRP": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1760904939.2348523,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1760998445.064626,
     "last_8h_time": 0
   },
   "ETH": {
@@ -884,7 +884,7 @@
     "signal_count": 2,
     "monitoring_8h": true,
     "monitoring_direction": "buy",
-    "last_2h_time": 1760704232.9659984,
+    "last_2h_time": 1760998445.0661154,
     "last_8h_time": 0
   },
   "HBAR": {
