@@ -921,10 +921,10 @@
   },
   "BERA": {
     "last_signal": "sell",
-    "signal_count": 1,
-    "monitoring_8h": false,
-    "monitoring_direction": null,
-    "last_2h_time": 1760922811.8336,
+    "signal_count": 2,
+    "monitoring_8h": true,
+    "monitoring_direction": "sell",
+    "last_2h_time": 1760929927.2986763,
     "last_8h_time": 0
   },
   "AAVE": {
