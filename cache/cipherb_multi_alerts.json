@@ -184,12 +184,12 @@
     "last_8h_time": 0
   },
   "AVNT": {
-    "last_signal": "buy",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "buy",
-    "last_2h_time": 1760868863.0115266,
-    "last_8h_time": 1760026777.4790373
+    "last_signal": "sell",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1761020302.2754505,
+    "last_8h_time": 0
   },
   "GALA": {
     "last_signal": "sell",
