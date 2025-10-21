@@ -30,7 +30,7 @@
     "last_alert_time": 1760948348.2671404
   },
   "OPEN": {
-    "last_alert_time": 1760948343.3139114
+    "last_alert_time": 1761049705.066016
   },
   "CGPT": {
     "last_alert_time": 1761020182.0497456
@@ -195,7 +195,7 @@
     "last_alert_time": 1761020183.4169579
   },
   "LIGHT": {
-    "last_alert_time": 1760941271.5481694
+    "last_alert_time": 1761049708.2291799
   },
   "PUMP": {
     "last_alert_time": 1761038111.7139993
@@ -207,7 +207,7 @@
     "last_alert_time": 1760984427.71809
   },
   "TAKE": {
-    "last_alert_time": 1760775371.6973908
+    "last_alert_time": 1761049709.337131
   },
   "KILO": {
     "last_alert_time": 1760764354.9621482
@@ -270,7 +270,7 @@
     "last_alert_time": 1760944475.370837
   },
   "ROAM": {
-    "last_alert_time": 1760883073.854491
+    "last_alert_time": 1761049709.3105273
   },
   "SSV": {
     "last_alert_time": 1760876631.7247577
@@ -342,7 +342,7 @@
     "last_alert_time": 1761041682.3168926
   },
   "ASP": {
-    "last_alert_time": 1760375515.3767185
+    "last_alert_time": 1761049709.0624325
   },
   "TA": {
     "last_alert_time": 1760836135.9562898
@@ -360,7 +360,7 @@
     "last_alert_time": 1761020180.0581927
   },
   "PUNDIX": {
-    "last_alert_time": 1761020181.525408
+    "last_alert_time": 1761049705.7804441
   },
   "REAL": {
     "last_alert_time": 1761038108.1582625
@@ -369,7 +369,7 @@
     "last_alert_time": 1761020179.4808974
   },
   "MBG": {
-    "last_alert_time": 1761015685.2580047
+    "last_alert_time": 1761049705.6299505
   },
   "RVN": {
     "last_alert_time": 1761023633.7681317
@@ -531,13 +531,13 @@
     "last_alert_time": 1761023634.635824
   },
   "XTER": {
-    "last_alert_time": 1760955328.85182
+    "last_alert_time": 1761049710.1594908
   },
   "F": {
     "last_alert_time": 1761023638.356188
   },
   "SIGN": {
-    "last_alert_time": 1761015684.8428614
+    "last_alert_time": 1761049705.1508708
   },
   "FIS": {
     "last_alert_time": 1760814578.246289
@@ -594,6 +594,6 @@
     "last_alert_time": 1760807403.1181598
   },
   "TRADOOR": {
-    "last_alert_time": 1760685221.634177
+    "last_alert_time": 1761049708.464848
   }
 }
