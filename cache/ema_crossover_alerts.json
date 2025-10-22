@@ -30,7 +30,7 @@
     "last_alert_time": 1760948348.2671404
   },
   "OPEN": {
-    "last_alert_time": 1761049705.066016
+    "last_alert_time": 1761102372.415868
   },
   "CGPT": {
     "last_alert_time": 1761088388.7552674
@@ -60,7 +60,7 @@
     "last_alert_time": 1761095047.4853268
   },
   "USELESS": {
-    "last_alert_time": 1761027642.647003
+    "last_alert_time": 1761102371.1735442
   },
   "PROVE": {
     "last_alert_time": 1761056024.1838524
@@ -213,7 +213,7 @@
     "last_alert_time": 1760764354.9621482
   },
   "FLOCK": {
-    "last_alert_time": 1760933982.9319654
+    "last_alert_time": 1761102373.8657067
   },
   "ZORA": {
     "last_alert_time": 1759097490.1980848
@@ -261,7 +261,7 @@
     "last_alert_time": 1761084751.541253
   },
   "SONIC": {
-    "last_alert_time": 1761063519.8339334
+    "last_alert_time": 1761102374.446601
   },
   "WCT": {
     "last_alert_time": 1760879929.6528645
@@ -273,13 +273,13 @@
     "last_alert_time": 1761049709.3105273
   },
   "SSV": {
-    "last_alert_time": 1760876631.7247577
+    "last_alert_time": 1761102372.412313
   },
   "STG": {
     "last_alert_time": 1761095047.7120888
   },
   "NXPC": {
-    "last_alert_time": 1761041678.9538505
+    "last_alert_time": 1761102371.7352948
   },
   "RIVER": {
     "last_alert_time": 1760929844.7069993
@@ -312,7 +312,7 @@
     "last_alert_time": 1760969597.5934994
   },
   "BLESS": {
-    "last_alert_time": 1760692520.1437519
+    "last_alert_time": 1761102373.110503
   },
   "IDOL": {
     "last_alert_time": 1760929845.8444028
@@ -351,7 +351,7 @@
     "last_alert_time": 1761063518.3995268
   },
   "API3": {
-    "last_alert_time": 1761059683.325566
+    "last_alert_time": 1761102373.855905
   },
   "HIFI": {
     "last_alert_time": 1760904833.9794064
@@ -369,7 +369,7 @@
     "last_alert_time": 1761088386.317933
   },
   "MBG": {
-    "last_alert_time": 1761049705.6299505
+    "last_alert_time": 1761102372.996589
   },
   "RVN": {
     "last_alert_time": 1761095047.1670256
@@ -432,7 +432,7 @@
     "last_alert_time": 1761095048.6250935
   },
   "AITECH": {
-    "last_alert_time": 1761070767.9546645
+    "last_alert_time": 1761102374.6418638
   },
   "BTR": {
     "last_alert_time": 1760890480.6994228
@@ -519,7 +519,7 @@
     "last_alert_time": 1760836136.6539865
   },
   "ME": {
-    "last_alert_time": 1761059682.0936644
+    "last_alert_time": 1761102372.2770672
   },
   "NEIRO": {
     "last_alert_time": 1761084750.6360793
@@ -594,6 +594,6 @@
     "last_alert_time": 1760807403.1181598
   },
   "TRADOOR": {
-    "last_alert_time": 1761049708.464848
+    "last_alert_time": 1761102376.1376626
   }
 }
