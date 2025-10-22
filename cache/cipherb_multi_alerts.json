@@ -96,11 +96,11 @@
     "last_8h_time": 0
   },
   "MNT": {
-    "last_signal": "sell",
-    "signal_count": 2,
-    "monitoring_8h": true,
-    "monitoring_direction": "sell",
-    "last_2h_time": 1760897964.0591784,
+    "last_signal": "buy",
+    "signal_count": 1,
+    "monitoring_8h": false,
+    "monitoring_direction": null,
+    "last_2h_time": 1761114220.8186314,
     "last_8h_time": 0
   },
   "GRASS": {
